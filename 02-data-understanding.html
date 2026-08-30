@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. Data Understanding &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>Data Understanding &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -371,7 +371,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>2. Data Understanding</h1>
+    <h1>Data Understanding</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -381,9 +381,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-polutan">Deskripsi Polutan</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-fitur-dataset">Eksplorasi Fitur (Dataset)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apakah-ada-data-aneh-anomali">Apakah Ada Data Aneh (Anomali)?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autentikasi-dan-pengambilan-data">Autentikasi dan Pengambilan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definisi-area-dan-pengambilan-data-no-2-co-dan-so-2-dari-geojson">Definisi Area dan Pengambilan Data <span class="math notranslate nohighlight">\(NO_2\)</span>, <span class="math notranslate nohighlight">\(CO\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span> dari GeoJSON</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksekusi-job-dan-download">Eksekusi Job dan Download</a></li>
 </ul>
             </nav>
         </div>
@@ -396,33 +397,82 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
-<h1>2. Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
-<p>Tahap ini berfokus pada pengenalan spesifikasi dataset hasil crawling dan analisis terhadap fitur-fitur yang didapatkan dari sensor satelit Sentinel-5P.</p>
-<section id="deskripsi-polutan">
-<h2>Deskripsi Polutan<a class="headerlink" href="#deskripsi-polutan" title="Link to this heading">#</a></h2>
-<p>Satelit memonitor berbagai polutan berbahaya di troposfer bumi. Dua yang paling umum menjadi indikator kualitas udara adalah <strong>CO</strong> dan <strong>NO2</strong>:</p>
-<ul class="simple">
-<li><p><strong>Apa itu CO (Karbon Monoksida)?</strong>
-CO adalah gas beracun yang tidak berwarna, tidak berbau, dan tidak berasa. Gas ini utamanya dihasilkan dari proses pembakaran bahan bakar fosil yang tidak sempurna. Sumber terbesarnya adalah asap knalpot kendaraan bermotor. Jika terhirup dalam jumlah banyak, CO sangat berbahaya karena akan mengikat hemoglobin dalam darah dan menghalangi suplai oksigen ke tubuh.</p></li>
-<li><p><strong>Apa itu NO2 (Nitrogen Dioksida)?</strong>
-NO2 adalah gas beracun berwarna coklat kemerahan dengan bau yang tajam dan menyengat. Berbeda dengan CO, NO2 dihasilkan dari pembakaran bahan bakar fosil pada suhu tinggi, seperti mesin diesel kendaraan berat, kapal laut, dan aktivitas industri/pembangkit listrik. Pada proyek ini, NO2 dipilih sebagai fitur utama karena area pengamatan merupakan jalur padat lalu lintas dan aktivitas industri.</p></li>
-</ul>
+<h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+<p>Langkah pertama dalam proyek ini adalah mengumpulkan data polutan udara seperti <span class="math notranslate nohighlight">\(NO_2\)</span>, <span class="math notranslate nohighlight">\(CO\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span> yang berjenis deret waktu (Time Series). Data tersebut diambil dari platform satelit <a class="reference external" href="https://openeo.dataspace.copernicus.eu">Copernicus Data Space Ecosystem</a>.</p>
+<p>Buat akun terlebih dahulu di website Copernicus sebelum melakukan <em>crawling</em> data menggunakan library <code class="docutils literal notranslate"><span class="pre">openEO</span></code>.</p>
+<section id="install-library">
+<h2>Install Library<a class="headerlink" href="#install-library" title="Link to this heading">#</a></h2>
+<p>Sebelum melakukan proses <em>crawling</em> data, kita membutuhkan modul Python pendukung seperti <code class="docutils literal notranslate"><span class="pre">openeo</span></code> untuk berkomunikasi dengan API Copernicus dan <code class="docutils literal notranslate"><span class="pre">pandas</span></code> untuk membaca format data tabular csv/dataframe.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>openeo
+pip<span class="w"> </span>install<span class="w"> </span>pandas
+</pre></div>
+</div>
 </section>
-<section id="eksplorasi-fitur-dataset">
-<h2>Eksplorasi Fitur (Dataset)<a class="headerlink" href="#eksplorasi-fitur-dataset" title="Link to this heading">#</a></h2>
-<p>Data yang diunduh (disimpan dalam <code class="docutils literal notranslate"><span class="pre">data_polutan_no2_clean.csv</span></code>) memiliki dua fitur utama:</p>
-<ol class="arabic simple">
-<li><p><strong>Tanggal (Date)</strong>: Menunjukkan waktu observasi satelit dalam rentang 1 September 2025 hingga 31 Agustus 2026 (resolusi harian).</p></li>
-<li><p><strong>Konsentrasi NO2</strong>: Nilai kepadatan partikel polutan NO2 di udara area observasi, diukur menggunakan satuan ukur <span class="math notranslate nohighlight">\(\text{mol/m}^2\)</span>.</p></li>
-</ol>
+<section id="autentikasi-dan-pengambilan-data">
+<h2>Autentikasi dan Pengambilan Data<a class="headerlink" href="#autentikasi-dan-pengambilan-data" title="Link to this heading">#</a></h2>
+<p>Skrip di bawah ini melakukan proses autentikasi dan menghubungkan akun lokal kita dengan server Copernicus menggunakan metode OIDC:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">openeo</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">openeo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;[https://openeo.dataspace.copernicus.eu](https://openeo.dataspace.copernicus.eu)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">authenticate_oidc</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Saat menjalankan kode di atas akan muncul pesan autentikasi:</p>
+<blockquote>
+<div><p><strong>Note</strong>: Authenticated using refresh token.<br />
+Authenticated successfully.</p>
+</div></blockquote>
+<p>Klik tautan tersebut lalu login menggunakan akun Copernicus.</p>
 </section>
-<section id="apakah-ada-data-aneh-anomali">
-<h2>Apakah Ada Data Aneh (Anomali)?<a class="headerlink" href="#apakah-ada-data-aneh-anomali" title="Link to this heading">#</a></h2>
-<p>Dalam data time-series kualitas udara, beberapa data aneh (<em>outliers</em>) atau nilai hilang (<em>missing values</em>) dapat muncul akibat:</p>
-<ul class="simple">
-<li><p><strong>Tutup Tutupan Awan (Cloud Cover)</strong>: Sensor satelit optic/troposfer terkadang terhalang awan tebal sehingga menghasilkan data bernilai <em>NaN</em> atau <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
-<li><p><strong>Lonjakan Ekstrem (Spike)</strong>: Terjadi pada hari-hari tertentu akibat peningkatan emisi mendadak (misal: kemacetan parah saat musim mudik/liburan) atau gangguan teknik pada sensor satelit.</p></li>
-</ul>
+<section id="definisi-area-dan-pengambilan-data-no-2-co-dan-so-2-dari-geojson">
+<h2>Definisi Area dan Pengambilan Data <span class="math notranslate nohighlight">\(NO_2\)</span>, <span class="math notranslate nohighlight">\(CO\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span> dari GeoJSON<a class="headerlink" href="#definisi-area-dan-pengambilan-data-no-2-co-dan-so-2-dari-geojson" title="Link to this heading">#</a></h2>
+<p>Setelah berhasil, langkah selanjutnya adalah menentukan wilayah spesifik. Titik koordinat wilayah (batasan polygon) didapatkan menggunakan alat bantu pemetaan <a class="reference external" href="https://geojson.io">geojson.io</a> dengan menggambar lokasi area studi yang diinginkan lalu meng-copy koordinatnya.</p>
+<p><img alt="Peta GeoJSON" src="_images/map_geojson.png" /></p>
+<p>Koordinat yang didapatkan dimasukkan ke dalam variabel <code class="docutils literal notranslate"><span class="pre">spatial_extent</span></code> dan eretan rentang data yang diinginkan. Lalu memuat koleksi polutan berdasarkan <em>bounding box</em> wilayah tersebut dengan menyesuaikan variabel <em>temporal_extent</em> dan <em>bands</em>.</p>
+<p>Karena satelit merekam per-area yang sama beberapa kali, dilakukan agregasi temporal harian agar hanya mendapat rata-rata data per hari. Dilanjutkan dengan agregasi spasial guna menghitung rata-rata nilai polutan seluruh grid pada wilayah koordinat tersebut menjadi satu nilai tunggal:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Koordinat area observasi dari GeoJSON</span>
+<span class="n">aoi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">[</span>
+                        <span class="p">[</span><span class="mf">112.7500405</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.2918074</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mf">112.7175524</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.3181015</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mf">112.7462846</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.3340839</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mf">112.7500405</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.2918074</span><span class="p">]</span>
+                    <span class="p">]</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># Load Data Cube openEO untuk Sentinel-5P NO2</span>
+<span class="n">datacube</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">load_collection</span><span class="p">(</span>
+    <span class="s2">&quot;SENTINEL_5P_L2&quot;</span><span class="p">,</span>
+    <span class="n">temporal_extent</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-09-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2026-08-31&quot;</span><span class="p">],</span>
+    <span class="n">spatial_extent</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;west&quot;</span><span class="p">:</span> <span class="mf">112.71</span><span class="p">,</span> <span class="s2">&quot;south&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">7.33</span><span class="p">,</span> <span class="s2">&quot;east&quot;</span><span class="p">:</span> <span class="mf">112.75</span><span class="p">,</span> <span class="s2">&quot;north&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">7.29</span><span class="p">},</span>
+    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Agregasi temporal harian</span>
+<span class="n">datacube</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">aggregate_temporal_period</span><span class="p">(</span><span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">)</span>
+
+<span class="c1"># Agregasi spasial rata-rata area polygon</span>
+<span class="n">datacube</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">aggregate_spatial</span><span class="p">(</span><span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">geometries</span><span class="o">=</span><span class="n">aoi</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="eksekusi-job-dan-download">
+<h2>Eksekusi Job dan Download<a class="headerlink" href="#eksekusi-job-dan-download" title="Link to this heading">#</a></h2>
+<p>Proses agregasi data ini membutuhkan waktu sehingga dikirim sebagai <em>batch job</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">execute_batch</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;NO2 Data Extraction&quot;</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;no2_raw.nc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Tunggu proses eksekusi dari server, progress eksekusi bisa dipantau pada <em>output Editor</em>. Setelah diproses oleh server, unduhan data akhir akan berupa file NetCDF (<code class="docutils literal notranslate"><span class="pre">no2_raw.nc</span></code>).</p>
 </section>
 </section>
 
@@ -490,9 +540,10 @@ NO2 adalah gas beracun berwarna coklat kemerahan dengan bau yang tajam dan menye
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-polutan">Deskripsi Polutan</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-fitur-dataset">Eksplorasi Fitur (Dataset)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apakah-ada-data-aneh-anomali">Apakah Ada Data Aneh (Anomali)?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autentikasi-dan-pengambilan-data">Autentikasi dan Pengambilan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definisi-area-dan-pengambilan-data-no-2-co-dan-so-2-dari-geojson">Definisi Area dan Pengambilan Data <span class="math notranslate nohighlight">\(NO_2\)</span>, <span class="math notranslate nohighlight">\(CO\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span> dari GeoJSON</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksekusi-job-dan-download">Eksekusi Job dan Download</a></li>
 </ul>
   </nav></div>
 
