@@ -6,9 +6,13 @@ jupytext:
     format_version: 0.13
 ---
 
-# Hasil CSV
+# 3. Data Preparation
 
-Pada tahap pengolahan data, file CSV yang diolah dapat ditampilkan menggunakan dataframe pandas untuk memastikan data deret waktu harian siap dianalisis.
+Pada tahap ini, data konsentrasi $NO_2$ diakses dan diolah menggunakan API openEO dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.
+
+## Hasil CSV
+
+Berikut adalah 5 baris pertama dari data hasil pengolahan dan pembersihan polutan $NO_2$ yang siap digunakan untuk analisis *time series*:
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -16,7 +20,7 @@ Pada tahap pengolahan data, file CSV yang diolah dapat ditampilkan menggunakan d
 import pandas as pd
 import numpy as np
 
-# Load atau buat data sampel untuk ditampilkan
+# Load data CSV (jika belum ada, buat sampel otomatis)
 try:
     df = pd.read_csv('../data/processed/data_polutan_no2_clean.csv')
 except:
@@ -26,6 +30,6 @@ except:
         'NO2': [5.36e-05, 7.63e-05, 6.03e-05, np.nan, 4.49e-05]
     })
 
-# Tampilkan 5 data teratas
+# Tampilkan tabel dataframe
 df.head()
 ```

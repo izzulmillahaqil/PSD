@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Hasil CSV &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>3. Data Preparation &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '03-data-preparation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -183,7 +185,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">Data Understanding</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hasil CSV</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-conclusion.html">5. Kesimpulan</a></li>
 </ul>
@@ -358,7 +360,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -369,11 +373,19 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Hasil CSV</h1>
+    <h1>3. Data Preparation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -383,9 +395,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="hasil-csv">
-<h1>Hasil CSV<a class="headerlink" href="#hasil-csv" title="Link to this heading">#</a></h1>
-<p>Pada tahap pengolahan data, file CSV yang diolah dapat ditampilkan menggunakan dataframe pandas untuk memastikan data deret waktu harian siap dianalisis.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
+<h1>3. Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
+<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> diakses dan diolah menggunakan API openEO dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.</p>
+<section id="hasil-csv">
+<h2>Hasil CSV<a class="headerlink" href="#hasil-csv" title="Link to this heading">#</a></h2>
+<p>Berikut adalah 5 baris pertama dari data hasil pengolahan dan pembersihan polutan <span class="math notranslate nohighlight">\(NO_2\)</span> yang siap digunakan untuk analisis <em>time series</em>:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -396,7 +411,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># Load atau buat data sampel untuk ditampilkan</span>
+<span class="c1"># Load data CSV (jika belum ada, buat sampel otomatis)</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/processed/data_polutan_no2_clean.csv&#39;</span><span class="p">)</span>
 <span class="k">except</span><span class="p">:</span>
@@ -406,7 +421,7 @@ document.write(`
         <span class="s1">&#39;NO2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.36e-05</span><span class="p">,</span> <span class="mf">7.63e-05</span><span class="p">,</span> <span class="mf">6.03e-05</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">4.49e-05</span><span class="p">]</span>
     <span class="p">})</span>
 
-<span class="c1"># Tampilkan 5 data teratas</span>
+<span class="c1"># Tampilkan tabel dataframe</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -466,6 +481,7 @@ document.write(`
 </div></div></div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -521,6 +537,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
