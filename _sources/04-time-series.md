@@ -18,7 +18,7 @@ Grafik di bawah ini menampilkan tingkat konsentrasi $NO_2$ ($\text{mol/m}^2$) da
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load dataset clean
+# Load dataset
 df = pd.read_csv('../data/processed/data_polutan_no2_clean.csv')
 df['date'] = pd.to_datetime(df['date'])
 

@@ -18,7 +18,7 @@ nbclient.exceptions.CellExecutionError: An error occurred while executing the fo
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load dataset clean
+# Load dataset
 df = pd.read_csv('../data/processed/data_polutan_no2_clean.csv')
 df['date'] = pd.to_datetime(df['date'])
 
@@ -40,7 +40,7 @@ plt.show()
 [1;31mFileNotFoundError[0m                         Traceback (most recent call last)
 Cell [1;32mIn[1], line 5[0m
 [0;32m      2[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mplt[39;00m
-[0;32m      4[0m [38;5;66;03m# Load dataset clean[39;00m
+[0;32m      4[0m [38;5;66;03m# Load dataset[39;00m
 [1;32m----> 5[0m df [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mread_csv[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43m../data/processed/data_polutan_no2_clean.csv[39;49m[38;5;124;43m'[39;49m[43m)[49m
 [0;32m      6[0m df[[38;5;124m'[39m[38;5;124mdate[39m[38;5;124m'[39m] [38;5;241m=[39m pd[38;5;241m.[39mto_datetime(df[[38;5;124m'[39m[38;5;124mdate[39m[38;5;124m'[39m])
 [0;32m      8[0m [38;5;66;03m# Plotting grafik time-series[39;00m
