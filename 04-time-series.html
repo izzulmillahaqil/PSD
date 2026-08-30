@@ -186,9 +186,6 @@
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Analisis Time Series</a></li>
-
-
-
 <li class="toctree-l1"><a class="reference internal" href="05-conclusion.html">5. Kesimpulan &amp; Rekomendasi</a></li>
 </ul>
 
@@ -385,15 +382,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">4. Analisis Time Series</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-fluktuasi-no2">Visualisasi Fluktuasi NO2</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset-clean">Load dataset clean</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hitung-7-day-rolling-average-untuk-memperhalus-tren">Hitung 7-day rolling average untuk memperhalus tren</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-grafik-time-series">Plotting grafik time-series</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -410,32 +400,7 @@ document.write(`
 <section id="visualisasi-fluktuasi-no2">
 <h2>Visualisasi Fluktuasi NO2<a class="headerlink" href="#visualisasi-fluktuasi-no2" title="Link to this heading">#</a></h2>
 <p>Grafik di bawah ini menampilkan tingkat konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(\text{mol/m}^2\)</span>) dari 1 September 2025 hingga 31 Agustus 2026.</p>
-<p>{code-cell} ipython3
-import pandas as pd
-import matplotlib.pyplot as plt</p>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="load-dataset-clean">
-<h1>Load dataset clean<a class="headerlink" href="#load-dataset-clean" title="Link to this heading">#</a></h1>
-<p>df = pd.read_csv(‘data/processed/data_polutan_no2_clean.csv’)
-df[‘date’] = pd.to_datetime(df[‘date’])</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="hitung-7-day-rolling-average-untuk-memperhalus-tren">
-<h1>Hitung 7-day rolling average untuk memperhalus tren<a class="headerlink" href="#hitung-7-day-rolling-average-untuk-memperhalus-tren" title="Link to this heading">#</a></h1>
-<p>df[‘NO2_7day’] = df[‘NO2_clean’].rolling(window=7).mean()</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="plotting-grafik-time-series">
-<h1>Plotting grafik time-series<a class="headerlink" href="#plotting-grafik-time-series" title="Link to this heading">#</a></h1>
-<p>plt.figure(figsize=(14, 6))
-plt.plot(df[‘date’], df[‘NO2_clean’], alpha=0.4, color=’gray’, label=’Harian (Raw)’)
-plt.plot(df[‘date’], df[‘NO2_7day’], color=’#1f77b4’, linewidth=2, label=’Rata-rata 7 Harian’)</p>
-<p>plt.title(‘Tren Konsentrasi NO2 Troposferik Sentinel-5P (2025 - 2026)’, fontsize=14, fontweight=’bold’)
-plt.xlabel(‘Tanggal’, fontsize=11)
-plt.ylabel(‘Konsentrasi NO2 (mol/m²)’, fontsize=11)
-plt.grid(True, linestyle=’–’, alpha=0.5)
-plt.legend()
-plt.tight_layout()
-plt.show()</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -502,15 +467,8 @@ plt.show()</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">4. Analisis Time Series</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-fluktuasi-no2">Visualisasi Fluktuasi NO2</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset-clean">Load dataset clean</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hitung-7-day-rolling-average-untuk-memperhalus-tren">Hitung 7-day rolling average untuk memperhalus tren</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-grafik-time-series">Plotting grafik time-series</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>
