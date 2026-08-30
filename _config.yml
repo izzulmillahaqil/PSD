@@ -3,7 +3,7 @@
 
 title: Muhammad Izzul Millah Aqil
 author: Muhammad Izzul Millah Aqil
-copyright: 2026
+copyright: "2026"
 logo: formal.jpeg
 
 # Force re-execution of notebooks on each build.
@@ -22,9 +22,9 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/executablebooks/jupyter-book  # Online location of your book
-  path_to_book: docs  # Optional path to your book, relative to the repository root
-  branch: master  # Which branch of the repository should be used when creating links (optional)
+  url: https://github.com/izzulmillahaqil/PSD  # Repositori GitHub kamu
+  path_to_book: materi  # Path folder materi
+  branch: main  # Branch utama repositori
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository

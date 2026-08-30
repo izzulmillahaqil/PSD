@@ -1,11 +1,13 @@
-# Welcome to your Jupyter Book
+# Analisis Kualitas Udara (Polutan NO2)
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Selamat datang di repositori web statis **PSD (Proyek Sains Data)**. Website ini menyajikan dokumentasi lengkap pemantauan dan analisis *time-series* kualitas udara berbasis data satelit Sentinel-5P.
 
-Check out the content pages bundled with this sample book to see more.
+## Tujuan Analisis
+
+Proyek ini bertujuan untuk mengamati konsentrasi polutan **Nitrogen Dioksida ($NO_2$)** pada area observasi lokal dalam rentang waktu 1 tahun (September 2025 – Agustus 2026). Pengambilan data dilakukan secara otomatis melalui pembatasan koordinat wilayah berbasis **GeoJSON**.
+
+## Struktur Dokumentasi
+
+Gunakan menu di samping untuk mengeksplorasi tahapan proyek:
 
 ```{tableofcontents}
-```
