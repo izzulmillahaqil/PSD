@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1. Business Understanding &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>1. Latar Belakang &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '01-business-understanding';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -180,11 +182,10 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Business Understanding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-conclusion.html">5. Kesimpulan &amp; Rekomendasi</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Latar Belakang</a></li>
+
+
+
 </ul>
 
     </div>
@@ -370,7 +371,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>1. Business Understanding</h1>
+    <h1>1. Latar Belakang</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -380,9 +381,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang-tujuan-proyek">Latar Belakang &amp; Tujuan Proyek</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-analisis">Manfaat Analisis</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Latar Belakang</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#rumusan-masalah">2. Rumusan Masalah</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-proyek">3. Tujuan Proyek</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-proyek">4. Manfaat Proyek</a></li>
 </ul>
+
             </nav>
         </div>
     </div>
@@ -393,28 +397,42 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="business-understanding">
-<h1>1. Business Understanding<a class="headerlink" href="#business-understanding" title="Link to this heading">#</a></h1>
-<p>Tahap ini bertujuan untuk memahami konteks masalah, menentukan fokus observasi, serta mengidentifikasi manfaat analisis kualitas udara berbasis data satelit.</p>
-<section id="latar-belakang-tujuan-proyek">
-<h2>Latar Belakang &amp; Tujuan Proyek<a class="headerlink" href="#latar-belakang-tujuan-proyek" title="Link to this heading">#</a></h2>
-<p>Kualitas udara merupakan salah satu faktor penting yang mempengaruhi kesehatan masyarakat dan lingkungan. Pada proyek ini, analisis dilakukan untuk memantau konsentrasi polutan udara di wilayah observasi menggunakan data penginderaan jauh (<em>remote sensing</em>) dari sensor satelit <strong>Sentinel-5P</strong>.</p>
-<p>Tujuan utama dari tugas ini adalah:</p>
-<ol class="arabic simple">
-<li><p><strong>Memantau Tren Kualitas Udara</strong>: Mengetahui fluktuasi tingkat polusi udara dari waktu ke waktu secara <em>time-series</em> (periode 1 September 2025 hingga 31 Agustus 2026).</p></li>
-<li><p><strong>Identifikasi Area Berisiko</strong>: Membatasi area observasi spesifik menggunakan boundary <strong>GeoJSON</strong> untuk mendapatkan presisi lokasi yang akurat.</p></li>
-<li><p><strong>Mendukung Keputusan Berbasis Data</strong>: Menyediakan visualisasi data yang transparan untuk diunggah pada web statis agar mudah diakses.</p></li>
-</ol>
-</section>
-<section id="manfaat-analisis">
-<h2>Manfaat Analisis<a class="headerlink" href="#manfaat-analisis" title="Link to this heading">#</a></h2>
-<p>Hasil analisis dari proyek ini memberikan berbagai manfaat praktis:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="latar-belakang">
+<h1>1. Latar Belakang<a class="headerlink" href="#latar-belakang" title="Link to this heading">#</a></h1>
+<p>Kualitas udara adalah indikator esensial bagi kesehatan publik dan kelestarian lingkungan. Seiring meningkatnya aktivitas warga, mobilitas transportasi, serta kegiatan ekonomi, risiko lonjakan gas polutan berbahaya di udara ikut membesar.</p>
+<p>Tiga jenis gas polutan utama yang menjadi fokus pemantauan meliputi:</p>
 <ul class="simple">
-<li><p><strong>Bagi Masyarakat</strong>: Menghasilkan kesadaran (<em>awareness</em>) mengenai kondisi udara lokal sehingga dapat mengambil tindakan pencegahan saat terjadi lonjakan polusi.</p></li>
-<li><p><strong>Bagi Pemerintah &amp; Pengambil Kebijakan</strong>: Menjadi acuan awal dalam perancangan regulasi emisi, tata ruang wilayah, dan evaluasi dampak sektor transportasi/industri.</p></li>
-<li><p><strong>Bagi Akademisi/Peneliti</strong>: Menjadi dokumentasi dan dasar riset lebih lanjut dalam memodelkan pola penyebaran polutan udara regional.</p></li>
+<li><p><strong>Nitrogen Dioksida (<span class="math notranslate nohighlight">\(NO_2\)</span>)</strong>: Umumnya dipicu oleh emisi kendaraan bermotor dan operasional industri.</p></li>
+<li><p><strong>Karbon Monoksida (<span class="math notranslate nohighlight">\(CO\)</span>)</strong>: Gas beracun yang bersumber dari proses pembakaran tidak sempurna.</p></li>
+<li><p><strong>Belerang Dioksida (<span class="math notranslate nohighlight">\(SO_2\)</span>)</strong>: Polutan dari aktivitas vulkanik maupun pembakaran bahan bakar fosil.</p></li>
 </ul>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="rumusan-masalah">
+<h1>2. Rumusan Masalah<a class="headerlink" href="#rumusan-masalah" title="Link to this heading">#</a></h1>
+<p>Fokus utama dari analisis data ini ditujukan untuk menjawab pertanyaan berikut:</p>
+<ul class="simple">
+<li><p>Bagaimana pergerakan tren harian konsentrasi gas polutan (<span class="math notranslate nohighlight">\(NO_2\)</span>) di wilayah studi?</p></li>
+<li><p>Apakah ditemukan adanya siklus musiman, tren kenaikan jangka panjang, atau anomali lonjakan ekstrem pada tingkat polusi udara setempat?</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tujuan-proyek">
+<h1>3. Tujuan Proyek<a class="headerlink" href="#tujuan-proyek" title="Link to this heading">#</a></h1>
+<p>Eksplorasi sains data ini dijalankan dengan tujuan:</p>
+<ul class="simple">
+<li><p>Membangun otomasi pengumpulan data citra satelit spasial (NetCDF) dan mentransformasikannya menjadi dataset tabular (CSV).</p></li>
+<li><p>Menjalankan Analisis Data Eksploratif (EDA) guna memahami karakteristik dan tren perubahan gas polutan dari waktu ke waktu.</p></li>
+<li><p>Menciptakan landasan data historis yang valid sebagai modal awal untuk keperluan pemodelan prediktif (<em>forecasting</em>).</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="manfaat-proyek">
+<h1>4. Manfaat Proyek<a class="headerlink" href="#manfaat-proyek" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Pemerintah &amp; Pembuat Kebijakan</strong>: Menyediakan <em>insight</em> berbasis data guna mendukung pengawasan emisi.</p></li>
+<li><p><strong>Masyarakat Umum</strong>: Menjadi sarana informasi transparan untuk menumbuhkan kesadaran warga.</p></li>
+<li><p><strong>Akademisi &amp; Praktisi Data</strong>: Menjadi studi kasus nyata penerapan metodologi pengolahan data spasial ke pemodelan <em>Time Series</em>.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -481,9 +499,12 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang-tujuan-proyek">Latar Belakang &amp; Tujuan Proyek</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-analisis">Manfaat Analisis</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Latar Belakang</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#rumusan-masalah">2. Rumusan Masalah</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-proyek">3. Tujuan Proyek</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-proyek">4. Manfaat Proyek</a></li>
 </ul>
+
   </nav></div>
 
 </div></div>
