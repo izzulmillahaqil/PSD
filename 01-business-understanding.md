@@ -1,18 +1,40 @@
-# 1. Business Understanding
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+---
 
-Tahap ini bertujuan untuk memahami konteks masalah, menentukan fokus observasi, serta mengidentifikasi manfaat analisis kualitas udara berbasis data satelit.
+# Business Understanding
 
-## Latar Belakang & Tujuan Proyek
-Kualitas udara merupakan salah satu faktor penting yang mempengaruhi kesehatan masyarakat dan lingkungan. Pada proyek ini, analisis dilakukan untuk memantau konsentrasi polutan udara di wilayah observasi menggunakan data penginderaan jauh (*remote sensing*) dari sensor satelit **Sentinel-5P**.
+## 1. Latar Belakang
 
-Tujuan utama dari tugas ini adalah:
-1. **Memantau Tren Kualitas Udara**: Mengetahui fluktuasi tingkat polusi udara dari waktu ke waktu secara *time-series* (periode 1 September 2025 hingga 31 Agustus 2026).
-2. **Identifikasi Area Berisiko**: Membatasi area observasi spesifik menggunakan boundary **GeoJSON** untuk mendapatkan presisi lokasi yang akurat.
-3. **Mendukung Keputusan Berbasis Data**: Menyediakan visualisasi data yang transparan untuk diunggah pada web statis agar mudah diakses.
+Kualitas udara adalah indikator esensial bagi kesehatan publik dan kelestarian lingkungan. Seiring meningkatnya aktivitas warga, mobilitas transportasi, serta kegiatan ekonomi, risiko lonjakan gas polutan berbahaya di udara ikut membesar.
 
-## Manfaat Analisis
-Hasil analisis dari proyek ini memberikan berbagai manfaat praktis:
+Tiga jenis gas polutan utama yang menjadi fokus pemantauan meliputi:
 
-* **Bagi Masyarakat**: Menghasilkan kesadaran (*awareness*) mengenai kondisi udara lokal sehingga dapat mengambil tindakan pencegahan saat terjadi lonjakan polusi.
-* **Bagi Pemerintah & Pengambil Kebijakan**: Menjadi acuan awal dalam perancangan regulasi emisi, tata ruang wilayah, dan evaluasi dampak sektor transportasi/industri.
-* **Bagi Akademisi/Peneliti**: Menjadi dokumentasi dan dasar riset lebih lanjut dalam memodelkan pola penyebaran polutan udara regional.
+* **Nitrogen Dioksida ($NO_2$)**: Umumnya dipicu oleh emisi kendaraan bermotor dan operasional industri.
+* **Karbon Monoksida ($CO$)**: Gas beracun yang bersumber dari proses pembakaran tidak sempurna.
+* **Belerang Dioksida ($SO_2$)**: Polutan dari aktivitas vulkanik maupun pembakaran bahan bakar fosil.
+
+## 2. Rumusan Masalah
+
+Fokus utama dari analisis data ini ditujukan untuk menjawab pertanyaan berikut:
+
+* Bagaimana pergerakan tren harian konsentrasi gas polutan ($NO_2$) di wilayah studi?
+* Apakah ditemukan adanya siklus musiman, tren kenaikan jangka panjang, atau anomali lonjakan ekstrem pada tingkat polusi udara setempat?
+
+## 3. Tujuan Proyek
+
+Eksplorasi sains data ini dijalankan dengan tujuan:
+
+* Membangun otomasi pengumpulan data citra satelit spasial (NetCDF) dan mentransformasikannya menjadi dataset tabular (CSV).
+* Menjalankan Analisis Data Eksploratif (EDA) guna memahami karakteristik dan tren perubahan gas polutan dari waktu ke waktu.
+* Menciptakan landasan data historis yang valid sebagai modal awal untuk keperluan pemodelan prediktif (*forecasting*).
+
+## 4. Manfaat Proyek
+
+* **Pemerintah & Pembuat Kebijakan**: Menyediakan *insight* berbasis data guna mendukung pengawasan emisi.
+* **Masyarakat Umum**: Menjadi sarana informasi transparan untuk menumbuhkan kesadaran warga.
+* **Akademisi & Praktisi Data**: Menjadi studi kasus nyata penerapan metodologi pengolahan data spasial ke pemodelan *Time Series*.

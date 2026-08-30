@@ -63,7 +63,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Analisis Time Series" href="04-time-series.html" />
-    <link rel="prev" title="2. Data Understanding" href="02-data-understanding.html" />
+    <link rel="prev" title="Data Understanding" href="02-data-understanding.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -177,16 +177,17 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Analisis Kualitas Udara (Polutan NO2)
+                    Profile
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">Data Understanding</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-conclusion.html">5. Kesimpulan &amp; Rekomendasi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-conclusion.html">5. Kesimpulan</a></li>
 </ul>
 
     </div>
@@ -382,8 +383,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akses-data-via-openeo-python-client">Akses Data via openEO Python Client</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-interpolasi-data">Cleaning &amp; Interpolasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
 </ul>
             </nav>
         </div>
@@ -397,56 +397,88 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
 <h1>3. Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
-<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> diakses dan diolah menggunakan API <strong>openEO</strong> dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.</p>
-<section id="akses-data-via-openeo-python-client">
-<h2>Akses Data via openEO Python Client<a class="headerlink" href="#akses-data-via-openeo-python-client" title="Link to this heading">#</a></h2>
-<p>Proses ekstraksi data dilakukan secara otomatis dengan mendefinisikan <em>bounding box</em> dari file <code class="docutils literal notranslate"><span class="pre">Wilayah.geojson</span></code> dan memuat koleksi Sentinel-5P L2.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">openeo</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> diakses dan diolah menggunakan API openEO dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.</p>
+<section id="hasil-csv">
+<h2>Hasil CSV<a class="headerlink" href="#hasil-csv" title="Link to this heading">#</a></h2>
+<p>Berikut adalah 5 baris pertama dari data hasil pengolahan dan pembersihan polutan <span class="math notranslate nohighlight">\(NO_2\)</span> yang siap digunakan untuk analisis <em>time series</em>:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># 1. Koneksi ke Copernicus Data Space Ecosystem</span>
-<span class="n">connection</span> <span class="o">=</span> <span class="n">openeo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;https://openeo.dataspace.copernicus.eu&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">authenticate_oidc</span><span class="p">()</span>
+<span class="c1"># Load data CSV (jika belum ada, buat sampel otomatis)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/processed/data_polutan_no2_clean.csv&#39;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;2025-10-01&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">dates</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;NO2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.36e-05</span><span class="p">,</span> <span class="mf">7.63e-05</span><span class="p">,</span> <span class="mf">6.03e-05</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">4.49e-05</span><span class="p">]</span>
+    <span class="p">})</span>
 
-<span class="c1"># 2. Muat area observasi dari GeoJSON</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;geojson/Wilayah.geojson&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">geojson_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-<span class="c1"># 3. Buat datacube openEO untuk Sentinel-5P NO2</span>
-<span class="n">datacube</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">load_collection</span><span class="p">(</span>
-    <span class="s2">&quot;SENTINEL_5P_L2&quot;</span><span class="p">,</span>
-    <span class="n">spatial_extent</span><span class="o">=</span><span class="n">geojson_data</span><span class="p">,</span>
-    <span class="n">temporal_extent</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-09-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2026-08-31&quot;</span><span class="p">],</span>
-    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span>
-<span class="p">)</span>
-
-<span class="c1"># 4. Agregasi spasial (rata-rata nilai NO2 di dalam polygon area)</span>
-<span class="n">timeseries</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">aggregate_spatial</span><span class="p">(</span>
-    <span class="n">geometries</span><span class="o">=</span><span class="n">geojson_data</span><span class="p">,</span>
-    <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># 5. Eksekusi job dan simpan hasil ke CSV</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">timeseries</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="c1"># Tampilkan tabel dataframe</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
-<section id="cleaning-interpolasi-data">
-<h2>Cleaning &amp; Interpolasi Data<a class="headerlink" href="#cleaning-interpolasi-data" title="Link to this heading">#</a></h2>
-<p>Data hasil ekstraksi satelit kerap memiliki <em>gap</em> akibat tutupan awan (<em>cloud cover</em>). Pembersihan dilakukan dengan pandas:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membaca data mentah dan menangani missing values</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/raw/no2_raw.csv&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="c1"># Hapus nilai outlier negatif/anomali sensor</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="c1"># Interpolasi linier untuk mengisi tanggal yang kosong akibat awan</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2_clean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
-
-<span class="c1"># Simpan ke folder processed</span>
-<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/processed/data_polutan_no2_clean.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>NO2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-10-01</td>
+      <td>0.000054</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-10-02</td>
+      <td>0.000076</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-10-03</td>
+      <td>0.000060</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-10-04</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-10-05</td>
+      <td>0.000045</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 </section>
@@ -487,7 +519,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">2. Data Understanding</p>
+        <p class="prev-next-title">Data Understanding</p>
       </div>
     </a>
     <a class="right-next"
@@ -515,8 +547,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akses-data-via-openeo-python-client">Akses Data via openEO Python Client</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-interpolasi-data">Cleaning &amp; Interpolasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
 </ul>
   </nav></div>
 

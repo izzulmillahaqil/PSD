@@ -1,8 +1,10 @@
 format: jb-book
 root: intro
-chapters:
-- file: 01-business-understanding
-- file: 02-data-understanding
-- file: 03-data-preparation
-- file: 04-time-series
-- file: 05-conclusion
+parts:
+  - caption: Polutan di Surabaya Selatan
+    chapters:
+      - file: 01-business-understanding
+      - file: 02-data-understanding
+      - file: 03-data-preparation
+      - file: 04-time-series
+      - file: 05-conclusion
