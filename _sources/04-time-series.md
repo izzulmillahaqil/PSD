@@ -6,7 +6,7 @@ Tahap ini menyajikan visualisasi tren konsentrasi $NO_2$ harian untuk melihat di
 
 Grafik di bawah ini menampilkan tingkat konsentrasi $NO_2$ ($\text{mol/m}^2$) dari 1 September 2025 hingga 31 Agustus 2026.
 
-```python
+```{code-cell} ipython3
 import pandas as pd
 import matplotlib.pyplot as plt
 
