@@ -1,3 +1,11 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+---
+
 # 4. Analisis Time Series
 
 Tahap ini menyajikan visualisasi tren konsentrasi $NO_2$ harian untuk melihat dinamika kualitas udara selama rentang waktu pengamatan.
