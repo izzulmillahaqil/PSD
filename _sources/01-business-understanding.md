@@ -1,5 +1,3 @@
-# Bussines Understanding
-
 # 1. Latar Belakang
 
 Kualitas udara adalah indikator esensial bagi kesehatan publik dan kelestarian lingkungan. Seiring meningkatnya aktivitas warga, mobilitas transportasi, serta kegiatan ekonomi, risiko lonjakan gas polutan berbahaya di udara ikut membesar.
