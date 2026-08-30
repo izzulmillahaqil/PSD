@@ -177,7 +177,7 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Welcome to your Jupyter Book
+                    Analisis Kualitas Udara (Polutan NO2)
                 </a>
             </li>
         </ul>
@@ -383,6 +383,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akses-data-via-openeo-python-client">Akses Data via openEO Python Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-interpolasi-data">Cleaning &amp; Interpolasi Data</a></li>
 </ul>
             </nav>
         </div>
@@ -400,6 +401,53 @@ document.write(`
 <section id="akses-data-via-openeo-python-client">
 <h2>Akses Data via openEO Python Client<a class="headerlink" href="#akses-data-via-openeo-python-client" title="Link to this heading">#</a></h2>
 <p>Proses ekstraksi data dilakukan secara otomatis dengan mendefinisikan <em>bounding box</em> dari file <code class="docutils literal notranslate"><span class="pre">Wilayah.geojson</span></code> dan memuat koleksi Sentinel-5P L2.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">openeo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># 1. Koneksi ke Copernicus Data Space Ecosystem</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">openeo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;https://openeo.dataspace.copernicus.eu&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">authenticate_oidc</span><span class="p">()</span>
+
+<span class="c1"># 2. Muat area observasi dari GeoJSON</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;geojson/Wilayah.geojson&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">geojson_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># 3. Buat datacube openEO untuk Sentinel-5P NO2</span>
+<span class="n">datacube</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">load_collection</span><span class="p">(</span>
+    <span class="s2">&quot;SENTINEL_5P_L2&quot;</span><span class="p">,</span>
+    <span class="n">spatial_extent</span><span class="o">=</span><span class="n">geojson_data</span><span class="p">,</span>
+    <span class="n">temporal_extent</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2025-09-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2026-08-31&quot;</span><span class="p">],</span>
+    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># 4. Agregasi spasial (rata-rata nilai NO2 di dalam polygon area)</span>
+<span class="n">timeseries</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">aggregate_spatial</span><span class="p">(</span>
+    <span class="n">geometries</span><span class="o">=</span><span class="n">geojson_data</span><span class="p">,</span>
+    <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># 5. Eksekusi job dan simpan hasil ke CSV</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">timeseries</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="cleaning-interpolasi-data">
+<h2>Cleaning &amp; Interpolasi Data<a class="headerlink" href="#cleaning-interpolasi-data" title="Link to this heading">#</a></h2>
+<p>Data hasil ekstraksi satelit kerap memiliki <em>gap</em> akibat tutupan awan (<em>cloud cover</em>). Pembersihan dilakukan dengan pandas:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membaca data mentah dan menangani missing values</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/raw/no2_raw.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+
+<span class="c1"># Hapus nilai outlier negatif/anomali sensor</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Interpolasi linier untuk mengisi tanggal yang kosong akibat awan</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2_clean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+
+<span class="c1"># Simpan ke folder processed</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/processed/data_polutan_no2_clean.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -468,6 +516,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akses-data-via-openeo-python-client">Akses Data via openEO Python Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-interpolasi-data">Cleaning &amp; Interpolasi Data</a></li>
 </ul>
   </nav></div>
 

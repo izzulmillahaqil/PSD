@@ -6,7 +6,7 @@ Tahap ini menyajikan visualisasi tren konsentrasi $NO_2$ harian dan *rolling ave
 
 Grafik di bawah ini menampilkan tingkat konsentrasi $NO_2$ ($\text{mol/m}^2$) dari 1 September 2025 hingga 31 Agustus 2026.
 
-```{code-cell} ipython3
+```python
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -29,3 +29,9 @@ plt.grid(True, linestyle='--', alpha=0.5)
 plt.legend()
 plt.tight_layout()
 plt.show()
+```
+
+## Evaluasi Tren & Pola
+
+* **Variasi Musiman**: Nilai konsentrasi cenderung menurun pada puncak musim hujan karena efek *wet deposition* (peluruhan polutan oleh air hujan).
+* **Puncak Emisi**: Fluktuasi tinggi berulang pada periode aktivitas transportasi dan industri normal harian.
