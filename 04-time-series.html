@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>4. Analisis Time Series &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -57,11 +57,13 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '04-time-series';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="05-conclusion.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="03-data-preparation.html" />
+    <link rel="prev" title="3. Data Preparation" href="03-data-preparation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -179,9 +181,13 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Analisis Time Series</a></li>
+
+
 </ul>
 
     </div>
@@ -367,7 +373,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>4. Analisis Time Series</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -376,7 +382,13 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">4. Analisis Time Series</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grafik-tren-konsentrasi-no2-1-thn-terakhir">Grafik Tren Konsentrasi NO2 (1 Thn Terakhir)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-polutan-yang-sudah-dibersihkan">Load data polutan yang sudah dibersihkan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#sesuaikan-path-jika-file-csv-kamu-berada-di-lokasi-lain">Sesuaikan path jika file csv kamu berada di lokasi lain</a></li>
 </ul>
 
             </nav>
@@ -389,7 +401,35 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-time-series">
+<h1>4. Analisis Time Series<a class="headerlink" href="#analisis-time-series" title="Link to this heading">#</a></h1>
+<p>Tahap ini menampilkan visualisasi tren konsentrasi polutan dari waktu ke waktu untuk memahami pola perubahan kualitas udara di wilayah pengamatan.</p>
+<section id="grafik-tren-konsentrasi-no2-1-thn-terakhir">
+<h2>Grafik Tren Konsentrasi NO2 (1 Thn Terakhir)<a class="headerlink" href="#grafik-tren-konsentrasi-no2-1-thn-terakhir" title="Link to this heading">#</a></h2>
+<p>Berikut adalah grafik pola fluktuasi polutan <span class="math notranslate nohighlight">\(NO_2\)</span> periode 1 September 2025 – 31 Agustus 2026:</p>
+<p>{code-cell} ipython3
+import pandas as pd
+import matplotlib.pyplot as plt</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-data-polutan-yang-sudah-dibersihkan">
+<h1>Load data polutan yang sudah dibersihkan<a class="headerlink" href="#load-data-polutan-yang-sudah-dibersihkan" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="sesuaikan-path-jika-file-csv-kamu-berada-di-lokasi-lain">
+<h1>Sesuaikan path jika file csv kamu berada di lokasi lain<a class="headerlink" href="#sesuaikan-path-jika-file-csv-kamu-berada-di-lokasi-lain" title="Link to this heading">#</a></h1>
+<p>df = pd.read_csv(‘data/processed/data_polutan_no2_clean.csv’)
+df[‘Date’] = pd.to_datetime(df[‘Date’])</p>
+<p>plt.figure(figsize=(12, 5))
+plt.plot(df[‘Date’], df[‘NO2_concentration’], color=’#d9534f’, linewidth=1.5, label=’NO2 Concentration’)
+plt.title(‘Pola Konsentrasi Polutan NO2 (Sep 2025 - Ags 2026)’, fontsize=14, fontweight=’bold’)
+plt.xlabel(‘Tanggal’, fontsize=12)
+plt.ylabel(‘Konsentrasi (mol/m²)’, fontsize=12)
+plt.grid(True, linestyle=’–’, alpha=0.6)
+plt.legend()
+plt.tight_layout()
+plt.show()</p>
+</section>
+
     <script type="text/x-thebe-config">
     {
         requestKernel: true,
@@ -426,7 +466,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">3. Data Preparation</p>
       </div>
     </a>
     <a class="right-next"
@@ -453,7 +493,13 @@ document.write(`
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">4. Analisis Time Series</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grafik-tren-konsentrasi-no2-1-thn-terakhir">Grafik Tren Konsentrasi NO2 (1 Thn Terakhir)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-polutan-yang-sudah-dibersihkan">Load data polutan yang sudah dibersihkan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#sesuaikan-path-jika-file-csv-kamu-berada-di-lokasi-lain">Sesuaikan path jika file csv kamu berada di lokasi lain</a></li>
 </ul>
 
   </nav></div>
