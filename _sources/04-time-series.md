@@ -17,18 +17,18 @@ Grafik di bawah ini menampilkan tingkat konsentrasi $NO_2$ ($\text{mol/m}^2$) da
 ```{code-cell} ipython3
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 
-# Path ke file CSV
+# Cek path file CSV
 csv_path = '../data/processed/data_polutan_no2_clean.csv'
 
-# Cek apakah file ada, jika tidak buat dataframe dummy secara otomatis
 if os.path.exists(csv_path):
     df = pd.read_csv(csv_path)
     df['date'] = pd.to_datetime(df['date'])
 else:
+    # Generate data harian jika CSV belum ada
     dates = pd.date_range(start='2025-09-01', end='2026-08-31', freq='D')
-    import numpy as np
     np.random.seed(42)
     values = 0.00015 + 0.00005 * np.sin(np.linspace(0, 3*np.pi, len(dates))) + np.random.normal(0, 0.00001, len(dates))
     df = pd.DataFrame({'date': dates, 'NO2_clean': values})
