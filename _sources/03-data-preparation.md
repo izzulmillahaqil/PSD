@@ -12,7 +12,7 @@ import json
 import pandas as pd
 
 # 1. Koneksi ke Copernicus Data Space Ecosystem
-connection = openeo.connect("https://openeo.dataspace.copernicus.eu").authenticate_oidc()
+connection = openeo.connect("[https://openeo.dataspace.copernicus.eu](https://openeo.dataspace.copernicus.eu)").authenticate_oidc()
 
 # 2. Muat area observasi dari GeoJSON
 with open('geojson/Wilayah.geojson') as f:
