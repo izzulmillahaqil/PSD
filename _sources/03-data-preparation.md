@@ -1,29 +1,36 @@
 # 3. Data Preparation
 
-Tahap ini mencakup proses pembersihan (*cleaning*), pemrosesan awal (*preprocessing*), dan pemformatan data hasil *crawling* agar siap digunakan dalam analisis *time-series*.
+Pada tahap ini, data konsentrasi $NO_2$ diakses dan diolah menggunakan API **openEO** dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.
 
-## Alur Pemrosesan Data
+## Akses Data via openEO Python Client
 
-Proses penyiapan data dilakukan melalui beberapa tahapan berikut:
+Proses ekstraksi data dilakukan secara otomatis dengan mendefinisikan *bounding box* dari file `Wilayah.geojson` dan memuat koleksi Sentinel-5P L2.
 
-1. **Filtering Area Koordinat (GeoJSON)**:
-   Membatasi area pengambilan data polutan menggunakan file `Wilayah.geojson` untuk memastikan data yang diambil presisi sesuai wilayah observasi.
+```{code-cell} ipython3
+import openeo
+import json
+import pandas as pd
 
-2. **Ekstraksi Data Terkini**:
-   Mengambil data historis konsentrasi polutan ($NO_2$) dari rentang waktu **1 September 2025 hingga 31 Agustus 2026** menggunakan resolusi harian.
+# 1. Koneksi ke Copernicus Data Space Ecosystem
+connection = openeo.connect("https://openeo.dataspace.copernicus.eu").authenticate_oidc()
 
-3. **Handling Missing Values & Anomali**:
-   * Melakukan identifikasi nilai kosong (*NaN*) yang disebabkan oleh tutupan awan (*cloud cover*) pada pengamatan satelit.
-   * Menerapkan teknik *interpolation* (atau *forward-fill*) untuk mengisi gap data harian yang hilang.
+# 2. Muat area observasi dari GeoJSON
+with open('geojson/Wilayah.geojson') as f:
+    geojson_data = json.load(f)
 
-4. **Ekspor ke Format CSV**:
-   Menyimpan hasil data yang telah dibersihkan ke dalam file `data_polutan_no2_clean.csv` di folder `data/processed/`.
+# 3. Buat datacube openEO untuk Sentinel-5P NO2
+datacube = connection.load_collection(
+    "SENTINEL_5P_L2",
+    spatial_extent=geojson_data,
+    temporal_extent=["2025-09-01", "2026-08-31"],
+    bands=["NO2"]
+)
 
-## Struktur Dataset Akhir
+# 4. Agregasi spasial (rata-rata nilai NO2 di dalam polygon area)
+timeseries = datacube.aggregate_spatial(
+    geometries=geojson_data,
+    reducer="mean"
+)
 
-Dataset hasil pemrosesan memiliki struktur sebagai berikut:
-
-| Kolom | Tipe Data | Deskripsi |
-| :--- | :--- | :--- |
-| `Date` | Datetime (`YYYY-MM-DD`) | Tanggal pengambilan data observasi satelit |
-| `NO2_concentration` | Float | Konsentrasi polutan $NO_2$ ($\text{mol/m}^2$) |
+# 5. Eksekusi job dan simpan hasil ke CSV
+results = timeseries.execute()

@@ -384,8 +384,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-pemrosesan-data">Alur Pemrosesan Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset-akhir">Struktur Dataset Akhir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akses-data-via-openeo-python-client">Akses Data via openEO Python Client</a></li>
 </ul>
             </nav>
         </div>
@@ -399,47 +398,10 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
 <h1>3. Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
-<p>Tahap ini mencakup proses pembersihan (<em>cleaning</em>), pemrosesan awal (<em>preprocessing</em>), dan pemformatan data hasil <em>crawling</em> agar siap digunakan dalam analisis <em>time-series</em>.</p>
-<section id="alur-pemrosesan-data">
-<h2>Alur Pemrosesan Data<a class="headerlink" href="#alur-pemrosesan-data" title="Link to this heading">#</a></h2>
-<p>Proses penyiapan data dilakukan melalui beberapa tahapan berikut:</p>
-<ol class="arabic simple">
-<li><p><strong>Filtering Area Koordinat (GeoJSON)</strong>:
-Membatasi area pengambilan data polutan menggunakan file <code class="docutils literal notranslate"><span class="pre">Wilayah.geojson</span></code> untuk memastikan data yang diambil presisi sesuai wilayah observasi.</p></li>
-<li><p><strong>Ekstraksi Data Terkini</strong>:
-Mengambil data historis konsentrasi polutan (<span class="math notranslate nohighlight">\(NO_2\)</span>) dari rentang waktu <strong>1 September 2025 hingga 31 Agustus 2026</strong> menggunakan resolusi harian.</p></li>
-<li><p><strong>Handling Missing Values &amp; Anomali</strong>:</p>
-<ul class="simple">
-<li><p>Melakukan identifikasi nilai kosong (<em>NaN</em>) yang disebabkan oleh tutupan awan (<em>cloud cover</em>) pada pengamatan satelit.</p></li>
-<li><p>Menerapkan teknik <em>interpolation</em> (atau <em>forward-fill</em>) untuk mengisi gap data harian yang hilang.</p></li>
-</ul>
-</li>
-<li><p><strong>Ekspor ke Format CSV</strong>:
-Menyimpan hasil data yang telah dibersihkan ke dalam file <code class="docutils literal notranslate"><span class="pre">data_polutan_no2_clean.csv</span></code> di folder <code class="docutils literal notranslate"><span class="pre">data/processed/</span></code>.</p></li>
-</ol>
-</section>
-<section id="struktur-dataset-akhir">
-<h2>Struktur Dataset Akhir<a class="headerlink" href="#struktur-dataset-akhir" title="Link to this heading">#</a></h2>
-<p>Dataset hasil pemrosesan memiliki struktur sebagai berikut:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-left"><p>Kolom</p></th>
-<th class="head text-left"><p>Tipe Data</p></th>
-<th class="head text-left"><p>Deskripsi</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Date</span></code></p></td>
-<td class="text-left"><p>Datetime (<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>)</p></td>
-<td class="text-left"><p>Tanggal pengambilan data observasi satelit</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">NO2_concentration</span></code></p></td>
-<td class="text-left"><p>Float</p></td>
-<td class="text-left"><p>Konsentrasi polutan <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(\text{mol/m}^2\)</span>)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
+<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> diakses dan diolah menggunakan API <strong>openEO</strong> dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.</p>
+<section id="akses-data-via-openeo-python-client">
+<h2>Akses Data via openEO Python Client<a class="headerlink" href="#akses-data-via-openeo-python-client" title="Link to this heading">#</a></h2>
+<p>Proses ekstraksi data dilakukan secara otomatis dengan mendefinisikan <em>bounding box</em> dari file <code class="docutils literal notranslate"><span class="pre">Wilayah.geojson</span></code> dan memuat koleksi Sentinel-5P L2.</p>
 </section>
 </section>
 
@@ -507,8 +469,7 @@ Menyimpan hasil data yang telah dibersihkan ke dalam file <code class="docutils 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-pemrosesan-data">Alur Pemrosesan Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset-akhir">Struktur Dataset Akhir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akses-data-via-openeo-python-client">Akses Data via openEO Python Client</a></li>
 </ul>
   </nav></div>
 
