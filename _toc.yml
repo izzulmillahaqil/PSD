@@ -7,4 +7,5 @@ parts:
       - file: 02-data-understanding
       - file: 03-data-preparation
       - file: 04-time-series
-      - file: 05-conclusion
+      - file: 05-knime-pipeline
+      - file: 06-conclusion
