@@ -3,8 +3,11 @@
 Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem **openEO**, penyimpanannya pada cloud database, hingga analisis statistik menggunakan **KNIME Analytics Platform**, dapat disimpulkan bahwa:
 
 1. Ekstraksi data berbasis **GeoJSON** terbukti efisien dalam mengisolasi titik koordinat wilayah observasi spesifik tanpa perlu mengunduh keseluruhan *tile* satelit.
+
 2. Analisis *time-series* dari September 2025 hingga Agustus 2026 memperlihatkan pola konsentrasi $NO_2$ yang dinamis, dengan kemungkinan pengaruh dari kondisi cuaca dan tingkat aktivitas atau mobilitas wilayah.
+
 3. Pembersihan data (*interpolation*) diperlukan untuk menangani *missing values* yang dapat terjadi akibat keterbatasan observasi pada data penginderaan jauh, termasuk pengaruh kondisi atmosfer dan tutupan awan.
+
 4. Integrasi pipeline data dari **Python** ke **PostgreSQL Aiven (Cloud Database)** kemudian ditarik ke **KNIME Analytics Platform** menggunakan alur **PostgreSQL Connector $\rightarrow$ DB Table Selector $\rightarrow$ DB Reader $\rightarrow$ Statistics** memudahkan proses eksplorasi statistik deskriptif secara terintegrasi.
 
 ---
@@ -14,7 +17,86 @@ Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem **openEO**, pen
 Berikut merupakan penjelasan metrik statistik deskriptif dari data $NO_2$ hasil pengolahan menggunakan node **Statistics** pada KNIME, beserta contoh kalkulasi dan interpretasinya.
 
 ```{note}
-**Rangkuman Hasil KNIME**:
-Data $NO_2$ yang dianalisis menunjukkan distribusi yang **right-skewed** atau miring ke kanan. Nilai skewness yang tinggi menunjukkan adanya beberapa observasi dengan konsentrasi $NO_2$ yang jauh lebih tinggi dibandingkan sebagian besar observasi lainnya.
 
-1. Tendensi Sentral (Mean & Median)Mean ($\bar{x}$): Mengukur rata-rata aritmatika seluruh observasi harian $NO_2$.$$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$Median ($\text{Med}$): Nilai tengah yang membagi data terurut menjadi dua bagian sama besar (tahan terhadap pencilan).$$\text{Median} = \text{Nilai posisi ke-} \left(\frac{n+1}{2}\right)$$Contoh Kalkulasi:Diberikan sampel 3 hari data $NO_2$ ($mol/m^2$): $[0.000015, 0.000032, 0.000048]$Mean: $\frac{0.000015 + 0.000032 + 0.000048}{3} = \mathbf{0.00003167}$Median: Nilai posisi ke-2 = $\mathbf{0.000032}$2. Batas Ekstrim (Min & Max)Minimum ($\text{Min}$): Konsentrasi terendah harian, menggambarkan kondisi baseline kualitas udara saat bersih.$$\text{Min} = \min(x_1, x_2, \dots, x_n)$$Maximum ($\text{Max}$): Konsentrasi puncak harian, menandakan titik tertinggi lonjakan polusi.$$\text{Max} = \max(x_1, x_2, \dots, x_n)$$Interpretasi Lingkungan:Selisih antara $\text{Max}$ ($0.000233$) dan $\text{Min}$ ($0.000006$) menunjukkan rentang fluktuasi polusi yang tinggi, dipengaruhi oleh perubahan cuaca harian dan lonjakan aktivitas emisi lokal.3. Dispersi (Std Dev & Varians)Standard Deviation ($s$): Simpangan baku yang mengukur seberapa jauh data harian menyimpang dari nilai rata-ratanya.$$s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}}$$Variance ($s^2$): Kuadrat dari simpangan baku.$$s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}$$Contoh Kalkulasi:Dengan $\bar{x} = 0.00003167$ dan $n = 3$:Selisih kuadrat $= (0.000015 - \bar{x})^2 + (0.000032 - \bar{x})^2 + (0.000048 - \bar{x})^2 = 5.446 \times 10^{-10}$Bagi $(n-1) = 2 \rightarrow \mathbf{s^2 = 2.723 \times 10^{-10}}$Akar kuadrat $\rightarrow \mathbf{s = 0.0000165}$4. Bentuk Distribusi (Skewness & Kurtosis)Skewness: Ukuran kemiringan distribusi data.$$\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3$$Kurtosis: Ukuran keruncingan puncak kurva distribusi.$$\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)}$$Analisis Hasil KNIME:Skewness = 3.82 ($> 0$): Miring kanan (Right-Skewed). Menandakan mayoritas hari memiliki udara bersih/normal, namun terdapat hari-hari tertentu dengan lonjakan emisi polusi yang tinggi.Kurtosis = 21.45 ($> 3$): Leptokurtik. Membuktikan adanya pencilan (outliers) ekstrim pada data harian $NO_2$.
+**Rangkuman Hasil KNIME**:
+
+Data $NO_2$ yang dianalisis menunjukkan distribusi yang **right-skewed** atau miring ke kanan. Nilai skewness yang tinggi menunjukkan adanya beberapa observasi dengan konsentrasi $NO_2$ yang jauh lebih tinggi dibandingkan sebagian besar observasi lainnya.
+```
+
+### 1. Tendensi Sentral (Mean & Median)
+
+Mean ($\bar{x}$): Mengukur rata-rata aritmatika seluruh observasi harian $NO_2$.
+
+\(\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}\)
+
+Median ($\text{Med}$): Nilai tengah yang membagi data terurut menjadi dua bagian sama besar (tahan terhadap pencilan).
+
+\(\text{Median} = \text{Nilai posisi ke-} \left(\frac{n+1}{2}\right)\)
+
+Contoh Kalkulasi:
+
+Diberikan sampel 3 hari data $NO_2$ ($mol/m^2$): $[0.000015, 0.000032, 0.000048]$
+
+Mean:
+
+$\frac{0.000015 + 0.000032 + 0.000048}{3} = \mathbf{0.00003167}$
+
+Median:
+
+Nilai posisi ke-2 = $\mathbf{0.000032}$
+
+---
+
+### 2. Batas Ekstrim (Min & Max)
+
+Minimum ($\text{Min}$): Konsentrasi terendah harian, menggambarkan kondisi baseline kualitas udara saat bersih.
+
+\(\text{Min} = \min(x_1, x_2, \dots, x_n)\)
+
+Maximum ($\text{Max}$): Konsentrasi puncak harian, menandakan titik tertinggi lonjakan polusi.
+
+\(\text{Max} = \max(x_1, x_2, \dots, x_n)\)
+
+Interpretasi Lingkungan:
+
+Selisih antara $\text{Max}$ ($0.000233$) dan $\text{Min}$ ($0.000006$) menunjukkan rentang fluktuasi polusi yang tinggi, dipengaruhi oleh perubahan cuaca harian dan lonjakan aktivitas emisi lokal.
+
+---
+
+### 3. Dispersi (Std Dev & Varians)
+
+Standard Deviation ($s$): Simpangan baku yang mengukur seberapa jauh data harian menyimpang dari nilai rata-ratanya.
+
+\(s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}}\)
+
+Variance ($s^2$): Kuadrat dari simpangan baku.
+
+\(s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}\)
+
+Contoh Kalkulasi:
+
+Dengan $\bar{x} = 0.00003167$ dan $n = 3$:
+
+Selisih kuadrat $= (0.000015 - \bar{x})^2 + (0.000032 - \bar{x})^2 + (0.000048 - \bar{x})^2 = 5.446 \times 10^{-10}$
+
+Bagi $(n-1) = 2 \rightarrow \mathbf{s^2 = 2.723 \times 10^{-10}}$
+
+Akar kuadrat $\rightarrow \mathbf{s = 0.0000165}$
+
+---
+
+### 4. Bentuk Distribusi (Skewness & Kurtosis)
+
+Skewness: Ukuran kemiringan distribusi data.
+
+\(\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3\)
+
+Kurtosis: Ukuran keruncingan puncak kurva distribusi.
+
+\(\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)}\)
+
+Analisis Hasil KNIME:
+
+* Skewness = 3.82 ($> 0$): Miring kanan (Right-Skewed). Menandakan mayoritas hari memiliki udara bersih/normal, namun terdapat hari-hari tertentu dengan lonjakan emisi polusi yang tinggi.
+
+* Kurtosis = 21.45 ($> 3$): Leptokurtik. Membuktikan adanya pencilan (outliers) ekstrim pada data harian $NO_2$.

@@ -382,7 +382,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-metrik-statistika-deskriptif-knime">🔬 Eksplorasi Metrik Statistika Deskriptif (KNIME)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-metrik-statistika-deskriptif-knime">🔬 Eksplorasi Metrik Statistika Deskriptif (KNIME)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tendensi-sentral-mean-median">1. Tendensi Sentral (Mean &amp; Median)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batas-ekstrim-min-max">2. Batas Ekstrim (Min &amp; Max)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dispersi-std-dev-varians">3. Dispersi (Std Dev &amp; Varians)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-distribusi-skewness-kurtosis">4. Bentuk Distribusi (Skewness &amp; Kurtosis)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -409,12 +415,58 @@ document.write(`
 <p>Berikut merupakan penjelasan metrik statistik deskriptif dari data <span class="math notranslate nohighlight">\(NO_2\)</span> hasil pengolahan menggunakan node <strong>Statistics</strong> pada KNIME, beserta contoh kalkulasi dan interpretasinya.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Rangkuman Hasil KNIME</strong>:
-Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis menunjukkan distribusi yang <strong>right-skewed</strong> atau miring ke kanan. Nilai skewness yang tinggi menunjukkan adanya beberapa observasi dengan konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang jauh lebih tinggi dibandingkan sebagian besar observasi lainnya.</p>
-<ol class="arabic simple">
-<li><p>Tendensi Sentral (Mean &amp; Median)Mean (<span class="math notranslate nohighlight">\(\bar{x}\)</span>): Mengukur rata-rata aritmatika seluruh observasi harian <span class="math notranslate nohighlight">\(NO_2\)</span>.$<span class="math notranslate nohighlight">\(\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}\)</span><span class="math notranslate nohighlight">\(Median (\)</span>\text{Med}<span class="math notranslate nohighlight">\(): Nilai tengah yang membagi data terurut menjadi dua bagian sama besar (tahan terhadap pencilan).\)</span><span class="math notranslate nohighlight">\(\text{Median} = \text{Nilai posisi ke-} \left(\frac{n+1}{2}\right)\)</span><span class="math notranslate nohighlight">\(Contoh Kalkulasi:Diberikan sampel 3 hari data \)</span>NO_2<span class="math notranslate nohighlight">\( (\)</span>mol/m^2<span class="math notranslate nohighlight">\(): \)</span>[0.000015, 0.000032, 0.000048]<span class="math notranslate nohighlight">\(Mean: \)</span>\frac{0.000015 + 0.000032 + 0.000048}{3} = \mathbf{0.00003167}<span class="math notranslate nohighlight">\(Median: Nilai posisi ke-2 = \)</span>\mathbf{0.000032}<span class="math notranslate nohighlight">\(2. Batas Ekstrim (Min &amp; Max)Minimum (\)</span>\text{Min}<span class="math notranslate nohighlight">\(): Konsentrasi terendah harian, menggambarkan kondisi baseline kualitas udara saat bersih.\)</span><span class="math notranslate nohighlight">\(\text{Min} = \min(x_1, x_2, \dots, x_n)\)</span><span class="math notranslate nohighlight">\(Maximum (\)</span>\text{Max}<span class="math notranslate nohighlight">\(): Konsentrasi puncak harian, menandakan titik tertinggi lonjakan polusi.\)</span><span class="math notranslate nohighlight">\(\text{Max} = \max(x_1, x_2, \dots, x_n)\)</span><span class="math notranslate nohighlight">\(Interpretasi Lingkungan:Selisih antara \)</span>\text{Max}<span class="math notranslate nohighlight">\( (\)</span>0.000233<span class="math notranslate nohighlight">\() dan \)</span>\text{Min}<span class="math notranslate nohighlight">\( (\)</span>0.000006<span class="math notranslate nohighlight">\() menunjukkan rentang fluktuasi polusi yang tinggi, dipengaruhi oleh perubahan cuaca harian dan lonjakan aktivitas emisi lokal.3. Dispersi (Std Dev &amp; Varians)Standard Deviation (\)</span>s<span class="math notranslate nohighlight">\(): Simpangan baku yang mengukur seberapa jauh data harian menyimpang dari nilai rata-ratanya.\)</span><span class="math notranslate nohighlight">\(s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}}\)</span><span class="math notranslate nohighlight">\(Variance (\)</span>s^2<span class="math notranslate nohighlight">\(): Kuadrat dari simpangan baku.\)</span><span class="math notranslate nohighlight">\(s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}\)</span><span class="math notranslate nohighlight">\(Contoh Kalkulasi:Dengan \)</span>\bar{x} = 0.00003167<span class="math notranslate nohighlight">\( dan \)</span>n = 3<span class="math notranslate nohighlight">\(:Selisih kuadrat \)</span>= (0.000015 - \bar{x})^2 + (0.000032 - \bar{x})^2 + (0.000048 - \bar{x})^2 = 5.446 \times 10^{-10}<span class="math notranslate nohighlight">\(Bagi \)</span>(n-1) = 2 \rightarrow \mathbf{s^2 = 2.723 \times 10^{-10}}<span class="math notranslate nohighlight">\(Akar kuadrat \)</span>\rightarrow \mathbf{s = 0.0000165}<span class="math notranslate nohighlight">\(4. Bentuk Distribusi (Skewness &amp; Kurtosis)Skewness: Ukuran kemiringan distribusi data.\)</span><span class="math notranslate nohighlight">\(\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3\)</span><span class="math notranslate nohighlight">\(Kurtosis: Ukuran keruncingan puncak kurva distribusi.\)</span><span class="math notranslate nohighlight">\(\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)}\)</span><span class="math notranslate nohighlight">\(Analisis Hasil KNIME:Skewness = 3.82 (\)</span>&gt; 0<span class="math notranslate nohighlight">\(): Miring kanan (Right-Skewed). Menandakan mayoritas hari memiliki udara bersih/normal, namun terdapat hari-hari tertentu dengan lonjakan emisi polusi yang tinggi.Kurtosis = 21.45 (\)</span>&gt; 3<span class="math notranslate nohighlight">\(): Leptokurtik. Membuktikan adanya pencilan (outliers) ekstrim pada data harian \)</span>NO_2$.</p></li>
-</ol>
+<p><strong>Rangkuman Hasil KNIME</strong>:</p>
+<p>Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis menunjukkan distribusi yang <strong>right-skewed</strong> atau miring ke kanan. Nilai skewness yang tinggi menunjukkan adanya beberapa observasi dengan konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang jauh lebih tinggi dibandingkan sebagian besar observasi lainnya.</p>
 </div>
+<section id="tendensi-sentral-mean-median">
+<h3>1. Tendensi Sentral (Mean &amp; Median)<a class="headerlink" href="#tendensi-sentral-mean-median" title="Link to this heading">#</a></h3>
+<p>Mean (<span class="math notranslate nohighlight">\(\bar{x}\)</span>): Mengukur rata-rata aritmatika seluruh observasi harian <span class="math notranslate nohighlight">\(NO_2\)</span>.</p>
+<p>(\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n})</p>
+<p>Median (<span class="math notranslate nohighlight">\(\text{Med}\)</span>): Nilai tengah yang membagi data terurut menjadi dua bagian sama besar (tahan terhadap pencilan).</p>
+<p>(\text{Median} = \text{Nilai posisi ke-} \left(\frac{n+1}{2}\right))</p>
+<p>Contoh Kalkulasi:</p>
+<p>Diberikan sampel 3 hari data <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(mol/m^2\)</span>): <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span></p>
+<p>Mean:</p>
+<p><span class="math notranslate nohighlight">\(\frac{0.000015 + 0.000032 + 0.000048}{3} = \mathbf{0.00003167}\)</span></p>
+<p>Median:</p>
+<p>Nilai posisi ke-2 = <span class="math notranslate nohighlight">\(\mathbf{0.000032}\)</span></p>
+</section>
+<hr class="docutils" />
+<section id="batas-ekstrim-min-max">
+<h3>2. Batas Ekstrim (Min &amp; Max)<a class="headerlink" href="#batas-ekstrim-min-max" title="Link to this heading">#</a></h3>
+<p>Minimum (<span class="math notranslate nohighlight">\(\text{Min}\)</span>): Konsentrasi terendah harian, menggambarkan kondisi baseline kualitas udara saat bersih.</p>
+<p>(\text{Min} = \min(x_1, x_2, \dots, x_n))</p>
+<p>Maximum (<span class="math notranslate nohighlight">\(\text{Max}\)</span>): Konsentrasi puncak harian, menandakan titik tertinggi lonjakan polusi.</p>
+<p>(\text{Max} = \max(x_1, x_2, \dots, x_n))</p>
+<p>Interpretasi Lingkungan:</p>
+<p>Selisih antara <span class="math notranslate nohighlight">\(\text{Max}\)</span> (<span class="math notranslate nohighlight">\(0.000233\)</span>) dan <span class="math notranslate nohighlight">\(\text{Min}\)</span> (<span class="math notranslate nohighlight">\(0.000006\)</span>) menunjukkan rentang fluktuasi polusi yang tinggi, dipengaruhi oleh perubahan cuaca harian dan lonjakan aktivitas emisi lokal.</p>
+</section>
+<hr class="docutils" />
+<section id="dispersi-std-dev-varians">
+<h3>3. Dispersi (Std Dev &amp; Varians)<a class="headerlink" href="#dispersi-std-dev-varians" title="Link to this heading">#</a></h3>
+<p>Standard Deviation (<span class="math notranslate nohighlight">\(s\)</span>): Simpangan baku yang mengukur seberapa jauh data harian menyimpang dari nilai rata-ratanya.</p>
+<p>(s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}})</p>
+<p>Variance (<span class="math notranslate nohighlight">\(s^2\)</span>): Kuadrat dari simpangan baku.</p>
+<p>(s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1})</p>
+<p>Contoh Kalkulasi:</p>
+<p>Dengan <span class="math notranslate nohighlight">\(\bar{x} = 0.00003167\)</span> dan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
+<p>Selisih kuadrat <span class="math notranslate nohighlight">\(= (0.000015 - \bar{x})^2 + (0.000032 - \bar{x})^2 + (0.000048 - \bar{x})^2 = 5.446 \times 10^{-10}\)</span></p>
+<p>Bagi <span class="math notranslate nohighlight">\((n-1) = 2 \rightarrow \mathbf{s^2 = 2.723 \times 10^{-10}}\)</span></p>
+<p>Akar kuadrat <span class="math notranslate nohighlight">\(\rightarrow \mathbf{s = 0.0000165}\)</span></p>
+</section>
+<hr class="docutils" />
+<section id="bentuk-distribusi-skewness-kurtosis">
+<h3>4. Bentuk Distribusi (Skewness &amp; Kurtosis)<a class="headerlink" href="#bentuk-distribusi-skewness-kurtosis" title="Link to this heading">#</a></h3>
+<p>Skewness: Ukuran kemiringan distribusi data.</p>
+<p>(\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3)</p>
+<p>Kurtosis: Ukuran keruncingan puncak kurva distribusi.</p>
+<p>(\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)})</p>
+<p>Analisis Hasil KNIME:</p>
+<ul class="simple">
+<li><p>Skewness = 3.82 (<span class="math notranslate nohighlight">\(&gt; 0\)</span>): Miring kanan (Right-Skewed). Menandakan mayoritas hari memiliki udara bersih/normal, namun terdapat hari-hari tertentu dengan lonjakan emisi polusi yang tinggi.</p></li>
+<li><p>Kurtosis = 21.45 (<span class="math notranslate nohighlight">\(&gt; 3\)</span>): Leptokurtik. Membuktikan adanya pencilan (outliers) ekstrim pada data harian <span class="math notranslate nohighlight">\(NO_2\)</span>.</p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -473,7 +525,13 @@ Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-metrik-statistika-deskriptif-knime">🔬 Eksplorasi Metrik Statistika Deskriptif (KNIME)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-metrik-statistika-deskriptif-knime">🔬 Eksplorasi Metrik Statistika Deskriptif (KNIME)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tendensi-sentral-mean-median">1. Tendensi Sentral (Mean &amp; Median)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batas-ekstrim-min-max">2. Batas Ekstrim (Min &amp; Max)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dispersi-std-dev-varians">3. Dispersi (Std Dev &amp; Varians)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-distribusi-skewness-kurtosis">4. Bentuk Distribusi (Skewness &amp; Kurtosis)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
