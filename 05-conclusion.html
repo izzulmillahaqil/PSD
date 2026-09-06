@@ -396,66 +396,22 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="kesimpulan">
 <h1>5. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h1>
-<p>Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem <strong>openEO</strong>, penyimpanannya pada cloud database, hingga analisis statistik menggunakan <strong>KNIME Analytics Platform</strong>:</p>
+<p>Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem <strong>openEO</strong>, penyimpanannya pada cloud database, hingga analisis statistik menggunakan <strong>KNIME Analytics Platform</strong>, dapat disimpulkan bahwa:</p>
 <ol class="arabic simple">
 <li><p>Ekstraksi data berbasis <strong>GeoJSON</strong> terbukti efisien dalam mengisolasi titik koordinat wilayah observasi spesifik tanpa perlu mengunduh keseluruhan <em>tile</em> satelit.</p></li>
-<li><p>Analisis <em>time-series</em> dari September 2025 hingga Agustus 2026 memperlihatkan pola konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang dinamis, dengan pengaruh signifikan dari cuaca harian dan tingkat mobilitas wilayah.</p></li>
-<li><p>Pembersihan data (<em>interpolation</em>) krusial dilakukan untuk menangani <em>missing values</em> akibat tutupan awan tebal pada data penginderaan jauh.</p></li>
-<li><p>Integrasi pipeline data dari <strong>Python</strong> ke <strong>PostgreSQL Aiven (Cloud Database)</strong> dan ditarik ke <strong>KNIME Analytics Platform</strong> (menggunakan alur <em>PostgreSQL Connector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Table Selector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Reader <span class="math notranslate nohighlight">\(\rightarrow\)</span> Statistics</em>) memudahkan proses eksplorasi statistik deskriptif secara terintegrasi.</p></li>
+<li><p>Analisis <em>time-series</em> dari September 2025 hingga Agustus 2026 memperlihatkan pola konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang dinamis, dengan kemungkinan pengaruh dari kondisi cuaca dan tingkat aktivitas atau mobilitas wilayah.</p></li>
+<li><p>Pembersihan data (<em>interpolation</em>) diperlukan untuk menangani <em>missing values</em> yang dapat terjadi akibat keterbatasan observasi pada data penginderaan jauh, termasuk pengaruh kondisi atmosfer dan tutupan awan.</p></li>
+<li><p>Integrasi pipeline data dari <strong>Python</strong> ke <strong>PostgreSQL Aiven (Cloud Database)</strong> kemudian ditarik ke <strong>KNIME Analytics Platform</strong> menggunakan alur <strong>PostgreSQL Connector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Table Selector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Reader <span class="math notranslate nohighlight">\(\rightarrow\)</span> Statistics</strong> memudahkan proses eksplorasi statistik deskriptif secara terintegrasi.</p></li>
 </ol>
 <hr class="docutils" />
 <section id="eksplorasi-metrik-statistika-deskriptif-knime">
 <h2>🔬 Eksplorasi Metrik Statistika Deskriptif (KNIME)<a class="headerlink" href="#eksplorasi-metrik-statistika-deskriptif-knime" title="Link to this heading">#</a></h2>
-<p>Berikut adalah pembongkaran metrik statistik deskriptif dari data <span class="math notranslate nohighlight">\(NO_2\)</span> hasil olahan node <strong>Statistics</strong> KNIME beserta kalkulasi interaktif dan interpretasi lingkungan:</p>
+<p>Berikut merupakan penjelasan metrik statistik deskriptif dari data <span class="math notranslate nohighlight">\(NO_2\)</span> hasil pengolahan menggunakan node <strong>Statistics</strong> pada KNIME, beserta contoh kalkulasi dan interpretasinya.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Rangkuman Hasil KNIME</strong>:
-Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis memiliki sifat <em>right-skewed</em> (miring kanan) dengan tingkat keruncingan (<em>kurtosis</em>) leptokurtik yang tinggi, mengindikasikan adanya kejadian ekstrim konsentrasi polutan harian pada periode tertentu.</p>
-<div class="sd-tab-item docutils">
-<p class="sd-tab-label rubric">1. Tendensi Sentral (Mean &amp; Median)</p>
-<div class="sd-tab-content docutils">
-<h3 class="rubric" id="rata-rata-mean-vs-nilai-tengah-median">Rata-rata (Mean) vs Nilai Tengah (Median)</h3>
-<ul class="simple">
-<li><p><strong>Mean (<span class="math notranslate nohighlight">\(\bar{x}\)</span>)</strong>: Mengukur rata-rata aritmatika seluruh observasi harian.
-  $<span class="math notranslate nohighlight">\(\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}\)</span>$</p></li>
-<li><p><strong>Median (<span class="math notranslate nohighlight">\(\text{Med}\)</span>)</strong>: Nilai tengah yang membagi data terurut menjadi dua bagian sama besar (tahan terhadap pencilan).
-  $<span class="math notranslate nohighlight">\(\text{Median} = \begin{cases} x_{\left(\frac{n+1}{2}\right)} &amp; \text{jika } n \text{ ganjil} \\ \frac{x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2}+1\right)}}{2} &amp; \text{jika } n \text{ genap} \end{cases}\)</span>$</p></li>
-</ul>
-<div class="tip admonition">
-<p class="admonition-title">Contoh Kalkulasi</p>
-<p>Misal sampel 3 hari data <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(mol/m^2\)</span>): <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span></p>
-<ul class="simple">
-<li><p><strong>Mean</strong>: <span class="math notranslate nohighlight">\(\frac{0.000015 + 0.000032 + 0.000048}{3} = \mathbf{0.00003167}\)</span></p></li>
-<li><p><strong>Median</strong>: Nilai posisi ke-2 = <span class="math notranslate nohighlight">\(\mathbf{0.000032}\)</span></p></li>
-</ul>
-<h3 class="rubric" id="rentang-nilai-konsentrasi">Rentang Nilai Konsentrasi</h3>
-<ul class="simple">
-<li><p><strong>Minimum (<span class="math notranslate nohighlight">\(\text{Min}\)</span>)</strong>: Konsentrasi terendah harian, menggambarkan kondisi baseline kualitas udara saat bersih.
-  $<span class="math notranslate nohighlight">\(\text{Min} = \min(x_1, x_2, \dots, x_n)\)</span>$</p></li>
-<li><p><strong>Maximum (<span class="math notranslate nohighlight">\(\text{Max}\)</span>)</strong>: Konsentrasi puncak harian, menandakan titik tertinggi lonjakan polusi.
-  $<span class="math notranslate nohighlight">\(\text{Max} = \max(x_1, x_2, \dots, x_n)\)</span>$</p></li>
-</ul>
-<div class="warning admonition">
-<p class="admonition-title">Interpretasi Lingkungan</p>
-<p>Selisih antara <span class="math notranslate nohighlight">\(\text{Max}\)</span> (<span class="math notranslate nohighlight">\(0.000233\)</span>) dan <span class="math notranslate nohighlight">\(\text{Min}\)</span> (<span class="math notranslate nohighlight">\(0.000006\)</span>) menunjukkan rentang fluktuasi polusi yang tinggi, dipengaruhi oleh perubahan cuaca harian dan lonjakan aktivitas emisi lokal.</p>
-<h3 class="rubric" id="asimetri-dan-pencilan-outliers">Asimetri dan Pencilan (Outliers)</h3>
-<ul class="simple">
-<li><p><strong>Skewness</strong>: Ukuran kemiringan distribusi.
-  $<span class="math notranslate nohighlight">\(\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3\)</span>$</p></li>
-<li><p><strong>Kurtosis</strong>: Ukuran keruncingan puncak kurva distribusi.
-  $<span class="math notranslate nohighlight">\(\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)}\)</span>$</p></li>
-</ul>
-<div class="important admonition">
-<p class="admonition-title">Analisis Lanjutan</p>
-<ul class="simple">
-<li><p><strong>Skewness = 3.82 (<span class="math notranslate nohighlight">\(&gt; 0\)</span>)</strong>: Miring kanan (<em>Right-Skewed</em>). Menandakan mayoritas hari memiliki udara bersih/normal, namun terdapat hari-hari tertentu dengan lonjakan emisi polusi yang tinggi.</p></li>
-<li><p><strong>Kurtosis = 21.45 (<span class="math notranslate nohighlight">\(&gt; 3\)</span>)</strong>: Leptokurtik. Membuktikan adanya pencilan (<em>outliers</em>) ekstrim pada data harian <span class="math notranslate nohighlight">\(NO_2\)</span>.</p></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
+<p><strong>Rangkuman Hasil KNIME</strong></p>
+<p>Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis menunjukkan distribusi yang <strong>right-skewed</strong> atau miring ke kanan. Nilai skewness yang tinggi menunjukkan adanya beberapa observasi dengan konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang jauh lebih tinggi dibandingkan sebagian besar observasi lainnya.</p>
+<p>Distribusi tersebut menunjukkan bahwa sebagian besar pengamatan berada pada konsentrasi yang relatif rendah, sementara terdapat beberapa periode dengan konsentrasi yang lebih tinggi.</p>
 </div>
 </section>
 </section>
