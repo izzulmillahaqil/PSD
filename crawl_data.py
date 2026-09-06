@@ -10,7 +10,7 @@ os.makedirs("data/processed", exist_ok=True)
 # 2. Autentikasi openEO
 connection = openeo.connect("https://openeo.dataspace.copernicus.eu").authenticate_oidc()
 
-# 3. Read GeoJSON (path '../geojson/' karena terminal dijalankan dari folder 'materi')
+# 3. Read GeoJSON
 with open('../geojson/Wilayah.geojson') as f:
     geojson_data = json.load(f)
 
@@ -28,12 +28,28 @@ timeseries = datacube.aggregate_spatial(
     reducer="mean"
 )
 
-# 6. Eksekusi dan Simpan File
+# 6. Eksekusi dan Transformasi Format ke Vertikal (date, feature_index, NO2)
 results = timeseries.execute()
-df = pd.DataFrame(results)
+
+data_list = []
+for date_key, values in results.items():
+    # Ambil nilai NO2 dari list (jika None/kosong diisi None)
+    no2_val = values[0] if (values and values[0] is not None) else None
+    
+    # Format tanggal ISO ke 'YYYY-MM-DDTHH:MM:SS.000Z'
+    formatted_date = date_key.replace('Z', '.000Z') if not date_key.endswith('.000Z') else date_key
+    
+    data_list.append({
+        "date": formatted_date,
+        "feature_index": 0,
+        "NO2": no2_val
+    })
+
+# Buat DataFrame vertikal
+df_clean = pd.DataFrame(data_list)
 
 # Simpan ke folder raw dan processed
-df.to_csv("data/raw/no2_raw.csv", index=False)
-df.to_csv("data/processed/data_polutan_no2_clean.csv", index=False)
+df_clean.to_csv("data/raw/no2_raw.csv", index=False)
+df_clean.to_csv("data/processed/data_polutan_no2_clean.csv", index=False)
 
-print("Crawling selesai! Data berhasil disimpan di folder data/processed/data_polutan_no2_clean.csv")
+print("Crawling selesai! Data berhasil disimpan dengan format vertikal di data/processed/data_polutan_no2_clean.csv")
