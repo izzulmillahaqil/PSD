@@ -359,7 +359,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -375,6 +377,25 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-statistik-deskriptif-knime-node-statistics">📊 Analisis Statistik Deskriptif (KNIME Node Statistics)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fitur-rumus-dan-contoh-perhitungan">🧮 Penjelasan Fitur, Rumus, dan Contoh Perhitungan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-text-min">1. Minimum (<span class="math notranslate nohighlight">\(\text{Min}\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-text-max">2. Maximum (<span class="math notranslate nohighlight">\(\text{Max}\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-bar-x-rata-rata">3. Mean (<span class="math notranslate nohighlight">\(\bar{x}\)</span>) — Rata-Rata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#median-nilai-tengah">4. Median — Nilai Tengah</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-deviation-s-simpangan-baku">5. Standard Deviation (<span class="math notranslate nohighlight">\(s\)</span>) — Simpangan Baku</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-s-2-varians">6. Variance (<span class="math notranslate nohighlight">\(s^2\)</span>) — Varians</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skewness-kemiringan-distribusi">7. Skewness — Kemiringan Distribusi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-keruncingan-kurva">8. Kurtosis — Keruncingan Kurva</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -386,12 +407,167 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="kesimpulan">
 <h1>5. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h1>
-<p>Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem <strong>openEO</strong>:</p>
+<p>Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem <strong>openEO</strong>, penyimpanannya pada cloud database, hingga analisis statistik menggunakan <strong>KNIME Analytics Platform</strong>:</p>
 <ol class="arabic simple">
 <li><p>Ekstraksi data berbasis <strong>GeoJSON</strong> terbukti efisien dalam mengisolasi titik koordinat wilayah observasi spesifik tanpa perlu mengunduh keseluruhan <em>tile</em> satelit.</p></li>
 <li><p>Analisis <em>time-series</em> dari September 2025 hingga Agustus 2026 memperlihatkan pola konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang dinamis, dengan pengaruh signifikan dari cuaca harian dan tingkat mobilitas wilayah.</p></li>
 <li><p>Pembersihan data (<em>interpolation</em>) krusial dilakukan untuk menangani <em>missing values</em> akibat tutupan awan tebal pada data penginderaan jauh.</p></li>
+<li><p>Integrasi pipeline data dari <strong>Python</strong> ke <strong>PostgreSQL Aiven (Cloud Database)</strong> dan ditarik ke <strong>KNIME Analytics Platform</strong> (menggunakan alur <em>PostgreSQL Connector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Table Selector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Reader <span class="math notranslate nohighlight">\(\rightarrow\)</span> Statistics</em>) memudahkan proses eksplorasi statistik deskriptif secara terintegrasi.</p></li>
 </ol>
+<hr class="docutils" />
+<section id="analisis-statistik-deskriptif-knime-node-statistics">
+<h2>📊 Analisis Statistik Deskriptif (KNIME Node Statistics)<a class="headerlink" href="#analisis-statistik-deskriptif-knime-node-statistics" title="Link to this heading">#</a></h2>
+<p>Berikut adalah rangkuman nilai statistik deskriptif dari data <em>time-series</em> konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(mol/m^2\)</span>) hasil olahan node <strong>Statistics</strong> di KNIME:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Metrik Statistics</p></th>
+<th class="head text-left"><p>Nilai</p></th>
+<th class="head text-left"><p>Keterangan Singkat</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Minimum</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000006</span></code></p></td>
+<td class="text-left"><p>Konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> terendah harian</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Maximum</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000233</span></code></p></td>
+<td class="text-left"><p>Konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> tertinggi harian</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Mean</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000039</span></code></p></td>
+<td class="text-left"><p>Rata-rata konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Median</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000037</span></code></p></td>
+<td class="text-left"><p>Nilai tengah data <span class="math notranslate nohighlight">\(NO_2\)</span> terurut</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Std. Deviation</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000022</span></code></p></td>
+<td class="text-left"><p>Simpangan baku sebaran data</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Variance</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.84e-10</span></code></p></td>
+<td class="text-left"><p>Varians dari nilai data</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Skewness</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.82</span></code></p></td>
+<td class="text-left"><p>Distribusi miring positif (<em>right-skewed</em>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Kurtosis</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">21.45</span></code></p></td>
+<td class="text-left"><p>Leptokurtik (terdapat pencilan/lonjakan ekstrim)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="penjelasan-fitur-rumus-dan-contoh-perhitungan">
+<h2>🧮 Penjelasan Fitur, Rumus, dan Contoh Perhitungan<a class="headerlink" href="#penjelasan-fitur-rumus-dan-contoh-perhitungan" title="Link to this heading">#</a></h2>
+<p>Berikut adalah penjelasan setiap fitur metrik statistik pada node <strong>Statistics</strong> KNIME, beserta rumus matematika dan contoh perhitungannya:</p>
+<section id="minimum-text-min">
+<h3>1. Minimum (<span class="math notranslate nohighlight">\(\text{Min}\)</span>)<a class="headerlink" href="#minimum-text-min" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Nilai konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> paling rendah/minimum yang tercatat dalam rentang pengamatan.</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(\text{Min} = \min(x_1, x_2, \dots, x_n)\)</span>$</p></li>
+<li><p><strong>Contoh Hitung</strong>:<br />
+Diberikan 3 sampel data <span class="math notranslate nohighlight">\(NO_2\)</span>: <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span>
+$<span class="math notranslate nohighlight">\(\text{Min} = 0.000015\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="maximum-text-max">
+<h3>2. Maximum (<span class="math notranslate nohighlight">\(\text{Max}\)</span>)<a class="headerlink" href="#maximum-text-max" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Nilai konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> paling tinggi/maksimum (puncak lonjakan polusi).</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(\text{Max} = \max(x_1, x_2, \dots, x_n)\)</span>$</p></li>
+<li><p><strong>Contoh Hitung</strong>:<br />
+Dari sampel data <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span>
+$<span class="math notranslate nohighlight">\(\text{Max} = 0.000048\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="mean-bar-x-rata-rata">
+<h3>3. Mean (<span class="math notranslate nohighlight">\(\bar{x}\)</span>) — Rata-Rata<a class="headerlink" href="#mean-bar-x-rata-rata" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Rata-rata hitung nilai konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> dari seluruh periode observasi.</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}\)</span>$</p></li>
+<li><p><strong>Contoh Hitung</strong>:<br />
+Dari sampel data <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> dengan jumlah sampel <span class="math notranslate nohighlight">\(n = 3\)</span>:
+$<span class="math notranslate nohighlight">\(\bar{x} = \frac{0.000015 + 0.000032 + 0.000048}{3} = \frac{0.000095}{3} = 0.00003167\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="median-nilai-tengah">
+<h3>4. Median — Nilai Tengah<a class="headerlink" href="#median-nilai-tengah" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Nilai tengah data setelah seluruh sampel diurutkan dari terkecil ke terbesar. Metrik ini tahan terhadap pencilan (<em>outliers</em>).</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(\text{Median} = \text{Data ke-} \left(\frac{n + 1}{2}\right) \quad (\text{untuk } n \text{ ganjil})\)</span>$</p></li>
+<li><p><strong>Contoh Hitung</strong>:<br />
+Data terurut <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> (<span class="math notranslate nohighlight">\(n=3\)</span>):
+$<span class="math notranslate nohighlight">\(\text{Median} = \text{Data ke-}2 = 0.000032\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="standard-deviation-s-simpangan-baku">
+<h3>5. Standard Deviation (<span class="math notranslate nohighlight">\(s\)</span>) — Simpangan Baku<a class="headerlink" href="#standard-deviation-s-simpangan-baku" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Mengukur seberapa besar penyimpangan nilai data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian terhadap nilai rata-ratanya (<span class="math notranslate nohighlight">\(\bar{x}\)</span>).</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}}\)</span>$</p></li>
+<li><p><strong>Contoh Hitung</strong>:<br />
+Dengan <span class="math notranslate nohighlight">\(\bar{x} = 0.00003167\)</span> dan <span class="math notranslate nohighlight">\(n=3\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Selisih kuadrat tiap nilai terhadap <span class="math notranslate nohighlight">\(\bar{x}\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\((0.000015 - 0.00003167)^2 = 2.779 \times 10^{-10}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((0.000032 - 0.00003167)^2 = 1.089 \times 10^{-13}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((0.000048 - 0.00003167)^2 = 2.666 \times 10^{-10}\)</span></p></li>
+</ul>
+</li>
+<li><p>Jumlah selisih kuadrat <span class="math notranslate nohighlight">\(= 5.446 \times 10^{-10}\)</span></p></li>
+<li><p>Bagi dengan <span class="math notranslate nohighlight">\((n - 1) = 2 \rightarrow 2.723 \times 10^{-10}\)</span></p></li>
+<li><p>Akarkan hasilnya: <span class="math notranslate nohighlight">\(s = \sqrt{2.723 \times 10^{-10}} \approx 0.0000165\)</span></p></li>
+</ol>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="variance-s-2-varians">
+<h3>6. Variance (<span class="math notranslate nohighlight">\(s^2\)</span>) — Varians<a class="headerlink" href="#variance-s-2-varians" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Kuadrat dari simpangan baku, menggambarkan sejauh mana nilai-nilai observasi menyebar dari rata-ratanya.</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}\)</span>$</p></li>
+<li><p><strong>Contoh Hitung</strong>:<br />
+Dari nilai <span class="math notranslate nohighlight">\(s = 0.0000165\)</span>:
+$<span class="math notranslate nohighlight">\(s^2 = (0.0000165)^2 \approx 2.72 \times 10^{-10}\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="skewness-kemiringan-distribusi">
+<h3>7. Skewness — Kemiringan Distribusi<a class="headerlink" href="#skewness-kemiringan-distribusi" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Mengukur ketidaksimetrisan kurva distribusi data. Nilai positif (<span class="math notranslate nohighlight">\(&gt;0\)</span>) menunjukkan bahwa mayoritas konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> berada pada nilai rendah, namun terdapat beberapa kejadian lonjakan konsentrasi ekstrim (<em>right-skewed</em>).</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="kurtosis-keruncingan-kurva">
+<h3>8. Kurtosis — Keruncingan Kurva<a class="headerlink" href="#kurtosis-keruncingan-kurva" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Penjelasan</strong>: Mengukur derajat keruncingan puncak kurva distribusi. Nilai kurtosis yang tinggi menandakan keberadaan pencilan (<em>outliers</em>) ekstrim pada data harian <span class="math notranslate nohighlight">\(NO_2\)</span>.</p></li>
+<li><p><strong>Rumus</strong>:
+$<span class="math notranslate nohighlight">\(\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)}\)</span>$</p></li>
+</ul>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -439,6 +615,32 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-statistik-deskriptif-knime-node-statistics">📊 Analisis Statistik Deskriptif (KNIME Node Statistics)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fitur-rumus-dan-contoh-perhitungan">🧮 Penjelasan Fitur, Rumus, dan Contoh Perhitungan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-text-min">1. Minimum (<span class="math notranslate nohighlight">\(\text{Min}\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-text-max">2. Maximum (<span class="math notranslate nohighlight">\(\text{Max}\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-bar-x-rata-rata">3. Mean (<span class="math notranslate nohighlight">\(\bar{x}\)</span>) — Rata-Rata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#median-nilai-tengah">4. Median — Nilai Tengah</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-deviation-s-simpangan-baku">5. Standard Deviation (<span class="math notranslate nohighlight">\(s\)</span>) — Simpangan Baku</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-s-2-varians">6. Variance (<span class="math notranslate nohighlight">\(s^2\)</span>) — Varians</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skewness-kemiringan-distribusi">7. Skewness — Kemiringan Distribusi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-keruncingan-kurva">8. Kurtosis — Keruncingan Kurva</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
