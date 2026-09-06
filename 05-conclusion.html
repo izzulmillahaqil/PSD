@@ -382,7 +382,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembongkaran-metrik-statistika-deskriptif">🔬 Pembongkaran Metrik Statistika Deskriptif</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembongkaran-metrik-statistika-deskriptif">Pembongkaran Metrik Statistika Deskriptif</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#min-minimum">1. Min (Minimum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-maximum">2. Max (Maximum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-rata-rata-aritmatika">3. Mean (Rata-Rata Aritmatika)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#median-nilai-tengah">4. Median (Nilai Tengah)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-deviation-simpangan-baku">5. Standard Deviation (Simpangan Baku)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-varians">6. Variance (Varians)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skewness-kemiringan-distribusi">7. Skewness (Kemiringan Distribusi)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-keruncingan-kurva">8. Kurtosis (Keruncingan Kurva)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -405,83 +415,193 @@ document.write(`
 </ol>
 <hr class="docutils" />
 <section id="pembongkaran-metrik-statistika-deskriptif">
-<h2>🔬 Pembongkaran Metrik Statistika Deskriptif<a class="headerlink" href="#pembongkaran-metrik-statistika-deskriptif" title="Link to this heading">#</a></h2>
+<h2>Pembongkaran Metrik Statistika Deskriptif<a class="headerlink" href="#pembongkaran-metrik-statistika-deskriptif" title="Link to this heading">#</a></h2>
 <p>Berikut merupakan penjelasan detail setiap metrik statistik deskriptif dari data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> hasil pengolahan node <strong>Statistics</strong> pada KNIME, lengkap dengan rumus matematika, kalkulasi, dan interpretasinya.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Ringkasan Hasil Evaluasi KNIME</strong>:
-Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis menunjukkan bentuk distribusi <strong>right-skewed</strong> (miring kanan) serta nilai kurtosis bertipe <strong>leptokurtik</strong>. Hal ini menandakan bahwa pada sebagian besar hari, konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> berada pada tingkat normal/rendah, namun terdapat beberapa periode harian yang mengalami lonjakan konsentrasi polutan secara signifikan.```</p>
-<h3 class="rubric" id="min-minimum">1. Min (Minimum)</h3>
+<p><strong>Ringkasan Hasil Evaluasi KNIME</strong>:</p>
+<p>Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis menunjukkan bentuk distribusi <strong>right-skewed</strong> (miring kanan) serta nilai kurtosis bertipe <strong>leptokurtik</strong>. Hal ini menandakan bahwa pada sebagian besar hari, konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> berada pada tingkat normal/rendah, namun terdapat beberapa periode harian yang mengalami lonjakan konsentrasi polutan secara signifikan.</p>
+</div>
+<section id="min-minimum">
+<h3>1. Min (Minimum)<a class="headerlink" href="#min-minimum" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Nilai terkecil dari seluruh observasi konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian pada wilayah pengamatan.</p></li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(\text{Min} = \min(x_1, x_2, \dots, x_n))</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Min} = \min(x_1, x_2, \dots, x_n)
+  \]</div>
 </li>
 <li><p><strong>Contoh Kalkulasi</strong>:</p>
-<p>Diberikan 3 sampel data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(mol/m^2\)</span>): <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span></p>
-<p>(\text{Min} = 0.000015)</p>
+<p>Diberikan 3 sampel data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(mol/m^2\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+  [0.000015, 0.000032, 0.000048]
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  \text{Min} = 0.000015
+  \]</div>
 </li>
 </ul>
-<h3 class="rubric" id="max-maximum">2. Max (Maximum)</h3>
+</section>
+<section id="max-maximum">
+<h3>2. Max (Maximum)<a class="headerlink" href="#max-maximum" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Nilai puncak/tertinggi dari konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang tercatat selama rentang waktu observasi.</p></li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(\text{Max} = \max(x_1, x_2, \dots, x_n))</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Max} = \max(x_1, x_2, \dots, x_n)
+  \]</div>
 </li>
 <li><p><strong>Contoh Kalkulasi</strong>:</p>
-<p>Dari sampel data <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span></p>
-<p>(\text{Max} = 0.000048)</p>
+<p>Dari sampel data:</p>
+<div class="math notranslate nohighlight">
+\[
+  [0.000015, 0.000032, 0.000048]
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  \text{Max} = 0.000048
+  \]</div>
 </li>
 </ul>
-<h3 class="rubric" id="mean-rata-rata-aritmatika">3. Mean (Rata-Rata Aritmatika)</h3>
+</section>
+<section id="mean-rata-rata-aritmatika">
+<h3>3. Mean (Rata-Rata Aritmatika)<a class="headerlink" href="#mean-rata-rata-aritmatika" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Nilai rata-rata hitung konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian yang memberikan gambaran umum kondisi kualitas udara secara keseluruhan.</p></li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n})</p>
+<div class="math notranslate nohighlight">
+\[
+  \bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}
+  \]</div>
 </li>
 <li><p><strong>Contoh Kalkulasi</strong>:</p>
 <p>Dari sampel data <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> dengan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
-<p>(\bar{x} = \frac{0.000015 + 0.000032 + 0.000048}{3} = 0.00003167)</p>
+<div class="math notranslate nohighlight">
+\[
+  \bar{x}
+  =
+  \frac{0.000015 + 0.000032 + 0.000048}{3}
+  =
+  0.00003167
+  \]</div>
 </li>
 </ul>
-<h3 class="rubric" id="median-nilai-tengah">4. Median (Nilai Tengah)</h3>
+</section>
+<section id="median-nilai-tengah">
+<h3>4. Median (Nilai Tengah)<a class="headerlink" href="#median-nilai-tengah" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Nilai yang berada tepat di tengah-tengah set data setelah diurutkan. Metrik ini sangat andal karena tidak terpengaruh oleh pencilan (<em>outliers</em>).</p></li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(\text{Median} = \text{Data ke-} \left(\frac{n + 1}{2}\right) \quad (\text{untuk } n \text{ ganjil}))</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Median}
+  =
+  \text{Data ke-}
+  \left(
+  \frac{n + 1}{2}
+  \right)
+  \quad
+  (\text{untuk } n \text{ ganjil})
+  \]</div>
 </li>
 <li><p><strong>Contoh Kalkulasi</strong>:</p>
-<p>Data terurut <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> (<span class="math notranslate nohighlight">\(n = 3\)</span>):</p>
-<p>(\text{Median} = 0.000032)</p>
+<p>Data terurut <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> dengan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Median} = 0.000032
+  \]</div>
 </li>
 </ul>
-<h3 class="rubric" id="standard-deviation-simpangan-baku">5. Standard Deviation (Simpangan Baku)</h3>
+</section>
+<section id="standard-deviation-simpangan-baku">
+<h3>5. Standard Deviation (Simpangan Baku)<a class="headerlink" href="#standard-deviation-simpangan-baku" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Ukuran standar seberapa jauh nilai-nilai konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian menyimpang atau tersebar dari nilai rata-ratanya.</p></li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}})</p>
+<div class="math notranslate nohighlight">
+\[
+  s =
+  \sqrt{
+  \frac{
+  \sum_{i=1}^{n}(x_i-\bar{x})^2
+  }{
+  n-1
+  }
+  }
+  \]</div>
 </li>
 <li><p><strong>Contoh Kalkulasi</strong>:</p>
 <p>Dengan <span class="math notranslate nohighlight">\(\bar{x} = 0.00003167\)</span> dan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
-<ol class="arabic simple">
-<li><p>Hitung selisih kuadrat: <span class="math notranslate nohighlight">\((0.000015 - \bar{x})^2 + (0.000032 - \bar{x})^2 + (0.000048 - \bar{x})^2 = 5.446 \times 10^{-10}\)</span></p></li>
-<li><p>Bagi dengan <span class="math notranslate nohighlight">\((n - 1) = 2 \rightarrow 2.723 \times 10^{-10}\)</span></p></li>
-<li><p>Akarkan nilainya: <span class="math notranslate nohighlight">\(s = \sqrt{2.723 \times 10^{-10}} \approx 0.0000165\)</span></p></li>
+<ol class="arabic">
+<li><p>Hitung selisih kuadrat:</p>
+<div class="math notranslate nohighlight">
+\[
+     (0.000015-\bar{x})^2
+     +
+     (0.000032-\bar{x})^2
+     +
+     (0.000048-\bar{x})^2
+     =
+     5.446 \times 10^{-10}
+     \]</div>
+</li>
+<li><p>Bagi dengan <span class="math notranslate nohighlight">\((n-1)=2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+     \frac{5.446 \times 10^{-10}}{2}
+     =
+     2.723 \times 10^{-10}
+     \]</div>
+</li>
+<li><p>Akarkan nilainya:</p>
+<div class="math notranslate nohighlight">
+\[
+     s
+     =
+     \sqrt{2.723 \times 10^{-10}}
+     \approx
+     0.0000165
+     \]</div>
+</li>
 </ol>
 </li>
 </ul>
-<h3 class="rubric" id="variance-varians">6. Variance (Varians)</h3>
+</section>
+<section id="variance-varians">
+<h3>6. Variance (Varians)<a class="headerlink" href="#variance-varians" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Nilai kuadrat dari simpangan baku (<span class="math notranslate nohighlight">\(s^2\)</span>) yang menggambarkan besarnya variabilitas atau keragaman data <span class="math notranslate nohighlight">\(NO_2\)</span>.</p></li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1})</p>
+<div class="math notranslate nohighlight">
+\[
+  s^2
+  =
+  \frac{
+  \sum_{i=1}^{n}(x_i-\bar{x})^2
+  }{
+  n-1
+  }
+  \]</div>
 </li>
 <li><p><strong>Contoh Kalkulasi</strong>:</p>
 <p>Dari <span class="math notranslate nohighlight">\(s = 0.0000165\)</span>:</p>
-<p>(s^2 = (0.0000165)^2 = 2.723 \times 10^{-10})</p>
+<div class="math notranslate nohighlight">
+\[
+  s^2
+  =
+  (0.0000165)^2
+  =
+  2.723 \times 10^{-10}
+  \]</div>
 </li>
 </ul>
-<h3 class="rubric" id="skewness-kemiringan-distribusi">7. Skewness (Kemiringan Distribusi)</h3>
+</section>
+<section id="skewness-kemiringan-distribusi">
+<h3>7. Skewness (Kemiringan Distribusi)<a class="headerlink" href="#skewness-kemiringan-distribusi" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Mengukur derajat ketidaksimetrisan kurva distribusi data.</p>
 <ul class="simple">
@@ -489,21 +609,53 @@ Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis 
 </ul>
 </li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3)</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Skewness}
+  =
+  \frac{n}{(n-1)(n-2)}
+  \sum_{i=1}^{n}
+  \left(
+  \frac{x_i-\bar{x}}{s}
+  \right)^3
+  \]</div>
 </li>
 </ul>
-<h3 class="rubric" id="kurtosis-keruncingan-kurva">8. Kurtosis (Keruncingan Kurva)</h3>
+</section>
+<section id="kurtosis-keruncingan-kurva">
+<h3>8. Kurtosis (Keruncingan Kurva)<a class="headerlink" href="#kurtosis-keruncingan-kurva" title="Link to this heading">#</a></h3>
 <ul>
 <li><p><strong>Penjelasan</strong>: Mengukur tingkat keruncingan puncak distribusi data dibandingkan dengan distribusi normal.</p>
 <ul class="simple">
-<li><p><strong>Analisis Data (<span class="math notranslate nohighlight">\(NO_2\)</span>)</strong>: Nilai Kurtosis <span class="math notranslate nohighlight">\(= 21.45\)</span> (<span class="math notranslate nohighlight">\(&gt; 3\)</span>), tergolong <em>leptokurtik</em>. Hal ini membuktikan adanya ekor distribusi yang tebal akibat keberadaan nilai-nilai ekstrim (<em>outliers</em>) pada hari tertentu.</p></li>
+<li><p><strong>Analisis Data (<span class="math notranslate nohighlight">\(NO_2\)</span>)</strong>: Nilai Kurtosis <span class="math notranslate nohighlight">\(= 21.45\)</span> (<span class="math notranslate nohighlight">\(&gt; 3\)</span>), tergolong <em>leptokurtik</em>. Hal ini menunjukkan adanya ekor distribusi yang tebal akibat keberadaan nilai-nilai ekstrem (<em>outliers</em>) pada hari tertentu.</p></li>
 </ul>
 </li>
 <li><p><strong>Rumus</strong>:</p>
-<p>(\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)})</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Kurtosis}
+  =
+  \left[
+  \frac{
+  n(n+1)
+  }{
+  (n-1)(n-2)(n-3)
+  }
+  \sum_{i=1}^{n}
+  \left(
+  \frac{x_i-\bar{x}}{s}
+  \right)^4
+  \right]
+  -
+  \frac{
+  3(n-1)^2
+  }{
+  (n-2)(n-3)
+  }
+  \]</div>
 </li>
 </ul>
-</div>
+</section>
 </section>
 </section>
 
@@ -562,7 +714,17 @@ Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembongkaran-metrik-statistika-deskriptif">🔬 Pembongkaran Metrik Statistika Deskriptif</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembongkaran-metrik-statistika-deskriptif">Pembongkaran Metrik Statistika Deskriptif</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#min-minimum">1. Min (Minimum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-maximum">2. Max (Maximum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-rata-rata-aritmatika">3. Mean (Rata-Rata Aritmatika)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#median-nilai-tengah">4. Median (Nilai Tengah)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-deviation-simpangan-baku">5. Standard Deviation (Simpangan Baku)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-varians">6. Variance (Varians)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skewness-kemiringan-distribusi">7. Skewness (Kemiringan Distribusi)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-keruncingan-kurva">8. Kurtosis (Keruncingan Kurva)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
