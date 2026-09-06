@@ -385,7 +385,16 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konfigurasi-parameter-tiap-node">3.3 Konfigurasi Parameter Tiap Node</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-node-postgresql-connector">A. Node <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span> <span class="pre">Connector</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-node-db-table-selector">B. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Table</span> <span class="pre">Selector</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-node-db-reader">C. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Reader</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#d-node-statistics">D. Node <code class="docutils literal notranslate"><span class="pre">Statistics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -439,8 +448,104 @@ document.write(`
 <span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;no2_time_series&#39;</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data time series berhasil di-upload ke PostgreSQL Aiven!&quot;</span><span class="p">)</span>
+
+
+<span class="c1">## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME</span>
+
+<span class="n">Beralih</span> <span class="n">menuju</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Analytics</span> <span class="n">Platform</span><span class="o">**</span> <span class="n">guna</span> <span class="n">menarik</span> <span class="n">data</span> <span class="n">dari</span> <span class="n">cloud</span> <span class="n">database</span> <span class="n">Aiven</span> <span class="n">dan</span> <span class="n">mengekstraksi</span> <span class="n">metrik</span> <span class="n">statistika</span> <span class="n">deskriptif</span> <span class="n">secara</span> <span class="n">otomatis</span><span class="o">.</span>
+
+<span class="o">---</span>
+
+<span class="c1">### 3.1 Inisialisasi Workflow Baru</span>
+<span class="mf">1.</span> <span class="n">Buka</span> <span class="n">aplikasi</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Analytics</span> <span class="n">Platform</span><span class="o">**.</span>
+<span class="mf">2.</span> <span class="n">Pada</span> <span class="n">panel</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Explorer</span><span class="o">**</span> <span class="p">(</span><span class="n">sebelah</span> <span class="n">kiri</span><span class="p">),</span> <span class="n">klik</span> <span class="n">kanan</span> <span class="n">pada</span> <span class="n">workspace</span> <span class="n">aktif</span> <span class="err">$</span>\<span class="n">rightarrow</span><span class="err">$</span> <span class="n">pilih</span> <span class="o">**</span><span class="n">New</span> <span class="n">KNIME</span> <span class="n">Workflow</span><span class="o">**.</span>
+<span class="mf">3.</span> <span class="n">Beri</span> <span class="n">nama</span> <span class="n">workflow</span><span class="p">:</span> <span class="err">`</span><span class="n">PSD_Aiven_KNIME_Pipeline</span><span class="err">`</span> <span class="err">$</span>\<span class="n">rightarrow</span><span class="err">$</span> <span class="n">klik</span> <span class="o">**</span><span class="n">Finish</span><span class="o">**.</span>
+
+<span class="o">---</span>
+
+<span class="c1">### 3.2 Menambahkan &amp; Menghubungkan Node Repository</span>
+<span class="n">Cari</span> <span class="n">node</span> <span class="n">berikut</span> <span class="n">pada</span> <span class="n">panel</span> <span class="o">**</span><span class="n">Node</span> <span class="n">Repository</span><span class="o">**</span> <span class="p">(</span><span class="n">sebelah</span> <span class="n">kiri</span><span class="p">),</span> <span class="n">lalu</span> <span class="o">*</span><span class="n">drag</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">drop</span><span class="o">*</span> <span class="n">ke</span> <span class="n">dalam</span> <span class="n">lembar</span> <span class="n">kerja</span> <span class="p">(</span><span class="o">*</span><span class="n">workspace</span><span class="o">*</span><span class="p">):</span>
+
+<span class="mf">1.</span> <span class="o">**</span><span class="n">PostgreSQL</span> <span class="n">Connector</span><span class="o">**</span>  
+   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Membuka</span> <span class="n">alur</span> <span class="n">koneksi</span> <span class="n">database</span> <span class="n">JDBC</span> <span class="n">dari</span> <span class="n">KNIME</span> <span class="n">ke</span> <span class="n">server</span> <span class="n">cloud</span> <span class="n">Aiven</span><span class="o">.</span>
+<span class="mf">2.</span> <span class="o">**</span><span class="n">DB</span> <span class="n">Table</span> <span class="n">Selector</span><span class="o">**</span>  
+   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Memilih</span> <span class="n">skema</span> <span class="n">dan</span> <span class="n">nama</span> <span class="n">tabel</span> <span class="n">spesifik</span> <span class="n">yang</span> <span class="n">tersimpan</span> <span class="n">di</span> <span class="n">dalam</span> <span class="n">database</span> <span class="n">PostgreSQL</span><span class="o">.</span>
+<span class="mf">3.</span> <span class="o">**</span><span class="n">DB</span> <span class="n">Reader</span><span class="o">**</span>  
+   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Mengirimkan</span> <span class="n">query</span> <span class="n">SQL</span> <span class="n">dan</span> <span class="n">membaca</span><span class="o">/</span><span class="n">memuat</span> <span class="n">isi</span> <span class="n">data</span> <span class="n">tabel</span> <span class="n">dari</span> <span class="n">server</span> <span class="n">cloud</span> <span class="n">ke</span> <span class="n">dalam</span> <span class="n">memori</span> <span class="n">kerja</span> <span class="n">KNIME</span> <span class="n">lokal</span><span class="o">.</span>
+<span class="mf">4.</span> <span class="o">**</span><span class="n">Statistics</span><span class="o">**</span>  
+   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Menghitung</span> <span class="n">ringkasan</span> <span class="n">statistik</span> <span class="n">deskriptif</span> <span class="p">(</span><span class="n">Min</span><span class="p">,</span> <span class="n">Max</span><span class="p">,</span> <span class="n">Mean</span><span class="p">,</span> <span class="n">Median</span><span class="p">,</span> <span class="n">Std</span> <span class="n">Dev</span><span class="p">,</span> <span class="n">Skewness</span><span class="p">,</span> <span class="n">Kurtosis</span><span class="p">)</span> <span class="n">secara</span> <span class="n">otomatis</span> <span class="n">dari</span> <span class="n">kolom</span> <span class="n">numerik</span><span class="o">.</span>
+
+<span class="c1">#### Alur Hubungan Antar Node (Data Pipeline):</span>
+<span class="n">Sambungkan</span> <span class="n">port</span> <span class="n">koneksi</span> <span class="p">(</span><span class="n">segitiga</span> <span class="n">di</span> <span class="n">tepi</span> <span class="n">node</span><span class="p">)</span> <span class="n">dari</span> <span class="n">kiri</span> <span class="n">ke</span> <span class="n">kanan</span> <span class="n">dengan</span> <span class="n">urutan</span><span class="p">:</span>
 </pre></div>
 </div>
+<hr class="docutils" />
+<section id="konfigurasi-parameter-tiap-node">
+<h3>3.3 Konfigurasi Parameter Tiap Node<a class="headerlink" href="#konfigurasi-parameter-tiap-node" title="Link to this heading">#</a></h3>
+<section id="a-node-postgresql-connector">
+<h4>A. Node <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span> <span class="pre">Connector</span></code><a class="headerlink" href="#a-node-postgresql-connector" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Double-click pada node <strong>PostgreSQL Connector</strong>.</p></li>
+<li><p>Pada tab <strong>Main Properties</strong>, atur parameter berikut:</p>
+<ul class="simple">
+<li><p><strong>Hostname</strong>: <code class="docutils literal notranslate"><span class="pre">pg-3aba66e5-izzulmillahaqil.e.aivencloud.com</span></code></p></li>
+<li><p><strong>Database name</strong>: <code class="docutils literal notranslate"><span class="pre">defaultdb</span></code></p></li>
+<li><p><strong>Port</strong>: <code class="docutils literal notranslate"><span class="pre">21121</span></code></p></li>
+<li><p><strong>Authentication</strong>: Pilih <code class="docutils literal notranslate"><span class="pre">User</span> <span class="pre">&amp;</span> <span class="pre">Password</span></code></p></li>
+<li><p><strong>Username</strong>: <code class="docutils literal notranslate"><span class="pre">avnadmin</span></code></p></li>
+<li><p><strong>Password</strong>: <em>(Masukkan password rahasia PostgreSQL Aiven milikmu)</em></p></li>
+</ul>
+</li>
+<li><p>Pilih menu <strong>JDBC Parameters</strong> <span class="math notranslate nohighlight">\(\rightarrow\)</span> klik <strong>Set &gt;</strong> / <strong>Add Parameter</strong>:</p>
+<ul class="simple">
+<li><p><strong>Property name</strong>: <code class="docutils literal notranslate"><span class="pre">sslmode</span></code></p></li>
+<li><p><strong>Value</strong>: <code class="docutils literal notranslate"><span class="pre">require</span></code></p></li>
+</ul>
+</li>
+<li><p>Klik <strong>Apply</strong> <span class="math notranslate nohighlight">\(\rightarrow\)</span> <strong>Apply and Execute</strong>.<br />
+<em>(Indikator di bawah node akan berubah menjadi <strong>HIJAU</strong>)</em>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="b-node-db-table-selector">
+<h4>B. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Table</span> <span class="pre">Selector</span></code><a class="headerlink" href="#b-node-db-table-selector" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Double-click pada node <strong>DB Table Selector</strong>.</p></li>
+<li><p>Pada bagian <strong>Database Outline</strong> / <strong>Schema</strong>:</p>
+<ul class="simple">
+<li><p>Pilih skema: <strong><code class="docutils literal notranslate"><span class="pre">public</span></code></strong></p></li>
+<li><p>Pilih tabel: <strong><code class="docutils literal notranslate"><span class="pre">no2_time_series</span></code></strong></p></li>
+</ul>
+</li>
+<li><p>Klik <strong>Apply and Execute</strong>.<br />
+<em>(Indikator di bawah node berubah menjadi <strong>HIJAU</strong>)</em>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="c-node-db-reader">
+<h4>C. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Reader</span></code><a class="headerlink" href="#c-node-db-reader" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Klik kanan pada node <strong>DB Reader</strong>.</p></li>
+<li><p>Pilih <strong>Execute</strong>.<br />
+<em>KNIME akan menarik seluruh baris data <span class="math notranslate nohighlight">\(NO_2\)</span> dari Aiven Cloud.</em><br />
+<em>(Indikator di bawah node berubah menjadi <strong>HIJAU</strong>)</em>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="d-node-statistics">
+<h4>D. Node <code class="docutils literal notranslate"><span class="pre">Statistics</span></code><a class="headerlink" href="#d-node-statistics" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Double-click pada node <strong>Statistics</strong>.</p></li>
+<li><p>Pada panel konfigurasi sebelah kanan:</p>
+<ul class="simple">
+<li><p><strong>Numeric Values</strong>: Pindahkan kolom <strong><code class="docutils literal notranslate"><span class="pre">NO2</span></code></strong> ke dalam kotak <strong>Include</strong> (sebelah kanan).</p></li>
+<li><p><strong>Option Median</strong>: Centang opsi <code class="docutils literal notranslate"><span class="pre">Calculate</span> <span class="pre">median</span> <span class="pre">values</span> <span class="pre">(computationally</span> <span class="pre">expensive)</span></code> pada bagian atas untuk menghitung nilai tengah (Median).</p></li>
+</ul>
+</li>
+<li><p>Klik <strong>Apply and Execute</strong>.</p></li>
+</ol>
+</section>
+</section>
 </section>
 </section>
 
@@ -509,7 +614,16 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konfigurasi-parameter-tiap-node">3.3 Konfigurasi Parameter Tiap Node</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-node-postgresql-connector">A. Node <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span> <span class="pre">Connector</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-node-db-table-selector">B. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Table</span> <span class="pre">Selector</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-node-db-reader">C. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Reader</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#d-node-statistics">D. Node <code class="docutils literal notranslate"><span class="pre">Statistics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
