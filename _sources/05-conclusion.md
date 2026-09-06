@@ -9,20 +9,50 @@ Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem **openEO**, pen
 
 ---
 
-##  Analisis Statistik Deskriptif (KNIME Node Statistics)
+## 🔬 Eksplorasi Metrik Statistika Deskriptif (KNIME)
 
-Berikut adalah rangkuman nilai statistik deskriptif dari data *time-series* konsentrasi $NO_2$ ($mol/m^2$) hasil olahan node **Statistics** di KNIME:
+Berikut adalah pembongkaran metrik statistik deskriptif dari data $NO_2$ hasil olahan node **Statistics** KNIME beserta kalkulasi interaktif dan interpretasi lingkungan:
 
-| Metrik Statistics | Nilai | Keterangan Singkat |
-| :--- | :--- | :--- |
-| **Minimum** | `0.000006` | Konsentrasi $NO_2$ terendah harian |
-| **Maximum** | `0.000233` | Konsentrasi $NO_2$ tertinggi harian |
-| **Mean** | `0.000039` | Rata-rata konsentrasi $NO_2$ harian |
-| **Median** | `0.000037` | Nilai tengah data $NO_2$ terurut |
-| **Std. Deviation** | `0.000022` | Simpangan baku sebaran data |
-| **Variance** | `4.84e-10` | Varians dari nilai data |
-| **Skewness** | `3.82` | Distribusi miring positif (*right-skewed*) |
-| **Kurtosis** | `21.45` | Leptokurtik (terdapat pencilan/lonjakan ekstrim) |
+```{note}
+**Rangkuman Hasil KNIME**:
+Data $NO_2$ yang dianalisis memiliki sifat *right-skewed* (miring kanan) dengan tingkat keruncingan (*kurtosis*) leptokurtik yang tinggi, mengindikasikan adanya kejadian ekstrim konsentrasi polutan harian pada periode tertentu.
 
----
+```{tab-item} 1. Tendensi Sentral (Mean & Median)
+### Rata-rata (Mean) vs Nilai Tengah (Median)
 
+- **Mean ($\bar{x}$)**: Mengukur rata-rata aritmatika seluruh observasi harian.
+  $$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
+  
+- **Median ($\text{Med}$)**: Nilai tengah yang membagi data terurut menjadi dua bagian sama besar (tahan terhadap pencilan).
+  $$\text{Median} = \begin{cases} x_{\left(\frac{n+1}{2}\right)} & \text{jika } n \text{ ganjil} \\ \frac{x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2}+1\right)}}{2} & \text{jika } n \text{ genap} \end{cases}$$
+
+```{admonition} Contoh Kalkulasi
+:class: tip
+Misal sampel 3 hari data $NO_2$ ($mol/m^2$): $[0.000015, 0.000032, 0.000048]$
+- **Mean**: $\frac{0.000015 + 0.000032 + 0.000048}{3} = \mathbf{0.00003167}$
+- **Median**: Nilai posisi ke-2 = $\mathbf{0.000032}$
+
+### Rentang Nilai Konsentrasi
+
+- **Minimum ($\text{Min}$)**: Konsentrasi terendah harian, menggambarkan kondisi baseline kualitas udara saat bersih.
+  $$\text{Min} = \min(x_1, x_2, \dots, x_n)$$
+
+- **Maximum ($\text{Max}$)**: Konsentrasi puncak harian, menandakan titik tertinggi lonjakan polusi.
+  $$\text{Max} = \max(x_1, x_2, \dots, x_n)$$
+
+```{admonition} Interpretasi Lingkungan
+:class: warning
+Selisih antara $\text{Max}$ ($0.000233$) dan $\text{Min}$ ($0.000006$) menunjukkan rentang fluktuasi polusi yang tinggi, dipengaruhi oleh perubahan cuaca harian dan lonjakan aktivitas emisi lokal.
+
+### Asimetri dan Pencilan (Outliers)
+
+- **Skewness**: Ukuran kemiringan distribusi.
+  $$\text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3$$
+
+- **Kurtosis**: Ukuran keruncingan puncak kurva distribusi.
+  $$\text{Kurtosis} = \left[ \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^4 \right] - \frac{3(n-1)^2}{(n-2)(n-3)}$$
+
+```{admonition} Analisis Lanjutan
+:class: important
+- **Skewness = 3.82 ($> 0$)**: Miring kanan (*Right-Skewed*). Menandakan mayoritas hari memiliki udara bersih/normal, namun terdapat hari-hari tertentu dengan lonjakan emisi polusi yang tinggi.
+- **Kurtosis = 21.45 ($> 3$)**: Leptokurtik. Membuktikan adanya pencilan (*outliers*) ekstrim pada data harian $NO_2$.
