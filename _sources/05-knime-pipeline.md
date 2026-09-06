@@ -45,7 +45,6 @@ print("Data time series berhasil di-upload ke PostgreSQL Aiven!")
 ```
 ## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME
 
-`
 ---
 
 ### 3.1 Inisialisasi Workflow Baru
