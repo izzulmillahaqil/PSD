@@ -42,11 +42,11 @@ df.to_sql('no2_time_series', con=engine, if_exists='replace', index=False)
 
 print("Data time series berhasil di-upload ke PostgreSQL Aiven!")
 
-
+```
 ## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME
 
 Beralih menuju **KNIME Analytics Platform** guna menarik data dari cloud database Aiven dan mengekstraksi metrik statistika deskriptif secara otomatis.
-```
+`
 ---
 
 ### 3.1 Inisialisasi Workflow Baru

@@ -385,7 +385,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-menyusun-alur-kerja-workflow-di-knime">Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beralih-menuju-knime-analytics-platform-guna-menarik-data-dari-cloud-database-aiven-dan-mengekstraksi-metrik-statistika-deskriptif-secara-otomatis">Beralih menuju <strong>KNIME Analytics Platform</strong> guna menarik data dari cloud database Aiven dan mengekstraksi metrik statistika deskriptif secara otomatis.
+`</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inisialisasi-workflow-baru">3.1 Inisialisasi Workflow Baru</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menambahkan-menghubungkan-node-repository">3.2 Menambahkan &amp; Menghubungkan Node Repository</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-hubungan-antar-node-data-pipeline">Alur Hubungan Antar Node (Data Pipeline):</a></li>
@@ -454,13 +457,15 @@ document.write(`
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data time series berhasil di-upload ke PostgreSQL Aiven!&quot;</span><span class="p">)</span>
 
-
-<span class="c1">## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME</span>
-
-<span class="n">Beralih</span> <span class="n">menuju</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Analytics</span> <span class="n">Platform</span><span class="o">**</span> <span class="n">guna</span> <span class="n">menarik</span> <span class="n">data</span> <span class="n">dari</span> <span class="n">cloud</span> <span class="n">database</span> <span class="n">Aiven</span> <span class="n">dan</span> <span class="n">mengekstraksi</span> <span class="n">metrik</span> <span class="n">statistika</span> <span class="n">deskriptif</span> <span class="n">secara</span> <span class="n">otomatis</span><span class="o">.</span>
 </pre></div>
 </div>
-<hr class="docutils" />
+</section>
+<section id="langkah-3-menyusun-alur-kerja-workflow-di-knime">
+<h2>Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME<a class="headerlink" href="#langkah-3-menyusun-alur-kerja-workflow-di-knime" title="Link to this heading">#</a></h2>
+</section>
+<section id="beralih-menuju-knime-analytics-platform-guna-menarik-data-dari-cloud-database-aiven-dan-mengekstraksi-metrik-statistika-deskriptif-secara-otomatis">
+<h2>Beralih menuju <strong>KNIME Analytics Platform</strong> guna menarik data dari cloud database Aiven dan mengekstraksi metrik statistika deskriptif secara otomatis.
+`<a class="headerlink" href="#beralih-menuju-knime-analytics-platform-guna-menarik-data-dari-cloud-database-aiven-dan-mengekstraksi-metrik-statistika-deskriptif-secara-otomatis" title="Link to this heading">#</a></h2>
 <section id="inisialisasi-workflow-baru">
 <h3>3.1 Inisialisasi Workflow Baru<a class="headerlink" href="#inisialisasi-workflow-baru" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
@@ -635,7 +640,10 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-menyusun-alur-kerja-workflow-di-knime">Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beralih-menuju-knime-analytics-platform-guna-menarik-data-dari-cloud-database-aiven-dan-mengekstraksi-metrik-statistika-deskriptif-secara-otomatis">Beralih menuju <strong>KNIME Analytics Platform</strong> guna menarik data dari cloud database Aiven dan mengekstraksi metrik statistika deskriptif secara otomatis.
+`</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inisialisasi-workflow-baru">3.1 Inisialisasi Workflow Baru</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menambahkan-menghubungkan-node-repository">3.2 Menambahkan &amp; Menghubungkan Node Repository</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-hubungan-antar-node-data-pipeline">Alur Hubungan Antar Node (Data Pipeline):</a></li>
