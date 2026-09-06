@@ -46,7 +46,7 @@ print("Data time series berhasil di-upload ke PostgreSQL Aiven!")
 ## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME
 
 Beralih menuju **KNIME Analytics Platform** guna menarik data dari cloud database Aiven dan mengekstraksi metrik statistika deskriptif secara otomatis.
-
+```
 ---
 
 ### 3.1 Inisialisasi Workflow Baru
@@ -70,7 +70,7 @@ Cari node berikut pada panel **Node Repository** (sebelah kiri), lalu *drag-and-
 
 #### Alur Hubungan Antar Node (Data Pipeline):
 Sambungkan port koneksi (segitiga di tepi node) dari kiri ke kanan dengan urutan:
-```
+
 ---
 
 ### 3.3 Konfigurasi Parameter Tiap Node

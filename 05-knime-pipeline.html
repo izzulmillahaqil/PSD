@@ -386,6 +386,11 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inisialisasi-workflow-baru">3.1 Inisialisasi Workflow Baru</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menambahkan-menghubungkan-node-repository">3.2 Menambahkan &amp; Menghubungkan Node Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-hubungan-antar-node-data-pipeline">Alur Hubungan Antar Node (Data Pipeline):</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konfigurasi-parameter-tiap-node">3.3 Konfigurasi Parameter Tiap Node</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-node-postgresql-connector">A. Node <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span> <span class="pre">Connector</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-node-db-table-selector">B. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Table</span> <span class="pre">Selector</span></code></a></li>
@@ -453,32 +458,48 @@ document.write(`
 <span class="c1">## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME</span>
 
 <span class="n">Beralih</span> <span class="n">menuju</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Analytics</span> <span class="n">Platform</span><span class="o">**</span> <span class="n">guna</span> <span class="n">menarik</span> <span class="n">data</span> <span class="n">dari</span> <span class="n">cloud</span> <span class="n">database</span> <span class="n">Aiven</span> <span class="n">dan</span> <span class="n">mengekstraksi</span> <span class="n">metrik</span> <span class="n">statistika</span> <span class="n">deskriptif</span> <span class="n">secara</span> <span class="n">otomatis</span><span class="o">.</span>
-
-<span class="o">---</span>
-
-<span class="c1">### 3.1 Inisialisasi Workflow Baru</span>
-<span class="mf">1.</span> <span class="n">Buka</span> <span class="n">aplikasi</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Analytics</span> <span class="n">Platform</span><span class="o">**.</span>
-<span class="mf">2.</span> <span class="n">Pada</span> <span class="n">panel</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Explorer</span><span class="o">**</span> <span class="p">(</span><span class="n">sebelah</span> <span class="n">kiri</span><span class="p">),</span> <span class="n">klik</span> <span class="n">kanan</span> <span class="n">pada</span> <span class="n">workspace</span> <span class="n">aktif</span> <span class="err">$</span>\<span class="n">rightarrow</span><span class="err">$</span> <span class="n">pilih</span> <span class="o">**</span><span class="n">New</span> <span class="n">KNIME</span> <span class="n">Workflow</span><span class="o">**.</span>
-<span class="mf">3.</span> <span class="n">Beri</span> <span class="n">nama</span> <span class="n">workflow</span><span class="p">:</span> <span class="err">`</span><span class="n">PSD_Aiven_KNIME_Pipeline</span><span class="err">`</span> <span class="err">$</span>\<span class="n">rightarrow</span><span class="err">$</span> <span class="n">klik</span> <span class="o">**</span><span class="n">Finish</span><span class="o">**.</span>
-
-<span class="o">---</span>
-
-<span class="c1">### 3.2 Menambahkan &amp; Menghubungkan Node Repository</span>
-<span class="n">Cari</span> <span class="n">node</span> <span class="n">berikut</span> <span class="n">pada</span> <span class="n">panel</span> <span class="o">**</span><span class="n">Node</span> <span class="n">Repository</span><span class="o">**</span> <span class="p">(</span><span class="n">sebelah</span> <span class="n">kiri</span><span class="p">),</span> <span class="n">lalu</span> <span class="o">*</span><span class="n">drag</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">drop</span><span class="o">*</span> <span class="n">ke</span> <span class="n">dalam</span> <span class="n">lembar</span> <span class="n">kerja</span> <span class="p">(</span><span class="o">*</span><span class="n">workspace</span><span class="o">*</span><span class="p">):</span>
-
-<span class="mf">1.</span> <span class="o">**</span><span class="n">PostgreSQL</span> <span class="n">Connector</span><span class="o">**</span>  
-   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Membuka</span> <span class="n">alur</span> <span class="n">koneksi</span> <span class="n">database</span> <span class="n">JDBC</span> <span class="n">dari</span> <span class="n">KNIME</span> <span class="n">ke</span> <span class="n">server</span> <span class="n">cloud</span> <span class="n">Aiven</span><span class="o">.</span>
-<span class="mf">2.</span> <span class="o">**</span><span class="n">DB</span> <span class="n">Table</span> <span class="n">Selector</span><span class="o">**</span>  
-   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Memilih</span> <span class="n">skema</span> <span class="n">dan</span> <span class="n">nama</span> <span class="n">tabel</span> <span class="n">spesifik</span> <span class="n">yang</span> <span class="n">tersimpan</span> <span class="n">di</span> <span class="n">dalam</span> <span class="n">database</span> <span class="n">PostgreSQL</span><span class="o">.</span>
-<span class="mf">3.</span> <span class="o">**</span><span class="n">DB</span> <span class="n">Reader</span><span class="o">**</span>  
-   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Mengirimkan</span> <span class="n">query</span> <span class="n">SQL</span> <span class="n">dan</span> <span class="n">membaca</span><span class="o">/</span><span class="n">memuat</span> <span class="n">isi</span> <span class="n">data</span> <span class="n">tabel</span> <span class="n">dari</span> <span class="n">server</span> <span class="n">cloud</span> <span class="n">ke</span> <span class="n">dalam</span> <span class="n">memori</span> <span class="n">kerja</span> <span class="n">KNIME</span> <span class="n">lokal</span><span class="o">.</span>
-<span class="mf">4.</span> <span class="o">**</span><span class="n">Statistics</span><span class="o">**</span>  
-   <span class="o">*</span> <span class="o">*</span><span class="n">Fungsi</span><span class="o">*</span><span class="p">:</span> <span class="n">Menghitung</span> <span class="n">ringkasan</span> <span class="n">statistik</span> <span class="n">deskriptif</span> <span class="p">(</span><span class="n">Min</span><span class="p">,</span> <span class="n">Max</span><span class="p">,</span> <span class="n">Mean</span><span class="p">,</span> <span class="n">Median</span><span class="p">,</span> <span class="n">Std</span> <span class="n">Dev</span><span class="p">,</span> <span class="n">Skewness</span><span class="p">,</span> <span class="n">Kurtosis</span><span class="p">)</span> <span class="n">secara</span> <span class="n">otomatis</span> <span class="n">dari</span> <span class="n">kolom</span> <span class="n">numerik</span><span class="o">.</span>
-
-<span class="c1">#### Alur Hubungan Antar Node (Data Pipeline):</span>
-<span class="n">Sambungkan</span> <span class="n">port</span> <span class="n">koneksi</span> <span class="p">(</span><span class="n">segitiga</span> <span class="n">di</span> <span class="n">tepi</span> <span class="n">node</span><span class="p">)</span> <span class="n">dari</span> <span class="n">kiri</span> <span class="n">ke</span> <span class="n">kanan</span> <span class="n">dengan</span> <span class="n">urutan</span><span class="p">:</span>
 </pre></div>
 </div>
+<hr class="docutils" />
+<section id="inisialisasi-workflow-baru">
+<h3>3.1 Inisialisasi Workflow Baru<a class="headerlink" href="#inisialisasi-workflow-baru" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Buka aplikasi <strong>KNIME Analytics Platform</strong>.</p></li>
+<li><p>Pada panel <strong>KNIME Explorer</strong> (sebelah kiri), klik kanan pada workspace aktif <span class="math notranslate nohighlight">\(\rightarrow\)</span> pilih <strong>New KNIME Workflow</strong>.</p></li>
+<li><p>Beri nama workflow: <code class="docutils literal notranslate"><span class="pre">PSD_Aiven_KNIME_Pipeline</span></code> <span class="math notranslate nohighlight">\(\rightarrow\)</span> klik <strong>Finish</strong>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="menambahkan-menghubungkan-node-repository">
+<h3>3.2 Menambahkan &amp; Menghubungkan Node Repository<a class="headerlink" href="#menambahkan-menghubungkan-node-repository" title="Link to this heading">#</a></h3>
+<p>Cari node berikut pada panel <strong>Node Repository</strong> (sebelah kiri), lalu <em>drag-and-drop</em> ke dalam lembar kerja (<em>workspace</em>):</p>
+<ol class="arabic simple">
+<li><p><strong>PostgreSQL Connector</strong></p>
+<ul class="simple">
+<li><p><em>Fungsi</em>: Membuka alur koneksi database JDBC dari KNIME ke server cloud Aiven.</p></li>
+</ul>
+</li>
+<li><p><strong>DB Table Selector</strong></p>
+<ul class="simple">
+<li><p><em>Fungsi</em>: Memilih skema dan nama tabel spesifik yang tersimpan di dalam database PostgreSQL.</p></li>
+</ul>
+</li>
+<li><p><strong>DB Reader</strong></p>
+<ul class="simple">
+<li><p><em>Fungsi</em>: Mengirimkan query SQL dan membaca/memuat isi data tabel dari server cloud ke dalam memori kerja KNIME lokal.</p></li>
+</ul>
+</li>
+<li><p><strong>Statistics</strong></p>
+<ul class="simple">
+<li><p><em>Fungsi</em>: Menghitung ringkasan statistik deskriptif (Min, Max, Mean, Median, Std Dev, Skewness, Kurtosis) secara otomatis dari kolom numerik.</p></li>
+</ul>
+</li>
+</ol>
+<section id="alur-hubungan-antar-node-data-pipeline">
+<h4>Alur Hubungan Antar Node (Data Pipeline):<a class="headerlink" href="#alur-hubungan-antar-node-data-pipeline" title="Link to this heading">#</a></h4>
+<p>Sambungkan port koneksi (segitiga di tepi node) dari kiri ke kanan dengan urutan:</p>
+</section>
+</section>
 <hr class="docutils" />
 <section id="konfigurasi-parameter-tiap-node">
 <h3>3.3 Konfigurasi Parameter Tiap Node<a class="headerlink" href="#konfigurasi-parameter-tiap-node" title="Link to this heading">#</a></h3>
@@ -615,6 +636,11 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inisialisasi-workflow-baru">3.1 Inisialisasi Workflow Baru</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menambahkan-menghubungkan-node-repository">3.2 Menambahkan &amp; Menghubungkan Node Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-hubungan-antar-node-data-pipeline">Alur Hubungan Antar Node (Data Pipeline):</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#konfigurasi-parameter-tiap-node">3.3 Konfigurasi Parameter Tiap Node</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-node-postgresql-connector">A. Node <code class="docutils literal notranslate"><span class="pre">PostgreSQL</span> <span class="pre">Connector</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-node-db-table-selector">B. Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Table</span> <span class="pre">Selector</span></code></a></li>
