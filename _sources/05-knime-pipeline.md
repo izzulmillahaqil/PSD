@@ -45,7 +45,6 @@ print("Data time series berhasil di-upload ke PostgreSQL Aiven!")
 ```
 ## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME
 
-Beralih menuju **KNIME Analytics Platform** guna menarik data dari cloud database Aiven dan mengekstraksi metrik statistika deskriptif secara otomatis.
 `
 ---
 
