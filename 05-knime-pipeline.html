@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Data Preparation &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -59,11 +59,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '03-data-preparation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05-knime-pipeline';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Analisis Time Series" href="04-time-series.html" />
-    <link rel="prev" title="Data Understanding" href="02-data-understanding.html" />
+    <link rel="next" title="5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif" href="06-conclusion.html" />
+    <link rel="prev" title="4. Analisis Time Series" href="04-time-series.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -185,9 +185,9 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">Data Understanding</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06-conclusion.html">5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif</a></li>
 </ul>
 
@@ -260,7 +260,7 @@
       
       
       
-      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F03-data-preparation.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F05-knime-pipeline.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -290,7 +290,7 @@
       
       
       
-      <li><a href="_sources/03-data-preparation.md" target="_blank"
+      <li><a href="_sources/05-knime-pipeline.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -374,7 +374,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>3. Data Preparation</h1>
+    <h1>Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -384,7 +384,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a></li>
 </ul>
             </nav>
         </div>
@@ -396,90 +397,49 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
-<h1>3. Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
-<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> diakses dan diolah menggunakan API openEO dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.</p>
-<section id="hasil-csv">
-<h2>Hasil CSV<a class="headerlink" href="#hasil-csv" title="Link to this heading">#</a></h2>
-<p>Berikut adalah 5 baris pertama dari data hasil pengolahan dan pembersihan polutan <span class="math notranslate nohighlight">\(NO_2\)</span> yang siap digunakan untuk analisis <em>time series</em>:</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+  <section class="tex2jax_ignore mathjax_ignore" id="implementasi-analisis-data-polutan-dari-cloud-database-ke-knime">
+<h1>Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME<a class="headerlink" href="#implementasi-analisis-data-polutan-dari-cloud-database-ke-knime" title="Link to this heading">#</a></h1>
+<p>Panduan ini menguraikan tahapan-tahapan untuk menghubungkan database PostgreSQL di platform <strong>Aiven Cloud</strong>, melakukan verifikasi koneksi, serta mengekstraksi metrik statistika deskriptif memanfaatkan <strong>KNIME Analytics Platform</strong>.</p>
+<hr class="docutils" />
+<section id="langkah-1-memperoleh-kredensial-database-dari-aiven">
+<h2>Langkah 1: Memperoleh Kredensial Database dari Aiven<a class="headerlink" href="#langkah-1-memperoleh-kredensial-database-dari-aiven" title="Link to this heading">#</a></h2>
+<p>Sebelum menyambungkan koneksi melalui aplikasi atau skrip analitik apa pun, kita membutuhkan informasi kredensial server PostgreSQL dari dashboard Aiven.</p>
+<ol class="arabic simple">
+<li><p>Akses console/dashboard <strong>Aiven</strong>, lalu buka proyek yang dimiliki.</p></li>
+<li><p>Buka tab <strong>Overview</strong> pada layanan PostgreSQL yang sedang beroperasi (<code class="docutils literal notranslate"><span class="pre">pg-3aba66e5</span></code>).</p></li>
+<li><p>Pada bagian <strong>Connection information</strong>, catat parameter-parameter berikut:</p>
+<ul class="simple">
+<li><p><strong>Host</strong>: <code class="docutils literal notranslate"><span class="pre">pg-3aba66e5-izzulmillahaqil.e.aivencloud.com</span></code></p></li>
+<li><p><strong>Port</strong>: <code class="docutils literal notranslate"><span class="pre">21121</span></code></p></li>
+<li><p><strong>Database name</strong>: <code class="docutils literal notranslate"><span class="pre">defaultdb</span></code></p></li>
+<li><p><strong>User</strong>: <code class="docutils literal notranslate"><span class="pre">avnadmin</span></code></p></li>
+<li><p><strong>Password</strong>: <em>(Salin dari ikon mata / tombol copy)</em></p></li>
+<li><p><strong>SSL mode</strong>: <code class="docutils literal notranslate"><span class="pre">require</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">
+<h2>Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python<a class="headerlink" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python" title="Link to this heading">#</a></h2>
+<p>Data <em>time-series</em> konsentrasi polutan <span class="math notranslate nohighlight">\(NO_2\)</span> diunggah secara otomatis dari environment lokal Python menuju cloud database Aiven menggunakan skrip <code class="docutils literal notranslate"><span class="pre">upload_to_aiven.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
 
-<span class="c1"># Load data CSV (jika belum ada, buat sampel otomatis)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/processed/data_polutan_no2_clean.csv&#39;</span><span class="p">)</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;2025-10-01&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">dates</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;NO2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.36e-05</span><span class="p">,</span> <span class="mf">7.63e-05</span><span class="p">,</span> <span class="mf">6.03e-05</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">4.49e-05</span><span class="p">]</span>
-    <span class="p">})</span>
+<span class="c1"># Path file CSV</span>
+<span class="n">csv_path</span> <span class="o">=</span> <span class="s1">&#39;data/processed/data_polutan_no2_clean.csv&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
 
-<span class="c1"># Tampilkan tabel dataframe</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># Service URI PostgreSQL Aiven</span>
+<span class="n">DB_URI</span> <span class="o">=</span> <span class="s2">&quot;postgresql://avnadmin:&lt;YOUR_PASSWORD&gt;@pg-3aba66e5-izzulmillahaqil.e.aivencloud.com:21121/defaultdb?sslmode=require&quot;</span>
+
+<span class="c1"># Engine &amp; Upload ke Aiven Table</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">DB_URI</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;no2_time_series&#39;</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data time series berhasil di-upload ke PostgreSQL Aiven!&quot;</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>NO2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2025-10-01</td>
-      <td>0.000054</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2025-10-02</td>
-      <td>0.000076</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2025-10-03</td>
-      <td>0.000060</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2025-10-04</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2025-10-05</td>
-      <td>0.000045</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 </section>
@@ -515,20 +475,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="02-data-understanding.html"
+       href="04-time-series.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Data Understanding</p>
+        <p class="prev-next-title">4. Analisis Time Series</p>
       </div>
     </a>
     <a class="right-next"
-       href="04-time-series.html"
+       href="06-conclusion.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">4. Analisis Time Series</p>
+        <p class="prev-next-title">5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -548,7 +508,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memperoleh-kredensial-database-dari-aiven">Langkah 1: Memperoleh Kredensial Database dari Aiven</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-mengonfigurasi-mengunggah-data-ke-aiven-via-python">Langkah 2: Mengonfigurasi &amp; Mengunggah Data ke Aiven via Python</a></li>
 </ul>
   </nav></div>
 
