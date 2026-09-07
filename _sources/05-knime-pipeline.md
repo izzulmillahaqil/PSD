@@ -114,3 +114,26 @@ Sambungkan port koneksi (segitiga di tepi node) dari kiri ke kanan dengan urutan
    * **Numeric Values**: Pindahkan kolom **`NO2`** ke dalam kotak **Include** (sebelah kanan).
    * **Option Median**: Centang opsi `Calculate median values (computationally expensive)` pada bagian atas untuk menghitung nilai tengah (Median).
 3. Klik **Apply and Execute**.
+
+---
+
+## Langkah 4: Membaca Output Statistika Deskriptif
+
+Setelah seluruh node berhasil dieksekusi hingga lampu indikator berwarna **HIJAU**:
+
+1. Klik kanan pada node **Statistics** lalu pilih **Execute**.
+2. Klik kanan kembali pada node **Statistics** dan pilih **Statistics View** / **Table View**.
+
+### Tabel Hasil Output Node Statistics (Polutan $NO_2$)
+
+| Metrik Statistics | Nilai ($mol/m^2$) | Interpretasi Singkat |
+| :--- | :--- | :--- |
+| **Min** | `0.000006` | Konsentrasi polutan $NO_2$ harian paling rendah |
+| **Max** | `0.000233` | Nilai puncak/tertinggi konsentrasi $NO_2$ |
+| **Mean** | `0.000039` | Rata-rata tingkat konsentrasi $NO_2$ harian |
+| **Median** | `0.000037` | Nilai tengah data konsentrasi $NO_2$ terurut |
+| **Std. deviation** | `0.000022` | Tingkat sebaran/fluktuasi nilai polutan |
+| **Variance** | `4.84e-10` | Varians dari distribusi data |
+| **Skewness** | `3.82` | Distribusi miring kanan (*right-skewed*) |
+| **Kurtosis** | `21.45` | Leptokurtik (terdapat lonjakan ekstrim/outliers) |
+| **Row count** | `363` | Jumlah baris/observasi data harian |
