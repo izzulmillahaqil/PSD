@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>6. Ekstraksi Fitur TSFEL &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = '06-feature-extraction';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME" href="05-knime-pipeline.html" />
+    <link rel="prev" title="5. Pipeline Cloud &amp; KNIME" href="05-knime-pipeline.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -373,7 +373,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>6. Preprocessing & Ekstraksi 68 Fitur TSFEL</h1>
+    <h1>6. Ekstraksi Fitur TSFEL</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -383,8 +383,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">🧬 2. Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">2. Ekstraksi 68 Fitur TSFEL</a></li>
 </ul>
             </nav>
         </div>
@@ -396,12 +396,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="preprocessing-ekstraksi-68-fitur-tsfel">
-<h1>6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#preprocessing-ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-tsfel">
+<h1>6. Ekstraksi Fitur TSFEL<a class="headerlink" href="#ekstraksi-fitur-tsfel" title="Link to this heading">#</a></h1>
 <p>Dokumen ini menjelaskan alur pra-pemrosesan data polutan <span class="math notranslate nohighlight">\(NO_2\)</span> wilayah <strong>Surabaya Selatan</strong> serta ekstraksi <strong>68 fitur time-series</strong> menggunakan pustaka <strong>TSFEL</strong> (<em>Time Series Feature Extraction Library</em>).</p>
 <hr class="docutils" />
 <section id="pra-pemrosesan-data-deteksi-outlier-imputasi">
-<h2>🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)<a class="headerlink" href="#pra-pemrosesan-data-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
+<h2>1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)<a class="headerlink" href="#pra-pemrosesan-data-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><strong>Deteksi Pencilan (<em>Outlier Detection</em>)</strong>:
 Menggunakan metode <em>Interquartile Range</em> (IQR):
@@ -414,7 +414,7 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 </section>
 <hr class="docutils" />
 <section id="ekstraksi-68-fitur-tsfel">
-<h2>🧬 2. Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h2>
+<h2>2. Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h2>
 <p>Ekstraksi fitur dilakukan pada sinyal 1D <span class="math notranslate nohighlight">\(NO_2\)</span> terimputasi untuk menghasilkan <strong>68 fitur unik</strong> yang mencakup 3 domain utama:</p>
 <ul class="simple">
 <li><p><strong>Statistical Domain</strong>: <code class="docutils literal notranslate"><span class="pre">abs_energy</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_max</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_median</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_min</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_std</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_var</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdf</span></code>, <code class="docutils literal notranslate"><span class="pre">kurtosis</span></code>, <code class="docutils literal notranslate"><span class="pre">rms</span></code>, <code class="docutils literal notranslate"><span class="pre">skewness</span></code>, dll.</p></li>
@@ -461,7 +461,7 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</p>
+        <p class="prev-next-title">5. Pipeline Cloud &amp; KNIME</p>
       </div>
     </a>
 </div>
@@ -480,8 +480,8 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">🧬 2. Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">2. Ekstraksi 68 Fitur TSFEL</a></li>
 </ul>
   </nav></div>
 

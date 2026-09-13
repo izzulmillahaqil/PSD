@@ -1,4 +1,4 @@
-# Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME
+# 5. Pipeline Cloud & KNIME
 
 Panduan ini menguraikan tahapan-tahapan untuk menghubungkan database PostgreSQL di platform **Aiven Cloud**, melakukan verifikasi koneksi, serta mengekstraksi metrik statistika deskriptif memanfaatkan **KNIME Analytics Platform**.
 

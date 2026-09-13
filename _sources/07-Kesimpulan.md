@@ -1,4 +1,4 @@
-# 5. Kesimpulan & Penjelasan Metrik Statistika Deskriptif
+# 7. Kesimpulan
 
 Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem **openEO**, penyimpanannya pada cloud database, hingga analisis statistik menggunakan **KNIME Analytics Platform**, dapat disimpulkan bahwa:
 
