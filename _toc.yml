@@ -8,4 +8,5 @@ parts:
       - file: 03-data-preparation
       - file: 04-time-series
       - file: 05-knime-pipeline
-      - file: 06-conclusion
+      - file: 06-feature-extraction
+      - file: 07-conclusion

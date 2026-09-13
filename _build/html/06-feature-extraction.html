@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Business Understanding &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -59,11 +59,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '01-business-understanding';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '06-feature-extraction';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data Understanding" href="02-data-understanding.html" />
-    <link rel="prev" title="Profile" href="intro.html" />
+    <link rel="next" title="5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif" href="07-conclusion.html" />
+    <link rel="prev" title="Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME" href="05-knime-pipeline.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -183,12 +183,12 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06-feature-extraction.html">6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07-conclusion.html">5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif</a></li>
 </ul>
 
@@ -261,7 +261,7 @@
       
       
       
-      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F01-business-understanding.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F06-feature-extraction.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +291,7 @@
       
       
       
-      <li><a href="_sources/01-business-understanding.md" target="_blank"
+      <li><a href="_sources/06-feature-extraction.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +375,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Business Understanding</h1>
+    <h1>6. Preprocessing & Ekstraksi 68 Fitur TSFEL</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -385,10 +385,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang">1. Latar Belakang</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rumusan-masalah">2. Rumusan Masalah</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-proyek">3. Tujuan Proyek</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-proyek">4. Manfaat Proyek</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">🧬 2. Ekstraksi 68 Fitur TSFEL</a></li>
 </ul>
             </nav>
         </div>
@@ -400,42 +398,32 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="business-understanding">
-<h1>Business Understanding<a class="headerlink" href="#business-understanding" title="Link to this heading">#</a></h1>
-<section id="latar-belakang">
-<h2>1. Latar Belakang<a class="headerlink" href="#latar-belakang" title="Link to this heading">#</a></h2>
-<p>Kualitas udara adalah indikator esensial bagi kesehatan publik dan kelestarian lingkungan. Seiring meningkatnya aktivitas warga, mobilitas transportasi, serta kegiatan ekonomi, risiko lonjakan gas polutan berbahaya di udara ikut membesar.</p>
-<p>Tiga jenis gas polutan utama yang menjadi fokus pemantauan meliputi:</p>
-<ul class="simple">
-<li><p><strong>Nitrogen Dioksida (<span class="math notranslate nohighlight">\(NO_2\)</span>)</strong>: Umumnya dipicu oleh emisi kendaraan bermotor dan operasional industri.</p></li>
-<li><p><strong>Karbon Monoksida (<span class="math notranslate nohighlight">\(CO\)</span>)</strong>: Gas beracun yang bersumber dari proses pembakaran tidak sempurna.</p></li>
-<li><p><strong>Belerang Dioksida (<span class="math notranslate nohighlight">\(SO_2\)</span>)</strong>: Polutan dari aktivitas vulkanik maupun pembakaran bahan bakar fosil.</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="preprocessing-ekstraksi-68-fitur-tsfel">
+<h1>6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#preprocessing-ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h1>
+<p>Dokumen ini menjelaskan alur pra-pemrosesan data polutan <span class="math notranslate nohighlight">\(NO_2\)</span> wilayah <strong>Surabaya Selatan</strong> serta ekstraksi <strong>68 fitur time-series</strong> menggunakan pustaka <strong>TSFEL</strong> (<em>Time Series Feature Extraction Library</em>).</p>
+<hr class="docutils" />
+<section id="pra-pemrosesan-data-deteksi-outlier-imputasi">
+<h2>🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)<a class="headerlink" href="#pra-pemrosesan-data-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Deteksi Pencilan (<em>Outlier Detection</em>)</strong>:
+Menggunakan metode <em>Interquartile Range</em> (IQR):
+$<span class="math notranslate nohighlight">\(\text{Lower Bound} = Q_1 - 1.5 \times \text{IQR}\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\text{Upper Bound} = Q_3 + 1.5 \times \text{IQR}\)</span>$
+Nilai pencilan di luar rentang ini dikonversi menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>.</p></li>
+<li><p><strong>Imputasi Nilai Kosong (<em>Missing Value Imputation</em>)</strong>:
+Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</span></code> diimputasi berbasis deret waktu (<em>linear time interpolation</em>) dilanjutkan <em>Forward Fill</em> (<code class="docutils literal notranslate"><span class="pre">ffill</span></code>) dan <em>Backward Fill</em> (<code class="docutils literal notranslate"><span class="pre">bfill</span></code>) hingga <span class="math notranslate nohighlight">\(0 \text{ missing value}\)</span>.</p></li>
+</ol>
 </section>
-<section id="rumusan-masalah">
-<h2>2. Rumusan Masalah<a class="headerlink" href="#rumusan-masalah" title="Link to this heading">#</a></h2>
-<p>Fokus utama dari analisis data ini ditujukan untuk menjawab pertanyaan berikut:</p>
+<hr class="docutils" />
+<section id="ekstraksi-68-fitur-tsfel">
+<h2>🧬 2. Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h2>
+<p>Ekstraksi fitur dilakukan pada sinyal 1D <span class="math notranslate nohighlight">\(NO_2\)</span> terimputasi untuk menghasilkan <strong>68 fitur unik</strong> yang mencakup 3 domain utama:</p>
 <ul class="simple">
-<li><p>Bagaimana pergerakan tren harian konsentrasi gas polutan (<span class="math notranslate nohighlight">\(NO_2\)</span>) di wilayah studi?</p></li>
-<li><p>Apakah ditemukan adanya siklus musiman, tren kenaikan jangka panjang, atau anomali lonjakan ekstrem pada tingkat polusi udara setempat?</p></li>
+<li><p><strong>Statistical Domain</strong>: <code class="docutils literal notranslate"><span class="pre">abs_energy</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_max</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_median</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_min</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_std</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_var</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdf</span></code>, <code class="docutils literal notranslate"><span class="pre">kurtosis</span></code>, <code class="docutils literal notranslate"><span class="pre">rms</span></code>, <code class="docutils literal notranslate"><span class="pre">skewness</span></code>, dll.</p></li>
+<li><p><strong>Temporal Domain</strong>: <code class="docutils literal notranslate"><span class="pre">auc</span></code>, <code class="docutils literal notranslate"><span class="pre">autocorr</span></code>, <code class="docutils literal notranslate"><span class="pre">entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_abs_diff</span></code>, <code class="docutils literal notranslate"><span class="pre">zero_cross</span></code>, <code class="docutils literal notranslate"><span class="pre">higuchi_fractal_dimension</span></code>, <code class="docutils literal notranslate"><span class="pre">hurst_exponent</span></code>, dll.</p></li>
+<li><p><strong>Spectral Domain</strong>: <code class="docutils literal notranslate"><span class="pre">average_power</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">fundamental_frequency</span></code>, <code class="docutils literal notranslate"><span class="pre">spectral_centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">spectral_entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">wavelet_energy</span></code>, dll.</p></li>
 </ul>
-</section>
-<section id="tujuan-proyek">
-<h2>3. Tujuan Proyek<a class="headerlink" href="#tujuan-proyek" title="Link to this heading">#</a></h2>
-<p>Eksplorasi sains data ini dijalankan dengan tujuan:</p>
-<ul class="simple">
-<li><p>Membangun otomasi pengumpulan data citra satelit spasial (NetCDF) dan mentransformasikannya menjadi dataset tabular (CSV).</p></li>
-<li><p>Menjalankan Analisis Data Eksploratif (EDA) guna memahami karakteristik dan tren perubahan gas polutan dari waktu ke waktu.</p></li>
-<li><p>Menciptakan landasan data historis yang valid sebagai modal awal untuk keperluan pemodelan prediktif (<em>forecasting</em>).</p></li>
-</ul>
-</section>
-<section id="manfaat-proyek">
-<h2>4. Manfaat Proyek<a class="headerlink" href="#manfaat-proyek" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>Pemerintah &amp; Pembuat Kebijakan</strong>: Menyediakan <em>insight</em> berbasis data guna mendukung pengawasan emisi.</p></li>
-<li><p><strong>Masyarakat Umum</strong>: Menjadi sarana informasi transparan untuk menumbuhkan kesadaran warga.</p></li>
-<li><p><strong>Akademisi &amp; Praktisi Data</strong>: Menjadi studi kasus nyata penerapan metodologi pengolahan data spasial ke pemodelan <em>Time Series</em>.</p></li>
-</ul>
+<p>File dataset hasil ekstraksi disimpan dengan nama <code class="docutils literal notranslate"><span class="pre">NO2_Surabaya_Selatan_TSFEL.csv</span></code> dan telah diunggah ke database agregasi kelas.</p>
 </section>
 </section>
 
@@ -470,20 +458,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="intro.html"
+       href="05-knime-pipeline.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Profile</p>
+        <p class="prev-next-title">Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</p>
       </div>
     </a>
     <a class="right-next"
-       href="02-data-understanding.html"
+       href="07-conclusion.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data Understanding</p>
+        <p class="prev-next-title">5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -503,10 +491,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang">1. Latar Belakang</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rumusan-masalah">2. Rumusan Masalah</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-proyek">3. Tujuan Proyek</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-proyek">4. Manfaat Proyek</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">🧬 2. Ekstraksi 68 Fitur TSFEL</a></li>
 </ul>
   </nav></div>
 
