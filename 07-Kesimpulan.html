@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -59,10 +59,9 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '06-feature-extraction';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '07-Kesimpulan';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME" href="05-knime-pipeline.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -125,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,13 +182,13 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">5. Pipeline Cloud &amp; KNIME</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-feature-extraction.html">6. Ekstraksi Fitur TSFEL</a></li>
 </ul>
 
     </div>
@@ -259,7 +260,7 @@
       
       
       
-      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F06-feature-extraction.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F07-Kesimpulan.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -289,7 +290,7 @@
       
       
       
-      <li><a href="_sources/06-feature-extraction.md" target="_blank"
+      <li><a href="_sources/07-Kesimpulan.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -373,7 +374,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>6. Preprocessing & Ekstraksi 68 Fitur TSFEL</h1>
+    <h1>5. Kesimpulan & Penjelasan Metrik Statistika Deskriptif</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -383,8 +384,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">🧬 2. Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembongkaran-metrik-statistika-deskriptif">Pembongkaran Metrik Statistika Deskriptif</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#min-minimum">1. Min (Minimum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-maximum">2. Max (Maximum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-rata-rata-aritmatika">3. Mean (Rata-Rata Aritmatika)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#median-nilai-tengah">4. Median (Nilai Tengah)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-deviation-simpangan-baku">5. Standard Deviation (Simpangan Baku)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-varians">6. Variance (Varians)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skewness-kemiringan-distribusi">7. Skewness (Kemiringan Distribusi)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-keruncingan-kurva">8. Kurtosis (Keruncingan Kurva)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -396,32 +406,258 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="preprocessing-ekstraksi-68-fitur-tsfel">
-<h1>6. Preprocessing &amp; Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#preprocessing-ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h1>
-<p>Dokumen ini menjelaskan alur pra-pemrosesan data polutan <span class="math notranslate nohighlight">\(NO_2\)</span> wilayah <strong>Surabaya Selatan</strong> serta ekstraksi <strong>68 fitur time-series</strong> menggunakan pustaka <strong>TSFEL</strong> (<em>Time Series Feature Extraction Library</em>).</p>
-<hr class="docutils" />
-<section id="pra-pemrosesan-data-deteksi-outlier-imputasi">
-<h2>🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)<a class="headerlink" href="#pra-pemrosesan-data-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="kesimpulan-penjelasan-metrik-statistika-deskriptif">
+<h1>5. Kesimpulan &amp; Penjelasan Metrik Statistika Deskriptif<a class="headerlink" href="#kesimpulan-penjelasan-metrik-statistika-deskriptif" title="Link to this heading">#</a></h1>
+<p>Berdasarkan pemrosesan data Sentinel-5P L2 menggunakan ekosistem <strong>openEO</strong>, penyimpanannya pada cloud database, hingga analisis statistik menggunakan <strong>KNIME Analytics Platform</strong>, dapat disimpulkan bahwa:</p>
 <ol class="arabic simple">
-<li><p><strong>Deteksi Pencilan (<em>Outlier Detection</em>)</strong>:
-Menggunakan metode <em>Interquartile Range</em> (IQR):
-$<span class="math notranslate nohighlight">\(\text{Lower Bound} = Q_1 - 1.5 \times \text{IQR}\)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\(\text{Upper Bound} = Q_3 + 1.5 \times \text{IQR}\)</span>$
-Nilai pencilan di luar rentang ini dikonversi menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>.</p></li>
-<li><p><strong>Imputasi Nilai Kosong (<em>Missing Value Imputation</em>)</strong>:
-Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</span></code> diimputasi berbasis deret waktu (<em>linear time interpolation</em>) dilanjutkan <em>Forward Fill</em> (<code class="docutils literal notranslate"><span class="pre">ffill</span></code>) dan <em>Backward Fill</em> (<code class="docutils literal notranslate"><span class="pre">bfill</span></code>) hingga <span class="math notranslate nohighlight">\(0 \text{ missing value}\)</span>.</p></li>
+<li><p>Ekstraksi data berbasis <strong>GeoJSON</strong> terbukti efisien dalam mengisolasi titik koordinat wilayah observasi spesifik tanpa perlu mengunduh keseluruhan <em>tile</em> satelit.</p></li>
+<li><p>Analisis <em>time-series</em> dari September 2025 hingga Agustus 2026 memperlihatkan pola konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang dinamis, dengan kemungkinan pengaruh dari kondisi cuaca dan tingkat aktivitas atau mobilitas wilayah.</p></li>
+<li><p>Pembersihan data (<em>interpolation</em>) diperlukan untuk menangani <em>missing values</em> yang dapat terjadi akibat keterbatasan observasi pada data penginderaan jauh, termasuk pengaruh kondisi atmosfer dan tutupan awan.</p></li>
+<li><p>Integrasi pipeline data dari <strong>Python</strong> ke <strong>PostgreSQL Aiven (Cloud Database)</strong> kemudian ditarik ke <strong>KNIME Analytics Platform</strong> menggunakan alur <strong>PostgreSQL Connector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Table Selector <span class="math notranslate nohighlight">\(\rightarrow\)</span> DB Reader <span class="math notranslate nohighlight">\(\rightarrow\)</span> Statistics</strong> memudahkan proses eksplorasi statistik deskriptif secara terintegrasi.</p></li>
 </ol>
-</section>
 <hr class="docutils" />
-<section id="ekstraksi-68-fitur-tsfel">
-<h2>🧬 2. Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h2>
-<p>Ekstraksi fitur dilakukan pada sinyal 1D <span class="math notranslate nohighlight">\(NO_2\)</span> terimputasi untuk menghasilkan <strong>68 fitur unik</strong> yang mencakup 3 domain utama:</p>
-<ul class="simple">
-<li><p><strong>Statistical Domain</strong>: <code class="docutils literal notranslate"><span class="pre">abs_energy</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_max</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_median</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_min</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_std</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_var</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdf</span></code>, <code class="docutils literal notranslate"><span class="pre">kurtosis</span></code>, <code class="docutils literal notranslate"><span class="pre">rms</span></code>, <code class="docutils literal notranslate"><span class="pre">skewness</span></code>, dll.</p></li>
-<li><p><strong>Temporal Domain</strong>: <code class="docutils literal notranslate"><span class="pre">auc</span></code>, <code class="docutils literal notranslate"><span class="pre">autocorr</span></code>, <code class="docutils literal notranslate"><span class="pre">entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_abs_diff</span></code>, <code class="docutils literal notranslate"><span class="pre">zero_cross</span></code>, <code class="docutils literal notranslate"><span class="pre">higuchi_fractal_dimension</span></code>, <code class="docutils literal notranslate"><span class="pre">hurst_exponent</span></code>, dll.</p></li>
-<li><p><strong>Spectral Domain</strong>: <code class="docutils literal notranslate"><span class="pre">average_power</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">fundamental_frequency</span></code>, <code class="docutils literal notranslate"><span class="pre">spectral_centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">spectral_entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">wavelet_energy</span></code>, dll.</p></li>
+<section id="pembongkaran-metrik-statistika-deskriptif">
+<h2>Pembongkaran Metrik Statistika Deskriptif<a class="headerlink" href="#pembongkaran-metrik-statistika-deskriptif" title="Link to this heading">#</a></h2>
+<p>Berikut merupakan penjelasan detail setiap metrik statistik deskriptif dari data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> hasil pengolahan node <strong>Statistics</strong> pada KNIME, lengkap dengan rumus matematika, kalkulasi, dan interpretasinya.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Ringkasan Hasil Evaluasi KNIME</strong>:</p>
+<p>Data <span class="math notranslate nohighlight">\(NO_2\)</span> yang dianalisis menunjukkan bentuk distribusi <strong>right-skewed</strong> (miring kanan) serta nilai kurtosis bertipe <strong>leptokurtik</strong>. Hal ini menandakan bahwa pada sebagian besar hari, konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> berada pada tingkat normal/rendah, namun terdapat beberapa periode harian yang mengalami lonjakan konsentrasi polutan secara signifikan.</p>
+</div>
+<section id="min-minimum">
+<h3>1. Min (Minimum)<a class="headerlink" href="#min-minimum" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Nilai terkecil dari seluruh observasi konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian pada wilayah pengamatan.</p></li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Min} = \min(x_1, x_2, \dots, x_n)
+  \]</div>
+</li>
+<li><p><strong>Contoh Kalkulasi</strong>:</p>
+<p>Diberikan 3 sampel data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> (<span class="math notranslate nohighlight">\(mol/m^2\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+  [0.000015, 0.000032, 0.000048]
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  \text{Min} = 0.000015
+  \]</div>
+</li>
 </ul>
-<p>File dataset hasil ekstraksi disimpan dengan nama <code class="docutils literal notranslate"><span class="pre">NO2_Surabaya_Selatan_TSFEL.csv</span></code> dan telah diunggah ke database agregasi kelas.</p>
+</section>
+<section id="max-maximum">
+<h3>2. Max (Maximum)<a class="headerlink" href="#max-maximum" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Nilai puncak/tertinggi dari konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> yang tercatat selama rentang waktu observasi.</p></li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Max} = \max(x_1, x_2, \dots, x_n)
+  \]</div>
+</li>
+<li><p><strong>Contoh Kalkulasi</strong>:</p>
+<p>Dari sampel data:</p>
+<div class="math notranslate nohighlight">
+\[
+  [0.000015, 0.000032, 0.000048]
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  \text{Max} = 0.000048
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="mean-rata-rata-aritmatika">
+<h3>3. Mean (Rata-Rata Aritmatika)<a class="headerlink" href="#mean-rata-rata-aritmatika" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Nilai rata-rata hitung konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian yang memberikan gambaran umum kondisi kualitas udara secara keseluruhan.</p></li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}
+  \]</div>
+</li>
+<li><p><strong>Contoh Kalkulasi</strong>:</p>
+<p>Dari sampel data <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> dengan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \bar{x}
+  =
+  \frac{0.000015 + 0.000032 + 0.000048}{3}
+  =
+  0.00003167
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="median-nilai-tengah">
+<h3>4. Median (Nilai Tengah)<a class="headerlink" href="#median-nilai-tengah" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Nilai yang berada tepat di tengah-tengah set data setelah diurutkan. Metrik ini sangat andal karena tidak terpengaruh oleh pencilan (<em>outliers</em>).</p></li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Median}
+  =
+  \text{Data ke-}
+  \left(
+  \frac{n + 1}{2}
+  \right)
+  \quad
+  (\text{untuk } n \text{ ganjil})
+  \]</div>
+</li>
+<li><p><strong>Contoh Kalkulasi</strong>:</p>
+<p>Data terurut <span class="math notranslate nohighlight">\([0.000015, 0.000032, 0.000048]\)</span> dengan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Median} = 0.000032
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="standard-deviation-simpangan-baku">
+<h3>5. Standard Deviation (Simpangan Baku)<a class="headerlink" href="#standard-deviation-simpangan-baku" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Ukuran standar seberapa jauh nilai-nilai konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> harian menyimpang atau tersebar dari nilai rata-ratanya.</p></li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  s =
+  \sqrt{
+  \frac{
+  \sum_{i=1}^{n}(x_i-\bar{x})^2
+  }{
+  n-1
+  }
+  }
+  \]</div>
+</li>
+<li><p><strong>Contoh Kalkulasi</strong>:</p>
+<p>Dengan <span class="math notranslate nohighlight">\(\bar{x} = 0.00003167\)</span> dan <span class="math notranslate nohighlight">\(n = 3\)</span>:</p>
+<ol class="arabic">
+<li><p>Hitung selisih kuadrat:</p>
+<div class="math notranslate nohighlight">
+\[
+     (0.000015-\bar{x})^2
+     +
+     (0.000032-\bar{x})^2
+     +
+     (0.000048-\bar{x})^2
+     =
+     5.446 \times 10^{-10}
+     \]</div>
+</li>
+<li><p>Bagi dengan <span class="math notranslate nohighlight">\((n-1)=2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+     \frac{5.446 \times 10^{-10}}{2}
+     =
+     2.723 \times 10^{-10}
+     \]</div>
+</li>
+<li><p>Akarkan nilainya:</p>
+<div class="math notranslate nohighlight">
+\[
+     s
+     =
+     \sqrt{2.723 \times 10^{-10}}
+     \approx
+     0.0000165
+     \]</div>
+</li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="variance-varians">
+<h3>6. Variance (Varians)<a class="headerlink" href="#variance-varians" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Nilai kuadrat dari simpangan baku (<span class="math notranslate nohighlight">\(s^2\)</span>) yang menggambarkan besarnya variabilitas atau keragaman data <span class="math notranslate nohighlight">\(NO_2\)</span>.</p></li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  s^2
+  =
+  \frac{
+  \sum_{i=1}^{n}(x_i-\bar{x})^2
+  }{
+  n-1
+  }
+  \]</div>
+</li>
+<li><p><strong>Contoh Kalkulasi</strong>:</p>
+<p>Dari <span class="math notranslate nohighlight">\(s = 0.0000165\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  s^2
+  =
+  (0.0000165)^2
+  =
+  2.723 \times 10^{-10}
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="skewness-kemiringan-distribusi">
+<h3>7. Skewness (Kemiringan Distribusi)<a class="headerlink" href="#skewness-kemiringan-distribusi" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Mengukur derajat ketidaksimetrisan kurva distribusi data.</p>
+<ul class="simple">
+<li><p><strong>Analisis Data (<span class="math notranslate nohighlight">\(NO_2\)</span>)</strong>: Nilai Skewness <span class="math notranslate nohighlight">\(= 3.82\)</span> (<span class="math notranslate nohighlight">\(&gt; 0\)</span>), mengindikasikan kurva miring ke kanan (<em>right-skewed</em>). Sebagian besar observasi bernilai rendah, namun terdapat beberapa ekor data bernilai tinggi.</p></li>
+</ul>
+</li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Skewness}
+  =
+  \frac{n}{(n-1)(n-2)}
+  \sum_{i=1}^{n}
+  \left(
+  \frac{x_i-\bar{x}}{s}
+  \right)^3
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="kurtosis-keruncingan-kurva">
+<h3>8. Kurtosis (Keruncingan Kurva)<a class="headerlink" href="#kurtosis-keruncingan-kurva" title="Link to this heading">#</a></h3>
+<ul>
+<li><p><strong>Penjelasan</strong>: Mengukur tingkat keruncingan puncak distribusi data dibandingkan dengan distribusi normal.</p>
+<ul class="simple">
+<li><p><strong>Analisis Data (<span class="math notranslate nohighlight">\(NO_2\)</span>)</strong>: Nilai Kurtosis <span class="math notranslate nohighlight">\(= 21.45\)</span> (<span class="math notranslate nohighlight">\(&gt; 3\)</span>), tergolong <em>leptokurtik</em>. Hal ini menunjukkan adanya ekor distribusi yang tebal akibat keberadaan nilai-nilai ekstrem (<em>outliers</em>) pada hari tertentu.</p></li>
+</ul>
+</li>
+<li><p><strong>Rumus</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Kurtosis}
+  =
+  \left[
+  \frac{
+  n(n+1)
+  }{
+  (n-1)(n-2)(n-3)
+  }
+  \sum_{i=1}^{n}
+  \left(
+  \frac{x_i-\bar{x}}{s}
+  \right)^4
+  \right]
+  -
+  \frac{
+  3(n-1)^2
+  }{
+  (n-2)(n-3)
+  }
+  \]</div>
+</li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -455,15 +691,6 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="05-knime-pipeline.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Implementasi Analisis Data Polutan: Dari Cloud Database ke KNIME</p>
-      </div>
-    </a>
 </div>
                 </footer>
               
@@ -480,8 +707,17 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">🛠️ 1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">🧬 2. Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembongkaran-metrik-statistika-deskriptif">Pembongkaran Metrik Statistika Deskriptif</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#min-minimum">1. Min (Minimum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-maximum">2. Max (Maximum)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-rata-rata-aritmatika">3. Mean (Rata-Rata Aritmatika)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#median-nilai-tengah">4. Median (Nilai Tengah)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-deviation-simpangan-baku">5. Standard Deviation (Simpangan Baku)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-varians">6. Variance (Varians)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skewness-kemiringan-distribusi">7. Skewness (Kemiringan Distribusi)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-keruncingan-kurva">8. Kurtosis (Keruncingan Kurva)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
