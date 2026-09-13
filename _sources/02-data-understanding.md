@@ -42,7 +42,36 @@ Klik tautan tersebut lalu login menggunakan akun Copernicus.
 
 Setelah berhasil, langkah selanjutnya adalah menentukan wilayah spesifik. Titik koordinat wilayah (batasan polygon) didapatkan menggunakan alat bantu pemetaan [geojson.io](https://geojson.io) dengan menggambar lokasi area studi yang diinginkan lalu meng-copy koordinatnya.
 
-![Peta GeoJSON](map_geojson.png)
+```{code-cell} python
+:tags: [hide-input]
+
+import folium
+import json
+
+# 1. Definisikan koordinat polygon area Surabaya Selatan
+aoi_polygon = [
+    [-7.2918074, 112.7500405],
+    [-7.3181015, 112.7175524],
+    [-7.3340839, 112.7462846]
+]
+
+# 2. Inisialisasi peta interaktif dengan pusat area Surabaya Selatan
+m = folium.Map(location=[-7.31, 112.735], zoom_start=13, tiles='OpenStreetMap')
+
+# 3. Tambahkan Polygon area studi ke peta
+folium.Polygon(
+    locations=aoi_polygon,
+    color='#4b0082',
+    weight=3,
+    fill=True,
+    fill_color='#6a5acd',
+    fill_opacity=0.4,
+    tooltip="Wilayah Observasi Surabaya Selatan"
+).add_to(m)
+
+# 4. Tampilkan peta interaktif
+m
+```
 
 Koordinat yang didapatkan dimasukkan ke dalam variabel `spatial_extent` dan eretan rentang data yang diinginkan. Lalu memuat koleksi polutan berdasarkan *bounding box* wilayah tersebut dengan menyesuaikan variabel *temporal_extent* dan *bands*.
 
