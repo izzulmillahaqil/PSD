@@ -4,9 +4,16 @@ parts:
   - caption: Polutan di Surabaya Selatan
     chapters:
       - file: 01-business-understanding
+        title: 1. Business Understanding
       - file: 02-data-understanding
+        title: 2. Data Understanding
       - file: 03-data-preparation
+        title: 3. Data Preparation
       - file: 04-time-series
+        title: 4. Analisis Time Series
       - file: 05-knime-pipeline
+        title: 5. Pipeline Cloud & KNIME
       - file: 06-feature-extraction
+        title: 6. Ekstraksi Fitur TSFEL
       - file: 07-conclusion
+        title: 7. Kesimpulan
