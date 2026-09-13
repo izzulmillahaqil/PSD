@@ -2,6 +2,8 @@
 
 Panduan ini menguraikan tahapan-tahapan untuk menghubungkan database PostgreSQL di platform **Aiven Cloud**, melakukan verifikasi koneksi, serta mengekstraksi metrik statistika deskriptif memanfaatkan **KNIME Analytics Platform**.
 
+---
+
 ## Langkah 1: Memperoleh Kredensial Database dari Aiven
 
 Sebelum menyambungkan koneksi melalui aplikasi atau skrip analitik apa pun, kita membutuhkan informasi kredensial server PostgreSQL dari dashboard Aiven.
@@ -43,7 +45,6 @@ print("Data time series berhasil di-upload ke PostgreSQL Aiven!")
 ```
 ## Langkah 3: Menyusun Alur Kerja (Workflow) di KNIME
 
----
 
 ### 3.1 Inisialisasi Workflow Baru
 1. Buka aplikasi **KNIME Analytics Platform**.
