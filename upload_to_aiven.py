@@ -34,8 +34,8 @@ if len(df_raw) == 1 and len(df_raw.columns) > 10:
 else:
     df_clean = df_raw
 
-# 3. Connect & Overwrite tabel di Aiven
-DB_URI = "postgresql://avnadmin:<YOUR_PASSWORD>@pg-3aba66e5-izzulmillahaqil.e.aivencloud.com:21121/defaultdb?sslmode=require"
+
+DB_URI = "postgresql://avnadmin:AVNS_LSny69sQDJ5EoMhv7R6@pg-3aba66e5-izzulmillahaqil.e.aivencloud.com:21121/defaultdb?sslmode=require"
 engine = create_engine(DB_URI)
 
 # Timpa tabel lama di Aiven
