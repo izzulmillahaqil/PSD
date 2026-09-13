@@ -15,5 +15,5 @@ parts:
         title: 5. Pipeline Cloud & KNIME
       - file: 06-feature-extraction
         title: 6. Ekstraksi Fitur TSFEL
-      - file: 07-Kesimpulan
+      - file: 07-kesimpulan
         title: 7. Kesimpulan
