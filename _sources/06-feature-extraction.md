@@ -23,5 +23,3 @@ Ekstraksi fitur dilakukan pada sinyal 1D $NO_2$ terimputasi untuk menghasilkan *
 * **Statistical Domain**: `abs_energy`, `calc_max`, `calc_mean`, `calc_median`, `calc_min`, `calc_std`, `calc_var`, `ecdf`, `kurtosis`, `rms`, `skewness`, dll.
 * **Temporal Domain**: `auc`, `autocorr`, `entropy`, `mean_abs_diff`, `zero_cross`, `higuchi_fractal_dimension`, `hurst_exponent`, dll.
 * **Spectral Domain**: `average_power`, `calc_centroid`, `fundamental_frequency`, `spectral_centroid`, `spectral_entropy`, `wavelet_energy`, dll.
-
-File dataset hasil ekstraksi disimpan dengan nama `NO2_Surabaya_Selatan_TSFEL.csv` dan telah diunggah ke database agregasi kelas.
