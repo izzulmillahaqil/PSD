@@ -188,7 +188,6 @@
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">5. Pipeline Cloud &amp; KNIME</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Ekstraksi Fitur TSFEL</a></li>
-
 </ul>
 
     </div>
@@ -384,7 +383,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">6. Ekstraksi Fitur TSFEL</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rincian-68-fitur-tsfel-berdasarkan-domain">2. Rincian 68 Fitur TSFEL Berdasarkan Domain</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-domain-statistik-statistical-domain">A. Domain Statistik (Statistical Domain)</a></li>
@@ -392,19 +390,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-domain-spektral-lainnya-spectral-domain-coefficients">C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupytext-text-representation-extension-md-format-name-myst-format-version-0-13">jupytext:
-text_representation:
-extension: .md
-format_name: myst
-format_version: 0.13</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-ekstraksi-fitur-tsfel">3. Data Preparation &amp; Ekstraksi Fitur TSFEL</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-deteksi-outlier-imputasi">1. Kode Deteksi Outlier &amp; Imputasi</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -685,18 +672,6 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 </section>
 </section>
 <hr class="docutils" />
-<section id="jupytext-text-representation-extension-md-format-name-myst-format-version-0-13">
-<h2>jupytext:
-text_representation:
-extension: .md
-format_name: myst
-format_version: 0.13<a class="headerlink" href="#jupytext-text-representation-extension-md-format-name-myst-format-version-0-13" title="Link to this heading">#</a></h2>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="data-preparation-ekstraksi-fitur-tsfel">
-<h1>3. Data Preparation &amp; Ekstraksi Fitur TSFEL<a class="headerlink" href="#data-preparation-ekstraksi-fitur-tsfel" title="Link to this heading">#</a></h1>
-<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> wilayah <strong>Surabaya Selatan</strong> (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026) diolah melalui pembersihan nilai anomali (<em>outlier detection</em>) menggunakan metode <em>Interquartile Range</em> (IQR), imputasi data kosong menggunakan interpolasi waktu, serta dilanjutkan dengan ekstraksi fitur menggunakan pustaka <strong>TSFEL</strong> (<em>Time Series Feature Extraction Library</em>).</p>
-<hr class="docutils" />
 <section id="kode-deteksi-outlier-imputasi">
 <h2>1. Kode Deteksi Outlier &amp; Imputasi<a class="headerlink" href="#kode-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
 <p>Skrip berikut digunakan untuk mendeteksi <em>outlier</em>, menggantinya menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, melakukan interpolasi linier, serta memvisualisasikan perbandingannya:</p>
@@ -785,7 +760,6 @@ format_version: 0.13<a class="headerlink" href="#jupytext-text-representation-ex
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">6. Ekstraksi Fitur TSFEL</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rincian-68-fitur-tsfel-berdasarkan-domain">2. Rincian 68 Fitur TSFEL Berdasarkan Domain</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-domain-statistik-statistical-domain">A. Domain Statistik (Statistical Domain)</a></li>
@@ -793,19 +767,8 @@ format_version: 0.13<a class="headerlink" href="#jupytext-text-representation-ex
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-domain-spektral-lainnya-spectral-domain-coefficients">C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupytext-text-representation-extension-md-format-name-myst-format-version-0-13">jupytext:
-text_representation:
-extension: .md
-format_name: myst
-format_version: 0.13</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-ekstraksi-fitur-tsfel">3. Data Preparation &amp; Ekstraksi Fitur TSFEL</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-deteksi-outlier-imputasi">1. Kode Deteksi Outlier &amp; Imputasi</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>

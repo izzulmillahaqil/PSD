@@ -113,18 +113,6 @@ Domain ini menganalisis komposisi frekuensi spektrum daya serta koefisien tambah
 
 
 ---
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: myst
-    format_version: 0.13
----
-
-# 3. Data Preparation & Ekstraksi Fitur TSFEL
-
-Pada tahap ini, data konsentrasi $NO_2$ wilayah **Surabaya Selatan** (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026) diolah melalui pembersihan nilai anomali (*outlier detection*) menggunakan metode *Interquartile Range* (IQR), imputasi data kosong menggunakan interpolasi waktu, serta dilanjutkan dengan ekstraksi fitur menggunakan pustaka **TSFEL** (*Time Series Feature Extraction Library*).
-
----
 
 ## 1. Kode Deteksi Outlier & Imputasi
 
