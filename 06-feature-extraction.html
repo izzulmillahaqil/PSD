@@ -384,7 +384,12 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">2. Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rincian-68-fitur-tsfel-berdasarkan-domain">2. Rincian 68 Fitur TSFEL Berdasarkan Domain</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-domain-statistik-statistical-domain">A. Domain Statistik (Statistical Domain)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-domain-temporal-temporal-domain">B. Domain Temporal (Temporal Domain)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-domain-spektral-lainnya-spectral-domain-coefficients">C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -413,14 +418,257 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 </ol>
 </section>
 <hr class="docutils" />
-<section id="ekstraksi-68-fitur-tsfel">
-<h2>2. Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h2>
-<p>Ekstraksi fitur dilakukan pada sinyal 1D <span class="math notranslate nohighlight">\(NO_2\)</span> terimputasi untuk menghasilkan <strong>68 fitur unik</strong> yang mencakup 3 domain utama:</p>
-<ul class="simple">
-<li><p><strong>Statistical Domain</strong>: <code class="docutils literal notranslate"><span class="pre">abs_energy</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_max</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_median</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_min</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_std</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_var</span></code>, <code class="docutils literal notranslate"><span class="pre">ecdf</span></code>, <code class="docutils literal notranslate"><span class="pre">kurtosis</span></code>, <code class="docutils literal notranslate"><span class="pre">rms</span></code>, <code class="docutils literal notranslate"><span class="pre">skewness</span></code>, dll.</p></li>
-<li><p><strong>Temporal Domain</strong>: <code class="docutils literal notranslate"><span class="pre">auc</span></code>, <code class="docutils literal notranslate"><span class="pre">autocorr</span></code>, <code class="docutils literal notranslate"><span class="pre">entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_abs_diff</span></code>, <code class="docutils literal notranslate"><span class="pre">zero_cross</span></code>, <code class="docutils literal notranslate"><span class="pre">higuchi_fractal_dimension</span></code>, <code class="docutils literal notranslate"><span class="pre">hurst_exponent</span></code>, dll.</p></li>
-<li><p><strong>Spectral Domain</strong>: <code class="docutils literal notranslate"><span class="pre">average_power</span></code>, <code class="docutils literal notranslate"><span class="pre">calc_centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">fundamental_frequency</span></code>, <code class="docutils literal notranslate"><span class="pre">spectral_centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">spectral_entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">wavelet_energy</span></code>, dll.</p></li>
-</ul>
+<section id="rincian-68-fitur-tsfel-berdasarkan-domain">
+<h2>2. Rincian 68 Fitur TSFEL Berdasarkan Domain<a class="headerlink" href="#rincian-68-fitur-tsfel-berdasarkan-domain" title="Link to this heading">#</a></h2>
+<p>Ekstraksi fitur dilakukan pada sinyal 1D <span class="math notranslate nohighlight">\(NO_2\)</span> terimputasi untuk menghasilkan <strong>68 fitur unik</strong> yang terbagi menjadi 3 domain utama:</p>
+<section id="a-domain-statistik-statistical-domain">
+<h3>A. Domain Statistik (Statistical Domain)<a class="headerlink" href="#a-domain-statistik-statistical-domain" title="Link to this heading">#</a></h3>
+<p>Domain ini menggambarkan distribusi, pemusatan data, serta energi gelombang sinyal <span class="math notranslate nohighlight">\(NO_2\)</span>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Nama Fitur</p></th>
+<th class="head text-left"><p>Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">abs_energy</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.1646e-07</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">auc</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.01436</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_max</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">7.3105e-05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_mean</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.9620e-05</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_median</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.0933e-05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_min</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.2984e-06</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_std</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.1335e-05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_var</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.2848e-10</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">entropy</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">hist_mode</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.3042e-05</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">interq_range</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.5633e-05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">kurtosis</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.11496</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">maximum_fractal_length</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.5804</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mean_abs_deviation</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">9.0568e-06</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_abs_deviation</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">7.6239e-06</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mse</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.73851</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pk_pk_distance</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.6806e-05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">rms</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.1210e-05</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">skewness</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.18384</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">sum_abs_diff</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.00219</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_abs_mean</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.9056e-06</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_energy</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.8054e-05</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_entropy</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.1324</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.7932e-05</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.4725e-10</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="b-domain-temporal-temporal-domain">
+<h3>B. Domain Temporal (Temporal Domain)<a class="headerlink" href="#b-domain-temporal-temporal-domain" title="Link to this heading">#</a></h3>
+<p>Domain ini mengukur dinamika waktu lokal, transisi nilai, dan fluktuasi antar-sampel berurutan:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Nama Fitur</p></th>
+<th class="head text-left"><p>Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">autocorr</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">dfa</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.91596</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">distance</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">362.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.01515</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf_percentile</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.9713e-05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf_percentile_count</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">181.0</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf_slope</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">38197.50906</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">higuchi_fractal_dimension</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.8248</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">human_range_energy</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">hurst_exponent</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.84544</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lempel_ziv</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.17080</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mean_abs_diff</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.0430e-06</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mean_diff</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.7141e-08</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_abs_diff</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.7729e-06</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_diff</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-3.1096e-07</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">negative_turning</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.0</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">neighbourhood_peaks</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">13.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">petrosian_fractal_dimension</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.0201</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">positive_turning</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">slope</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-8.7264e-09</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">zero_cross</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="c-domain-spektral-lainnya-spectral-domain-coefficients">
+<h3>C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)<a class="headerlink" href="#c-domain-spektral-lainnya-spectral-domain-coefficients" title="Link to this heading">#</a></h3>
+<p>Domain ini menganalisis komposisi frekuensi spektrum daya serta koefisien tambahan:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Nama Fitur</p></th>
+<th class="head text-left"><p>Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">average_power</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.7029e-09</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_centroid</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">176.86884</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">fundamental_frequency</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.00275</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lpcc</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.76505</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">max_frequency</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.43526</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">max_power_spectrum</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">22.77502</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_frequency</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.05785</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mfcc</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">21.05104</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">power_bandwidth</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.36915</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_centroid</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.12358</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_decrease</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.66955</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_distance</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.05912</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_entropy</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.81148</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_kurtosis</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.72284</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_positive_turning</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">58.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_roll_off</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.43526</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_roll_on</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.00971</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_skewness</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.03298</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_slope</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.14739</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_spread</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.58044</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_variation</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.2919e-10</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectrogram_mean_coeff</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.00219</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 </section>
 </section>
 
@@ -480,7 +728,12 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pra-pemrosesan-data-deteksi-outlier-imputasi">1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">2. Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rincian-68-fitur-tsfel-berdasarkan-domain">2. Rincian 68 Fitur TSFEL Berdasarkan Domain</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-domain-statistik-statistical-domain">A. Domain Statistik (Statistical Domain)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-domain-temporal-temporal-domain">B. Domain Temporal (Temporal Domain)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-domain-spektral-lainnya-spectral-domain-coefficients">C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
