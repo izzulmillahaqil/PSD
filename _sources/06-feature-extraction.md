@@ -114,7 +114,7 @@ Domain ini menganalisis komposisi frekuensi spektrum daya serta koefisien tambah
 
 ---
 
-## 1. Kode Deteksi Outlier & Imputasi
+## 4. Kode Deteksi Outlier & Imputasi
 
 Skrip berikut digunakan untuk mendeteksi *outlier*, menggantinya menjadi `NaN`, melakukan interpolasi linier, serta memvisualisasikan perbandingannya:
 
