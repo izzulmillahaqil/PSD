@@ -2,43 +2,7 @@
 Dokumen ini menjelaskan alur pra-pemrosesan data polutan $NO_2$ wilayah **Surabaya Selatan** serta ekstraksi **68 fitur time-series** menggunakan pustaka **TSFEL** (*Time Series Feature Extraction Library*).
 
 ---
----
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: myst
-    format_version: 0.13
 
-## 1. Kode Deteksi Outlier & Imputasi
-
-Skrip berikut digunakan untuk mendeteksi *outlier*, menggantinya menjadi `NaN`, melakukan interpolasi linier, serta memvisualisasikan perbandingannya:
-
-```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Load data CSV
-df = pd.read_excel('.../data_polutan_no2_clean.csv') # atau read_csv sesuai formatmu
-df["date"] = pd.to_datetime(df["date"])
-df = df.sort_values("date").reset_index(drop=True)
-
-# Filter rentang tanggal
-df = df[(df["date"] >= "2025-08-31") & (df["date"] <= "2026-08-31")].reset_index(drop=True)
-
-# Deteksi Outlier IQR
-Q1 = df["NO2"].quantile(0.25)
-Q3 = df["NO2"].quantile(0.75)
-IQR = Q3 - Q1
-lower_bound = Q1 - 1.5 * IQR
-upper_bound = Q3 + 1.5 * IQR
-
-outliers_mask = (df["NO2"] < lower_bound) | (df["NO2"] > upper_bound)
-
-# Imputasi NaN
-df_fixed = df.copy()
-df_fixed.loc[outliers_mask, "NO2"] = np.nan
-df_fixed["NO2"] = df_fixed["NO2"].interpolate(method="time").ffill().bfill()
 ## 1. Pra-pemrosesan Data (Deteksi Outlier & Imputasi)
 
 1. **Deteksi Pencilan (*Outlier Detection*)**:
@@ -145,3 +109,50 @@ Domain ini menganalisis komposisi frekuensi spektrum daya serta koefisien tambah
 | `spectral_spread` | `0.58044` |
 | `spectral_variation` | `2.2919e-10` |
 | `spectrogram_mean_coeff` | `0.00219` |
+
+
+
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+---
+
+# 3. Data Preparation & Ekstraksi Fitur TSFEL
+
+Pada tahap ini, data konsentrasi $NO_2$ wilayah **Surabaya Selatan** (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026) diolah melalui pembersihan nilai anomali (*outlier detection*) menggunakan metode *Interquartile Range* (IQR), imputasi data kosong menggunakan interpolasi waktu, serta dilanjutkan dengan ekstraksi fitur menggunakan pustaka **TSFEL** (*Time Series Feature Extraction Library*).
+
+---
+
+## 1. Kode Deteksi Outlier & Imputasi
+
+Skrip berikut digunakan untuk mendeteksi *outlier*, menggantinya menjadi `NaN`, melakukan interpolasi linier, serta memvisualisasikan perbandingannya:
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load data CSV
+df = pd.read_excel('.../data_polutan_no2_clean.csv') # atau read_csv sesuai formatmu
+df["date"] = pd.to_datetime(df["date"])
+df = df.sort_values("date").reset_index(drop=True)
+
+# Filter rentang tanggal
+df = df[(df["date"] >= "2025-08-31") & (df["date"] <= "2026-08-31")].reset_index(drop=True)
+
+# Deteksi Outlier IQR
+Q1 = df["NO2"].quantile(0.25)
+Q3 = df["NO2"].quantile(0.75)
+IQR = Q3 - Q1
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+outliers_mask = (df["NO2"] < lower_bound) | (df["NO2"] > upper_bound)
+
+# Imputasi NaN
+df_fixed = df.copy()
+df_fixed.loc[outliers_mask, "NO2"] = np.nan
+df_fixed["NO2"] = df_fixed["NO2"].interpolate(method="time").ffill().bfill()
