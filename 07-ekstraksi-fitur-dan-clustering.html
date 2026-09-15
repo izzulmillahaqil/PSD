@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Data Preparation &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -59,11 +59,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '03-data-preparation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '07-ekstraksi-fitur-dan-clustering';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Analisis Time Series" href="04-time-series.html" />
-    <link rel="prev" title="Data Understanding" href="02-data-understanding.html" />
+    <link rel="prev" title="6. Ekstraksi Fitur TSFEL" href="06-feature-extraction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -185,11 +184,11 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">5. Pipeline Cloud &amp; KNIME</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06-feature-extraction.html">6. Ekstraksi Fitur TSFEL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="07-ekstraksi-fitur-dan-clustering.html">7. Ekstraksi Fitur dan Clustering</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ekstraksi Fitur dan Clustering</a></li>
 </ul>
 
     </div>
@@ -261,7 +260,7 @@
       
       
       
-      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F03-data-preparation.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F07-ekstraksi-fitur-dan-clustering.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +290,7 @@
       
       
       
-      <li><a href="_sources/03-data-preparation.md" target="_blank"
+      <li><a href="_sources/07-ekstraksi-fitur-dan-clustering.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +374,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>3. Data Preparation</h1>
+    <h1>7. Ekstraksi Fitur TSFEL, Reduksi PCA, & K-Means Clustering</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -385,7 +384,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
 </ul>
             </nav>
         </div>
@@ -397,12 +396,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
-<h1>3. Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
-<p>Pada tahap ini, data konsentrasi <span class="math notranslate nohighlight">\(NO_2\)</span> diakses dan diolah menggunakan API openEO dari Copernicus Data Space Ecosystem, dengan membatasi area menggunakan GeoJSON serta membersihkan data anomali.</p>
-<section id="hasil-csv">
-<h2>Hasil CSV<a class="headerlink" href="#hasil-csv" title="Link to this heading">#</a></h2>
-<p>Berikut adalah 5 baris pertama dari data hasil pengolahan dan pembersihan polutan <span class="math notranslate nohighlight">\(NO_2\)</span> yang siap digunakan untuk analisis <em>time series</em>:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-tsfel-reduksi-pca-k-means-clustering">
+<h1>7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering<a class="headerlink" href="#ekstraksi-fitur-tsfel-reduksi-pca-k-means-clustering" title="Link to this heading">#</a></h1>
+<p>Dokumen ini menjelaskan alur lengkap pengolahan data polutan udara (<strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>) wilayah <strong>Surabaya Selatan</strong> (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026), mulai dari eksplorasi deret waktu, ekstraksi 68 fitur TSFEL per polutan (total 204 kolom), reduksi dimensi menggunakan PCA, hingga analisis <em>K-Means Clustering</em> dan integrasi database Aiven Cloud.</p>
+<hr class="docutils" />
+<section id="eksplorasi-data-time-series-plot-semua-polutan">
+<h2>1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)<a class="headerlink" href="#eksplorasi-data-time-series-plot-semua-polutan" title="Link to this heading">#</a></h2>
+<p>Sebelum melakukan ekstraksi fitur, kita melakukan visualisasi deret waktu (<em>time series plot</em>) untuk melihat tren harian dan karakteristik fluktuasi dari ketiga polutan secara bersamaan.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -411,76 +411,36 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="c1"># Load data CSV (jika belum ada, buat sampel otomatis)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/processed/data_polutan_no2_clean.csv&#39;</span><span class="p">)</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;2025-10-01&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">dates</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;NO2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.36e-05</span><span class="p">,</span> <span class="mf">7.63e-05</span><span class="p">,</span> <span class="mf">6.03e-05</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">4.49e-05</span><span class="p">]</span>
-    <span class="p">})</span>
+<span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CO&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;SO2&#39;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">,</span> <span class="s1">&#39;tab:orange&#39;</span><span class="p">,</span> <span class="s1">&#39;tab:green&#39;</span><span class="p">]</span>
 
-<span class="c1"># Tampilkan tabel dataframe</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># Simulasi / Load data (pastikan path file sesuai direktori Anda)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pol</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pollutants</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/processed/data_polutan_</span><span class="si">{</span><span class="n">pol</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_clean.csv&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="c1"># Fallback dummy plot jika dijalankan tanpa file lokal</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;2025-08-31&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time Series - Polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (Surabaya Selatan)&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>NO2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2025-10-01</td>
-      <td>0.000054</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2025-10-02</td>
-      <td>0.000076</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2025-10-03</td>
-      <td>0.000060</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2025-10-04</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2025-10-05</td>
-      <td>0.000045</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<img alt="_images/c260e7cd7766d8be25682b4e53f4db1f3d126fb1f3c8884b03bf91cf71e63426.png" src="_images/c260e7cd7766d8be25682b4e53f4db1f3d126fb1f3c8884b03bf91cf71e63426.png" />
+</div>
 </div>
 </section>
 </section>
@@ -516,22 +476,13 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="02-data-understanding.html"
+       href="06-feature-extraction.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Data Understanding</p>
+        <p class="prev-next-title">6. Ekstraksi Fitur TSFEL</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="04-time-series.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">4. Analisis Time Series</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -549,7 +500,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-csv">Hasil CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
 </ul>
   </nav></div>
 
