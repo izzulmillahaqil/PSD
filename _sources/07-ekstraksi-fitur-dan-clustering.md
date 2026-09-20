@@ -46,29 +46,19 @@ for pol in pollutants:
         # 2. Deteksi Outlier dengan Isolation Forest
         model = IsolationForest(contamination=CONTAMINATION, random_state=42)
         df['anomaly'] = model.fit_predict(df[[pol]])  # -1 = outlier, 1 = normal
-        outliers = df[df['anomaly'] == -1]
 
         # 3. Ganti Outlier jadi NaN lalu Interpolasi Berbasis Waktu
         df_fixed = df.copy()
         df_fixed.loc[df_fixed['anomaly'] == -1, pol] = np.nan
         df_fixed[pol] = df_fixed[pol].interpolate(method='linear').ffill().bfill()
 
-        # 4. Visualisasi Plot Sebelum vs Sesudah (Persis Gambar)
-        fig, axes = plt.subplots(2, 1, figsize=(15, 8), sharex=True)
-
-        # Plot Sebelum Perbaikan
-        axes[0].plot(df['date'], df[pol], label=f'{pol} (asli)', linewidth=1)
-        axes[0].scatter(outliers['date'], outliers[pol], color='red', 
-                        marker='o', label='Outlier (Isolation Forest)', zorder=5)
-        axes[0].set_title(f'Sebelum Perbaikan - Deteksi Outlier {pol}')
-        axes[0].legend(loc='upper right')
-
-        # Plot Sesudah Perbaikan
-        axes[1].plot(df_fixed['date'], df_fixed[pol], color='green', linewidth=1, 
-                     label=f'{pol} (setelah outlier diganti & diinterpolasi)')
-        axes[1].set_title(f'Sesudah Perbaikan Outlier {pol}')
-        axes[1].legend(loc='upper right')
-
+        # 4. Visualisasi Plot Sesudah Perbaikan Outlier
+        plt.figure(figsize=(15, 4))
+        plt.plot(df_fixed['date'], df_fixed[pol], color='green', linewidth=1, 
+                 label=f'{pol} (setelah outlier diganti & diinterpolasi)')
+        plt.title(f'Sesudah Perbaikan Outlier {pol}')
+        plt.legend(loc='upper right')
+        plt.grid(True, linestyle='--', alpha=0.5)
         plt.tight_layout()
         plt.show()
 
