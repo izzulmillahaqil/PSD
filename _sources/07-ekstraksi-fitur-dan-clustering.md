@@ -56,7 +56,7 @@ for pol in pollutants:
         plt.figure(figsize=(15, 4))
         plt.plot(df_fixed['date'], df_fixed[pol], color='green', linewidth=1, 
                  label=f'{pol} (setelah outlier diganti & diinterpolasi)')
-        plt.title(f' {pol}')
+        plt.title(f'{pol}')
         plt.legend(loc='upper right')
         plt.grid(True, linestyle='--', alpha=0.5)
         plt.tight_layout()
@@ -64,9 +64,6 @@ for pol in pollutants:
 
     except Exception as e:
         print(f"Gagal memproses visualisasi polutan {pol}: {e}")
-
-```
-
 
 ## 2. Konsep Dasar, Deskripsi Fitur & Perhitungan Manual Khusus (`wavelet_std` & `wavelet_var`)
 
@@ -146,7 +143,7 @@ $$\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{5.000000 \times 10^{-
 
 Berikut skrip Python untuk membuktikan bahwa perhitungan manual di atas identik dengan output dari pustaka `PyWavelets` dan `TSFEL`:
 
-```python
+```{code-cell} ipython3
 import numpy as np
 import pywt
 import tsfel.feature_extraction.features as tsfel_features
