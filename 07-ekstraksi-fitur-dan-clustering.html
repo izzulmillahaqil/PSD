@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '07-ekstraksi-fitur-dan-clustering';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -383,6 +385,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#koneksi-database-penarikan-data">3.1 Koneksi Database &amp; Penarikan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-filtering-variance-control-normalisasi">3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-dengan-pca">3.3 Reduksi Dimensi dengan PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pemodelan-k-means-clustering">3.4 Pemodelan K-Means Clustering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a></li>
 </ul>
             </nav>
         </div>
@@ -579,6 +585,79 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
 </li>
 </ul>
 </section>
+<section id="preprocessing-data-filtering-variance-control-normalisasi">
+<h2>3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)<a class="headerlink" href="#preprocessing-data-filtering-variance-control-normalisasi" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Column</span> <span class="pre">Filter</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Memisahkan variabel numerik dan metadata non-numerik.</p></li>
+<li><p><strong>Excludes:</strong> <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">nama</span></code>, <code class="docutils literal notranslate"><span class="pre">daerah</span></code></p></li>
+<li><p><strong>Includes:</strong> Seluruh kolom fitur angka TSFEL.</p></li>
+</ul>
+</li>
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Low</span> <span class="pre">Variance</span> <span class="pre">Filter</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Berfungsi untuk mengeliminasi kolom-kolom yang bersifat konstan (memiliki variansi mendekati <code class="docutils literal notranslate"><span class="pre">0</span></code>), sehingga algoritma PCA tidak mengalami pembagian dengan nol.</p></li>
+</ul>
+</li>
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Menerapkan pembobotan variabel dengan metode <strong>Min-Max Normalization</strong> (rentang 0.0 s.d. 1.0) agar fitur berjarak variabel seimbang.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="reduksi-dimensi-dengan-pca">
+<h2>3.3 Reduksi Dimensi dengan PCA<a class="headerlink" href="#reduksi-dimensi-dengan-pca" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Compute</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Menerima input fitur yang telah dinormalisasi dari node <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code>.</p></li>
+<li><p>Pada konfigurasi panel <strong>Dimensions</strong>, tentukan jumlah komponen utama yang ingin dihasilkan (misalnya <code class="docutils literal notranslate"><span class="pre">Fixed</span> <span class="pre">Number</span> <span class="pre">=</span> <span class="pre">2</span></code> atau <code class="docutils literal notranslate"><span class="pre">37</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Apply</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Menerima port data numerik dari <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code> dan port matriks transformasi dari <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Compute</span></code>.</p></li>
+<li><p>Mengubah fitur-fitur berdimensi tinggi menjadi komponen proyeksi baru (<code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">1</span></code>, dst.).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="pemodelan-k-means-clustering">
+<h2>3.4 Pemodelan K-Means Clustering<a class="headerlink" href="#pemodelan-k-means-clustering" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">k-Means</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Hubungkan output data dari node <strong><code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Apply</span></code></strong> menuju port input <strong><code class="docutils literal notranslate"><span class="pre">k-Means</span></code></strong>.</p></li>
+<li><p>Konfigurasikan <strong>Number of clusters (<span class="math notranslate nohighlight">\(k\)</span>)</strong> menjadi <code class="docutils literal notranslate"><span class="pre">2</span></code> atau <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
+<li><p>Tentukan <strong>Max. number of iterations</strong> = <code class="docutils literal notranslate"><span class="pre">100</span></code>.</p></li>
+<li><p>Eksekusi node hingga menyala hijau untuk mengekstrak penataan kelompok baru bernama kolom <code class="docutils literal notranslate"><span class="pre">Cluster</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="visualisasi-cluster-penetapan-sumbu">
+<h2>3.5 Visualisasi Cluster &amp; Penetapan Sumbu<a class="headerlink" href="#visualisasi-cluster-penetapan-sumbu" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Scatter</span> <span class="pre">Plot</span></code>:</strong></p>
+<ul class="simple">
+<li><p>Hubungkan output data berlabel dari node <strong><code class="docutils literal notranslate"><span class="pre">k-Means</span></code></strong> ke port <strong><code class="docutils literal notranslate"><span class="pre">Scatter</span> <span class="pre">Plot</span></code></strong>.</p></li>
+<li><p>Buka konfigurasi panel visualisasi:</p>
+<ul>
+<li><p><strong>Horizontal dimension:</strong> <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">0</span></code></p></li>
+<li><p><strong>Vertical dimension:</strong> <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">1</span></code></p></li>
+<li><p><strong>Color dimension:</strong> <code class="docutils literal notranslate"><span class="pre">Cluster</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Jalankan perintah <strong>Apply and Execute</strong> untuk menyajikan grafik sebaran titik <em>cluster</em> berbasis warna.</p></li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -637,6 +716,10 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#koneksi-database-penarikan-data">3.1 Koneksi Database &amp; Penarikan Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-filtering-variance-control-normalisasi">3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-dengan-pca">3.3 Reduksi Dimensi dengan PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pemodelan-k-means-clustering">3.4 Pemodelan K-Means Clustering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a></li>
 </ul>
   </nav></div>
 

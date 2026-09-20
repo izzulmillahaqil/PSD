@@ -177,3 +177,43 @@ Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangka
   Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (`;`) di akhir kueri untuk mengambil seluruh fitur TSFEL:
   ```sql
   SELECT * FROM `basisda1_PSD-A`.ekstraksi_fitur_co
+
+### 3.2 Preprocessing Data (Filtering, Variance Control, & Normalisasi)
+1. **Node `Column Filter`:**
+   * Memisahkan variabel numerik dan metadata non-numerik.
+   * **Excludes:** `id`, `nama`, `daerah`
+   * **Includes:** Seluruh kolom fitur angka TSFEL.
+2. **Node `Low Variance Filter`:**
+   * Berfungsi untuk mengeliminasi kolom-kolom yang bersifat konstan (memiliki variansi mendekati `0`), sehingga algoritma PCA tidak mengalami pembagian dengan nol.
+3. **Node `Normalizer`:**
+   * Menerapkan pembobotan variabel dengan metode **Min-Max Normalization** (rentang 0.0 s.d. 1.0) agar fitur berjarak variabel seimbang.
+
+---
+
+### 3.3 Reduksi Dimensi dengan PCA
+1. **Node `PCA Compute`:**
+   * Menerima input fitur yang telah dinormalisasi dari node `Normalizer`.
+   * Pada konfigurasi panel **Dimensions**, tentukan jumlah komponen utama yang ingin dihasilkan (misalnya `Fixed Number = 2` atau `37`).
+2. **Node `PCA Apply`:**
+   * Menerima port data numerik dari `Normalizer` dan port matriks transformasi dari `PCA Compute`.
+   * Mengubah fitur-fitur berdimensi tinggi menjadi komponen proyeksi baru (`PCA dimension 0`, `PCA dimension 1`, dst.).
+
+---
+
+### 3.4 Pemodelan K-Means Clustering
+1. **Node `k-Means`:**
+   * Hubungkan output data dari node **`PCA Apply`** menuju port input **`k-Means`**.
+   * Konfigurasikan **Number of clusters ($k$)** menjadi `2` atau `3`.
+   * Tentukan **Max. number of iterations** = `100`.
+   * Eksekusi node hingga menyala hijau untuk mengekstrak penataan kelompok baru bernama kolom `Cluster`.
+
+---
+
+### 3.5 Visualisasi Cluster & Penetapan Sumbu
+1. **Node `Scatter Plot`:**
+   * Hubungkan output data berlabel dari node **`k-Means`** ke port **`Scatter Plot`**.
+   * Buka konfigurasi panel visualisasi:
+     * **Horizontal dimension:** `PCA dimension 0`
+     * **Vertical dimension:** `PCA dimension 1`
+     * **Color dimension:** `Cluster`
+2. Jalankan perintah **Apply and Execute** untuk menyajikan grafik sebaran titik *cluster* berbasis warna.
