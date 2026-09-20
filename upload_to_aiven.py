@@ -34,8 +34,13 @@ if len(df_raw) == 1 and len(df_raw.columns) > 10:
 else:
     df_clean = df_raw
 
+# 3. Ambil password dari Environment Variable (Aman dari Blokir GitHub)
+AIVEN_PASSWORD = os.getenv("AIVEN_PASSWORD")
 
-DB_URI = "postgresql://avnadmin:AVNS_LSny69sQDJ5EoMhv7R6@pg-3aba66e5-izzulmillahaqil.e.aivencloud.com:21121/defaultdb?sslmode=require"
+if not AIVEN_PASSWORD:
+    raise ValueError("Error: Variabel environment 'AIVEN_PASSWORD' belum diset di terminal!")
+
+DB_URI = f"postgresql://avnadmin:{AIVEN_PASSWORD}@pg-3aba66e5-izzulmillahaqil.e.aivencloud.com:21121/defaultdb?sslmode=require"
 engine = create_engine(DB_URI)
 
 # Timpa tabel lama di Aiven
