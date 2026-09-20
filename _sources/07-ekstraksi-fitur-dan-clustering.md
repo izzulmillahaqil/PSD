@@ -209,11 +209,22 @@ Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangka
 
 ---
 
+---
+
 ### 3.5 Visualisasi Cluster & Penetapan Sumbu
 1. **Node `Scatter Plot`:**
    * Hubungkan output data berlabel dari node **`k-Means`** ke port **`Scatter Plot`**.
    * Buka konfigurasi panel visualisasi:
-     * **Horizontal dimension:** `PCA dimension 0`
-     * **Vertical dimension:** `PCA dimension 1`
-     * **Color dimension:** `Cluster`
+     * **Horizontal dimension:** `nama`
+     * **Vertical dimension:** `cluster`
+     * **Color dimension:** `none`
 2. Jalankan perintah **Apply and Execute** untuk menyajikan grafik sebaran titik *cluster* berbasis warna.
+
+#### Rangkaian Workflow & Hasil Clustering
+Berikut adalah gambaran alur *workflow* KNIME yang telah disusun serta hasil sebaran titik kelompok data (*clustering*):
+
+![Workflow KNIME](/workflow.png)
+*Gambar 3.1: Alur Lengkap Workflow Preprocessing, PCA, dan K-Means pada KNIME*
+
+![Hasil Scatter Plot Clustering](/clustering.png)
+*Gambar 3.2: Hasil Persebaran Cluster (cluster_0 dan cluster_1) Menggunakan Scatter Plot*

@@ -388,7 +388,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-filtering-variance-control-normalisasi">3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-dengan-pca">3.3 Reduksi Dimensi dengan PCA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pemodelan-k-means-clustering">3.4 Pemodelan K-Means Clustering</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rangkaian-workflow-hasil-clustering">Rangkaian Workflow &amp; Hasil Clustering</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -638,6 +641,7 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
 </ul>
 </li>
 </ol>
+<hr class="docutils" />
 </section>
 <hr class="docutils" />
 <section id="visualisasi-cluster-penetapan-sumbu">
@@ -648,15 +652,23 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
 <li><p>Hubungkan output data berlabel dari node <strong><code class="docutils literal notranslate"><span class="pre">k-Means</span></code></strong> ke port <strong><code class="docutils literal notranslate"><span class="pre">Scatter</span> <span class="pre">Plot</span></code></strong>.</p></li>
 <li><p>Buka konfigurasi panel visualisasi:</p>
 <ul>
-<li><p><strong>Horizontal dimension:</strong> <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">0</span></code></p></li>
-<li><p><strong>Vertical dimension:</strong> <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">1</span></code></p></li>
-<li><p><strong>Color dimension:</strong> <code class="docutils literal notranslate"><span class="pre">Cluster</span></code></p></li>
+<li><p><strong>Horizontal dimension:</strong> <code class="docutils literal notranslate"><span class="pre">nama</span></code></p></li>
+<li><p><strong>Vertical dimension:</strong> <code class="docutils literal notranslate"><span class="pre">cluster</span></code></p></li>
+<li><p><strong>Color dimension:</strong> <code class="docutils literal notranslate"><span class="pre">none</span></code></p></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>Jalankan perintah <strong>Apply and Execute</strong> untuk menyajikan grafik sebaran titik <em>cluster</em> berbasis warna.</p></li>
 </ol>
+<section id="rangkaian-workflow-hasil-clustering">
+<h3>Rangkaian Workflow &amp; Hasil Clustering<a class="headerlink" href="#rangkaian-workflow-hasil-clustering" title="Link to this heading">#</a></h3>
+<p>Berikut adalah gambaran alur <em>workflow</em> KNIME yang telah disusun serta hasil sebaran titik kelompok data (<em>clustering</em>):</p>
+<p><img alt="Workflow KNIME" src="_images/workflow.png" />
+<em>Gambar 3.1: Alur Lengkap Workflow Preprocessing, PCA, dan K-Means pada KNIME</em></p>
+<p><img alt="Hasil Scatter Plot Clustering" src="clustering.png" />
+<em>Gambar 3.2: Hasil Persebaran Cluster (cluster_0 dan cluster_1) Menggunakan Scatter Plot</em></p>
+</section>
 </section>
 </section>
 
@@ -719,7 +731,10 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-filtering-variance-control-normalisasi">3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-dengan-pca">3.3 Reduksi Dimensi dengan PCA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pemodelan-k-means-clustering">3.4 Pemodelan K-Means Clustering</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rangkaian-workflow-hasil-clustering">Rangkaian Workflow &amp; Hasil Clustering</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
