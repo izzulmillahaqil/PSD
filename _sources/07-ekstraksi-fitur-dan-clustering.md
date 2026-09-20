@@ -223,8 +223,8 @@ Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangka
 #### Rangkaian Workflow & Hasil Clustering
 Berikut adalah gambaran alur *workflow* KNIME yang telah disusun serta hasil sebaran titik kelompok data (*clustering*):
 
-![Workflow KNIME](/workflow.png)
+![Workflow KNIME](workflow.png)
 *Gambar 3.1: Alur Lengkap Workflow Preprocessing, PCA, dan K-Means pada KNIME*
 
-![Hasil Scatter Plot Clustering](/clustering.png)
+![Hasil Scatter Plot Clustering](clustering.png)
 *Gambar 3.2: Hasil Persebaran Cluster (cluster_0 dan cluster_1) Menggunakan Scatter Plot*
