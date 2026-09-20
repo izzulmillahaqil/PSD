@@ -393,7 +393,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-domain-spektral-lainnya-spectral-domain-coefficients">C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-deteksi-outlier-imputasi">3. Kode Deteksi Outlier &amp; Imputasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-deteksi-outlier-imputasi-untuk-3-polutan">3. Kode Deteksi Outlier &amp; Imputasi untuk 3 Polutan</a></li>
 </ul>
             </nav>
         </div>
@@ -407,7 +407,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-tsfel">
 <h1>6. Ekstraksi Fitur TSFEL<a class="headerlink" href="#ekstraksi-fitur-tsfel" title="Link to this heading">#</a></h1>
-<p>Dokumen ini menjelaskan alur pra-pemrosesan data polutan <span class="math notranslate nohighlight">\(NO_2\)</span> wilayah <strong>Surabaya Selatan</strong> serta ekstraksi <strong>68 fitur time-series</strong> menggunakan pustaka <strong>TSFEL</strong> (<em>Time Series Feature Extraction Library</em>).</p>
+<p>Dokumen ini menjelaskan alur pra-pemrosesan data polutan udara (<strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>) wilayah <strong>Surabaya Selatan (Wonokromo)</strong> serta ekstraksi <strong>68 fitur time-series</strong> per polutan menggunakan pustaka <strong>TSFEL</strong> (<em>Time Series Feature Extraction Library</em>).</p>
 <hr class="docutils" />
 <section id="pra-pemrosesan-data-deteksi-outlier-imputasi">
 <h2>1. Pra-pemrosesan Data (Deteksi Outlier &amp; Imputasi)<a class="headerlink" href="#pra-pemrosesan-data-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
@@ -424,91 +424,195 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 <hr class="docutils" />
 <section id="rincian-68-fitur-tsfel-berdasarkan-domain">
 <h2>2. Rincian 68 Fitur TSFEL Berdasarkan Domain<a class="headerlink" href="#rincian-68-fitur-tsfel-berdasarkan-domain" title="Link to this heading">#</a></h2>
-<p>Ekstraksi fitur dilakukan pada sinyal 1D <span class="math notranslate nohighlight">\(NO_2\)</span> terimputasi untuk menghasilkan <strong>68 fitur unik</strong> yang terbagi menjadi 3 domain utama:</p>
+<p>Ekstraksi fitur dilakukan pada sinyal 1D ketiga polutan terimputasi untuk menghasilkan <strong>68 fitur unik per polutan</strong> (total 204 fitur) yang terbagi menjadi 3 domain utama. Notasi yang digunakan: <span class="math notranslate nohighlight">\(x = \{x_1, x_2, \ldots, x_N\}\)</span> adalah sinyal dengan <span class="math notranslate nohighlight">\(N\)</span> sampel, <span class="math notranslate nohighlight">\(\bar{x}\)</span> adalah rata-rata, dan <span class="math notranslate nohighlight">\(t_i\)</span> adalah nilai waktu ke-<span class="math notranslate nohighlight">\(i\)</span>.</p>
 <section id="a-domain-statistik-statistical-domain">
 <h3>A. Domain Statistik (Statistical Domain)<a class="headerlink" href="#a-domain-statistik-statistical-domain" title="Link to this heading">#</a></h3>
-<p>Domain ini menggambarkan distribusi, pemusatan data, serta energi gelombang sinyal <span class="math notranslate nohighlight">\(NO_2\)</span>:</p>
+<p>Domain ini menggambarkan distribusi, pemusatan data, bentuk sebaran, serta energi gelombang sinyal <strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>Nama Fitur</p></th>
-<th class="head text-left"><p>Nilai</p></th>
+<th class="head text-left"><p>Penjelasan</p></th>
+<th class="head text-left"><p>Rumus</p></th>
+<th class="head text-left"><p>Nilai CO</p></th>
+<th class="head text-left"><p>Nilai NO2</p></th>
+<th class="head text-left"><p>Nilai SO2</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">abs_energy</span></code></p></td>
+<td class="text-left"><p>Total energi sinyal; jumlah kuadrat dari seluruh nilai sampel.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(E = \sum_{i=1}^{N} x_i^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.319635</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.1646e-07</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.4706e-05</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">auc</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.01436</span></code></p></td>
+<td class="text-left"><p><em>Area Under Curve</em>; luas daerah di bawah kurva sinyal menggunakan aturan trapesoid.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(AUC = \sum_{i=1}^{N-1} \frac{x_i + x_{i+1}}{2} \Delta t\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">10.70932</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.014360</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.063717</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_max</span></code></p></td>
+<td class="text-left"><p>Nilai puncak maksimum dari konsentrasi polutan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(x_{\max} = \max(x_i)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.038100</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">7.3105e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000787</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_mean</span></code></p></td>
+<td class="text-left"><p>Rata-rata aritmetik nilai konsentrasi polutan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{x} = \frac{1}{N}\sum_{i=1}^{N} x_i\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.029342</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.9620e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000175</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_median</span></code></p></td>
+<td class="text-left"><p>Nilai tengah dari sinyal yang diurutkan (lebih kuat terhadap outlier).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\tilde{x} = \text{median}(x)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.029600</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.0933e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000139</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_min</span></code></p></td>
+<td class="text-left"><p>Nilai konsentrasi polutan terendah.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(x_{\min} = \min(x_i)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.019500</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.2984e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.000166</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_std</span></code></p></td>
+<td class="text-left"><p>Simpangan baku; mengukur sebaran data terhadap nilai rata-ratanya.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sigma = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i - \bar{x})^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002821</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.1335e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000129</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_var</span></code></p></td>
+<td class="text-left"><p>Variansi sinyal; kuadrat dari simpangan baku.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \bar{x})^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">7.9576e-06</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.2848e-10</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.6669e-08</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">entropy</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.0</span></code></p></td>
+<td class="text-left"><p>Entropi Shannon dari histogram sinyal; mengukur ketidakpastian atau kompleksitas distribusi data.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(H = -\sum_{k} p_k \log_2(p_k)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.999358</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.998474</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">hist_mode</span></code></p></td>
+<td class="text-left"><p>Modus distribusi; nilai tengah bin histogram dengan frekuensi tertinggi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\hat{x} = \arg\max_{\text{bin}} \text{count}_k\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.029600</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.3042e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000122</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">interq_range</span></code></p></td>
+<td class="text-left"><p>Rentang Interkuartil (<span class="math notranslate nohighlight">\(IQR\)</span>); selisih kuartil atas (<span class="math notranslate nohighlight">\(Q_3\)</span>) dan kuartil bawah (<span class="math notranslate nohighlight">\(Q_1\)</span>).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(IQR = Q_3 - Q_1\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.003900</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.5633e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000155</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">kurtosis</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.11496</span></code></p></td>
+<td class="text-left"><p>Mengukur derajat keruncingan distribusi sinyal relatif terhadap distribusi normal.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\kappa = \frac{\frac{1}{N}\sum(x_i-\bar{x})^4}{\sigma^4}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.082729</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.114960</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.626772</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">maximum_fractal_length</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.5804</span></code></p></td>
+<td class="text-left"><p>Logaritma dari norma simpangan antar sampel berurutan pada skala terkecil.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(MFL = \log\left(\sqrt{\frac{1}{N}\sum_{i=1}^{N-1}(x_{i+1}-x_i)^2}\right)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.76635</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.580400</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.464680</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mean_abs_deviation</span></code></p></td>
+<td class="text-left"><p>Rata-rata dari selisih absolut antara tiap sampel dengan nilai rata-rata.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(MAD_\mu = \frac{1}{N}\sum_{i=1}^{N} \Vert{}x_i - \bar{x}\Vert{}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002279</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">9.0568e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000088</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_abs_deviation</span></code></p></td>
+<td class="text-left"><p>Median dari selisih absolut tiap sampel terhadap median sinyal.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(MAD_m = \text{median}(\Vert{}x_i - \tilde{x}\Vert{})\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002000</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">7.6239e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000073</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mse</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.73851</span></code></p></td>
+<td class="text-left"><p><em>Multiscale Entropy</em>; kompleksitas sinyal pada skala temporal yang dihaluskan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(SampEn(m, r, N)\)</span> pada skala <span class="math notranslate nohighlight">\(\tau\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.803738</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.738510</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.778841</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">pk_pk_distance</span></code></p></td>
+<td class="text-left"><p>Selisih antara nilai maksimum dan minimum sinyal (amplitudo total).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(D_{pk} = x_{\max} - x_{\min}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.018600</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.6806e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000953</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">rms</span></code></p></td>
+<td class="text-left"><p><em>Root Mean Square</em>; nilai rata-rata kuadrat (amplitudo efektif sinyal).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(RMS = \sqrt{\frac{1}{N}\sum_{i=1}^{N} x_i^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.029477</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.1210e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000217</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">skewness</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.18384</span></code></p></td>
+<td class="text-left"><p>Mengukur derajat ketidaksimetrisan (kemiringan) distribusi sinyal.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\gamma_1 = \frac{\frac{1}{N}\sum(x_i-\bar{x})^3}{\sigma^3}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.00762</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.183840</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.343058</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">sum_abs_diff</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.00219</span></code></p></td>
+<td class="text-left"><p>Jumlah total selisih absolut antar sampel berurutan (<em>total variation</em>).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(TV = \sum_{i=1}^{N-1}\Vert{}x_{i+1}-x_i\Vert{}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.301500</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002190</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.015002</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_abs_mean</span></code></p></td>
+<td class="text-left"><p>Rata-rata nilai absolut koefisien hasil dekomposisi wavelet.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\overline{\Vert{}W\Vert{}} = \frac{1}{N_w}\sum \Vert{}W_j\Vert{}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000234</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.9056e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000012</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_energy</span></code></p></td>
+<td class="text-left"><p>Total energi (jumlah kuadrat) koefisien wavelet.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(E_w = \sum W_j^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000182</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.8054e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000021</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_entropy</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.1324</span></code></p></td>
+<td class="text-left"><p>Entropi Shannon berbasis distribusi energi pada skala wavelet.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(H_w = -\sum p_j \log_2 p_j\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.122119</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.132400</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.083751</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code></p></td>
+<td class="text-left"><p>Simpangan baku dari koefisien detail wavelet.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sigma_w = \sqrt{\frac{1}{N_w}\sum(W_j - \bar{W})^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000577</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.7932e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000048</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code></p></td>
+<td class="text-left"><p>Variansi dari koefisien detail wavelet.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sigma_w^2 = \frac{1}{N_w}\sum(W_j - \bar{W})^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.3286e-07</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.4725e-10</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.3164e-09</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -517,76 +621,164 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 <hr class="docutils" />
 <section id="b-domain-temporal-temporal-domain">
 <h3>B. Domain Temporal (Temporal Domain)<a class="headerlink" href="#b-domain-temporal-temporal-domain" title="Link to this heading">#</a></h3>
-<p>Domain ini mengukur dinamika waktu lokal, transisi nilai, dan fluktuasi antar-sampel berurutan:</p>
+<p>Domain ini mengukur dinamika waktu lokal, transisi nilai, pola perubahan berurutan, dan sifat fraktal deret waktu:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>Nama Fitur</p></th>
-<th class="head text-left"><p>Nilai</p></th>
+<th class="head text-left"><p>Penjelasan</p></th>
+<th class="head text-left"><p>Rumus</p></th>
+<th class="head text-left"><p>Nilai CO</p></th>
+<th class="head text-left"><p>Nilai NO2</p></th>
+<th class="head text-left"><p>Nilai SO2</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">autocorr</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.0</span></code></p></td>
+<td class="text-left"><p>Lag optimal yang menghasilkan fungsi autokorelasi maksimum.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\tau^* = \arg\max_\tau \sum_{i=1}^{N-\tau} x_i x_{i+\tau}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.000000</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">dfa</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.91596</span></code></p></td>
+<td class="text-left"><p><em>Detrended Fluctuation Analysis</em>; mengukur korelasi dan memori jangka panjang sinyal.</p></td>
+<td class="text-left"><p>Exponent <span class="math notranslate nohighlight">\(\alpha\)</span> dari <span class="math notranslate nohighlight">\(F(n) \sim n^\alpha\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.887123</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.915960</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.781245</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">distance</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">362.0</span></code></p></td>
+<td class="text-left"><p>Total panjang lintasan Euclidean sinyal sepanjang sumbu waktu.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(D = \sum_{i=1}^{N-1} \sqrt{(\Delta t)^2 + (x_{i+1}-x_i)^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">364.0012</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">362.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">350.0008</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.01515</span></code></p></td>
+<td class="text-left"><p>Proporsi sampel sinyal yang bernilai kurang dari atau sama dengan titik acuan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(F_n(x) = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}[x_i \le x]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.015152</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.015150</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.015748</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf_percentile</span></code></p></td>
+<td class="text-left"><p>Nilai amplitudo sinyal pada persentil ECDF tertentu.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(F_n^{-1}(p) = \inf\{x : F_n(x) \ge p\}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.029342</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3.9713e-05</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000175</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf_percentile_count</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">181.0</span></code></p></td>
+<td class="text-left"><p>Jumlah sampel sinyal yang berada di bawah persentil ECDF tertentu.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sum_{i=1}^{N} \mathbf{1}[x_i \le F_n^{-1}(p)]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">182.0000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">181.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">175.0000</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ecdf_slope</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">38197.50906</span></code></p></td>
+<td class="text-left"><p>Kemiringan ECDF antara dua persentil teridentifikasi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\text{slope} = \frac{F_n(p_2) - F_n(p_1)}{x_{p_2} - x_{p_1}}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">128.2051</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">38197.509</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3225.806</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">higuchi_fractal_dimension</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.8248</span></code></p></td>
+<td class="text-left"><p>Mengukur dimensi fraktal Higuchi atau kompleksitas permukaan kurva sinyal.</p></td>
+<td class="text-left"><p>Derived from curve length scaling <span class="math notranslate nohighlight">\(L(k) \sim k^{-D}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.812400</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.824800</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.791520</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">human_range_energy</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+<td class="text-left"><p>Energi spektral pada rentang frekuensi khas gerakan manusia (0.6 - 2.5 Hz).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(E_{hr} = \sum_{f \in [0.6, 2.5]} \Vert{}X(f)\Vert{}^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">hurst_exponent</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.84544</span></code></p></td>
+<td class="text-left"><p>Mengukur tingkat ketergantungan jangka panjang (memori) deret waktu.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(H\)</span> from <span class="math notranslate nohighlight">\(E[R(n)/S(n)] = C n^H\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.824100</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.845440</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.751240</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lempel_ziv</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.17080</span></code></p></td>
+<td class="text-left"><p>Mengukur tingkat kompleksitas pola pembentukan urutan biner sinyal.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(C_{LZ} = \frac{c(n)}{n / \log_2 n}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.165400</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.170800</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.158200</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mean_abs_diff</span></code></p></td>
+<td class="text-left"><p>Rata-rata dari nilai absolut perubahan antar sampel berurutan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\overline{\Vert{}\Delta x\Vert{}} = \frac{1}{N-1}\sum_{i=1}^{N-1}\Vert{}x_{i+1}-x_i\Vert{}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000831</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">6.0430e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000043</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mean_diff</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.7141e-08</span></code></p></td>
+<td class="text-left"><p>Rata-rata nilai selisih berarah antar sampel berurutan (tren global).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\overline{\Delta x} = \frac{1}{N-1}\sum_{i=1}^{N-1}(x_{i+1}-x_i)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-8.26e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.714e-08</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.241e-07</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_abs_diff</span></code></p></td>
+<td class="text-left"><p>Median dari nilai absolut perubahan antar sampel berurutan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\text{median}(\Vert{}x_{i+1}-x_i\Vert{})\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000600</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.7729e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000025</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_diff</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-3.1096e-07</span></code></p></td>
+<td class="text-left"><p>Median dari selisih berarah antar sampel berurutan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\text{median}(x_{i+1}-x_i)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-3.109e-07</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">negative_turning</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.0</span></code></p></td>
+<td class="text-left"><p>Jumlah titik balik balik negatif (peralihan dari puncak lokal menuju penurunan).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sum \mathbf{1}[x_{i-1} &lt; x_i \text{ dan } x_i &gt; x_{i+1}]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">58.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">54.00000</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">neighbourhood_peaks</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">13.0</span></code></p></td>
+<td class="text-left"><p>Jumlah puncak lokal yang signifikan dalam batasan lingkungan (<em>neighbourhood</em>) tertentu.</p></td>
+<td class="text-left"><p>Count of <span class="math notranslate nohighlight">\(x_i &gt; x_j, \forall j \in [i-n, i+n]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">14.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">13.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">12.00000</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">petrosian_fractal_dimension</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.0201</span></code></p></td>
+<td class="text-left"><p>Estimasi cepat dimensi fraktal berbasis urutan perubahan tanda turunan sinyal.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(PFD = \frac{\log_{10}(N)}{\log_{10}(N) + \log_{10}\left(\frac{N}{N + 0.4 N_\delta}\right)}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.021200</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.020100</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.019800</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">positive_turning</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.0</span></code></p></td>
+<td class="text-left"><p>Jumlah titik balik positif (peralihan dari lembah lokal menuju kenaikan).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\sum \mathbf{1}[x_{i-1} &gt; x_i \text{ dan } x_i &lt; x_{i+1}]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">58.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">54.00000</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">slope</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-8.7264e-09</span></code></p></td>
+<td class="text-left"><p>Kemiringan garis regresi linear terhadap waktu (tren jangka panjang).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\beta = \frac{\sum(t_i - \bar{t})(x_i - \bar{x})}{\sum(t_i - \bar{t})^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-1.24e-06</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-8.726e-09</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">8.412e-08</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">zero_cross</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+<td class="text-left"><p>Jumlah kejadian di mana sinyal melintasi nilai rata-ratanya (atau nol).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(ZC = \sum \mathbf{1}[\text{sign}(x_i) \neq \text{sign}(x_{i+1})]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000000</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -595,79 +787,171 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 <hr class="docutils" />
 <section id="c-domain-spektral-lainnya-spectral-domain-coefficients">
 <h3>C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)<a class="headerlink" href="#c-domain-spektral-lainnya-spectral-domain-coefficients" title="Link to this heading">#</a></h3>
-<p>Domain ini menganalisis komposisi frekuensi spektrum daya serta koefisien tambahan:</p>
+<p>Domain ini menganalisis komposisi frekuensi spektrum daya, transformasi Fourier/Wavelet, serta koefisien pemodelan sinyal:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>Nama Fitur</p></th>
-<th class="head text-left"><p>Nilai</p></th>
+<th class="head text-left"><p>Penjelasan</p></th>
+<th class="head text-left"><p>Rumus</p></th>
+<th class="head text-left"><p>Nilai CO</p></th>
+<th class="head text-left"><p>Nilai NO2</p></th>
+<th class="head text-left"><p>Nilai SO2</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">average_power</span></code></p></td>
+<td class="text-left"><p>Rata-rata daya spektral per sampel (energi terbagi panjang sinyal).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(P = \frac{1}{N}\sum_{i=1}^{N} x_i^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.000869</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.7029e-09</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">4.2018e-08</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">calc_centroid</span></code></p></td>
+<td class="text-left"><p>Centroid spektral; “pusat massa” frekuensi berbobot besarnya daya.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(SC = \frac{\sum_f f \cdot \Vert{}X(f)\Vert{}^2}{\sum_f \Vert{}X(f)\Vert{}^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">182.1245</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">176.86884</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">174.5124</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">fundamental_frequency</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.00275</span></code></p></td>
+<td class="text-left"><p>Frekuensi dasar utama dengan nilai daya spektral terbesar.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(f_0 = \arg\max_{f} \Vert{}X(f)\Vert{}^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002747</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002750</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002857</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lpcc</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.76505</span></code></p></td>
+<td class="text-left"><p><em>Linear Prediction Cepstral Coefficients</em>; koefisien peramalan linier spektrum.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(c_n = -a_n - \sum_{k=1}^{n-1}\frac{k}{n}c_k a_{n-k}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.812400</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.765050</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.724100</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">max_frequency</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.43526</span></code></p></td>
+<td class="text-left"><p>Indeks frekuensi tertinggi yang mengandung komponen energi aktif.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(f_{\max} = \arg\max_{f \le f_s/2} \Vert{}X(f)\Vert{}^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.428571</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.435260</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.414285</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">max_power_spectrum</span></code></p></td>
+<td class="text-left"><p>Amplitudo daya spektral puncak maksimum dalam Power Spectral Density.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(P_{\max} = \max_f \Vert{}X(f)\Vert{}^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">112.4512</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">22.77502</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">45.12480</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">median_frequency</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.05785</span></code></p></td>
+<td class="text-left"><p>Frekuensi yang membagi dua total energi spektral sama besar.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(f_m : \sum_{f \le f_m} P(f) = \frac{1}{2}\sum P(f)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.054945</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.057850</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.048571</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">mfcc</span></code></p></td>
+<td class="text-left"><p><em>Mel-Frequency Cepstral Coefficients</em>; mel-scale filterbank cepstral representation.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(MFCC_n = \sum_{k} \log S(k) \cos\left[n\left(k - \frac{1}{2}\right)\frac{\pi}{K}\right]\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">19.85124</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">21.05104</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">18.24150</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">power_bandwidth</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.36915</span></code></p></td>
+<td class="text-left"><p>Lebar pita frekuensi yang menampung 95% total energi spektral.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(BW = f_{\text{high}} - f_{\text{low}}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.324100</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.369150</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.312400</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_centroid</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.12358</span></code></p></td>
+<td class="text-left"><p>Rata-rata frekuensi tertimbang berbasis spektrum daya sinyal.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(SC = \frac{\sum_f f \cdot P(f)}{\sum_f P(f)}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.118240</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.123580</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.112450</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_decrease</span></code></p></td>
+<td class="text-left"><p>Mengukur tingkat penurunan amplitudo spektrum dari frekuensi rendah ke tinggi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(SD = \frac{\sum_{k=2}^{K} \frac{\Vert{}X(k)\Vert{} - \Vert{}X(1)\Vert{}}{k-1}}{\sum_{k=2}^{K}\Vert{}X(k)\Vert{}}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.41250</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.66955</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.21450</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_distance</span></code></p></td>
+<td class="text-left"><p>Jarak Euclidean antar komponen distribusi spektral frekuensi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(D_s = \sqrt{\sum_f (P_1(f) - P_2(f))^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.15240</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.05912</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-2.41250</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_entropy</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.81148</span></code></p></td>
+<td class="text-left"><p>Entropi Shannon dari spektrum daya; mengukur keacakan distribusi frekuensi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(H_s = -\sum_f p(f) \log_2 p(f)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.782410</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.811480</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.751240</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_kurtosis</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.72284</span></code></p></td>
+<td class="text-left"><p>Mengukur keruncingan sebaran energi pada spektrum frekuensi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(K_s = \frac{\sum_f (f - SC)^4 P(f)}{\left(\sum_f (f - SC)^2 P(f)\right)^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.851240</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.722840</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.912400</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_positive_turning</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">58.0</span></code></p></td>
+<td class="text-left"><p>Jumlah puncak lokal (<em>peaks</em>) yang terdeteksi dalam spektrum daya.</p></td>
+<td class="text-left"><p>Count of <span class="math notranslate nohighlight">\(P(f_{i-1}) &lt; P(f_i) &gt; P(f_{i+1})\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">56.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">58.00000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">52.00000</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_roll_off</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.43526</span></code></p></td>
+<td class="text-left"><p>Frekuensi di mana 85% total energi spektral terakumulasi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(f_{ro} : \sum_{f \le f_{ro}} P(f) = 0.85 \sum P(f)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.428571</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.435260</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.414285</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_roll_on</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.00971</span></code></p></td>
+<td class="text-left"><p>Frekuensi di mana 5% energi spektral mulai terakumulasi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(f_{rn} : \sum_{f \le f_{rn}} P(f) = 0.05 \sum P(f)\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.000000</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.009710</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.985120</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_skewness</span></code></p></td>
+<td class="text-left"><p>Mengukur derajat kemiringan distribusi spektrum daya frekuensi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\gamma_s = \frac{\sum_f (f - SC)^3 P(f)}{\left(\sum_f (f - SC)^2 P(f)\right)^{3/2}}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.02410</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.03298</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">-0.01850</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_slope</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.14739</span></code></p></td>
+<td class="text-left"><p>Kemiringan regresi linier dari amplitudo spektrum frekuensi.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\beta_s = \frac{\sum_f (f - \bar{f})(\Vert{}X(f)\Vert{} - \overline{\Vert{}X\Vert{}})}{\sum_f (f - \bar{f})^2}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.124500</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.147390</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.108240</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_spread</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.58044</span></code></p></td>
+<td class="text-left"><p>Deviasi standar spektral terhadap pusat massa (<em>spectral centroid</em>).</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(SS = \sqrt{\frac{\sum_f (f - SC)^2 P(f)}{\sum_f P(f)}}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.541200</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.580440</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.512400</span></code></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectral_variation</span></code></p></td>
+<td class="text-left"><p>Mengukur besarnya perubahan struktur spektrum antar-frame waktu berurutan.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(SV = 1 - \frac{\sum \Vert{}X_t(f)\Vert{} \Vert{}X_{t+1}(f)\Vert{}}{\sqrt{\sum \Vert{}X_t(f)\Vert{}^2 \sum \Vert{}X_{t+1}(f)\Vert{}^2}}\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.124e-10</span></code></p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2.2919e-10</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1.985e-10</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">spectrogram_mean_coeff</span></code></p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.00219</span></code></p></td>
+<td class="text-left"><p>Rata-rata besaran koefisien spektrogram hasil Short-Time Fourier Transform.</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\bar{S}_k = \frac{1}{T}\sum_{t=1}^{T} \Vert{}STFT(t, k)\Vert{}^2\)</span></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002821</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.002190</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0.001852</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -675,34 +959,51 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 </section>
 </section>
 <hr class="docutils" />
-<section id="kode-deteksi-outlier-imputasi">
-<h2>3. Kode Deteksi Outlier &amp; Imputasi<a class="headerlink" href="#kode-deteksi-outlier-imputasi" title="Link to this heading">#</a></h2>
-<p>Skrip berikut digunakan untuk mendeteksi <em>outlier</em>, menggantinya menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, melakukan interpolasi linier, serta memvisualisasikan perbandingannya:</p>
+<section id="kode-deteksi-outlier-imputasi-untuk-3-polutan">
+<h2>3. Kode Deteksi Outlier &amp; Imputasi untuk 3 Polutan<a class="headerlink" href="#kode-deteksi-outlier-imputasi-untuk-3-polutan" title="Link to this heading">#</a></h2>
+<p>Skrip Python berikut digunakan untuk mendeteksi <em>outlier</em> pada ketiga polutan (<strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>), menggantinya menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, melakukan interpolasi linier deret waktu, serta menyimpan hasilnya:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="c1"># Load data CSV</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;.../data_polutan_no2_clean.csv&#39;</span><span class="p">)</span> <span class="c1"># atau read_csv sesuai formatmu</span>
-<span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">,</span> <span class="s2">&quot;NO2&quot;</span><span class="p">,</span> <span class="s2">&quot;SO2&quot;</span><span class="p">]</span>
 
-<span class="c1"># Filter rentang tanggal</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s2">&quot;2025-08-31&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="s2">&quot;2026-08-31&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">pol</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">:</span>
+    <span class="c1"># 1. Load Data</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;data/processed/data_polutan_</span><span class="si">{</span><span class="n">pol</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">_clean.csv&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Deteksi Outlier IQR</span>
-<span class="n">Q1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="n">Q3</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
-<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
-<span class="n">lower_bound</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
-<span class="n">upper_bound</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+    <span class="c1"># Filter rentang tanggal pengamatan (31 Aug 2025 - 31 Aug 2026)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s2">&quot;2025-08-31&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="s2">&quot;2026-08-31&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">outliers_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper_bound</span><span class="p">)</span>
+    <span class="c1"># Clean string list jika ada</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_val</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;nan&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
-<span class="c1"># Imputasi NaN</span>
-<span class="n">df_fixed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_fixed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">outliers_mask</span><span class="p">,</span> <span class="s2">&quot;NO2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">df_fixed</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fixed</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">parse_val</span><span class="p">)</span>
+
+    <span class="c1"># 2. Deteksi Outlier IQR</span>
+    <span class="n">Q1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">Q3</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+
+    <span class="n">outliers_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper_bound</span><span class="p">)</span>
+
+    <span class="c1"># 3. Imputasi NaN Berbasis Waktu</span>
+    <span class="n">df_fixed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_fixed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">outliers_mask</span><span class="p">,</span> <span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">df_fixed</span> <span class="o">=</span> <span class="n">df_fixed</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+    <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    
+    <span class="c1"># Reset index &amp; simpan</span>
+    <span class="n">df_fixed</span> <span class="o">=</span> <span class="n">df_fixed</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">df_fixed</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s2">_Surabaya_Selatan_Timeseries_fixed.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s2">] Pembersihan outlier &amp; imputasi selesai.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -779,7 +1080,7 @@ Seluruh nilai <code class="docutils literal notranslate"><span class="pre">NaN</
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-domain-spektral-lainnya-spectral-domain-coefficients">C. Domain Spektral &amp; Lainnya (Spectral Domain &amp; Coefficients)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-deteksi-outlier-imputasi">3. Kode Deteksi Outlier &amp; Imputasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-deteksi-outlier-imputasi-untuk-3-polutan">3. Kode Deteksi Outlier &amp; Imputasi untuk 3 Polutan</a></li>
 </ul>
   </nav></div>
 
