@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. Eksplorasi Data &amp; Time Series Plot &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = '07-ekstraksi-fitur-dan-clustering';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="08-preprocessing-dan-ekstraksi-fitur-tsfel.html" />
+    <link rel="next" title="Preprocessing dan Ekstraksi Fitur TSFEL (Surabaya Selatan)" href="08-preprocessing-dan-ekstraksi-fitur-tsfel.html" />
     <link rel="prev" title="6. Ekstraksi Fitur TSFEL" href="06-feature-extraction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -189,18 +189,8 @@
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">5. Pipeline Cloud &amp; KNIME</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06-feature-extraction.html">6. Ekstraksi Fitur TSFEL</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Eksplorasi Data &amp; Time Series Plot</a></li>
-
-
-
-
-
-
-
-
-
-
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ekstraksi Fitur dan Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-preprocessing-dan-ekstraksi-fitur-tsfel.html">8. preprocessing dan Ekstraksi Fitur Tsfel</a></li>
 </ul>
 
     </div>
@@ -386,7 +376,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>2. Eksplorasi Data & Time Series Plot</h1>
+    <h1>7. Ekstraksi Fitur TSFEL, Reduksi PCA, & K-Means Clustering</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -396,38 +386,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">2. Eksplorasi Data &amp; Time Series Plot</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data">3. Preprocessing Data</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier-menggunakan-iqr">3.1 Deteksi Outlier Menggunakan IQR</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-cleaning-dan-imputasi">3.2 Fungsi Cleaning dan Imputasi</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksekusi-preprocessing-ketiga-polutan">3.3 Eksekusi Preprocessing Ketiga Polutan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-fitur-wavelet">4. Konsep Dasar Fitur Wavelet</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wavelet-standard-deviation">4.1 Wavelet Standard Deviation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wavelet-variance">4.2 Wavelet Variance</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-validasi-tsfel">5. Perhitungan Manual &amp; Validasi TSFEL</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dekomposisi-wavelet-haar">5.1 Dekomposisi Wavelet Haar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembuktian-menggunakan-python">5.2 Pembuktian Menggunakan Python</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">6. Ekstraksi 68 Fitur TSFEL</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daftar-68-fitur-tsfel">6.1 Daftar 68 Fitur TSFEL</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-konversi-hasil-tsfel-menjadi-scalar">6.2 Fungsi Konversi Hasil TSFEL Menjadi Scalar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-ekstraksi-satu-fitur">6.3 Fungsi Ekstraksi Satu Fitur</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-ekstraksi-dataset-tsfel">7. Fungsi Ekstraksi Dataset TSFEL</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-fitur-ketiga-polutan">8. Ekstraksi Fitur Ketiga Polutan</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-hasil-ekstraksi">9. Pemeriksaan Hasil Ekstraksi</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penggabungan-menjadi-matriks-204-fitur">10. Penggabungan Menjadi Matriks 204 Fitur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-matriks-204-fitur">11. Simpan Matriks 204 Fitur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-hasil-ekstraksi-fitur">12. Ringkasan Hasil Ekstraksi Fitur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">13. Kesimpulan</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -438,361 +398,53 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>---
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: myst
-<span class="gu">    format_version: 0.13</span>
-<span class="gu">---</span>
+  <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-tsfel-reduksi-pca-k-means-clustering">
+<h1>7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering<a class="headerlink" href="#ekstraksi-fitur-tsfel-reduksi-pca-k-means-clustering" title="Link to this heading">#</a></h1>
+<p>Dokumen ini menjelaskan alur lengkap pengolahan data polutan udara (<strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>) wilayah <strong>Surabaya Selatan</strong> (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026), mulai dari eksplorasi deret waktu, ekstraksi 68 fitur TSFEL per polutan (total 204 kolom), reduksi dimensi menggunakan PCA, hingga analisis <em>K-Means Clustering</em> dan integrasi database Aiven Cloud.</p>
+<hr class="docutils" />
+<section id="eksplorasi-data-time-series-plot-semua-polutan">
+<h2>1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)<a class="headerlink" href="#eksplorasi-data-time-series-plot-semua-polutan" title="Link to this heading">#</a></h2>
+<p>Sebelum melakukan ekstraksi fitur, kita melakukan visualisasi deret waktu (<em>time series plot</em>) untuk melihat tren harian dan karakteristik fluktuasi dari ketiga polutan secara bersamaan.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="gh"># 7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering</span>
+<span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CO&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;SO2&#39;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">,</span> <span class="s1">&#39;tab:orange&#39;</span><span class="p">,</span> <span class="s1">&#39;tab:green&#39;</span><span class="p">]</span>
 
-Dokumen ini menjelaskan alur lengkap pengolahan data polutan udara (<span class="gs">**CO, $NO_2$, dan $SO_2$**</span>) wilayah <span class="gs">**Surabaya Selatan**</span> pada rentang waktu <span class="gs">**31 Agustus 2025 s.d. 31 Agustus 2026**</span>, mulai dari eksplorasi data, preprocessing, penanganan outlier, imputasi missing value, ekstraksi 68 fitur TSFEL untuk masing-masing polutan, hingga pembentukan matriks 204 fitur yang siap digunakan untuk tahap PCA dan K-Means Clustering.
+<span class="c1"># Simulasi / Load data (pastikan path file sesuai direktori Anda)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pol</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pollutants</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/processed/data_polutan_</span><span class="si">{</span><span class="n">pol</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_clean.csv&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="c1"># Fallback dummy plot jika dijalankan tanpa file lokal</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;2025-08-31&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time Series - Polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (Surabaya Selatan)&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
----
-
-<span class="gu">## 1. Import Library &amp; Muat Data</span>
-
-Library yang digunakan meliputi <span class="sb">`pandas`</span> dan <span class="sb">`numpy`</span> untuk pengolahan data, <span class="sb">`matplotlib`</span> untuk visualisasi, <span class="sb">`PyWavelets`</span> untuk dekomposisi wavelet, serta <span class="sb">`TSFEL`</span> untuk ekstraksi fitur deret waktu.
-
-```{code-cell} ipython3
-
-import os
-import inspect
-import numpy as np
-import pandas as pd
-import pywt
-import matplotlib.pyplot as plt
-import tsfel
-import tsfel.feature_extraction.features as tsfel_features
-
-<span class="gh"># Load Data Polutan Surabaya Selatan</span>
-df_co_raw = pd.read_csv(
-    &#39;data/processed/data_polutan_co_clean.csv&#39;
-)
-
-df_no2_raw = pd.read_csv(
-    &#39;data/processed/data_polutan_no2_clean.csv&#39;
-)
-
-df_so2_raw = pd.read_csv(
-    &#39;data/processed/data_polutan_so2_clean.csv&#39;
-)
-
-print(&quot;Data CO  :&quot;, df_co_raw.shape)
-print(&quot;Data NO2 :&quot;, df_no2_raw.shape)
-print(&quot;Data SO2 :&quot;, df_so2_raw.shape)
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<hr class="docutils" />
-<section id="eksplorasi-data-time-series-plot">
-<h1>2. Eksplorasi Data &amp; Time Series Plot<a class="headerlink" href="#eksplorasi-data-time-series-plot" title="Link to this heading">#</a></h1>
-<p>Sebelum dilakukan preprocessing dan ekstraksi fitur, data divisualisasikan dalam bentuk <em>time series plot</em>. Visualisasi ini digunakan untuk melihat tren, pola perubahan, dan fluktuasi masing-masing polutan terhadap waktu.</p>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="preprocessing-data">
-<h1>3. Preprocessing Data<a class="headerlink" href="#preprocessing-data" title="Link to this heading">#</a></h1>
-<p>Sebelum dilakukan ekstraksi fitur TSFEL, data perlu dibersihkan terlebih dahulu.</p>
-<p>Tahapan preprocessing yang dilakukan meliputi:</p>
-<ol class="arabic simple">
-<li><p>Konversi tanggal menjadi format <code class="docutils literal notranslate"><span class="pre">datetime</span></code>.</p></li>
-<li><p>Pengurutan data berdasarkan tanggal.</p></li>
-<li><p>Parsing nilai polutan.</p></li>
-<li><p>Penanganan missing value.</p></li>
-<li><p>Deteksi outlier menggunakan metode <strong>Interquartile Range (IQR)</strong>.</p></li>
-<li><p>Penggantian outlier menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>.</p></li>
-<li><p>Imputasi kembali menggunakan interpolasi berbasis waktu.</p></li>
-</ol>
-<hr class="docutils" />
-<section id="deteksi-outlier-menggunakan-iqr">
-<h2>3.1 Deteksi Outlier Menggunakan IQR<a class="headerlink" href="#deteksi-outlier-menggunakan-iqr" title="Link to this heading">#</a></h2>
-<p>Metode <strong>Interquartile Range (IQR)</strong> digunakan untuk mendeteksi nilai yang berada jauh dari distribusi utama data.</p>
-<p>Kuartil pertama dan ketiga didefinisikan sebagai:</p>
-<div class="math notranslate nohighlight">
-\[
-Q_1 = \text{Kuartil Pertama (Percentile 25)}
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-Q_3 = \text{Kuartil Ketiga (Percentile 75)}
-\]</div>
-<p>Nilai IQR dihitung menggunakan:</p>
-<div class="math notranslate nohighlight">
-\[
-IQR = Q_3 - Q_1
-\]</div>
-<p>Batas bawah dan batas atas ditentukan dengan:</p>
-<div class="math notranslate nohighlight">
-\[
-\text{Batas Bawah}
-=
-Q_1 - 1.5 \times IQR
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-\text{Batas Atas}
-=
-Q_3 + 1.5 \times IQR
-\]</div>
-<p>Data yang berada di luar batas tersebut dianggap sebagai <em>outlier</em>. Nilai <em>outlier</em> kemudian diubah menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code> dan diisi kembali menggunakan interpolasi berbasis waktu.</p>
-</section>
-<hr class="docutils" />
-<section id="fungsi-cleaning-dan-imputasi">
-<h2>3.2 Fungsi Cleaning dan Imputasi<a class="headerlink" href="#fungsi-cleaning-dan-imputasi" title="Link to this heading">#</a></h2>
-</section>
-<hr class="docutils" />
-<section id="eksekusi-preprocessing-ketiga-polutan">
-<h2>3.3 Eksekusi Preprocessing Ketiga Polutan<a class="headerlink" href="#eksekusi-preprocessing-ketiga-polutan" title="Link to this heading">#</a></h2>
-</section>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="konsep-dasar-fitur-wavelet">
-<h1>4. Konsep Dasar Fitur Wavelet<a class="headerlink" href="#konsep-dasar-fitur-wavelet" title="Link to this heading">#</a></h1>
-<p>Salah satu kelompok fitur yang dianalisis adalah fitur <em>wavelet</em>, khususnya:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code></p></li>
-</ul>
-<p>Dekomposisi Wavelet atau <strong>Discrete Wavelet Transform (DWT)</strong> memecah sinyal deret waktu menjadi dua komponen utama:</p>
-<ol class="arabic simple">
-<li><p><strong>Koefisien Aproksimasi (<span class="math notranslate nohighlight">\(cA\)</span>)</strong>
-Merepresentasikan komponen frekuensi rendah atau pola umum/tren sinyal.</p></li>
-<li><p><strong>Koefisien Detail (<span class="math notranslate nohighlight">\(cD\)</span>)</strong>
-Merepresentasikan perubahan atau fluktuasi pada frekuensi yang lebih tinggi.</p></li>
-</ol>
-<p>Secara umum:</p>
-<div class="math notranslate nohighlight">
-\[
-X(t) \rightarrow cA + cD
-\]</div>
-<p>Dalam TSFEL, fitur <code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> dan <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code> digunakan untuk mengukur penyebaran koefisien hasil transformasi wavelet.</p>
-<hr class="docutils" />
-<section id="wavelet-standard-deviation">
-<h2>4.1 Wavelet Standard Deviation<a class="headerlink" href="#wavelet-standard-deviation" title="Link to this heading">#</a></h2>
-<p>Standar deviasi koefisien detail wavelet dapat dituliskan sebagai:</p>
-<div class="math notranslate nohighlight">
-\[
-\text{wavelet\_std}
-=
-\sqrt{
-\frac{1}{N}
-\sum_{i=1}^{N}
-(cD_i-\mu_{cD})^2
-}
-\]</div>
-<p>dengan:</p>
-<div class="math notranslate nohighlight">
-\[
-\mu_{cD}
-=
-\frac{1}{N}
-\sum_{i=1}^{N}cD_i
-\]</div>
-</section>
-<hr class="docutils" />
-<section id="wavelet-variance">
-<h2>4.2 Wavelet Variance<a class="headerlink" href="#wavelet-variance" title="Link to this heading">#</a></h2>
-<p>Varians koefisien detail wavelet dihitung menggunakan:</p>
-<div class="math notranslate nohighlight">
-\[
-\text{wavelet\_var}
-=
-\frac{1}{N}
-\sum_{i=1}^{N}
-(cD_i-\mu_{cD})^2
-\]</div>
-<p>Nilai <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code> menunjukkan tingkat variasi koefisien detail wavelet, sedangkan <code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> menunjukkan standar deviasinya.</p>
-</section>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="perhitungan-manual-validasi-tsfel">
-<h1>5. Perhitungan Manual &amp; Validasi TSFEL<a class="headerlink" href="#perhitungan-manual-validasi-tsfel" title="Link to this heading">#</a></h1>
-<p>Untuk memahami cara kerja fitur wavelet digunakan contoh sinyal sederhana:</p>
-<div class="math notranslate nohighlight">
-\[
-X = [0.02, 0.04, 0.03, 0.05, 0.04]
-\]</div>
-<hr class="docutils" />
-<section id="dekomposisi-wavelet-haar">
-<h2>5.1 Dekomposisi Wavelet Haar<a class="headerlink" href="#dekomposisi-wavelet-haar" title="Link to this heading">#</a></h2>
-<p>Dengan menggunakan <em>Haar Wavelet</em>:</p>
-<div class="math notranslate nohighlight">
-\[
-cD_1
-=
-\frac{0.02-0.04}{\sqrt{2}}
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-cD_1
-\approx -0.014142
-\]</div>
-<p>Kemudian:</p>
-<div class="math notranslate nohighlight">
-\[
-cD_2
-=
-\frac{0.03-0.05}{\sqrt{2}}
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-cD_2
-\approx -0.014142
-\]</div>
-<p>Sehingga diperoleh:</p>
-<div class="math notranslate nohighlight">
-\[
-cD =
-[-0.014142,-0.014142]
-\]</div>
-<p>Karena kedua nilai koefisien detail tersebut sama, maka:</p>
-<div class="math notranslate nohighlight">
-\[
-\text{wavelet\_var}=0
-\]</div>
-<p>dan:</p>
-<div class="math notranslate nohighlight">
-\[
-\text{wavelet\_std}=0
-\]</div>
-</section>
-<hr class="docutils" />
-<section id="pembuktian-menggunakan-python">
-<h2>5.2 Pembuktian Menggunakan Python<a class="headerlink" href="#pembuktian-menggunakan-python" title="Link to this heading">#</a></h2>
-</section>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-68-fitur-tsfel">
-<h1>6. Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h1>
-<p>Setelah data melalui tahap preprocessing, dilakukan ekstraksi fitur menggunakan <strong>Time Series Feature Extraction Library (TSFEL)</strong>.</p>
-<p>Sebanyak <strong>68 fitur</strong> diekstraksi dari masing-masing polutan, yaitu:</p>
-<ul class="simple">
-<li><p>CO</p></li>
-<li><p><span class="math notranslate nohighlight">\(NO_2\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(SO_2\)</span></p></li>
-</ul>
-<p>Dengan demikian jumlah fitur keseluruhan adalah:</p>
-<div class="math notranslate nohighlight">
-\[
-68 \times 3 = 204
-\]</div>
-<hr class="docutils" />
-<section id="daftar-68-fitur-tsfel">
-<h2>6.1 Daftar 68 Fitur TSFEL<a class="headerlink" href="#daftar-68-fitur-tsfel" title="Link to this heading">#</a></h2>
-</section>
-<hr class="docutils" />
-<section id="fungsi-konversi-hasil-tsfel-menjadi-scalar">
-<h2>6.2 Fungsi Konversi Hasil TSFEL Menjadi Scalar<a class="headerlink" href="#fungsi-konversi-hasil-tsfel-menjadi-scalar" title="Link to this heading">#</a></h2>
-<p>Beberapa fungsi TSFEL dapat menghasilkan output berupa scalar, list, tuple, array, maupun dictionary. Oleh karena itu, hasil dikonversi menjadi satu nilai numerik.</p>
-</section>
-<hr class="docutils" />
-<section id="fungsi-ekstraksi-satu-fitur">
-<h2>6.3 Fungsi Ekstraksi Satu Fitur<a class="headerlink" href="#fungsi-ekstraksi-satu-fitur" title="Link to this heading">#</a></h2>
-</section>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="fungsi-ekstraksi-dataset-tsfel">
-<h1>7. Fungsi Ekstraksi Dataset TSFEL<a class="headerlink" href="#fungsi-ekstraksi-dataset-tsfel" title="Link to this heading">#</a></h1>
-<p>Fungsi berikut digunakan untuk mengekstraksi seluruh 68 fitur dari satu sinyal polutan.</p>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-ketiga-polutan">
-<h1>8. Ekstraksi Fitur Ketiga Polutan<a class="headerlink" href="#ekstraksi-fitur-ketiga-polutan" title="Link to this heading">#</a></h1>
-<p>Proses ekstraksi kemudian dilakukan terhadap ketiga sinyal polutan.</p>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="pemeriksaan-hasil-ekstraksi">
-<h1>9. Pemeriksaan Hasil Ekstraksi<a class="headerlink" href="#pemeriksaan-hasil-ekstraksi" title="Link to this heading">#</a></h1>
-<p>Setelah proses ekstraksi selesai, dilakukan pemeriksaan jumlah fitur yang dihasilkan.</p>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="penggabungan-menjadi-matriks-204-fitur">
-<h1>10. Penggabungan Menjadi Matriks 204 Fitur<a class="headerlink" href="#penggabungan-menjadi-matriks-204-fitur" title="Link to this heading">#</a></h1>
-<p>Hasil ekstraksi dari ketiga polutan digabungkan menjadi satu matriks fitur.</p>
-<p>Setiap polutan memiliki 68 fitur:</p>
-<div class="math notranslate nohighlight">
-\[
-68 + 68 + 68 = 204
-\]</div>
-<p>Prefix digunakan untuk membedakan fitur berdasarkan jenis polutan:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">CO_</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">NO2_</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SO2_</span></code></p></li>
-</ul>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="simpan-matriks-204-fitur">
-<h1>11. Simpan Matriks 204 Fitur<a class="headerlink" href="#simpan-matriks-204-fitur" title="Link to this heading">#</a></h1>
-<p>Matriks fitur yang telah digabungkan disimpan dalam format CSV.</p>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="ringkasan-hasil-ekstraksi-fitur">
-<h1>12. Ringkasan Hasil Ekstraksi Fitur<a class="headerlink" href="#ringkasan-hasil-ekstraksi-fitur" title="Link to this heading">#</a></h1>
-<p>Tabel berikut menampilkan beberapa fitur penting hasil ekstraksi TSFEL.</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-left"><p>Polutan</p></th>
-<th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">abs_energy</span></code></p></th>
-<th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">entropy</span></code></p></th>
-<th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">calc_mean</span></code></p></th>
-<th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">calc_std</span></code></p></th>
-<th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code></p></th>
-<th class="head text-right"><p><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p><strong>CO</strong></p></td>
-<td class="text-right"><p>0.305211</p></td>
-<td class="text-right"><p>0.999358</p></td>
-<td class="text-right"><p>0.028743</p></td>
-<td class="text-right"><p>0.004120</p></td>
-<td class="text-right"><p>0.000412</p></td>
-<td class="text-right"><p>0.000000</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><strong>NO2</strong></p></td>
-<td class="text-right"><p>125.4321</p></td>
-<td class="text-right"><p>0.985412</p></td>
-<td class="text-right"><p>18.52310</p></td>
-<td class="text-right"><p>3.124510</p></td>
-<td class="text-right"><p>0.812400</p></td>
-<td class="text-right"><p>0.659994</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><strong>SO2</strong></p></td>
-<td class="text-right"><p>0.000124</p></td>
-<td class="text-right"><p>0.991204</p></td>
-<td class="text-right"><p>0.000541</p></td>
-<td class="text-right"><p>0.000112</p></td>
-<td class="text-right"><p>0.000021</p></td>
-<td class="text-right"><p>0.000000</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<blockquote>
-<div><p><strong>Catatan:</strong> Nilai pada tabel merupakan contoh format hasil. Nilai aktual yang digunakan dalam analisis diperoleh dari hasil eksekusi kode TSFEL terhadap dataset Surabaya Selatan.</p>
-</div></blockquote>
-</section>
-<hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="kesimpulan">
-<h1>13. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h1>
-<p>Berdasarkan tahapan yang telah dilakukan, data kualitas udara wilayah <strong>Surabaya Selatan</strong> berhasil melalui proses preprocessing dan ekstraksi fitur deret waktu.</p>
-<p>Tahap preprocessing dilakukan dengan mendeteksi <em>outlier</em> menggunakan metode <strong>Interquartile Range (IQR)</strong>. Nilai yang berada di luar batas IQR diubah menjadi <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, kemudian dilakukan interpolasi berbasis waktu untuk mempertahankan kontinuitas data.</p>
-<p>Selanjutnya, dilakukan ekstraksi fitur menggunakan <strong>Time Series Feature Extraction Library (TSFEL)</strong>. Sebanyak <strong>68 fitur</strong> diekstraksi untuk masing-masing polutan, yaitu <strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>.</p>
-<p>Dengan tiga jenis polutan, jumlah keseluruhan fitur yang diperoleh adalah:</p>
-<div class="math notranslate nohighlight">
-\[
-68 \times 3 = 204
-\]</div>
-<p>Dengan demikian, diperoleh matriks yang terdiri dari <strong>204 fitur numerik</strong>.</p>
-<p>Hasil akhir disimpan dalam file:</p>
-<p><code class="docutils literal notranslate"><span class="pre">Surabaya_Selatan_204_Fitur_TSFEL.csv</span></code></p>
-<p>Matriks 204 fitur tersebut selanjutnya dapat digunakan sebagai input untuk tahap <strong>reduksi dimensi menggunakan PCA</strong> dan <strong>K-Means Clustering</strong>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-Itu sudah **satu file Markdown panjang**. Jadi jangan membuat 2 file atau menggabungkan manual lagi—seluruh isi dalam blok di atas adalah isi dari **satu `.md`**.
-</pre></div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/be29ed6306d12fd92e9420a86221d7c6ce448672e18fa49bd1ddb1d3209ea7f2.png" src="_images/be29ed6306d12fd92e9420a86221d7c6ce448672e18fa49bd1ddb1d3209ea7f2.png" />
 </div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -839,7 +491,7 @@ Itu sudah **satu file Markdown panjang**. Jadi jangan membuat 2 file atau mengga
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">Preprocessing dan Ekstraksi Fitur TSFEL (Surabaya Selatan)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -859,38 +511,8 @@ Itu sudah **satu file Markdown panjang**. Jadi jangan membuat 2 file atau mengga
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">2. Eksplorasi Data &amp; Time Series Plot</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data">3. Preprocessing Data</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier-menggunakan-iqr">3.1 Deteksi Outlier Menggunakan IQR</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-cleaning-dan-imputasi">3.2 Fungsi Cleaning dan Imputasi</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksekusi-preprocessing-ketiga-polutan">3.3 Eksekusi Preprocessing Ketiga Polutan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-fitur-wavelet">4. Konsep Dasar Fitur Wavelet</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wavelet-standard-deviation">4.1 Wavelet Standard Deviation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wavelet-variance">4.2 Wavelet Variance</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-validasi-tsfel">5. Perhitungan Manual &amp; Validasi TSFEL</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dekomposisi-wavelet-haar">5.1 Dekomposisi Wavelet Haar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pembuktian-menggunakan-python">5.2 Pembuktian Menggunakan Python</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">6. Ekstraksi 68 Fitur TSFEL</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daftar-68-fitur-tsfel">6.1 Daftar 68 Fitur TSFEL</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-konversi-hasil-tsfel-menjadi-scalar">6.2 Fungsi Konversi Hasil TSFEL Menjadi Scalar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-ekstraksi-satu-fitur">6.3 Fungsi Ekstraksi Satu Fitur</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi-ekstraksi-dataset-tsfel">7. Fungsi Ekstraksi Dataset TSFEL</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-fitur-ketiga-polutan">8. Ekstraksi Fitur Ketiga Polutan</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-hasil-ekstraksi">9. Pemeriksaan Hasil Ekstraksi</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penggabungan-menjadi-matriks-204-fitur">10. Penggabungan Menjadi Matriks 204 Fitur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-matriks-204-fitur">11. Simpan Matriks 204 Fitur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-hasil-ekstraksi-fitur">12. Ringkasan Hasil Ekstraksi Fitur</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">13. Kesimpulan</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>
