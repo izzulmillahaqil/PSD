@@ -387,6 +387,19 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur-khusus">2.1 Deskripsi Fitur Khusus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formulasi-matematika">2.2 Formulasi Matematika</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-studi-kasus-polutan-text-no-2">2.3 Perhitungan Manual (Studi Kasus: Polutan <span class="math notranslate nohighlight">\(\text{NO}_2\)</span>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-dekomposisi-wavelet-haar-mencari-koefisien-detail-cd">Langkah 1: Dekomposisi Wavelet Haar (Mencari Koefisien Detail <span class="math notranslate nohighlight">\(cD\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hitung-rata-rata-koefisien-detail-mu-cd">Langkah 2: Hitung Rata-rata Koefisien Detail (<span class="math notranslate nohighlight">\(\mu_{cD}\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-variansi-wavelet-wavelet-var">Langkah 3: Hitung Variansi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-standar-deviasi-wavelet-wavelet-std">Langkah 4: Hitung Standar Deviasi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel">2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -457,88 +470,95 @@ document.write(`
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gagal memproses visualisasi polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-
-<span class="c1">## 2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (`wavelet_std` &amp; `wavelet_var`)</span>
-
-<span class="n">Berdasarkan</span> <span class="n">pembagian</span> <span class="n">tugas</span> <span class="n">kelas</span><span class="p">,</span> <span class="n">fitur</span> <span class="n">utama</span> <span class="n">yang</span> <span class="n">dianalisis</span> <span class="n">secara</span> <span class="n">mendalam</span> <span class="n">oleh</span> <span class="o">**</span><span class="n">Muhammad</span> <span class="n">izzul</span> <span class="n">Millah</span> <span class="n">Aqil</span><span class="o">**</span> <span class="n">adalah</span> <span class="n">dua</span> <span class="n">fitur</span> <span class="n">berbasis</span> <span class="n">dekomposisi</span> <span class="n">wavelet</span><span class="p">:</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="o">**</span> <span class="n">dan</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span><span class="o">**.</span>
-
-<span class="o">---</span>
-
-<span class="c1">### 2.1 Deskripsi Fitur Khusus</span>
-
-<span class="n">Dekomposisi</span> <span class="n">Wavelet</span> <span class="p">(</span><span class="o">*</span><span class="n">Discrete</span> <span class="n">Wavelet</span> <span class="n">Transform</span> <span class="o">/</span> <span class="n">DWT</span><span class="o">*</span><span class="p">)</span> <span class="n">memecah</span> <span class="n">sinyal</span> <span class="n">deret</span> <span class="n">waktu</span> <span class="err">$</span><span class="n">X</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="err">$</span> <span class="n">menjadi</span> <span class="n">dua</span> <span class="n">komponen</span> <span class="n">utama</span><span class="p">:</span>
-<span class="mf">1.</span> <span class="o">**</span><span class="n">Koefisien</span> <span class="n">Aproksimasi</span> <span class="p">(</span><span class="err">$</span><span class="n">cA</span><span class="err">$</span><span class="p">):</span><span class="o">**</span> <span class="n">Menggambarkan</span> <span class="n">tren</span> <span class="n">frekuensi</span> <span class="n">rendah</span> <span class="p">(</span><span class="n">pola</span> <span class="n">jangka</span> <span class="n">panjang</span><span class="p">)</span> <span class="n">dari</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span>
-<span class="mf">2.</span> <span class="o">**</span><span class="n">Koefisien</span> <span class="n">Detail</span> <span class="p">(</span><span class="err">$</span><span class="n">cD</span><span class="err">$</span><span class="p">):</span><span class="o">**</span> <span class="n">Menggambarkan</span> <span class="n">fluktuasi</span> <span class="n">cepat</span><span class="p">,</span> <span class="n">derau</span> <span class="p">(</span><span class="o">*</span><span class="n">noise</span><span class="o">*</span><span class="p">),</span> <span class="n">dan</span> <span class="n">perubahan</span> <span class="n">frekuensi</span> <span class="n">tinggi</span> <span class="n">dari</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span>
-
-<span class="n">Fungsi</span> <span class="n">ekstraksi</span> <span class="n">fitur</span> <span class="n">TSFEL</span> <span class="n">mengekstrak</span> <span class="n">statistik</span> <span class="n">dispersi</span> <span class="n">langsung</span> <span class="n">dari</span> <span class="o">**</span><span class="n">Koefisien</span> <span class="n">Detail</span> <span class="p">(</span><span class="err">$</span><span class="n">cD</span><span class="err">$</span><span class="p">)</span><span class="o">**</span> <span class="n">sinyal</span><span class="p">:</span>
-<span class="o">*</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span> <span class="p">(</span><span class="n">Standar</span> <span class="n">Deviasi</span> <span class="n">Wavelet</span><span class="p">):</span><span class="o">**</span> <span class="n">Mengukur</span> <span class="n">tingkat</span> <span class="n">sebaran</span> <span class="n">atau</span> <span class="n">simpangan</span> <span class="n">baku</span> <span class="n">dari</span> <span class="n">fluktuasi</span> <span class="n">frekuensi</span> <span class="n">tinggi</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span> <span class="n">Nilai</span> <span class="n">yang</span> <span class="n">besar</span> <span class="n">menunjukkan</span> <span class="n">adanya</span> <span class="n">perubahan</span> <span class="n">konsentrasi</span> <span class="n">harian</span> <span class="n">yang</span> <span class="n">sangat</span> <span class="n">drastis</span> <span class="n">atau</span> <span class="n">tidak</span> <span class="n">stabil</span><span class="o">.</span>
-<span class="o">*</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span> <span class="p">(</span><span class="n">Variansi</span> <span class="n">Wavelet</span><span class="p">):</span><span class="o">**</span> <span class="n">Kuadrat</span> <span class="n">dari</span> <span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="p">,</span> <span class="n">yang</span> <span class="n">mengukur</span> <span class="n">besarnya</span> <span class="n">total</span> <span class="n">variansi</span> <span class="n">daya</span> <span class="n">fluktuasi</span> <span class="n">frekuensi</span> <span class="n">tinggi</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span>
-
-<span class="o">---</span>
-
-<span class="c1">### 2.2 Formulasi Matematika</span>
-
-<span class="n">Misalkan</span> <span class="n">dari</span> <span class="n">hasil</span> <span class="n">dekomposisi</span> <span class="n">wavelet</span> <span class="n">diperoleh</span> <span class="err">$</span><span class="n">N</span><span class="err">$</span> <span class="n">buah</span> <span class="n">koefisien</span> <span class="n">detail</span> <span class="err">$</span><span class="n">cD</span> <span class="o">=</span> <span class="p">[</span><span class="n">cD_1</span><span class="p">,</span> <span class="n">cD_2</span><span class="p">,</span> \<span class="n">dots</span><span class="p">,</span> <span class="n">cD_N</span><span class="p">]</span><span class="err">$</span> <span class="n">dengan</span> <span class="n">rata</span><span class="o">-</span><span class="n">rata</span> <span class="err">$</span>\<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span><span class="err">$</span><span class="p">:</span>
-
-<span class="err">$$</span>\<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">N</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">N</span><span class="p">}</span> <span class="n">cD_i</span><span class="err">$$</span>
-
-<span class="mf">1.</span> <span class="o">**</span><span class="n">Rumus</span> <span class="n">Variansi</span> <span class="n">Wavelet</span> <span class="p">(</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span><span class="p">):</span><span class="o">**</span>
-   <span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">N</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">N</span><span class="p">}</span> <span class="p">(</span><span class="n">cD_i</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span><span class="err">$$</span>
-
-<span class="mf">2.</span> <span class="o">**</span><span class="n">Rumus</span> <span class="n">Standar</span> <span class="n">Deviasi</span> <span class="n">Wavelet</span> <span class="p">(</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="p">):</span><span class="o">**</span>
-   <span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_std</span><span class="p">}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">N</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">N</span><span class="p">}</span> <span class="p">(</span><span class="n">cD_i</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span><span class="p">}</span><span class="err">$$</span>
-
-<span class="o">---</span>
-
-<span class="c1">### 2.3 Perhitungan Manual (Studi Kasus: Polutan $\text{NO}_2$)</span>
-
-<span class="n">Untuk</span> <span class="n">memahami</span> <span class="n">cara</span> <span class="n">kerja</span> <span class="n">algoritma</span><span class="p">,</span> <span class="n">dilakukan</span> <span class="n">simulasi</span> <span class="n">perhitungan</span> <span class="n">manual</span> <span class="n">menggunakan</span> <span class="n">sampel</span> <span class="n">mini</span> <span class="n">sinyal</span> <span class="n">konsentrasi</span> <span class="o">**</span><span class="err">$</span>\<span class="n">text</span><span class="p">{</span><span class="n">NO</span><span class="p">}</span><span class="n">_2</span><span class="err">$</span><span class="o">**</span> <span class="p">(</span><span class="err">$</span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span><span class="err">$</span> <span class="n">hari</span> <span class="n">sampel</span><span class="p">)</span> <span class="n">dalam</span> <span class="n">satuan</span> <span class="err">$</span>\<span class="n">text</span><span class="p">{</span><span class="n">ppm</span><span class="p">}</span><span class="err">$</span><span class="p">:</span>
-
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Sinyal</span> <span class="p">}</span>\<span class="n">text</span><span class="p">{</span><span class="n">NO</span><span class="p">}</span><span class="n">_2</span> <span class="o">=</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">},</span>\<span class="p">;</span> <span class="mi">50</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">},</span>\<span class="p">;</span> <span class="mi">30</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">},</span>\<span class="p">;</span> <span class="mi">40</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}]</span><span class="err">$$</span>
-
-<span class="c1">#### Langkah 1: Dekomposisi Wavelet Haar (Mencari Koefisien Detail $cD$)</span>
-<span class="n">Menggunakan</span> <span class="nb">filter</span> <span class="o">*</span><span class="n">Mother</span> <span class="n">Wavelet</span> <span class="n">Haar</span><span class="o">*</span> <span class="p">(</span><span class="err">$</span>\<span class="n">text</span><span class="p">{</span><span class="nb">filter</span><span class="p">}</span> <span class="o">=</span> <span class="p">[</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}},</span> <span class="o">-</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}]</span><span class="err">$</span> <span class="n">di</span> <span class="n">mana</span> <span class="err">$</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> \<span class="n">approx</span> <span class="mf">0.70710678</span><span class="err">$</span><span class="p">):</span>
-
-<span class="err">$$</span><span class="n">cD_1</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="n">x_1</span> <span class="o">-</span> <span class="n">x_2</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">20</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}</span> <span class="o">-</span> <span class="mi">50</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="o">-</span><span class="mi">30</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span><span class="mf">1.41421356</span><span class="p">}</span> \<span class="n">approx</span> <span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
-
-<span class="err">$$</span><span class="n">cD_2</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="n">x_3</span> <span class="o">-</span> <span class="n">x_4</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">30</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}</span> <span class="o">-</span> <span class="mi">40</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="o">-</span><span class="mi">10</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span><span class="mf">1.41421356</span><span class="p">}</span> \<span class="n">approx</span> <span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
-
-<span class="n">Sehingga</span> <span class="n">didapatkan</span> <span class="n">array</span> <span class="n">Koefisien</span> <span class="n">Detail</span><span class="p">:</span>
-<span class="err">$$</span><span class="n">cD</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">},</span>\<span class="p">;</span> <span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}]</span><span class="err">$$</span>
-
-<span class="o">---</span>
-
-<span class="c1">#### Langkah 2: Hitung Rata-rata Koefisien Detail ($\mu_{cD}$)</span>
-
-<span class="err">$$</span>\<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="n">cD_1</span> <span class="o">+</span> <span class="n">cD_2</span><span class="p">}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{(</span><span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.41421356</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
-
-<span class="o">---</span>
-
-<span class="c1">#### Langkah 3: Hitung Variansi Wavelet (`wavelet_var`)</span>
-
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Deviasi</span><span class="p">}</span><span class="n">_1</span> <span class="o">=</span> <span class="n">cD_1</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.41421356</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Deviasi</span><span class="p">}</span><span class="n">_2</span> <span class="o">=</span> <span class="n">cD_2</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.41421356</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">=</span> <span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
-
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}</span><span class="err">$$</span>
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}</span><span class="err">$$</span>
-
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_1</span> <span class="o">+</span> \<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_2</span><span class="p">}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}</span> <span class="o">+</span> <span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> \<span class="n">mathbf</span><span class="p">{</span><span class="mf">5.000000</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}}</span><span class="err">$$</span>
-
-<span class="o">---</span>
-
-<span class="c1">#### Langkah 4: Hitung Standar Deviasi Wavelet (`wavelet_std`)</span>
-
-<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_std</span><span class="p">}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span><span class="mf">5.000000</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">mathbf</span><span class="p">{</span><span class="mf">7.071068</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}</span><span class="err">$$</span>
-
-<span class="o">---</span>
-
-<span class="c1">### 2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)</span>
-
-<span class="n">Berikut</span> <span class="n">skrip</span> <span class="n">Python</span> <span class="n">untuk</span> <span class="n">membuktikan</span> <span class="n">bahwa</span> <span class="n">perhitungan</span> <span class="n">manual</span> <span class="n">di</span> <span class="n">atas</span> <span class="n">identik</span> <span class="n">dengan</span> <span class="n">output</span> <span class="n">dari</span> <span class="n">pustaka</span> <span class="err">`</span><span class="n">PyWavelets</span><span class="err">`</span> <span class="n">dan</span> <span class="err">`</span><span class="n">TSFEL</span><span class="err">`</span><span class="p">:</span>
-
-<span class="err">```</span><span class="n">python</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/ba876043f5297ca41ce51e12cf22a03776fc6f05a4fb280d26bbdc49ad83de22.png" src="_images/ba876043f5297ca41ce51e12cf22a03776fc6f05a4fb280d26bbdc49ad83de22.png" />
+<img alt="_images/5055bdf997ea2c6c66130f049626062fc839bcd367ab1e0843ae7660a47e2d37.png" src="_images/5055bdf997ea2c6c66130f049626062fc839bcd367ab1e0843ae7660a47e2d37.png" />
+<img alt="_images/ea19897d695016879af24d8b89aa3160548638069df24d912a1244b9d7d12605.png" src="_images/ea19897d695016879af24d8b89aa3160548638069df24d912a1244b9d7d12605.png" />
+</div>
+</div>
+</section>
+<section id="konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">
+<h2>2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)<a class="headerlink" href="#konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var" title="Link to this heading">#</a></h2>
+<p>Berdasarkan pembagian tugas kelas, fitur utama yang dianalisis secara mendalam oleh <strong>Muhammad izzul Millah Aqil</strong> adalah dua fitur berbasis dekomposisi wavelet: <strong><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code></strong> dan <strong><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code></strong>.</p>
+<hr class="docutils" />
+<section id="deskripsi-fitur-khusus">
+<h3>2.1 Deskripsi Fitur Khusus<a class="headerlink" href="#deskripsi-fitur-khusus" title="Link to this heading">#</a></h3>
+<p>Dekomposisi Wavelet (<em>Discrete Wavelet Transform / DWT</em>) memecah sinyal deret waktu <span class="math notranslate nohighlight">\(X(t)\)</span> menjadi dua komponen utama:</p>
+<ol class="arabic simple">
+<li><p><strong>Koefisien Aproksimasi (<span class="math notranslate nohighlight">\(cA\)</span>):</strong> Menggambarkan tren frekuensi rendah (pola jangka panjang) dari sinyal polutan.</p></li>
+<li><p><strong>Koefisien Detail (<span class="math notranslate nohighlight">\(cD\)</span>):</strong> Menggambarkan fluktuasi cepat, derau (<em>noise</em>), dan perubahan frekuensi tinggi dari sinyal polutan.</p></li>
+</ol>
+<p>Fungsi ekstraksi fitur TSFEL mengekstrak statistik dispersi langsung dari <strong>Koefisien Detail (<span class="math notranslate nohighlight">\(cD\)</span>)</strong> sinyal:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> (Standar Deviasi Wavelet):</strong> Mengukur tingkat sebaran atau simpangan baku dari fluktuasi frekuensi tinggi sinyal polutan. Nilai yang besar menunjukkan adanya perubahan konsentrasi harian yang sangat drastis atau tidak stabil.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code> (Variansi Wavelet):</strong> Kuadrat dari <code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>, yang mengukur besarnya total variansi daya fluktuasi frekuensi tinggi sinyal polutan.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="formulasi-matematika">
+<h3>2.2 Formulasi Matematika<a class="headerlink" href="#formulasi-matematika" title="Link to this heading">#</a></h3>
+<p>Misalkan dari hasil dekomposisi wavelet diperoleh <span class="math notranslate nohighlight">\(N\)</span> buah koefisien detail <span class="math notranslate nohighlight">\(cD = [cD_1, cD_2, \dots, cD_N]\)</span> dengan rata-rata <span class="math notranslate nohighlight">\(\mu_{cD}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mu_{cD} = \frac{1}{N} \sum_{i=1}^{N} cD_i\]</div>
+<ol class="arabic simple">
+<li><p><strong>Rumus Variansi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>):</strong>
+$<span class="math notranslate nohighlight">\(\text{wavelet\_var} = \frac{1}{N} \sum_{i=1}^{N} (cD_i - \mu_{cD})^2\)</span>$</p></li>
+<li><p><strong>Rumus Standar Deviasi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>):</strong>
+$<span class="math notranslate nohighlight">\(\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (cD_i - \mu_{cD})^2}\)</span>$</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="perhitungan-manual-studi-kasus-polutan-text-no-2">
+<h3>2.3 Perhitungan Manual (Studi Kasus: Polutan <span class="math notranslate nohighlight">\(\text{NO}_2\)</span>)<a class="headerlink" href="#perhitungan-manual-studi-kasus-polutan-text-no-2" title="Link to this heading">#</a></h3>
+<p>Untuk memahami cara kerja algoritma, dilakukan simulasi perhitungan manual menggunakan sampel mini sinyal konsentrasi <strong><span class="math notranslate nohighlight">\(\text{NO}_2\)</span></strong> (<span class="math notranslate nohighlight">\(N = 4\)</span> hari sampel) dalam satuan <span class="math notranslate nohighlight">\(\text{ppm}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\text{Sinyal }\text{NO}_2 = X = [20 \times 10^{-6},\; 50 \times 10^{-6},\; 30 \times 10^{-6},\; 40 \times 10^{-6}]\]</div>
+<section id="langkah-1-dekomposisi-wavelet-haar-mencari-koefisien-detail-cd">
+<h4>Langkah 1: Dekomposisi Wavelet Haar (Mencari Koefisien Detail <span class="math notranslate nohighlight">\(cD\)</span>)<a class="headerlink" href="#langkah-1-dekomposisi-wavelet-haar-mencari-koefisien-detail-cd" title="Link to this heading">#</a></h4>
+<p>Menggunakan filter <em>Mother Wavelet Haar</em> (<span class="math notranslate nohighlight">\(\text{filter} = [\frac{1}{\sqrt{2}}, -\frac{1}{\sqrt{2}}]\)</span> di mana <span class="math notranslate nohighlight">\(\frac{1}{\sqrt{2}} \approx 0.70710678\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[cD_1 = \frac{x_1 - x_2}{\sqrt{2}} = \frac{20 \times 10^{-6} - 50 \times 10^{-6}}{\sqrt{2}} = \frac{-30 \times 10^{-6}}{1.41421356} \approx -2.12132034 \times 10^{-5}\]</div>
+<div class="math notranslate nohighlight">
+\[cD_2 = \frac{x_3 - x_4}{\sqrt{2}} = \frac{30 \times 10^{-6} - 40 \times 10^{-6}}{\sqrt{2}} = \frac{-10 \times 10^{-6}}{1.41421356} \approx -0.70710678 \times 10^{-5}\]</div>
+<p>Sehingga didapatkan array Koefisien Detail:
+$<span class="math notranslate nohighlight">\(cD = [-2.12132034 \times 10^{-5},\; -0.70710678 \times 10^{-5}]\)</span>$</p>
+</section>
+<hr class="docutils" />
+<section id="langkah-2-hitung-rata-rata-koefisien-detail-mu-cd">
+<h4>Langkah 2: Hitung Rata-rata Koefisien Detail (<span class="math notranslate nohighlight">\(\mu_{cD}\)</span>)<a class="headerlink" href="#langkah-2-hitung-rata-rata-koefisien-detail-mu-cd" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[\mu_{cD} = \frac{cD_1 + cD_2}{2} = \frac{(-2.12132034 \times 10^{-5}) + (-0.70710678 \times 10^{-5})}{2} = -1.41421356 \times 10^{-5}\]</div>
+</section>
+<hr class="docutils" />
+<section id="langkah-3-hitung-variansi-wavelet-wavelet-var">
+<h4>Langkah 3: Hitung Variansi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)<a class="headerlink" href="#langkah-3-hitung-variansi-wavelet-wavelet-var" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[\text{Deviasi}_1 = cD_1 - \mu_{cD} = (-2.12132034 \times 10^{-5}) - (-1.41421356 \times 10^{-5}) = -0.70710678 \times 10^{-5}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{Deviasi}_2 = cD_2 - \mu_{cD} = (-0.70710678 \times 10^{-5}) - (-1.41421356 \times 10^{-5}) = 0.70710678 \times 10^{-5}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{Kuadrat Deviasi}_1 = (-0.70710678 \times 10^{-5})^2 = 5 \times 10^{-11}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{Kuadrat Deviasi}_2 = (0.70710678 \times 10^{-5})^2 = 5 \times 10^{-11}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{wavelet\_var} = \frac{\text{Kuadrat Deviasi}_1 + \text{Kuadrat Deviasi}_2}{2} = \frac{5 \times 10^{-11} + 5 \times 10^{-11}}{2} = \mathbf{5.000000 \times 10^{-11}}\]</div>
+</section>
+<hr class="docutils" />
+<section id="langkah-4-hitung-standar-deviasi-wavelet-wavelet-std">
+<h4>Langkah 4: Hitung Standar Deviasi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>)<a class="headerlink" href="#langkah-4-hitung-standar-deviasi-wavelet-wavelet-std" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{5.000000 \times 10^{-11}} = \mathbf{7.071068 \times 10^{-6}}\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel">
+<h3>2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)<a class="headerlink" href="#pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel" title="Link to this heading">#</a></h3>
+<p>Berikut skrip Python untuk membuktikan bahwa perhitungan manual di atas identik dengan output dari pustaka <code class="docutils literal notranslate"><span class="pre">PyWavelets</span></code> dan <code class="docutils literal notranslate"><span class="pre">TSFEL</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pywt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tsfel.feature_extraction.features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tsfel_features</span>
 
@@ -561,17 +581,7 @@ document.write(`
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Pustaka TSFEL  -&gt; wavelet_var: </span><span class="si">{</span><span class="n">tsfel_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">tsfel_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">50</span>
-    <span class="n">Berdasarkan</span> <span class="n">pembagian</span> <span class="n">tugas</span> <span class="n">kelas</span><span class="p">,</span> <span class="n">fitur</span> <span class="n">utama</span> <span class="n">yang</span> <span class="n">dianalisis</span> <span class="n">secara</span> <span class="n">mendalam</span> <span class="n">oleh</span> <span class="o">**</span><span class="n">Muhammad</span> <span class="n">izzul</span> <span class="n">Millah</span> <span class="n">Aqil</span><span class="o">**</span> <span class="n">adalah</span> <span class="n">dua</span> <span class="n">fitur</span> <span class="n">berbasis</span> <span class="n">dekomposisi</span> <span class="n">wavelet</span><span class="p">:</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="o">**</span> <span class="n">dan</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span><span class="o">**.</span>
-                <span class="o">^</span>
-<span class="ne">SyntaxError</span>: invalid syntax
-</pre></div>
-</div>
-</div>
-</div>
+</section>
 </section>
 </section>
 
@@ -640,6 +650,19 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur-khusus">2.1 Deskripsi Fitur Khusus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formulasi-matematika">2.2 Formulasi Matematika</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-studi-kasus-polutan-text-no-2">2.3 Perhitungan Manual (Studi Kasus: Polutan <span class="math notranslate nohighlight">\(\text{NO}_2\)</span>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-dekomposisi-wavelet-haar-mencari-koefisien-detail-cd">Langkah 1: Dekomposisi Wavelet Haar (Mencari Koefisien Detail <span class="math notranslate nohighlight">\(cD\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hitung-rata-rata-koefisien-detail-mu-cd">Langkah 2: Hitung Rata-rata Koefisien Detail (<span class="math notranslate nohighlight">\(\mu_{cD}\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-variansi-wavelet-wavelet-var">Langkah 3: Hitung Variansi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-standar-deviasi-wavelet-wavelet-std">Langkah 4: Hitung Standar Deviasi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel">2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

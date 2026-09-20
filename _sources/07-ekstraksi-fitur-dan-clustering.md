@@ -65,6 +65,8 @@ for pol in pollutants:
     except Exception as e:
         print(f"Gagal memproses visualisasi polutan {pol}: {e}")
 
+```
+
 
 ## 2. Konsep Dasar, Deskripsi Fitur & Perhitungan Manual Khusus (`wavelet_std` & `wavelet_var`)
 
