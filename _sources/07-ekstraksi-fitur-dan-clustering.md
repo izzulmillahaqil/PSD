@@ -160,12 +160,20 @@ cA, cD = pywt.dwt(x_no2_sample, 'haar')
 manual_var = float(np.var(cD))
 manual_std = float(np.std(cD))
 
-# 3. Perhitungan Menggunakan Pustaka TSFEL (Ambil nilai float dari output dict/array)
+# 3. Perhitungan Menggunakan Pustaka TSFEL
 res_var = tsfel_features.wavelet_var(x_no2_sample, fs=1)
 res_std = tsfel_features.wavelet_std(x_no2_sample, fs=1)
 
-tsfel_var = float(list(res_var.values())[0]) if isinstance(res_var, dict) else float(np.ravel(res_var)[0])
-tsfel_std = float(list(res_std.values())[0]) if isinstance(res_std, dict) else float(np.ravel(res_std)[0])
+# Helper untuk mengekstrak angka float dari output TSFEL apapun tipe datanya
+def extract_float(val):
+    if isinstance(val, (list, tuple, np.ndarray)):
+        return float(val[0])
+    elif isinstance(val, dict):
+        return float(list(val.values())[0])
+    return float(val)
+
+tsfel_var = extract_float(res_var)
+tsfel_std = extract_float(res_std)
 
 print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
