@@ -582,9 +582,9 @@ $<span class="math notranslate nohighlight">\(cD = [-2.12132034 \times 10^{-5},\
 <span class="n">manual_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">cD</span><span class="p">)</span>
 <span class="n">manual_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cD</span><span class="p">)</span>
 
-<span class="c1"># 3. Perhitungan Menggunakan Pustaka TSFEL</span>
-<span class="n">tsfel_var</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_var</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">)</span>
-<span class="n">tsfel_std</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_std</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">)</span>
+<span class="c1"># 3. Perhitungan Menggunakan Pustaka TSFEL (tambahkan fs=1)</span>
+<span class="n">tsfel_var</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_var</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tsfel_std</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_std</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Manual (NumPy) -&gt; wavelet_var: </span><span class="si">{</span><span class="n">manual_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">manual_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -593,16 +593,18 @@ $<span class="math notranslate nohighlight">\(cD = [-2.12132034 \times 10^{-5},\
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===
+Hasil Manual (NumPy) -&gt; wavelet_var: 5.00000000e-11 | wavelet_std: 7.07106781e-06
+</pre></div>
+</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">16</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="n">manual_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cD</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="c1"># 3. Perhitungan Menggunakan Pustaka TSFEL</span>
-<span class="ne">---&gt; </span><span class="mi">16</span> <span class="n">tsfel_var</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_var</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">tsfel_std</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_std</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">21</span>
 <span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Manual (NumPy) -&gt; wavelet_var: </span><span class="si">{</span><span class="n">manual_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">manual_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">21</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Pustaka TSFEL  -&gt; wavelet_var: </span><span class="si">{</span><span class="n">tsfel_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">tsfel_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="ne">TypeError</span>: wavelet_var() missing 1 required positional argument: &#39;fs&#39;
+<span class="ne">TypeError</span>: unsupported format string passed to dict.__format__
 </pre></div>
 </div>
 </div>

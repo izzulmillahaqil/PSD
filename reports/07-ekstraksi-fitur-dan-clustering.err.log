@@ -29,25 +29,26 @@ cA, cD = pywt.dwt(x_no2_sample, 'haar')
 manual_var = np.var(cD)
 manual_std = np.std(cD)
 
-# 3. Perhitungan Menggunakan Pustaka TSFEL
-tsfel_var = tsfel_features.wavelet_var(x_no2_sample)
-tsfel_std = tsfel_features.wavelet_std(x_no2_sample)
+# 3. Perhitungan Menggunakan Pustaka TSFEL (tambahkan fs=1)
+tsfel_var = tsfel_features.wavelet_var(x_no2_sample, fs=1)
+tsfel_std = tsfel_features.wavelet_std(x_no2_sample, fs=1)
 
 print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
 print(f"Hasil Pustaka TSFEL  -> wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}")
-
 ------------------
 
+----- stdout -----
+=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===
+Hasil Manual (NumPy) -> wavelet_var: 5.00000000e-11 | wavelet_std: 7.07106781e-06
+------------------
 
 [1;31m---------------------------------------------------------------------------[0m
 [1;31mTypeError[0m                                 Traceback (most recent call last)
-Cell [1;32mIn[2], line 16[0m
-[0;32m     13[0m manual_std [38;5;241m=[39m np[38;5;241m.[39mstd(cD)
-[0;32m     15[0m [38;5;66;03m# 3. Perhitungan Menggunakan Pustaka TSFEL[39;00m
-[1;32m---> 16[0m tsfel_var [38;5;241m=[39m [43mtsfel_features[49m[38;5;241;43m.[39;49m[43mwavelet_var[49m[43m([49m[43mx_no2_sample[49m[43m)[49m
-[0;32m     17[0m tsfel_std [38;5;241m=[39m tsfel_features[38;5;241m.[39mwavelet_std(x_no2_sample)
+Cell [1;32mIn[2], line 21[0m
 [0;32m     19[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;124m=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===[39m[38;5;124m"[39m)
+[0;32m     20[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mHasil Manual (NumPy) -> wavelet_var: [39m[38;5;132;01m{[39;00mmanual_var[38;5;132;01m:[39;00m[38;5;124m.8e[39m[38;5;132;01m}[39;00m[38;5;124m | wavelet_std: [39m[38;5;132;01m{[39;00mmanual_std[38;5;132;01m:[39;00m[38;5;124m.8e[39m[38;5;132;01m}[39;00m[38;5;124m"[39m)
+[1;32m---> 21[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mHasil Pustaka TSFEL  -> wavelet_var: [39m[38;5;132;01m{[39;00mtsfel_var[38;5;132;01m:[39;00m[38;5;124m.8e[39m[38;5;132;01m}[39;00m[38;5;124m | wavelet_std: [39m[38;5;132;01m{[39;00mtsfel_std[38;5;132;01m:[39;00m[38;5;124m.8e[39m[38;5;132;01m}[39;00m[38;5;124m"[39m)
 
-[1;31mTypeError[0m: wavelet_var() missing 1 required positional argument: 'fs'
+[1;31mTypeError[0m: unsupported format string passed to dict.__format__
 

@@ -160,14 +160,13 @@ cA, cD = pywt.dwt(x_no2_sample, 'haar')
 manual_var = np.var(cD)
 manual_std = np.std(cD)
 
-# 3. Perhitungan Menggunakan Pustaka TSFEL
-tsfel_var = tsfel_features.wavelet_var(x_no2_sample)
-tsfel_std = tsfel_features.wavelet_std(x_no2_sample)
+# 3. Perhitungan Menggunakan Pustaka TSFEL (tambahkan fs=1)
+tsfel_var = tsfel_features.wavelet_var(x_no2_sample, fs=1)
+tsfel_std = tsfel_features.wavelet_std(x_no2_sample, fs=1)
 
 print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
 print(f"Hasil Pustaka TSFEL  -> wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}")
-
 ```
 
 ## 3. Implementasi Workflow pada KNIME Analytics Platform
