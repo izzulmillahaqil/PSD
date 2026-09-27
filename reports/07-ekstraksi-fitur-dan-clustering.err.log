@@ -61,7 +61,8 @@ for pol in pollutants:
     except Exception as e:
         print(f"Gagal memproses visualisasi polutan {pol}: {e}")
 
-## 2. Konsep Dasar, Deskripsi Fitur & Perhitungan Manual Khusus (`wavelet_std` & `wavelet_var`)
+
+    ## 2. Konsep Dasar, Deskripsi Fitur & Perhitungan Manual Khusus (`wavelet_std` & `wavelet_var`)
 
 Berdasarkan pembagian tugas kelas, fitur utama yang dianalisis secara mendalam oleh **Muhammad izzul Millah Aqil** adalah dua fitur berbasis dekomposisi wavelet: **`wavelet_std`** dan **`wavelet_var`**.
 
@@ -161,10 +162,74 @@ tsfel_std = tsfel_features.wavelet_std(x_no2_sample)
 print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
 print(f"Hasil Pustaka TSFEL  -> wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}")
+
+
+## 3. Implementasi Workflow pada KNIME Analytics Platform
+
+Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangkat lunak **KNIME Analytics Platform** dengan tahapan penyiapan *node workflow* sebagai berikut:
+
+### 3.1 Koneksi Database & Penarikan Data
+* **Node `MySQL Connector` / `DB Connector`:**
+  Digunakan untuk menyambungkan KNIME ke server database MySQL/MariaDB (`basisdata2-c.my.id:3306`) dengan basis data `basisda1_PSD-A`.
+* **Node `DB Query Reader`:**
+  Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (`;`) di akhir kueri untuk mengambil seluruh fitur TSFEL:
+  ```sql
+  SELECT * FROM `basisda1_PSD-A`.ekstraksi_fitur_co
+
+### 3.2 Preprocessing Data (Filtering, Variance Control, & Normalisasi)
+1. **Node `Column Filter`:**
+   * Memisahkan variabel numerik dan metadata non-numerik.
+   * **Excludes:** `id`, `nama`, `daerah`
+   * **Includes:** Seluruh kolom fitur angka TSFEL.
+2. **Node `Low Variance Filter`:**
+   * Berfungsi untuk mengeliminasi kolom-kolom yang bersifat konstan (memiliki variansi mendekati `0`), sehingga algoritma PCA tidak mengalami pembagian dengan nol.
+3. **Node `Normalizer`:**
+   * Menerapkan pembobotan variabel dengan metode **Min-Max Normalization** (rentang 0.0 s.d. 1.0) agar fitur berjarak variabel seimbang.
+
+---
+
+### 3.3 Reduksi Dimensi dengan PCA
+1. **Node `PCA Compute`:**
+   * Menerima input fitur yang telah dinormalisasi dari node `Normalizer`.
+   * Pada konfigurasi panel **Dimensions**, tentukan jumlah komponen utama yang ingin dihasilkan (misalnya `Fixed Number = 2` atau `37`).
+2. **Node `PCA Apply`:**
+   * Menerima port data numerik dari `Normalizer` dan port matriks transformasi dari `PCA Compute`.
+   * Mengubah fitur-fitur berdimensi tinggi menjadi komponen proyeksi baru (`PCA dimension 0`, `PCA dimension 1`, dst.).
+
+---
+
+### 3.4 Pemodelan K-Means Clustering
+1. **Node `k-Means`:**
+   * Hubungkan output data dari node **`PCA Apply`** menuju port input **`k-Means`**.
+   * Konfigurasikan **Number of clusters ($k$)** menjadi `2` atau `3`.
+   * Tentukan **Max. number of iterations** = `100`.
+   * Eksekusi node hingga menyala hijau untuk mengekstrak penataan kelompok baru bernama kolom `Cluster`.
+
+---
+
+---
+
+### 3.5 Visualisasi Cluster & Penetapan Sumbu
+1. **Node `Scatter Plot`:**
+   * Hubungkan output data berlabel dari node **`k-Means`** ke port **`Scatter Plot`**.
+   * Buka konfigurasi panel visualisasi:
+     * **Horizontal dimension:** `nama`
+     * **Vertical dimension:** `cluster`
+     * **Color dimension:** `none`
+2. Jalankan perintah **Apply and Execute** untuk menyajikan grafik sebaran titik *cluster* berbasis warna.
+
+#### Rangkaian Workflow & Hasil Clustering
+Berikut adalah gambaran alur *workflow* KNIME yang telah disusun serta hasil sebaran titik kelompok data (*clustering*):
+
+![Workflow KNIME](workflow.png)
+*Gambar 3.1: Alur Lengkap Workflow Preprocessing, PCA, dan K-Means pada KNIME*
+
+![Hasil Scatter Plot Clustering](cluster.png)
+*Gambar 3.2: Hasil Persebaran Cluster (cluster_0 dan cluster_1) Menggunakan Scatter Plot*
 ------------------
 
 
-[1;36m  Cell [1;32mIn[1], line 49[1;36m[0m
+[1;36m  Cell [1;32mIn[1], line 50[1;36m[0m
 [1;33m    Berdasarkan pembagian tugas kelas, fitur utama yang dianalisis secara mendalam oleh **Muhammad izzul Millah Aqil** adalah dua fitur berbasis dekomposisi wavelet: **`wavelet_std`** dan **`wavelet_var`**.[0m
 [1;37m                ^[0m
 [1;31mSyntaxError[0m[1;31m:[0m invalid syntax

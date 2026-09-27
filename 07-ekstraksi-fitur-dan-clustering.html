@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Implementasi Workflow pada KNIME Analytics Platform &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -374,7 +374,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>3. Implementasi Workflow pada KNIME Analytics Platform</h1>
+    <h1>7. Ekstraksi Fitur TSFEL, Reduksi PCA, & K-Means Clustering</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -384,14 +384,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#koneksi-database-penarikan-data">3.1 Koneksi Database &amp; Penarikan Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-filtering-variance-control-normalisasi">3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-dengan-pca">3.3 Reduksi Dimensi dengan PCA</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pemodelan-k-means-clustering">3.4 Pemodelan K-Means Clustering</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rangkaian-workflow-hasil-clustering">Rangkaian Workflow &amp; Hasil Clustering</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
 </ul>
             </nav>
         </div>
@@ -403,272 +396,244 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>---
-jupytext:
-text_representation:
-    extension: .md
-    format_name: myst
-    format_version: 0.13
----
+  <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-tsfel-reduksi-pca-k-means-clustering">
+<h1>7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering<a class="headerlink" href="#ekstraksi-fitur-tsfel-reduksi-pca-k-means-clustering" title="Link to this heading">#</a></h1>
+<p>Dokumen ini menjelaskan alur lengkap pengolahan data polutan udara (<strong>CO, <span class="math notranslate nohighlight">\(NO_2\)</span>, dan <span class="math notranslate nohighlight">\(SO_2\)</span></strong>) wilayah <strong>Surabaya Selatan</strong> (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026), mulai dari eksplorasi deret waktu, ekstraksi 68 fitur TSFEL per polutan (total 204 kolom), reduksi dimensi menggunakan PCA, hingga analisis <em>K-Means Clustering</em> dan integrasi database Aiven Cloud.</p>
+<hr class="docutils" />
+<section id="eksplorasi-data-time-series-plot-semua-polutan">
+<h2>1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)<a class="headerlink" href="#eksplorasi-data-time-series-plot-semua-polutan" title="Link to this heading">#</a></h2>
+<p>Sebelum melakukan ekstraksi fitur, kita melakukan visualisasi deret waktu (<em>time series plot</em>) untuk melihat tren harian dan karakteristik fluktuasi dari ketiga polutan secara bersamaan.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsolationForest</span>
 
-# 7. Ekstraksi Fitur TSFEL, Reduk  si PCA, &amp; K-Means Clustering
+<span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CO&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;SO2&#39;</span><span class="p">]</span>
+<span class="n">CONTAMINATION</span> <span class="o">=</span> <span class="mf">0.05</span>
 
-Dokumen ini menjelaskan alur lengkap pengolahan data polutan udara (**CO, $NO_2$, dan $SO_2$**) wilayah **Surabaya Selatan** (rentang waktu 31 Agustus 2025 s.d. 31 Agustus 2026), mulai dari eksplorasi deret waktu, ekstraksi 68 fitur TSFEL per polutan (total 204 kolom), reduksi dimensi menggunakan PCA, hingga analisis *K-Means Clustering* dan integrasi database Aiven Cloud.
+<span class="k">for</span> <span class="n">pol</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 1. Load data</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/processed/data_polutan_</span><span class="si">{</span><span class="n">pol</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_clean.csv&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
----
+        <span class="c1"># Parse data numerik</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">parse_val</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;nan&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
-## 1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)
+        <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">parse_val</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">pol</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-Sebelum melakukan ekstraksi fitur, kita melakukan visualisasi deret waktu (*time series plot*) untuk melihat tren harian dan karakteristik fluktuasi dari ketiga polutan secara bersamaan.
+        <span class="c1"># 2. Deteksi Outlier dengan Isolation Forest</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="n">CONTAMINATION</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">pol</span><span class="p">]])</span>  <span class="c1"># -1 = outlier, 1 = normal</span>
 
-```{code-cell} ipython3
-:tags: [hide-input]
+        <span class="c1"># 3. Ganti Outlier jadi NaN lalu Interpolasi Berbasis Waktu</span>
+        <span class="n">df_fixed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df_fixed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_fixed</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.ensemble import IsolationForest
+        <span class="c1"># 4. Visualisasi Plot </span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_fixed</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                 <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (setelah outlier diganti &amp; diinterpolasi)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-pollutants = [&#39;CO&#39;, &#39;NO2&#39;, &#39;SO2&#39;]
-CONTAMINATION = 0.05
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gagal memproses visualisasi polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-for pol in pollutants:
-    try:
-        # 1. Load data
-        df = pd.read_csv(f&quot;data/processed/data_polutan_{pol.lower()}_clean.csv&quot;)
-        df[&#39;date&#39;] = pd.to_datetime(df[&#39;date&#39;])
-        df = df.sort_values(&#39;date&#39;).reset_index(drop=True)
 
-        # Parse data numerik
-        def parse_val(v):
-            if pd.isna(v) or v is None: return np.nan
-            s = str(v).replace(&#39;[&#39;, &#39;&#39;).replace(&#39;]&#39;, &#39;&#39;).strip()
-            return float(s) if s.lower() not in [&#39;none&#39;, &#39;nan&#39;, &#39;&#39;] else np.nan
+    <span class="c1">## 2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (`wavelet_std` &amp; `wavelet_var`)</span>
 
-        df[pol] = df[pol].apply(parse_val)
-        df = df.dropna(subset=[pol]).copy()
+<span class="n">Berdasarkan</span> <span class="n">pembagian</span> <span class="n">tugas</span> <span class="n">kelas</span><span class="p">,</span> <span class="n">fitur</span> <span class="n">utama</span> <span class="n">yang</span> <span class="n">dianalisis</span> <span class="n">secara</span> <span class="n">mendalam</span> <span class="n">oleh</span> <span class="o">**</span><span class="n">Muhammad</span> <span class="n">izzul</span> <span class="n">Millah</span> <span class="n">Aqil</span><span class="o">**</span> <span class="n">adalah</span> <span class="n">dua</span> <span class="n">fitur</span> <span class="n">berbasis</span> <span class="n">dekomposisi</span> <span class="n">wavelet</span><span class="p">:</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="o">**</span> <span class="n">dan</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span><span class="o">**.</span>
 
-        # 2. Deteksi Outlier dengan Isolation Forest
-        model = IsolationForest(contamination=CONTAMINATION, random_state=42)
-        df[&#39;anomaly&#39;] = model.fit_predict(df[[pol]])  # -1 = outlier, 1 = normal
+<span class="o">---</span>
 
-        # 3. Ganti Outlier jadi NaN lalu Interpolasi Berbasis Waktu
-        df_fixed = df.copy()
-        df_fixed.loc[df_fixed[&#39;anomaly&#39;] == -1, pol] = np.nan
-        df_fixed[pol] = df_fixed[pol].interpolate(method=&#39;linear&#39;).ffill().bfill()
+<span class="c1">### 2.1 Deskripsi Fitur Khusus</span>
 
-        # 4. Visualisasi Plot 
-        plt.figure(figsize=(15, 4))
-        plt.plot(df_fixed[&#39;date&#39;], df_fixed[pol], color=&#39;green&#39;, linewidth=1, 
-                label=f&#39;{pol} (setelah outlier diganti &amp; diinterpolasi)&#39;)
-        plt.title(f&#39;{pol}&#39;)
-        plt.legend(loc=&#39;upper right&#39;)
-        plt.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
-        plt.tight_layout()
-        plt.show()
+<span class="n">Dekomposisi</span> <span class="n">Wavelet</span> <span class="p">(</span><span class="o">*</span><span class="n">Discrete</span> <span class="n">Wavelet</span> <span class="n">Transform</span> <span class="o">/</span> <span class="n">DWT</span><span class="o">*</span><span class="p">)</span> <span class="n">memecah</span> <span class="n">sinyal</span> <span class="n">deret</span> <span class="n">waktu</span> <span class="err">$</span><span class="n">X</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="err">$</span> <span class="n">menjadi</span> <span class="n">dua</span> <span class="n">komponen</span> <span class="n">utama</span><span class="p">:</span>
+<span class="mf">1.</span> <span class="o">**</span><span class="n">Koefisien</span> <span class="n">Aproksimasi</span> <span class="p">(</span><span class="err">$</span><span class="n">cA</span><span class="err">$</span><span class="p">):</span><span class="o">**</span> <span class="n">Menggambarkan</span> <span class="n">tren</span> <span class="n">frekuensi</span> <span class="n">rendah</span> <span class="p">(</span><span class="n">pola</span> <span class="n">jangka</span> <span class="n">panjang</span><span class="p">)</span> <span class="n">dari</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span>
+<span class="mf">2.</span> <span class="o">**</span><span class="n">Koefisien</span> <span class="n">Detail</span> <span class="p">(</span><span class="err">$</span><span class="n">cD</span><span class="err">$</span><span class="p">):</span><span class="o">**</span> <span class="n">Menggambarkan</span> <span class="n">fluktuasi</span> <span class="n">cepat</span><span class="p">,</span> <span class="n">derau</span> <span class="p">(</span><span class="o">*</span><span class="n">noise</span><span class="o">*</span><span class="p">),</span> <span class="n">dan</span> <span class="n">perubahan</span> <span class="n">frekuensi</span> <span class="n">tinggi</span> <span class="n">dari</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span>
 
-    except Exception as e:
-        print(f&quot;Gagal memproses visualisasi polutan {pol}: {e}&quot;)
+<span class="n">Fungsi</span> <span class="n">ekstraksi</span> <span class="n">fitur</span> <span class="n">TSFEL</span> <span class="n">mengekstrak</span> <span class="n">statistik</span> <span class="n">dispersi</span> <span class="n">langsung</span> <span class="n">dari</span> <span class="o">**</span><span class="n">Koefisien</span> <span class="n">Detail</span> <span class="p">(</span><span class="err">$</span><span class="n">cD</span><span class="err">$</span><span class="p">)</span><span class="o">**</span> <span class="n">sinyal</span><span class="p">:</span>
+<span class="o">*</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span> <span class="p">(</span><span class="n">Standar</span> <span class="n">Deviasi</span> <span class="n">Wavelet</span><span class="p">):</span><span class="o">**</span> <span class="n">Mengukur</span> <span class="n">tingkat</span> <span class="n">sebaran</span> <span class="n">atau</span> <span class="n">simpangan</span> <span class="n">baku</span> <span class="n">dari</span> <span class="n">fluktuasi</span> <span class="n">frekuensi</span> <span class="n">tinggi</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span> <span class="n">Nilai</span> <span class="n">yang</span> <span class="n">besar</span> <span class="n">menunjukkan</span> <span class="n">adanya</span> <span class="n">perubahan</span> <span class="n">konsentrasi</span> <span class="n">harian</span> <span class="n">yang</span> <span class="n">sangat</span> <span class="n">drastis</span> <span class="n">atau</span> <span class="n">tidak</span> <span class="n">stabil</span><span class="o">.</span>
+<span class="o">*</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span> <span class="p">(</span><span class="n">Variansi</span> <span class="n">Wavelet</span><span class="p">):</span><span class="o">**</span> <span class="n">Kuadrat</span> <span class="n">dari</span> <span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="p">,</span> <span class="n">yang</span> <span class="n">mengukur</span> <span class="n">besarnya</span> <span class="n">total</span> <span class="n">variansi</span> <span class="n">daya</span> <span class="n">fluktuasi</span> <span class="n">frekuensi</span> <span class="n">tinggi</span> <span class="n">sinyal</span> <span class="n">polutan</span><span class="o">.</span>
 
-## 2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (`wavelet_std` &amp; `wavelet_var`)
+<span class="o">---</span>
 
-Berdasarkan pembagian tugas kelas, fitur utama yang dianalisis secara mendalam oleh **Muhammad izzul Millah Aqil** adalah dua fitur berbasis dekomposisi wavelet: **`wavelet_std`** dan **`wavelet_var`**.
+<span class="c1">### 2.2 Formulasi Matematika</span>
 
----
+<span class="n">Misalkan</span> <span class="n">dari</span> <span class="n">hasil</span> <span class="n">dekomposisi</span> <span class="n">wavelet</span> <span class="n">diperoleh</span> <span class="err">$</span><span class="n">N</span><span class="err">$</span> <span class="n">buah</span> <span class="n">koefisien</span> <span class="n">detail</span> <span class="err">$</span><span class="n">cD</span> <span class="o">=</span> <span class="p">[</span><span class="n">cD_1</span><span class="p">,</span> <span class="n">cD_2</span><span class="p">,</span> \<span class="n">dots</span><span class="p">,</span> <span class="n">cD_N</span><span class="p">]</span><span class="err">$</span> <span class="n">dengan</span> <span class="n">rata</span><span class="o">-</span><span class="n">rata</span> <span class="err">$</span>\<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span><span class="err">$</span><span class="p">:</span>
 
-### 2.1 Deskripsi Fitur Khusus
+<span class="err">$$</span>\<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">N</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">N</span><span class="p">}</span> <span class="n">cD_i</span><span class="err">$$</span>
 
-Dekomposisi Wavelet (*Discrete Wavelet Transform / DWT*) memecah sinyal deret waktu $X(t)$ menjadi dua komponen utama:
-1. **Koefisien Aproksimasi ($cA$):** Menggambarkan tren frekuensi rendah (pola jangka panjang) dari sinyal polutan.
-2. **Koefisien Detail ($cD$):** Menggambarkan fluktuasi cepat, derau (*noise*), dan perubahan frekuensi tinggi dari sinyal polutan.
+<span class="mf">1.</span> <span class="o">**</span><span class="n">Rumus</span> <span class="n">Variansi</span> <span class="n">Wavelet</span> <span class="p">(</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span><span class="p">):</span><span class="o">**</span>
+   <span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">N</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">N</span><span class="p">}</span> <span class="p">(</span><span class="n">cD_i</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span><span class="err">$$</span>
 
-Fungsi ekstraksi fitur TSFEL mengekstrak statistik dispersi langsung dari **Koefisien Detail ($cD$)** sinyal:
-* **`wavelet_std` (Standar Deviasi Wavelet):** Mengukur tingkat sebaran atau simpangan baku dari fluktuasi frekuensi tinggi sinyal polutan. Nilai yang besar menunjukkan adanya perubahan konsentrasi harian yang sangat drastis atau tidak stabil.
-* **`wavelet_var` (Variansi Wavelet):** Kuadrat dari `wavelet_std`, yang mengukur besarnya total variansi daya fluktuasi frekuensi tinggi sinyal polutan.
+<span class="mf">2.</span> <span class="o">**</span><span class="n">Rumus</span> <span class="n">Standar</span> <span class="n">Deviasi</span> <span class="n">Wavelet</span> <span class="p">(</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="p">):</span><span class="o">**</span>
+   <span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_std</span><span class="p">}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">N</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">N</span><span class="p">}</span> <span class="p">(</span><span class="n">cD_i</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span><span class="p">}</span><span class="err">$$</span>
 
----
+<span class="o">---</span>
 
-### 2.2 Formulasi Matematika
+<span class="c1">### 2.3 Perhitungan Manual (Studi Kasus: Polutan $\text{NO}_2$)</span>
 
-Misalkan dari hasil dekomposisi wavelet diperoleh $N$ buah koefisien detail $cD = [cD_1, cD_2, \dots, cD_N]$ dengan rata-rata $\mu_{cD}$:
+<span class="n">Untuk</span> <span class="n">memahami</span> <span class="n">cara</span> <span class="n">kerja</span> <span class="n">algoritma</span><span class="p">,</span> <span class="n">dilakukan</span> <span class="n">simulasi</span> <span class="n">perhitungan</span> <span class="n">manual</span> <span class="n">menggunakan</span> <span class="n">sampel</span> <span class="n">mini</span> <span class="n">sinyal</span> <span class="n">konsentrasi</span> <span class="o">**</span><span class="err">$</span>\<span class="n">text</span><span class="p">{</span><span class="n">NO</span><span class="p">}</span><span class="n">_2</span><span class="err">$</span><span class="o">**</span> <span class="p">(</span><span class="err">$</span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span><span class="err">$</span> <span class="n">hari</span> <span class="n">sampel</span><span class="p">)</span> <span class="n">dalam</span> <span class="n">satuan</span> <span class="err">$</span>\<span class="n">text</span><span class="p">{</span><span class="n">ppm</span><span class="p">}</span><span class="err">$</span><span class="p">:</span>
 
-$$\mu_{cD} = \frac{1}{N} \sum_{i=1}^{N} cD_i$$
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Sinyal</span> <span class="p">}</span>\<span class="n">text</span><span class="p">{</span><span class="n">NO</span><span class="p">}</span><span class="n">_2</span> <span class="o">=</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">},</span>\<span class="p">;</span> <span class="mi">50</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">},</span>\<span class="p">;</span> <span class="mi">30</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">},</span>\<span class="p">;</span> <span class="mi">40</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}]</span><span class="err">$$</span>
 
-1. **Rumus Variansi Wavelet (`wavelet_var`):**
-$$\text{wavelet\_var} = \frac{1}{N} \sum_{i=1}^{N} (cD_i - \mu_{cD})^2$$
+<span class="c1">#### Langkah 1: Dekomposisi Wavelet Haar (Mencari Koefisien Detail $cD$)</span>
+<span class="n">Menggunakan</span> <span class="nb">filter</span> <span class="o">*</span><span class="n">Mother</span> <span class="n">Wavelet</span> <span class="n">Haar</span><span class="o">*</span> <span class="p">(</span><span class="err">$</span>\<span class="n">text</span><span class="p">{</span><span class="nb">filter</span><span class="p">}</span> <span class="o">=</span> <span class="p">[</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}},</span> <span class="o">-</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}]</span><span class="err">$</span> <span class="n">di</span> <span class="n">mana</span> <span class="err">$</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> \<span class="n">approx</span> <span class="mf">0.70710678</span><span class="err">$</span><span class="p">):</span>
 
-2. **Rumus Standar Deviasi Wavelet (`wavelet_std`):**
-$$\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (cD_i - \mu_{cD})^2}$$
+<span class="err">$$</span><span class="n">cD_1</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="n">x_1</span> <span class="o">-</span> <span class="n">x_2</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">20</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}</span> <span class="o">-</span> <span class="mi">50</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="o">-</span><span class="mi">30</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span><span class="mf">1.41421356</span><span class="p">}</span> \<span class="n">approx</span> <span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
 
----
+<span class="err">$$</span><span class="n">cD_2</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="n">x_3</span> <span class="o">-</span> <span class="n">x_4</span><span class="p">}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">30</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}</span> <span class="o">-</span> <span class="mi">40</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span>\<span class="n">sqrt</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="o">-</span><span class="mi">10</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}{</span><span class="mf">1.41421356</span><span class="p">}</span> \<span class="n">approx</span> <span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
 
-### 2.3 Perhitungan Manual (Studi Kasus: Polutan $\text{NO}_2$)
+<span class="n">Sehingga</span> <span class="n">didapatkan</span> <span class="n">array</span> <span class="n">Koefisien</span> <span class="n">Detail</span><span class="p">:</span>
+<span class="err">$$</span><span class="n">cD</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">},</span>\<span class="p">;</span> <span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}]</span><span class="err">$$</span>
 
-Untuk memahami cara kerja algoritma, dilakukan simulasi perhitungan manual menggunakan sampel mini sinyal konsentrasi **$\text{NO}_2$** ($N = 4$ hari sampel) dalam satuan $\text{ppm}$:
+<span class="o">---</span>
 
-$$\text{Sinyal }\text{NO}_2 = X = [20 \times 10^{-6},\; 50 \times 10^{-6},\; 30 \times 10^{-6},\; 40 \times 10^{-6}]$$
+<span class="c1">#### Langkah 2: Hitung Rata-rata Koefisien Detail ($\mu_{cD}$)</span>
 
-#### Langkah 1: Dekomposisi Wavelet Haar (Mencari Koefisien Detail $cD$)
-Menggunakan filter *Mother Wavelet Haar* ($\text{filter} = [\frac{1}{\sqrt{2}}, -\frac{1}{\sqrt{2}}]$ di mana $\frac{1}{\sqrt{2}} \approx 0.70710678$):
+<span class="err">$$</span>\<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="n">cD_1</span> <span class="o">+</span> <span class="n">cD_2</span><span class="p">}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{(</span><span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.41421356</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
 
-$$cD_1 = \frac{x_1 - x_2}{\sqrt{2}} = \frac{20 \times 10^{-6} - 50 \times 10^{-6}}{\sqrt{2}} = \frac{-30 \times 10^{-6}}{1.41421356} \approx -2.12132034 \times 10^{-5}$$
+<span class="o">---</span>
 
-$$cD_2 = \frac{x_3 - x_4}{\sqrt{2}} = \frac{30 \times 10^{-6} - 40 \times 10^{-6}}{\sqrt{2}} = \frac{-10 \times 10^{-6}}{1.41421356} \approx -0.70710678 \times 10^{-5}$$
+<span class="c1">#### Langkah 3: Hitung Variansi Wavelet (`wavelet_var`)</span>
 
-Sehingga didapatkan array Koefisien Detail:
-$$cD = [-2.12132034 \times 10^{-5},\; -0.70710678 \times 10^{-5}]$$
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Deviasi</span><span class="p">}</span><span class="n">_1</span> <span class="o">=</span> <span class="n">cD_1</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.12132034</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.41421356</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Deviasi</span><span class="p">}</span><span class="n">_2</span> <span class="o">=</span> <span class="n">cD_2</span> <span class="o">-</span> \<span class="n">mu_</span><span class="p">{</span><span class="n">cD</span><span class="p">}</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.41421356</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span> <span class="o">=</span> <span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">}</span><span class="err">$$</span>
 
----
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}</span><span class="err">$$</span>
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.70710678</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}</span><span class="err">$$</span>
 
-#### Langkah 2: Hitung Rata-rata Koefisien Detail ($\mu_{cD}$)
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_1</span> <span class="o">+</span> \<span class="n">text</span><span class="p">{</span><span class="n">Kuadrat</span> <span class="n">Deviasi</span><span class="p">}</span><span class="n">_2</span><span class="p">}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}</span> <span class="o">+</span> <span class="mi">5</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}}{</span><span class="mi">2</span><span class="p">}</span> <span class="o">=</span> \<span class="n">mathbf</span><span class="p">{</span><span class="mf">5.000000</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}}</span><span class="err">$$</span>
 
-$$\mu_{cD} = \frac{cD_1 + cD_2}{2} = \frac{(-2.12132034 \times 10^{-5}) + (-0.70710678 \times 10^{-5})}{2} = -1.41421356 \times 10^{-5}$$
+<span class="o">---</span>
 
----
+<span class="c1">#### Langkah 4: Hitung Standar Deviasi Wavelet (`wavelet_std`)</span>
 
-#### Langkah 3: Hitung Variansi Wavelet (`wavelet_var`)
+<span class="err">$$</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_std</span><span class="p">}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">wavelet</span>\<span class="n">_var</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span><span class="mf">5.000000</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">}}</span> <span class="o">=</span> \<span class="n">mathbf</span><span class="p">{</span><span class="mf">7.071068</span> \<span class="n">times</span> <span class="mi">10</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">6</span><span class="p">}}</span><span class="err">$$</span>
 
-$$\text{Deviasi}_1 = cD_1 - \mu_{cD} = (-2.12132034 \times 10^{-5}) - (-1.41421356 \times 10^{-5}) = -0.70710678 \times 10^{-5}$$
-$$\text{Deviasi}_2 = cD_2 - \mu_{cD} = (-0.70710678 \times 10^{-5}) - (-1.41421356 \times 10^{-5}) = 0.70710678 \times 10^{-5}$$
+<span class="o">---</span>
 
-$$\text{Kuadrat Deviasi}_1 = (-0.70710678 \times 10^{-5})^2 = 5 \times 10^{-11}$$
-$$\text{Kuadrat Deviasi}_2 = (0.70710678 \times 10^{-5})^2 = 5 \times 10^{-11}$$
+<span class="c1">### 2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)</span>
 
-$$\text{wavelet\_var} = \frac{\text{Kuadrat Deviasi}_1 + \text{Kuadrat Deviasi}_2}{2} = \frac{5 \times 10^{-11} + 5 \times 10^{-11}}{2} = \mathbf{5.000000 \times 10^{-11}}$$
+<span class="n">Berikut</span> <span class="n">skrip</span> <span class="n">Python</span> <span class="n">untuk</span> <span class="n">membuktikan</span> <span class="n">bahwa</span> <span class="n">perhitungan</span> <span class="n">manual</span> <span class="n">di</span> <span class="n">atas</span> <span class="n">identik</span> <span class="n">dengan</span> <span class="n">output</span> <span class="n">dari</span> <span class="n">pustaka</span> <span class="err">`</span><span class="n">PyWavelets</span><span class="err">`</span> <span class="n">dan</span> <span class="err">`</span><span class="n">TSFEL</span><span class="err">`</span><span class="p">:</span>
 
----
+<span class="err">```</span><span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span> <span class="n">ipython3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pywt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tsfel.feature_extraction.features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tsfel_features</span>
 
-#### Langkah 4: Hitung Standar Deviasi Wavelet (`wavelet_std`)
+<span class="c1"># Sampel Sinyal NO2 Mini</span>
+<span class="n">x_no2_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">20e-6</span><span class="p">,</span> <span class="mf">50e-6</span><span class="p">,</span> <span class="mf">30e-6</span><span class="p">,</span> <span class="mf">40e-6</span><span class="p">])</span>
 
-$$\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{5.000000 \times 10^{-11}} = \mathbf{7.071068 \times 10^{-6}}$$
+<span class="c1"># 1. Dekomposisi Wavelet Haar</span>
+<span class="n">cA</span><span class="p">,</span> <span class="n">cD</span> <span class="o">=</span> <span class="n">pywt</span><span class="o">.</span><span class="n">dwt</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">,</span> <span class="s1">&#39;haar&#39;</span><span class="p">)</span>
 
----
+<span class="c1"># 2. Perhitungan Manual via NumPy</span>
+<span class="n">manual_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">cD</span><span class="p">)</span>
+<span class="n">manual_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cD</span><span class="p">)</span>
 
-### 2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)
+<span class="c1"># 3. Perhitungan Menggunakan Pustaka TSFEL</span>
+<span class="n">tsfel_var</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_var</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">)</span>
+<span class="n">tsfel_std</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_std</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">)</span>
 
-Berikut skrip Python untuk membuktikan bahwa perhitungan manual di atas identik dengan output dari pustaka `PyWavelets` dan `TSFEL`:
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Manual (NumPy) -&gt; wavelet_var: </span><span class="si">{</span><span class="n">manual_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">manual_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Pustaka TSFEL  -&gt; wavelet_var: </span><span class="si">{</span><span class="n">tsfel_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">tsfel_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-```{code-cell} ipython3
-import numpy as np
-import pywt
-import tsfel.feature_extraction.features as tsfel_features
 
-# Sampel Sinyal NO2 Mini
-x_no2_sample = np.array([20e-6, 50e-6, 30e-6, 40e-6])
+<span class="c1">## 3. Implementasi Workflow pada KNIME Analytics Platform</span>
 
-# 1. Dekomposisi Wavelet Haar
-cA, cD = pywt.dwt(x_no2_sample, &#39;haar&#39;)
+<span class="n">Pengolahan</span> <span class="n">data</span> <span class="n">fitur</span> <span class="n">hasil</span> <span class="n">TSFEL</span> <span class="n">dilakukan</span> <span class="n">secara</span> <span class="n">otomatis</span> <span class="n">menggunakan</span> <span class="n">perangkat</span> <span class="n">lunak</span> <span class="o">**</span><span class="n">KNIME</span> <span class="n">Analytics</span> <span class="n">Platform</span><span class="o">**</span> <span class="n">dengan</span> <span class="n">tahapan</span> <span class="n">penyiapan</span> <span class="o">*</span><span class="n">node</span> <span class="n">workflow</span><span class="o">*</span> <span class="n">sebagai</span> <span class="n">berikut</span><span class="p">:</span>
 
-# 2. Perhitungan Manual via NumPy
-manual_var = np.var(cD)
-manual_std = np.std(cD)
+<span class="c1">### 3.1 Koneksi Database &amp; Penarikan Data</span>
+<span class="o">*</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">MySQL</span> <span class="n">Connector</span><span class="err">`</span> <span class="o">/</span> <span class="err">`</span><span class="n">DB</span> <span class="n">Connector</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+  <span class="n">Digunakan</span> <span class="n">untuk</span> <span class="n">menyambungkan</span> <span class="n">KNIME</span> <span class="n">ke</span> <span class="n">server</span> <span class="n">database</span> <span class="n">MySQL</span><span class="o">/</span><span class="n">MariaDB</span> <span class="p">(</span><span class="err">`</span><span class="n">basisdata2</span><span class="o">-</span><span class="n">c</span><span class="o">.</span><span class="n">my</span><span class="o">.</span><span class="n">id</span><span class="p">:</span><span class="mi">3306</span><span class="err">`</span><span class="p">)</span> <span class="n">dengan</span> <span class="n">basis</span> <span class="n">data</span> <span class="err">`</span><span class="n">basisda1_PSD</span><span class="o">-</span><span class="n">A</span><span class="err">`</span><span class="o">.</span>
+<span class="o">*</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">DB</span> <span class="n">Query</span> <span class="n">Reader</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+  <span class="n">Mengeksekusi</span> <span class="n">perintah</span> <span class="n">kueri</span> <span class="n">SQL</span> <span class="n">berikut</span> <span class="n">tanpa</span> <span class="n">tanda</span> <span class="n">titik</span> <span class="n">koma</span> <span class="p">(</span><span class="err">`</span><span class="p">;</span><span class="err">`</span><span class="p">)</span> <span class="n">di</span> <span class="n">akhir</span> <span class="n">kueri</span> <span class="n">untuk</span> <span class="n">mengambil</span> <span class="n">seluruh</span> <span class="n">fitur</span> <span class="n">TSFEL</span><span class="p">:</span>
+  <span class="err">```</span><span class="n">sql</span>
+  <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="err">`</span><span class="n">basisda1_PSD</span><span class="o">-</span><span class="n">A</span><span class="err">`</span><span class="o">.</span><span class="n">ekstraksi_fitur_co</span>
 
-# 3. Perhitungan Menggunakan Pustaka TSFEL
-tsfel_var = tsfel_features.wavelet_var(x_no2_sample)
-tsfel_std = tsfel_features.wavelet_std(x_no2_sample)
+<span class="c1">### 3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</span>
+<span class="mf">1.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">Column</span> <span class="n">Filter</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Memisahkan</span> <span class="n">variabel</span> <span class="n">numerik</span> <span class="n">dan</span> <span class="n">metadata</span> <span class="n">non</span><span class="o">-</span><span class="n">numerik</span><span class="o">.</span>
+   <span class="o">*</span> <span class="o">**</span><span class="n">Excludes</span><span class="p">:</span><span class="o">**</span> <span class="err">`</span><span class="nb">id</span><span class="err">`</span><span class="p">,</span> <span class="err">`</span><span class="n">nama</span><span class="err">`</span><span class="p">,</span> <span class="err">`</span><span class="n">daerah</span><span class="err">`</span>
+   <span class="o">*</span> <span class="o">**</span><span class="n">Includes</span><span class="p">:</span><span class="o">**</span> <span class="n">Seluruh</span> <span class="n">kolom</span> <span class="n">fitur</span> <span class="n">angka</span> <span class="n">TSFEL</span><span class="o">.</span>
+<span class="mf">2.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">Low</span> <span class="n">Variance</span> <span class="n">Filter</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Berfungsi</span> <span class="n">untuk</span> <span class="n">mengeliminasi</span> <span class="n">kolom</span><span class="o">-</span><span class="n">kolom</span> <span class="n">yang</span> <span class="n">bersifat</span> <span class="n">konstan</span> <span class="p">(</span><span class="n">memiliki</span> <span class="n">variansi</span> <span class="n">mendekati</span> <span class="err">`</span><span class="mi">0</span><span class="err">`</span><span class="p">),</span> <span class="n">sehingga</span> <span class="n">algoritma</span> <span class="n">PCA</span> <span class="n">tidak</span> <span class="n">mengalami</span> <span class="n">pembagian</span> <span class="n">dengan</span> <span class="n">nol</span><span class="o">.</span>
+<span class="mf">3.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">Normalizer</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Menerapkan</span> <span class="n">pembobotan</span> <span class="n">variabel</span> <span class="n">dengan</span> <span class="n">metode</span> <span class="o">**</span><span class="n">Min</span><span class="o">-</span><span class="n">Max</span> <span class="n">Normalization</span><span class="o">**</span> <span class="p">(</span><span class="n">rentang</span> <span class="mf">0.0</span> <span class="n">s</span><span class="o">.</span><span class="n">d</span><span class="o">.</span> <span class="mf">1.0</span><span class="p">)</span> <span class="n">agar</span> <span class="n">fitur</span> <span class="n">berjarak</span> <span class="n">variabel</span> <span class="n">seimbang</span><span class="o">.</span>
 
-print(&quot;=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===&quot;)
-print(f&quot;Hasil Manual (NumPy) -&gt; wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}&quot;)
-print(f&quot;Hasil Pustaka TSFEL  -&gt; wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}&quot;)
+<span class="o">---</span>
+
+<span class="c1">### 3.3 Reduksi Dimensi dengan PCA</span>
+<span class="mf">1.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">PCA</span> <span class="n">Compute</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Menerima</span> <span class="nb">input</span> <span class="n">fitur</span> <span class="n">yang</span> <span class="n">telah</span> <span class="n">dinormalisasi</span> <span class="n">dari</span> <span class="n">node</span> <span class="err">`</span><span class="n">Normalizer</span><span class="err">`</span><span class="o">.</span>
+   <span class="o">*</span> <span class="n">Pada</span> <span class="n">konfigurasi</span> <span class="n">panel</span> <span class="o">**</span><span class="n">Dimensions</span><span class="o">**</span><span class="p">,</span> <span class="n">tentukan</span> <span class="n">jumlah</span> <span class="n">komponen</span> <span class="n">utama</span> <span class="n">yang</span> <span class="n">ingin</span> <span class="n">dihasilkan</span> <span class="p">(</span><span class="n">misalnya</span> <span class="err">`</span><span class="n">Fixed</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">2</span><span class="err">`</span> <span class="n">atau</span> <span class="err">`</span><span class="mi">37</span><span class="err">`</span><span class="p">)</span><span class="o">.</span>
+<span class="mf">2.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">PCA</span> <span class="n">Apply</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Menerima</span> <span class="n">port</span> <span class="n">data</span> <span class="n">numerik</span> <span class="n">dari</span> <span class="err">`</span><span class="n">Normalizer</span><span class="err">`</span> <span class="n">dan</span> <span class="n">port</span> <span class="n">matriks</span> <span class="n">transformasi</span> <span class="n">dari</span> <span class="err">`</span><span class="n">PCA</span> <span class="n">Compute</span><span class="err">`</span><span class="o">.</span>
+   <span class="o">*</span> <span class="n">Mengubah</span> <span class="n">fitur</span><span class="o">-</span><span class="n">fitur</span> <span class="n">berdimensi</span> <span class="n">tinggi</span> <span class="n">menjadi</span> <span class="n">komponen</span> <span class="n">proyeksi</span> <span class="n">baru</span> <span class="p">(</span><span class="err">`</span><span class="n">PCA</span> <span class="n">dimension</span> <span class="mi">0</span><span class="err">`</span><span class="p">,</span> <span class="err">`</span><span class="n">PCA</span> <span class="n">dimension</span> <span class="mi">1</span><span class="err">`</span><span class="p">,</span> <span class="n">dst</span><span class="o">.</span><span class="p">)</span><span class="o">.</span>
+
+<span class="o">---</span>
+
+<span class="c1">### 3.4 Pemodelan K-Means Clustering</span>
+<span class="mf">1.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">k</span><span class="o">-</span><span class="n">Means</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Hubungkan</span> <span class="n">output</span> <span class="n">data</span> <span class="n">dari</span> <span class="n">node</span> <span class="o">**</span><span class="err">`</span><span class="n">PCA</span> <span class="n">Apply</span><span class="err">`</span><span class="o">**</span> <span class="n">menuju</span> <span class="n">port</span> <span class="nb">input</span> <span class="o">**</span><span class="err">`</span><span class="n">k</span><span class="o">-</span><span class="n">Means</span><span class="err">`</span><span class="o">**.</span>
+   <span class="o">*</span> <span class="n">Konfigurasikan</span> <span class="o">**</span><span class="n">Number</span> <span class="n">of</span> <span class="n">clusters</span> <span class="p">(</span><span class="err">$</span><span class="n">k</span><span class="err">$</span><span class="p">)</span><span class="o">**</span> <span class="n">menjadi</span> <span class="err">`</span><span class="mi">2</span><span class="err">`</span> <span class="n">atau</span> <span class="err">`</span><span class="mi">3</span><span class="err">`</span><span class="o">.</span>
+   <span class="o">*</span> <span class="n">Tentukan</span> <span class="o">**</span><span class="n">Max</span><span class="o">.</span> <span class="n">number</span> <span class="n">of</span> <span class="n">iterations</span><span class="o">**</span> <span class="o">=</span> <span class="err">`</span><span class="mi">100</span><span class="err">`</span><span class="o">.</span>
+   <span class="o">*</span> <span class="n">Eksekusi</span> <span class="n">node</span> <span class="n">hingga</span> <span class="n">menyala</span> <span class="n">hijau</span> <span class="n">untuk</span> <span class="n">mengekstrak</span> <span class="n">penataan</span> <span class="n">kelompok</span> <span class="n">baru</span> <span class="n">bernama</span> <span class="n">kolom</span> <span class="err">`</span><span class="n">Cluster</span><span class="err">`</span><span class="o">.</span>
+
+<span class="o">---</span>
+
+<span class="o">---</span>
+
+<span class="c1">### 3.5 Visualisasi Cluster &amp; Penetapan Sumbu</span>
+<span class="mf">1.</span> <span class="o">**</span><span class="n">Node</span> <span class="err">`</span><span class="n">Scatter</span> <span class="n">Plot</span><span class="err">`</span><span class="p">:</span><span class="o">**</span>
+   <span class="o">*</span> <span class="n">Hubungkan</span> <span class="n">output</span> <span class="n">data</span> <span class="n">berlabel</span> <span class="n">dari</span> <span class="n">node</span> <span class="o">**</span><span class="err">`</span><span class="n">k</span><span class="o">-</span><span class="n">Means</span><span class="err">`</span><span class="o">**</span> <span class="n">ke</span> <span class="n">port</span> <span class="o">**</span><span class="err">`</span><span class="n">Scatter</span> <span class="n">Plot</span><span class="err">`</span><span class="o">**.</span>
+   <span class="o">*</span> <span class="n">Buka</span> <span class="n">konfigurasi</span> <span class="n">panel</span> <span class="n">visualisasi</span><span class="p">:</span>
+     <span class="o">*</span> <span class="o">**</span><span class="n">Horizontal</span> <span class="n">dimension</span><span class="p">:</span><span class="o">**</span> <span class="err">`</span><span class="n">nama</span><span class="err">`</span>
+     <span class="o">*</span> <span class="o">**</span><span class="n">Vertical</span> <span class="n">dimension</span><span class="p">:</span><span class="o">**</span> <span class="err">`</span><span class="n">cluster</span><span class="err">`</span>
+     <span class="o">*</span> <span class="o">**</span><span class="n">Color</span> <span class="n">dimension</span><span class="p">:</span><span class="o">**</span> <span class="err">`</span><span class="n">none</span><span class="err">`</span>
+<span class="mf">2.</span> <span class="n">Jalankan</span> <span class="n">perintah</span> <span class="o">**</span><span class="n">Apply</span> <span class="ow">and</span> <span class="n">Execute</span><span class="o">**</span> <span class="n">untuk</span> <span class="n">menyajikan</span> <span class="n">grafik</span> <span class="n">sebaran</span> <span class="n">titik</span> <span class="o">*</span><span class="n">cluster</span><span class="o">*</span> <span class="n">berbasis</span> <span class="n">warna</span><span class="o">.</span>
+
+<span class="c1">#### Rangkaian Workflow &amp; Hasil Clustering</span>
+<span class="n">Berikut</span> <span class="n">adalah</span> <span class="n">gambaran</span> <span class="n">alur</span> <span class="o">*</span><span class="n">workflow</span><span class="o">*</span> <span class="n">KNIME</span> <span class="n">yang</span> <span class="n">telah</span> <span class="n">disusun</span> <span class="n">serta</span> <span class="n">hasil</span> <span class="n">sebaran</span> <span class="n">titik</span> <span class="n">kelompok</span> <span class="n">data</span> <span class="p">(</span><span class="o">*</span><span class="n">clustering</span><span class="o">*</span><span class="p">):</span>
+
+<span class="o">![</span>Workflow<span class="w"> </span>KNIME<span class="o">](</span>workflow.png<span class="o">)</span>
+<span class="o">*</span><span class="n">Gambar</span> <span class="mf">3.1</span><span class="p">:</span> <span class="n">Alur</span> <span class="n">Lengkap</span> <span class="n">Workflow</span> <span class="n">Preprocessing</span><span class="p">,</span> <span class="n">PCA</span><span class="p">,</span> <span class="n">dan</span> <span class="n">K</span><span class="o">-</span><span class="n">Means</span> <span class="n">pada</span> <span class="n">KNIME</span><span class="o">*</span>
+
+<span class="o">![</span>Hasil<span class="w"> </span>Scatter<span class="w"> </span>Plot<span class="w"> </span>Clustering<span class="o">](</span>cluster.png<span class="o">)</span>
+<span class="o">*</span><span class="n">Gambar</span> <span class="mf">3.2</span><span class="p">:</span> <span class="n">Hasil</span> <span class="n">Persebaran</span> <span class="n">Cluster</span> <span class="p">(</span><span class="n">cluster_0</span> <span class="n">dan</span> <span class="n">cluster_1</span><span class="p">)</span> <span class="n">Menggunakan</span> <span class="n">Scatter</span> <span class="n">Plot</span><span class="o">*</span>
 </pre></div>
 </div>
-<section id="implementasi-workflow-pada-knime-analytics-platform">
-<h1>3. Implementasi Workflow pada KNIME Analytics Platform<a class="headerlink" href="#implementasi-workflow-pada-knime-analytics-platform" title="Link to this heading">#</a></h1>
-<p>Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangkat lunak <strong>KNIME Analytics Platform</strong> dengan tahapan penyiapan <em>node workflow</em> sebagai berikut:</p>
-<section id="koneksi-database-penarikan-data">
-<h2>3.1 Koneksi Database &amp; Penarikan Data<a class="headerlink" href="#koneksi-database-penarikan-data" title="Link to this heading">#</a></h2>
-<ul>
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">MySQL</span> <span class="pre">Connector</span></code> / <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Connector</span></code>:</strong>
-Digunakan untuk menyambungkan KNIME ke server database MySQL/MariaDB (<code class="docutils literal notranslate"><span class="pre">basisdata2-c.my.id:3306</span></code>) dengan basis data <code class="docutils literal notranslate"><span class="pre">basisda1_PSD-A</span></code>.</p></li>
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">Query</span> <span class="pre">Reader</span></code>:</strong>
-Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="docutils literal notranslate"><span class="pre">;</span></code>) di akhir kueri untuk mengambil seluruh fitur TSFEL:</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">`</span><span class="n">basisda1_PSD</span><span class="o">-</span><span class="n">A</span><span class="o">`</span><span class="p">.</span><span class="n">ekstraksi_fitur_co</span>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">50</span>
+    <span class="n">Berdasarkan</span> <span class="n">pembagian</span> <span class="n">tugas</span> <span class="n">kelas</span><span class="p">,</span> <span class="n">fitur</span> <span class="n">utama</span> <span class="n">yang</span> <span class="n">dianalisis</span> <span class="n">secara</span> <span class="n">mendalam</span> <span class="n">oleh</span> <span class="o">**</span><span class="n">Muhammad</span> <span class="n">izzul</span> <span class="n">Millah</span> <span class="n">Aqil</span><span class="o">**</span> <span class="n">adalah</span> <span class="n">dua</span> <span class="n">fitur</span> <span class="n">berbasis</span> <span class="n">dekomposisi</span> <span class="n">wavelet</span><span class="p">:</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_std</span><span class="err">`</span><span class="o">**</span> <span class="n">dan</span> <span class="o">**</span><span class="err">`</span><span class="n">wavelet_var</span><span class="err">`</span><span class="o">**.</span>
+                <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
 </pre></div>
 </div>
-</li>
-</ul>
-</section>
-<section id="preprocessing-data-filtering-variance-control-normalisasi">
-<h2>3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)<a class="headerlink" href="#preprocessing-data-filtering-variance-control-normalisasi" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Column</span> <span class="pre">Filter</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Memisahkan variabel numerik dan metadata non-numerik.</p></li>
-<li><p><strong>Excludes:</strong> <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">nama</span></code>, <code class="docutils literal notranslate"><span class="pre">daerah</span></code></p></li>
-<li><p><strong>Includes:</strong> Seluruh kolom fitur angka TSFEL.</p></li>
-</ul>
-</li>
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Low</span> <span class="pre">Variance</span> <span class="pre">Filter</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Berfungsi untuk mengeliminasi kolom-kolom yang bersifat konstan (memiliki variansi mendekati <code class="docutils literal notranslate"><span class="pre">0</span></code>), sehingga algoritma PCA tidak mengalami pembagian dengan nol.</p></li>
-</ul>
-</li>
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Menerapkan pembobotan variabel dengan metode <strong>Min-Max Normalization</strong> (rentang 0.0 s.d. 1.0) agar fitur berjarak variabel seimbang.</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<hr class="docutils" />
-<section id="reduksi-dimensi-dengan-pca">
-<h2>3.3 Reduksi Dimensi dengan PCA<a class="headerlink" href="#reduksi-dimensi-dengan-pca" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Compute</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Menerima input fitur yang telah dinormalisasi dari node <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code>.</p></li>
-<li><p>Pada konfigurasi panel <strong>Dimensions</strong>, tentukan jumlah komponen utama yang ingin dihasilkan (misalnya <code class="docutils literal notranslate"><span class="pre">Fixed</span> <span class="pre">Number</span> <span class="pre">=</span> <span class="pre">2</span></code> atau <code class="docutils literal notranslate"><span class="pre">37</span></code>).</p></li>
-</ul>
-</li>
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Apply</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Menerima port data numerik dari <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code> dan port matriks transformasi dari <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Compute</span></code>.</p></li>
-<li><p>Mengubah fitur-fitur berdimensi tinggi menjadi komponen proyeksi baru (<code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">dimension</span> <span class="pre">1</span></code>, dst.).</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<hr class="docutils" />
-<section id="pemodelan-k-means-clustering">
-<h2>3.4 Pemodelan K-Means Clustering<a class="headerlink" href="#pemodelan-k-means-clustering" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">k-Means</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Hubungkan output data dari node <strong><code class="docutils literal notranslate"><span class="pre">PCA</span> <span class="pre">Apply</span></code></strong> menuju port input <strong><code class="docutils literal notranslate"><span class="pre">k-Means</span></code></strong>.</p></li>
-<li><p>Konfigurasikan <strong>Number of clusters (<span class="math notranslate nohighlight">\(k\)</span>)</strong> menjadi <code class="docutils literal notranslate"><span class="pre">2</span></code> atau <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
-<li><p>Tentukan <strong>Max. number of iterations</strong> = <code class="docutils literal notranslate"><span class="pre">100</span></code>.</p></li>
-<li><p>Eksekusi node hingga menyala hijau untuk mengekstrak penataan kelompok baru bernama kolom <code class="docutils literal notranslate"><span class="pre">Cluster</span></code>.</p></li>
-</ul>
-</li>
-</ol>
-<hr class="docutils" />
-</section>
-<hr class="docutils" />
-<section id="visualisasi-cluster-penetapan-sumbu">
-<h2>3.5 Visualisasi Cluster &amp; Penetapan Sumbu<a class="headerlink" href="#visualisasi-cluster-penetapan-sumbu" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Node <code class="docutils literal notranslate"><span class="pre">Scatter</span> <span class="pre">Plot</span></code>:</strong></p>
-<ul class="simple">
-<li><p>Hubungkan output data berlabel dari node <strong><code class="docutils literal notranslate"><span class="pre">k-Means</span></code></strong> ke port <strong><code class="docutils literal notranslate"><span class="pre">Scatter</span> <span class="pre">Plot</span></code></strong>.</p></li>
-<li><p>Buka konfigurasi panel visualisasi:</p>
-<ul>
-<li><p><strong>Horizontal dimension:</strong> <code class="docutils literal notranslate"><span class="pre">nama</span></code></p></li>
-<li><p><strong>Vertical dimension:</strong> <code class="docutils literal notranslate"><span class="pre">cluster</span></code></p></li>
-<li><p><strong>Color dimension:</strong> <code class="docutils literal notranslate"><span class="pre">none</span></code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Jalankan perintah <strong>Apply and Execute</strong> untuk menyajikan grafik sebaran titik <em>cluster</em> berbasis warna.</p></li>
-</ol>
-<section id="rangkaian-workflow-hasil-clustering">
-<h3>Rangkaian Workflow &amp; Hasil Clustering<a class="headerlink" href="#rangkaian-workflow-hasil-clustering" title="Link to this heading">#</a></h3>
-<p>Berikut adalah gambaran alur <em>workflow</em> KNIME yang telah disusun serta hasil sebaran titik kelompok data (<em>clustering</em>):</p>
-<p><img alt="Workflow KNIME" src="_images/workflow.png" />
-<em>Gambar 3.1: Alur Lengkap Workflow Preprocessing, PCA, dan K-Means pada KNIME</em></p>
-<p><img alt="Hasil Scatter Plot Clustering" src="_images/cluster.png" />
-<em>Gambar 3.2: Hasil Persebaran Cluster (cluster_0 dan cluster_1) Menggunakan Scatter Plot</em></p>
-</section>
+</div>
+</div>
 </section>
 </section>
 
@@ -727,14 +692,7 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#koneksi-database-penarikan-data">3.1 Koneksi Database &amp; Penarikan Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-filtering-variance-control-normalisasi">3.2 Preprocessing Data (Filtering, Variance Control, &amp; Normalisasi)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduksi-dimensi-dengan-pca">3.3 Reduksi Dimensi dengan PCA</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pemodelan-k-means-clustering">3.4 Pemodelan K-Means Clustering</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-cluster-penetapan-sumbu">3.5 Visualisasi Cluster &amp; Penetapan Sumbu</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rangkaian-workflow-hasil-clustering">Rangkaian Workflow &amp; Hasil Clustering</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
 </ul>
   </nav></div>
 
