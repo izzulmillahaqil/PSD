@@ -157,12 +157,15 @@ x_no2_sample = np.array([20e-6, 50e-6, 30e-6, 40e-6])
 cA, cD = pywt.dwt(x_no2_sample, 'haar')
 
 # 2. Perhitungan Manual via NumPy
-manual_var = np.var(cD)
-manual_std = np.std(cD)
+manual_var = float(np.var(cD))
+manual_std = float(np.std(cD))
 
-# 3. Perhitungan Menggunakan Pustaka TSFEL (tambahkan fs=1)
-tsfel_var = tsfel_features.wavelet_var(x_no2_sample, fs=1)
-tsfel_std = tsfel_features.wavelet_std(x_no2_sample, fs=1)
+# 3. Perhitungan Menggunakan Pustaka TSFEL (Ambil nilai float dari output dict/array)
+res_var = tsfel_features.wavelet_var(x_no2_sample, fs=1)
+res_std = tsfel_features.wavelet_std(x_no2_sample, fs=1)
+
+tsfel_var = float(list(res_var.values())[0]) if isinstance(res_var, dict) else float(np.ravel(res_var)[0])
+tsfel_std = float(list(res_std.values())[0]) if isinstance(res_std, dict) else float(np.ravel(res_std)[0])
 
 print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
