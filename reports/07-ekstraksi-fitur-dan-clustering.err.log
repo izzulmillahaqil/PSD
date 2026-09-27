@@ -37,76 +37,17 @@ print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
 print(f"Hasil Pustaka TSFEL  -> wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}")
 
-
-## 3. Implementasi Workflow pada KNIME Analytics Platform
-
-Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangkat lunak **KNIME Analytics Platform** dengan tahapan penyiapan *node workflow* sebagai berikut:
-
-### 3.1 Koneksi Database & Penarikan Data
-* **Node `MySQL Connector` / `DB Connector`:**
-  Digunakan untuk menyambungkan KNIME ke server database MySQL/MariaDB (`basisdata2-c.my.id:3306`) dengan basis data `basisda1_PSD-A`.
-* **Node `DB Query Reader`:**
-  Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (`;`) di akhir kueri untuk mengambil seluruh fitur TSFEL:
-  ```sql
-  SELECT * FROM `basisda1_PSD-A`.ekstraksi_fitur_co
-
-### 3.2 Preprocessing Data (Filtering, Variance Control, & Normalisasi)
-1. **Node `Column Filter`:**
-   * Memisahkan variabel numerik dan metadata non-numerik.
-   * **Excludes:** `id`, `nama`, `daerah`
-   * **Includes:** Seluruh kolom fitur angka TSFEL.
-2. **Node `Low Variance Filter`:**
-   * Berfungsi untuk mengeliminasi kolom-kolom yang bersifat konstan (memiliki variansi mendekati `0`), sehingga algoritma PCA tidak mengalami pembagian dengan nol.
-3. **Node `Normalizer`:**
-   * Menerapkan pembobotan variabel dengan metode **Min-Max Normalization** (rentang 0.0 s.d. 1.0) agar fitur berjarak variabel seimbang.
-
----
-
-### 3.3 Reduksi Dimensi dengan PCA
-1. **Node `PCA Compute`:**
-   * Menerima input fitur yang telah dinormalisasi dari node `Normalizer`.
-   * Pada konfigurasi panel **Dimensions**, tentukan jumlah komponen utama yang ingin dihasilkan (misalnya `Fixed Number = 2` atau `37`).
-2. **Node `PCA Apply`:**
-   * Menerima port data numerik dari `Normalizer` dan port matriks transformasi dari `PCA Compute`.
-   * Mengubah fitur-fitur berdimensi tinggi menjadi komponen proyeksi baru (`PCA dimension 0`, `PCA dimension 1`, dst.).
-
----
-
-### 3.4 Pemodelan K-Means Clustering
-1. **Node `k-Means`:**
-   * Hubungkan output data dari node **`PCA Apply`** menuju port input **`k-Means`**.
-   * Konfigurasikan **Number of clusters ($k$)** menjadi `2` atau `3`.
-   * Tentukan **Max. number of iterations** = `100`.
-   * Eksekusi node hingga menyala hijau untuk mengekstrak penataan kelompok baru bernama kolom `Cluster`.
-
----
-
----
-
-### 3.5 Visualisasi Cluster & Penetapan Sumbu
-1. **Node `Scatter Plot`:**
-   * Hubungkan output data berlabel dari node **`k-Means`** ke port **`Scatter Plot`**.
-   * Buka konfigurasi panel visualisasi:
-     * **Horizontal dimension:** `nama`
-     * **Vertical dimension:** `cluster`
-     * **Color dimension:** `none`
-2. Jalankan perintah **Apply and Execute** untuk menyajikan grafik sebaran titik *cluster* berbasis warna.
-
-#### Rangkaian Workflow & Hasil Clustering
-Berikut adalah gambaran alur *workflow* KNIME yang telah disusun serta hasil sebaran titik kelompok data (*clustering*):
-
-![Workflow KNIME](workflow.png)
-*Gambar 3.1: Alur Lengkap Workflow Preprocessing, PCA, dan K-Means pada KNIME*
-
-![Hasil Scatter Plot Clustering](cluster.png)
-*Gambar 3.2: Hasil Persebaran Cluster (cluster_0 dan cluster_1) Menggunakan Scatter Plot*
-
 ------------------
 
 
-[1;36m  Cell [1;32mIn[2], line 26[1;36m[0m
-[1;33m    Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangkat lunak **KNIME Analytics Platform** dengan tahapan penyiapan *node workflow* sebagai berikut:[0m
-[1;37m               ^[0m
-[1;31mSyntaxError[0m[1;31m:[0m invalid syntax
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [1;32mIn[2], line 16[0m
+[0;32m     13[0m manual_std [38;5;241m=[39m np[38;5;241m.[39mstd(cD)
+[0;32m     15[0m [38;5;66;03m# 3. Perhitungan Menggunakan Pustaka TSFEL[39;00m
+[1;32m---> 16[0m tsfel_var [38;5;241m=[39m [43mtsfel_features[49m[38;5;241;43m.[39;49m[43mwavelet_var[49m[43m([49m[43mx_no2_sample[49m[43m)[49m
+[0;32m     17[0m tsfel_std [38;5;241m=[39m tsfel_features[38;5;241m.[39mwavelet_std(x_no2_sample)
+[0;32m     19[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;124m=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===[39m[38;5;124m"[39m)
 
+[1;31mTypeError[0m: wavelet_var() missing 1 required positional argument: 'fs'
 

@@ -168,6 +168,7 @@ print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
 print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
 print(f"Hasil Pustaka TSFEL  -> wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}")
 
+```
 
 ## 3. Implementasi Workflow pada KNIME Analytics Platform
 
