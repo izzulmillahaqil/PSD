@@ -384,7 +384,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur-khusus">2.1 Deskripsi Fitur Khusus</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formulasi-matematika">2.2 Formulasi Matematika</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-studi-kasus-polutan-text-no-2">2.3 Perhitungan Manual (Studi Kasus: Polutan <span class="math notranslate nohighlight">\(\text{NO}_2\)</span>)</a><ul class="nav section-nav flex-column">
@@ -394,7 +395,6 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-standar-deviasi-wavelet-wavelet-std">Langkah 4: Hitung Standar Deviasi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>)</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel">2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-workflow-pada-knime-analytics-platform">3. Implementasi Workflow pada KNIME Analytics Platform</a><ul class="nav section-nav flex-column">
@@ -488,9 +488,9 @@ document.write(`
 <img alt="_images/f6cbecf914fcec57c985b50a592c56fe9cf886bcf74fc421b0dc93bc87bb6080.png" src="_images/f6cbecf914fcec57c985b50a592c56fe9cf886bcf74fc421b0dc93bc87bb6080.png" />
 </div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (`wavelet_std` &amp; `wavelet_var`)
-</pre></div>
-</div>
+</section>
+<section id="konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">
+<h2>2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)<a class="headerlink" href="#konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var" title="Link to this heading">#</a></h2>
 <p>Berdasarkan pembagian tugas kelas, fitur utama yang dianalisis secara mendalam oleh <strong>Muhammad izzul Millah Aqil</strong> adalah dua fitur berbasis dekomposisi wavelet: <strong><code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code></strong> dan <strong><code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code></strong>.</p>
 <hr class="docutils" />
 <section id="deskripsi-fitur-khusus">
@@ -562,70 +562,8 @@ $<span class="math notranslate nohighlight">\(cD = [-2.12132034 \times 10^{-5},\
 \[\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{5.000000 \times 10^{-11}} = \mathbf{7.071068 \times 10^{-6}}\]</div>
 </section>
 </section>
+</section>
 <hr class="docutils" />
-<section id="pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel">
-<h3>2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)<a class="headerlink" href="#pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel" title="Link to this heading">#</a></h3>
-<p>Berikut skrip Python untuk membuktikan bahwa perhitungan manual di atas identik dengan output dari pustaka <code class="docutils literal notranslate"><span class="pre">PyWavelets</span></code> dan <code class="docutils literal notranslate"><span class="pre">TSFEL</span></code>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pywt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tsfel.feature_extraction.features</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tsfel_features</span>
-
-<span class="c1"># Sampel Sinyal NO2 Mini</span>
-<span class="n">x_no2_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">20e-6</span><span class="p">,</span> <span class="mf">50e-6</span><span class="p">,</span> <span class="mf">30e-6</span><span class="p">,</span> <span class="mf">40e-6</span><span class="p">])</span>
-
-<span class="c1"># 1. Dekomposisi Wavelet Haar</span>
-<span class="n">cA</span><span class="p">,</span> <span class="n">cD</span> <span class="o">=</span> <span class="n">pywt</span><span class="o">.</span><span class="n">dwt</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">,</span> <span class="s1">&#39;haar&#39;</span><span class="p">)</span>
-
-<span class="c1"># 2. Perhitungan Manual via NumPy</span>
-<span class="n">manual_var</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">cD</span><span class="p">))</span>
-<span class="n">manual_std</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cD</span><span class="p">))</span>
-
-<span class="c1"># 3. Perhitungan Menggunakan Pustaka TSFEL</span>
-<span class="n">res_var</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_var</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">res_std</span> <span class="o">=</span> <span class="n">tsfel_features</span><span class="o">.</span><span class="n">wavelet_std</span><span class="p">(</span><span class="n">x_no2_sample</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Helper untuk mengekstrak angka float dari output TSFEL apapun tipe datanya</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">extract_float</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-<span class="n">tsfel_var</span> <span class="o">=</span> <span class="n">extract_float</span><span class="p">(</span><span class="n">res_var</span><span class="p">)</span>
-<span class="n">tsfel_std</span> <span class="o">=</span> <span class="n">extract_float</span><span class="p">(</span><span class="n">res_std</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Manual (NumPy) -&gt; wavelet_var: </span><span class="si">{</span><span class="n">manual_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">manual_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Pustaka TSFEL  -&gt; wavelet_var: </span><span class="si">{</span><span class="n">tsfel_var</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2"> | wavelet_std: </span><span class="si">{</span><span class="n">tsfel_std</span><span class="si">:</span><span class="s2">.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">27</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span>         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">tsfel_var</span> <span class="o">=</span> <span class="n">extract_float</span><span class="p">(</span><span class="n">res_var</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">tsfel_std</span> <span class="o">=</span> <span class="n">extract_float</span><span class="p">(</span><span class="n">res_std</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===&quot;</span><span class="p">)</span>
-
-<span class="nn">Cell In[2], line 24,</span> in <span class="ni">extract_float</span><span class="nt">(val)</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">24</span>     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-<span class="ne">TypeError</span>: float() argument must be a string or a real number, not &#39;list&#39;
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
 <section id="implementasi-workflow-pada-knime-analytics-platform">
 <h2>3. Implementasi Workflow pada KNIME Analytics Platform<a class="headerlink" href="#implementasi-workflow-pada-knime-analytics-platform" title="Link to this heading">#</a></h2>
 <p>Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangkat lunak <strong>KNIME Analytics Platform</strong> dengan tahapan penyiapan <em>node workflow</em> sebagai berikut:</p>
@@ -782,7 +720,8 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data-time-series-plot-semua-polutan">1. Eksplorasi Data &amp; Time Series Plot (Semua Polutan)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">2. Konsep Dasar, Deskripsi Fitur &amp; Perhitungan Manual Khusus (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">wavelet_var</span></code>)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur-khusus">2.1 Deskripsi Fitur Khusus</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formulasi-matematika">2.2 Formulasi Matematika</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-studi-kasus-polutan-text-no-2">2.3 Perhitungan Manual (Studi Kasus: Polutan <span class="math notranslate nohighlight">\(\text{NO}_2\)</span>)</a><ul class="nav section-nav flex-column">
@@ -792,7 +731,6 @@ Mengeksekusi perintah kueri SQL berikut tanpa tanda titik koma (<code class="doc
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hitung-standar-deviasi-wavelet-wavelet-std">Langkah 4: Hitung Standar Deviasi Wavelet (<code class="docutils literal notranslate"><span class="pre">wavelet_std</span></code>)</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pembuktian-kode-python-manual-vs-pywavelets-vs-tsfel">2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-workflow-pada-knime-analytics-platform">3. Implementasi Workflow pada KNIME Analytics Platform</a><ul class="nav section-nav flex-column">

@@ -67,7 +67,7 @@ for pol in pollutants:
 ```
 
 
-    ## 2. Konsep Dasar, Deskripsi Fitur & Perhitungan Manual Khusus (`wavelet_std` & `wavelet_var`)
+## 2. Konsep Dasar, Deskripsi Fitur & Perhitungan Manual Khusus (`wavelet_std` & `wavelet_var`)
 
 Berdasarkan pembagian tugas kelas, fitur utama yang dianalisis secara mendalam oleh **Muhammad izzul Millah Aqil** adalah dua fitur berbasis dekomposisi wavelet: **`wavelet_std`** dan **`wavelet_var`**.
 
@@ -141,44 +141,6 @@ $$\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{5.000000 \times 10^{-
 
 ---
 
-### 2.4 Pembuktian Kode Python (Manual vs PyWavelets vs TSFEL)
-
-Berikut skrip Python untuk membuktikan bahwa perhitungan manual di atas identik dengan output dari pustaka `PyWavelets` dan `TSFEL`:
-
-```{code-cell} ipython3
-import numpy as np
-import pywt
-import tsfel.feature_extraction.features as tsfel_features
-
-# Sampel Sinyal NO2 Mini
-x_no2_sample = np.array([20e-6, 50e-6, 30e-6, 40e-6])
-
-# 1. Dekomposisi Wavelet Haar
-cA, cD = pywt.dwt(x_no2_sample, 'haar')
-
-# 2. Perhitungan Manual via NumPy
-manual_var = float(np.var(cD))
-manual_std = float(np.std(cD))
-
-# 3. Perhitungan Menggunakan Pustaka TSFEL
-res_var = tsfel_features.wavelet_var(x_no2_sample, fs=1)
-res_std = tsfel_features.wavelet_std(x_no2_sample, fs=1)
-
-# Helper untuk mengekstrak angka float dari output TSFEL apapun tipe datanya
-def extract_float(val):
-    if isinstance(val, (list, tuple, np.ndarray)):
-        return float(val[0])
-    elif isinstance(val, dict):
-        return float(list(val.values())[0])
-    return float(val)
-
-tsfel_var = extract_float(res_var)
-tsfel_std = extract_float(res_std)
-
-print("=== PEMBUKTIAN FITUR WAVELET POLUTAN NO2 ===")
-print(f"Hasil Manual (NumPy) -> wavelet_var: {manual_var:.8e} | wavelet_std: {manual_std:.8e}")
-print(f"Hasil Pustaka TSFEL  -> wavelet_var: {tsfel_var:.8e} | wavelet_std: {tsfel_std:.8e}")
-```
 
 ## 3. Implementasi Workflow pada KNIME Analytics Platform
 
