@@ -163,7 +163,6 @@ $$\text{wavelet\_std} = \sqrt{\text{wavelet\_var}} = \sqrt{5.000000 \times 10^{-
 
 ---
 
----
 
 ## 3. Evaluasi Jumlah Cluster, Visualisasi PCA, & Profiling Cluster
 
@@ -345,7 +344,6 @@ Pengolahan data fitur hasil TSFEL dilakukan secara otomatis menggunakan perangka
 
 ---
 
----
 
 ### 4.5 Visualisasi Cluster & Penetapan Sumbu
 1. **Node `Scatter Plot`:**
