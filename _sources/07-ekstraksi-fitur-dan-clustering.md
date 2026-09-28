@@ -47,16 +47,26 @@ for pol in pollutants:
         model = IsolationForest(contamination=CONTAMINATION, random_state=42)
         df['anomaly'] = model.fit_predict(df[[pol]])  # -1 = outlier, 1 = normal
 
-        # 3. Ganti Outlier jadi NaN lalu Interpolasi Berbasis Waktu
+        # 3. Ganti Outlier jadi NaN
         df_fixed = df.copy()
         df_fixed.loc[df_fixed['anomaly'] == -1, pol] = np.nan
-        df_fixed[pol] = df_fixed[pol].interpolate(method='linear').ffill().bfill()
 
-        # 4. Visualisasi Plot 
+        # 4. Interpolasi Polinomial Non-Linear (Quadratic / Orde 2)
+        # Menggunakan method='polynomial' dengan order=2 dan penanganan batas ffill/bfill
+        df_fixed[pol] = (
+            df_fixed[pol]
+            .interpolate(method='polynomial', order=2)
+            .ffill()
+            .bfill()
+        )
+
+        # 5. Visualisasi Plot 
         plt.figure(figsize=(15, 4))
-        plt.plot(df_fixed['date'], df_fixed[pol], color='green', linewidth=1, 
-                 label=f'{pol} (setelah outlier diganti & diinterpolasi)')
-        plt.title(f'{pol}')
+        plt.plot(df_fixed['date'], df_fixed[pol], color='darkgreen', linewidth=1, 
+                 label=f'{pol} (Interpolasi Polinomial Non-Linear Orde 2)')
+        plt.title(f'Deret Waktu Polutan {pol} (Polinomial Non-Linear Interpolation)')
+        plt.xlabel('Tanggal')
+        plt.ylabel('Konsentrasi')
         plt.legend(loc='upper right')
         plt.grid(True, linestyle='--', alpha=0.5)
         plt.tight_layout()

@@ -461,16 +461,26 @@ document.write(`
         <span class="n">model</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="n">CONTAMINATION</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">pol</span><span class="p">]])</span>  <span class="c1"># -1 = outlier, 1 = normal</span>
 
-        <span class="c1"># 3. Ganti Outlier jadi NaN lalu Interpolasi Berbasis Waktu</span>
+        <span class="c1"># 3. Ganti Outlier jadi NaN</span>
         <span class="n">df_fixed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">df_fixed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_fixed</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
 
-        <span class="c1"># 4. Visualisasi Plot </span>
+        <span class="c1"># 4. Interpolasi Polinomial Non-Linear (Quadratic / Orde 2)</span>
+        <span class="c1"># Menggunakan method=&#39;polynomial&#39; dengan order=2 dan penanganan batas ffill/bfill</span>
+        <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;polynomial&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 5. Visualisasi Plot </span>
         <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_fixed</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-                 <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (setelah outlier diganti &amp; diinterpolasi)&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_fixed</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df_fixed</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkgreen&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                 <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (Interpolasi Polinomial Non-Linear Orde 2)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Deret Waktu Polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (Polinomial Non-Linear Interpolation)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Tanggal&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Konsentrasi&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -483,9 +493,9 @@ document.write(`
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/61540d265d7c9aa4898d7d0b0e85f7d333c7277973d6b9a7fe4b0c943d781392.png" src="_images/61540d265d7c9aa4898d7d0b0e85f7d333c7277973d6b9a7fe4b0c943d781392.png" />
-<img alt="_images/694600de4e089c5a7dd9ebb761c3bffc5247eb0635a4989a81c856be317fc751.png" src="_images/694600de4e089c5a7dd9ebb761c3bffc5247eb0635a4989a81c856be317fc751.png" />
-<img alt="_images/f6cbecf914fcec57c985b50a592c56fe9cf886bcf74fc421b0dc93bc87bb6080.png" src="_images/f6cbecf914fcec57c985b50a592c56fe9cf886bcf74fc421b0dc93bc87bb6080.png" />
+<img alt="_images/601664781746d3ab99755b290ee061b7284781ade0f844f119ba9be984fc722b.png" src="_images/601664781746d3ab99755b290ee061b7284781ade0f844f119ba9be984fc722b.png" />
+<img alt="_images/79398dedf382ce408b26bce8fcf8cf6d785c34108b198de903a0a2d4ec868d48.png" src="_images/79398dedf382ce408b26bce8fcf8cf6d785c34108b198de903a0a2d4ec868d48.png" />
+<img alt="_images/7ddb92a0f03c37d5da34501211e7c209b6f076cdcaff754d47109d958207aa10.png" src="_images/7ddb92a0f03c37d5da34501211e7c209b6f076cdcaff754d47109d958207aa10.png" />
 </div>
 </div>
 </section>
