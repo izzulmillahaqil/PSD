@@ -48,23 +48,35 @@ for pol in pollutants:
         df['anomaly'] = model.fit_predict(df[[pol]])  # -1 = outlier, 1 = normal
 
         # 3. Ganti Outlier jadi NaN
-        df_fixed = df.copy()
-        df_fixed.loc[df_fixed['anomaly'] == -1, pol] = np.nan
+        df_base = df.copy()
+        df_base.loc[df_base['anomaly'] == -1, pol] = np.nan
 
-        # 4. Interpolasi Polinomial Non-Linear (Quadratic / Orde 2)
-        # Menggunakan method='polynomial' dengan order=2 dan penanganan batas ffill/bfill
-        df_fixed[pol] = (
-            df_fixed[pol]
-            .interpolate(method='polynomial', order=2)
-            .ffill()
-            .bfill()
-        )
+        # 4a. Interpolasi Linier
+        df_linear = df_base.copy()
+        df_linear[pol] = df_linear[pol].interpolate(method='linear').ffill().bfill()
 
-        # 5. Visualisasi Plot 
-        plt.figure(figsize=(15, 4))
-        plt.plot(df_fixed['date'], df_fixed[pol], color='darkgreen', linewidth=1, 
+        # 4b. Interpolasi Polinomial Non-Linear (Orde 2 / Quadratic)
+        df_poly = df_base.copy()
+        df_poly[pol] = df_poly[pol].interpolate(method='polynomial', order=2).ffill().bfill()
+
+        # 5. Visualisasi Plot Perbandingan
+        plt.figure(figsize=(15, 5))
+        
+        # Plot Linier
+        plt.plot(df_linear['date'], df_linear[pol], color='blue', linewidth=1, 
+                 linestyle='--', alpha=0.7, label=f'{pol} (Interpolasi Linier)')
+        
+        # Plot Polinomial Non-Linear
+        plt.plot(df_poly['date'], df_poly[pol], color='darkgreen', linewidth=1.5, 
                  label=f'{pol} (Interpolasi Polinomial Non-Linear Orde 2)')
-        plt.title(f'Deret Waktu Polutan {pol} (Polinomial Non-Linear Interpolation)')
+        
+        # Plot Titik Outlier yang Diganti
+        outliers = df[df['anomaly'] == -1]
+        if not outliers.empty:
+            plt.scatter(outliers['date'], outliers[pol], color='red', s=25, zorder=5,
+                        label=f'Outlier Terdeteksi ({len(outliers)} titik)')
+
+        plt.title(f'Perbandingan Interpolasi Linier vs Polinomial Non-Linear pada Polutan {pol}')
         plt.xlabel('Tanggal')
         plt.ylabel('Konsentrasi')
         plt.legend(loc='upper right')
