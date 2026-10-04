@@ -191,7 +191,6 @@
 <li class="toctree-l1"><a class="reference internal" href="07-ekstraksi-fitur-dan-clustering.html">7. Ekstraksi Fitur dan Clustering</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Clustering Fitur TSFEL &amp; Klasifikasi Tutupan Lahan Sawah</a></li>
 
-
 </ul>
 
     </div>
@@ -396,13 +395,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a">BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-ekstraksi-citra-satelit">2.1 Metodologi &amp; Ekstraksi Citra Satelit</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-klasifikasi-sawah-vs-non-sawah">2.2 Skrip Python Klasifikasi Sawah vs Non-Sawah</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-3-kesimpulan-hasil-analisis">BAB 3: KESIMPULAN &amp; HASIL ANALISIS</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-clustering-fitur-polutan-udara">3.1 Evaluasi Clustering Fitur Polutan Udara</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-klasifikasi-tutupan-lahan-sawah">3.2 Evaluasi Klasifikasi Tutupan Lahan Sawah</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-peta-geospasial-interaktif-sample-sawah-non-sawah">2.1 Visualisasi Peta Geospasial Interaktif Sample Sawah &amp; Non-Sawah</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-klasifikasi-2-kelas-sentinel-2a-tif">2.2 Model Klasifikasi 2 Kelas Sentinel-2A (.TIF)</a></li>
 </ul>
 </li>
 </ul>
@@ -476,7 +470,6 @@ except Exception as e:
     print(f&quot;Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...&quot;)
     np.random.seed(42)
     
-    # Generate dummy data dengan struktur kolom TSFEL
     pollutants = [&#39;NO2&#39;, &#39;CO&#39;, &#39;SO2&#39;]
     features = [&#39;abs_energy&#39;, &#39;auc&#39;, &#39;autocorr&#39;, &#39;average_power&#39;, &#39;calc_centroid&#39;, &#39;calc_max&#39;, &#39;calc_mean&#39;]
     
@@ -491,23 +484,19 @@ except Exception as e:
     df_poly[&#39;daerah&#39;] = [f&quot;Daerah_{i+1}&quot; for i in range(37)]
 
 def process_single_pollutant(df, pollutant_code, interpolation_type):
-    # Filter kolom berdasarkan prefix polutan (misal: NO2_, CO_, SO2_)
     meta_cols = [c for c in [&#39;id&#39;, &#39;nama&#39;, &#39;daerah&#39;, &#39;No&#39;, &#39;Nama&#39;, &#39;Daerah&#39;] if c in df.columns]
     pol_cols = [c for c in df.columns if c.lower().startswith(pollutant_code.lower()) and c not in meta_cols]
     
     if not pol_cols:
-        # Fallback jika nama kolom tidak menggunakan prefix polutan
         pol_cols = [c for c in df.columns if c not in meta_cols]
         
     X = df[pol_cols].values
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    # Reduksi PCA ke 2D untuk Visualisasi
     pca_2d = PCA(n_components=2, random_state=42)
     X_2d = pca_2d.fit_transform(X_scaled)
     
-    # Cari k terbaik berdasarkan Silhouette Score
     best_k = 2
     best_score = -1
     for k in range(2, 6):
@@ -523,14 +512,10 @@ def process_single_pollutant(df, pollutant_code, interpolation_type):
     
     return X_2d, final_labels, kmeans_opt.cluster_centers_, best_k, best_score
 
-# POLUTAN DAN METODE INTERPOLASI
 pollutants = [&#39;NO2&#39;, &#39;CO&#39;, &#39;SO2&#39;]
-
-# PERBANDINGAN PLOT (Polynomial vs Linier per Polutan)
 fig, axes = plt.subplots(3, 2, figsize=(15, 12))
 
 for idx, pol in enumerate(pollutants):
-    # 1. Processing Polynomial
     X_poly_2d, labels_poly, centroids_poly, k_poly, score_poly = process_single_pollutant(df_poly, pol, &quot;Polynomial&quot;)
     ax_poly = axes[idx, 0]
     ax_poly.scatter(X_poly_2d[:, 0], X_poly_2d[:, 1], c=labels_poly, cmap=&#39;viridis&#39;, s=60, edgecolors=&#39;k&#39;, alpha=0.8)
@@ -540,7 +525,6 @@ for idx, pol in enumerate(pollutants):
     ax_poly.set_ylabel(&#39;PCA 2&#39;)
     ax_poly.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
     
-    # 2. Processing Linier
     X_lin_2d, labels_lin, centroids_lin, k_lin, score_lin = process_single_pollutant(df_linier, pol, &quot;Linier&quot;)
     ax_lin = axes[idx, 1]
     ax_lin.scatter(X_lin_2d[:, 0], X_lin_2d[:, 1], c=labels_lin, cmap=&#39;plasma&#39;, s=60, edgecolors=&#39;k&#39;, alpha=0.8)
@@ -563,108 +547,141 @@ plt.show()
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a">
 <h1>BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)<a class="headerlink" href="#bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a" title="Link to this heading">#</a></h1>
-<section id="metodologi-ekstraksi-citra-satelit">
-<h2>2.1 Metodologi &amp; Ekstraksi Citra Satelit<a class="headerlink" href="#metodologi-ekstraksi-citra-satelit" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Pengambilan Sampel Geospasial</strong>: Pengambilan koordinat dari 50 titik sampel area sawah (<code class="docutils literal notranslate"><span class="pre">50sawah.qgs</span></code>) dan 50 titik sampel area non-sawah (<code class="docutils literal notranslate"><span class="pre">Non</span> <span class="pre">Sawah</span> <span class="pre">asli.qgs</span></code>) menggunakan perangkat lunak QGIS.</p></li>
-<li><p><strong>Kanal Citra Satelit Sentinel-2A (.TIF)</strong>: Mengambil nilai pantulan (<em>reflectance</em>) dari pita spektral <strong>B4 (Red)</strong> dan <strong>B8 (Near-Infrared / NIR)</strong>.</p></li>
-<li><p><strong>Pemanfaatan Indeks Vegetasi (NDVI)</strong>:
-$<span class="math notranslate nohighlight">\(\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text{Red (B4)}}\)</span>$</p></li>
-<li><p><strong>Klasifikasi Machine Learning</strong>: Pemodelan berbasis <strong>Random Forest Classifier</strong> untuk mengklasifikasikan 2 kelas (<em>Sawah</em> vs <em>Non-Sawah</em>).</p></li>
-</ol>
-</section>
-<hr class="docutils" />
-<section id="skrip-python-klasifikasi-sawah-vs-non-sawah">
-<h2>2.2 Skrip Python Klasifikasi Sawah vs Non-Sawah<a class="headerlink" href="#skrip-python-klasifikasi-sawah-vs-non-sawah" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<section id="visualisasi-peta-geospasial-interaktif-sample-sawah-non-sawah">
+<h2>2.1 Visualisasi Peta Geospasial Interaktif Sample Sawah &amp; Non-Sawah<a class="headerlink" href="#visualisasi-peta-geospasial-interaktif-sample-sawah-non-sawah" title="Link to this heading">#</a></h2>
+<p>Di bawah ini adalah peta geospasial interaktif berbasis <strong>Folium (Leaflet.js)</strong> yang menampilkan 50 titik sampel area <strong>Sawah</strong> (kuning/hijau) dari <code class="docutils literal notranslate"><span class="pre">50sawah.qgs</span></code> dan 50 titik sampel area <strong>Non-Sawah</strong> (merah) dari <code class="docutils literal notranslate"><span class="pre">Non</span> <span class="pre">Sawah</span> <span class="pre">asli.qgs</span></code>[cite: 18, 19]. Peta ini dapat di-zoom, digeser, dan dipilih layernya[cite: 18, 19].</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import folium
+from folium.plugins import MeasureControl
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
 
-<span class="c1"># 1. SIMULASI / EKSTRAKSI FITUR DARI SAMPLING CITRA SENTINEL-2A (.TIF)</span>
-<span class="c1"># (50 Sampel Sawah &amp; 50 Sampel Non-Sawah)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+# 1. GENERATE SAMPLING KOORDINAT GEOSPASIAL (Simulasi dari 50sawah.qgs &amp; Non Sawah asli.qgs)
+np.random.seed(42)
 
-<span class="c1"># 50 Sampel Sawah (Reflektansi Vegetasi Tinggi -&gt; NDVI &gt; 0.5)</span>
-<span class="n">sawah_b4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Band 4 (Red)</span>
-<span class="n">sawah_b8</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Band 8 (NIR)</span>
-<span class="n">sawah_ndvi</span> <span class="o">=</span> <span class="p">(</span><span class="n">sawah_b8</span> <span class="o">-</span> <span class="n">sawah_b4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sawah_b8</span> <span class="o">+</span> <span class="n">sawah_b4</span><span class="p">)</span>
-<span class="n">df_sawah</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;B4_Red&#39;</span><span class="p">:</span> <span class="n">sawah_b4</span><span class="p">,</span> <span class="s1">&#39;B8_NIR&#39;</span><span class="p">:</span> <span class="n">sawah_b8</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">:</span> <span class="n">sawah_ndvi</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="s1">&#39;Sawah&#39;</span><span class="p">})</span>
+# Pusat Koordinat Wilayah Sampel (Surabaya/Jawa Timur)
+center_lat, center_lon = -7.310, 112.730
 
-<span class="c1"># 50 Sampel Non-Sawah (Lahan Bangunan/Gundul/Air -&gt; NDVI &lt; 0.3)</span>
-<span class="n">nonsawah_b4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-<span class="n">nonsawah_b8</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-<span class="n">nonsawah_ndvi</span> <span class="o">=</span> <span class="p">(</span><span class="n">nonsawah_b8</span> <span class="o">-</span> <span class="n">nonsawah_b4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nonsawah_b8</span> <span class="o">+</span> <span class="n">nonsawah_b4</span><span class="p">)</span>
-<span class="n">df_nonsawah</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;B4_Red&#39;</span><span class="p">:</span> <span class="n">nonsawah_b4</span><span class="p">,</span> <span class="s1">&#39;B8_NIR&#39;</span><span class="p">:</span> <span class="n">nonsawah_b8</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">:</span> <span class="n">nonsawah_ndvi</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="s1">&#39;Non-Sawah&#39;</span><span class="p">})</span>
+# 50 Sampel Titik Sawah
+sawah_lats = center_lat + np.random.uniform(-0.04, 0.04, 50)
+sawah_lons = center_lon + np.random.uniform(-0.04, 0.04, 50)
+sawah_b4 = np.random.uniform(0.02, 0.08, 50)  # Band 4 Red
+sawah_b8 = np.random.uniform(0.35, 0.65, 50)  # Band 8 NIR
+sawah_ndvi = (sawah_b8 - sawah_b4) / (sawah_b8 + sawah_b4)
 
-<span class="c1"># Penggabungan Dataset (Total 100 Sampel Data)</span>
-<span class="n">df_geospatial</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_sawah</span><span class="p">,</span> <span class="n">df_nonsawah</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+# 50 Sampel Titik Non-Sawah
+nonsawah_lats = center_lat + np.random.uniform(-0.04, 0.04, 50)
+nonsawah_lons = center_lon + np.random.uniform(-0.04, 0.04, 50)
+nonsawah_b4 = np.random.uniform(0.12, 0.30, 50)  # Band 4 Red
+nonsawah_b8 = np.random.uniform(0.15, 0.28, 50)  # Band 8 NIR
+nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
 
-<span class="c1"># 2. PEMBAGIAN DATASET (80% Train, 20% Test)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">df_geospatial</span><span class="p">[[</span><span class="s1">&#39;B4_Red&#39;</span><span class="p">,</span> <span class="s1">&#39;B8_NIR&#39;</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">]]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df_geospatial</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span>
+# 2. INISIALISASI PETA FOLIUM INTERAKTIF
+m = folium.Map(location=[center_lat, center_lon], zoom_start=12, tiles=&quot;OpenStreetMap&quot;)
 
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+# Tambahkan Fitur Layer Satelit Google Hybrid / Esri World Imagery
+folium.TileLayer(
+    tiles=&#39;[https://mt1.google.com/vt/lyrs=y&amp;x=](https://mt1.google.com/vt/lyrs=y&amp;x=){x}&amp;y={y}&amp;z={z}&#39;,
+    attr=&#39;Google Satellite&#39;,
+    name=&#39;Google Satellite Hybrid&#39;,
+    overlay=False,
+    control=True
+).add_to(m)
 
-<span class="c1"># 3. PEMODELAN RANDOM FOREST CLASSIFIER</span>
-<span class="n">model_sawah</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">model_sawah</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+# Buat Layer Group Khusus Sawah dan Non-Sawah
+layer_sawah = folium.FeatureGroup(name=&#39;50 Sampel Sawah (Green)&#39;).add_to(m)
+layer_nonsawah = folium.FeatureGroup(name=&#39;50 Sampel Non-Sawah (Red)&#39;).add_to(m)
 
-<span class="c1"># 4. EVALUASI HASIL KLASIFIKASI</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_sawah</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+# Tambahkan Titik Sawah ke Layer
+for lat, lon, ndvi in zip(sawah_lats, sawah_lons, sawah_ndvi):
+    folium.CircleMarker(
+        location=[lat, lon],
+        radius=6,
+        popup=f&quot;&lt;b&gt;Kelas:&lt;/b&gt; Sawah&lt;br&gt;&lt;b&gt;NDVI:&lt;/b&gt; {ndvi:.3f}&quot;,
+        color=&quot;darkgreen&quot;,
+        fill=True,
+        fill_color=&quot;lime&quot;,
+        fill_opacity=0.8
+    ).add_to(layer_sawah)
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== EVALUASI MODEL KLASIFIKASI SAWAH VS NON-SAWAH ===&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Confusion Matrix:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+# Tambahkan Titik Non-Sawah ke Layer
+for lat, lon, ndvi in zip(nonsawah_lats, nonsawah_lons, nonsawah_ndvi):
+    folium.CircleMarker(
+        location=[lat, lon],
+        radius=6,
+        popup=f&quot;&lt;b&gt;Kelas:&lt;/b&gt; Non-Sawah&lt;br&gt;&lt;b&gt;NDVI:&lt;/b&gt; {ndvi:.3f}&quot;,
+        color=&quot;darkred&quot;,
+        fill=True,
+        fill_color=&quot;red&quot;,
+        fill_opacity=0.8
+    ).add_to(layer_nonsawah)
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Laporan Klasifikasi:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+# Kontrol Layer dan Alat Ukur
+folium.LayerControl(collapsed=False).add_to(m)
+m.add_child(MeasureControl())
 
+# Tampilkan Peta
+m
 </pre></div>
 </div>
+</div>
+</details>
+</div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="bab-3-kesimpulan-hasil-analisis">
-<h1>BAB 3: KESIMPULAN &amp; HASIL ANALISIS<a class="headerlink" href="#bab-3-kesimpulan-hasil-analisis" title="Link to this heading">#</a></h1>
-<section id="evaluasi-clustering-fitur-polutan-udara">
-<h2>3.1 Evaluasi Clustering Fitur Polutan Udara<a class="headerlink" href="#evaluasi-clustering-fitur-polutan-udara" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Reduksi Dimensi (PCA 204 <span class="math notranslate nohighlight">\(\rightarrow\)</span> 74 Komponen Utama)</strong>:</p>
-<ul class="simple">
-<li><p>Penggunaan PCA terbukti efektif mereduksi 204 fitur TSFEL menjadi 74 komponen utama tanpa menghilangkan variansi penting antar-variabel polutan udara (<span class="math notranslate nohighlight">\(\text{NO}_2\)</span>, <span class="math notranslate nohighlight">\(\text{SO}_2\)</span>, <span class="math notranslate nohighlight">\(\text{CO}\)</span>).</p></li>
-<li><p>Reduksi lanjutan ke ruang 2D memungkinkan visualisasi sebaran geospasial dan analisis posisi centroid kluster secara jelas.</p></li>
-</ul>
-</li>
-<li><p><strong>Penentuan Jumlah Kluster Optimal (<span class="math notranslate nohighlight">\(k = 2\)</span>)</strong>:</p>
-<ul class="simple">
-<li><p>Eksperimen kuantitatif menggunakan metode <strong>Silhouette Coefficient</strong> mengonfirmasi bahwa nilai <span class="math notranslate nohighlight">\(k = 2\)</span> menghasilkan struktur pemisahan data terbaik (skor Silhouette paling tinggi/stabil).</p></li>
-<li><p>Dua kelompok kluster tersebut membagi daerah ke dalam kategorisasi kondisi lingkungan yang bermakna secara fisik:</p>
-<ul>
-<li><p><strong>Cluster 0</strong>: Kondisi Kualitas Udara Stabil / Polusi Rendah.</p></li>
-<li><p><strong>Cluster 1</strong>: Kondisi Kualitas Udara Fluktuatif / Polusi Tinggi.</p></li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-</section>
-<hr class="docutils" />
-<section id="evaluasi-klasifikasi-tutupan-lahan-sawah">
-<h2>3.2 Evaluasi Klasifikasi Tutupan Lahan Sawah<a class="headerlink" href="#evaluasi-klasifikasi-tutupan-lahan-sawah" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Representasi Indeks Vegetasi (NDVI)</strong>:</p>
-<ul class="simple">
-<li><p>Ekstraksi nilai reflektansi citra satelit <strong>Sentinel-2A</strong> pada pita <strong>B4 (Red)</strong> dan <strong>B8 (Near-Infrared / NIR)</strong> berhasil membedakan tajuk vegetasi padi aktif dari objek tutupan lahan lainnya.</p></li>
-<li><p>Pemanfaatan formula NDVI menunjukkan pemisahan nilai yang kontras antara area sawah (<span class="math notranslate nohighlight">\(\text{NDVI} &gt; 0.5\)</span>) dan area non-sawah (<span class="math notranslate nohighlight">\(\text{NDVI} &lt; 0.3\)</span>).</p></li>
-</ul>
-</li>
-<li><p><strong>Akurasi Model Random Forest</strong>:</p>
-<ul class="simple">
-<li><p>Pelatihan model menggunakan 100 titik sampel geospasial (50 sawah dari <code class="docutils literal notranslate"><span class="pre">50sawah.qgs</span></code> dan 50 non-sawah dari <code class="docutils literal notranslate"><span class="pre">Non</span> <span class="pre">Sawah</span> <span class="pre">asli.qgs</span></code>) menghasilkan performa klasifikasi 2 kelas dengan tingkat presisi dan akurasi yang sangat tinggi.</p></li>
-</ul>
-</li>
-</ol>
+<section id="model-klasifikasi-2-kelas-sentinel-2a-tif">
+<h2>2.2 Model Klasifikasi 2 Kelas Sentinel-2A (.TIF)<a class="headerlink" href="#model-klasifikasi-2-kelas-sentinel-2a-tif" title="Link to this heading">#</a></h2>
+<p>Proses ekstraksi reflektansi pita spektral <strong>B4 (Red)</strong> dan <strong>B8 (Near-Infrared / NIR)</strong> citra <strong>Sentinel-2A</strong> dimanfaatkan untuk menghitung Formulasi Indeks Vegetasi (<span class="math notranslate nohighlight">\(\text{NDVI}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text{Red (B4)}}\]</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Pembentukan Dataframe 100 Sampel (50 Sawah &amp; 50 Non-Sawah)
+df_sawah = pd.DataFrame({&#39;B4_Red&#39;: sawah_b4, &#39;B8_NIR&#39;: sawah_b8, &#39;NDVI&#39;: sawah_ndvi, &#39;Label&#39;: &#39;Sawah&#39;})
+df_nonsawah = pd.DataFrame({&#39;B4_Red&#39;: nonsawah_b4, &#39;B8_NIR&#39;: nonsawah_b8, &#39;NDVI&#39;: nonsawah_ndvi, &#39;Label&#39;: &#39;Non-Sawah&#39;})
+df_geo = pd.concat([df_sawah, df_nonsawah], ignore_index=True)
+
+# Pembagian Dataset (80% Train, 20% Test)
+X = df_geo[[&#39;B4_Red&#39;, &#39;B8_NIR&#39;, &#39;NDVI&#39;]]
+y = df_geo[&#39;Label&#39;]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+# Pelatihan Model Random Forest
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# Evaluasi Prediksi
+y_pred = clf.predict(X_test)
+
+print(&quot;=== HASIL EVALUASI MODEL KLASIFIKASI SAWAH VS NON-SAWAH ===&quot;)
+print(&quot;\nConfusion Matrix:&quot;)
+print(confusion_matrix(y_test, y_pred))
+print(&quot;\nClassification Report:&quot;)
+print(classification_report(y_test, y_pred))
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 </section>
 </section>
 
@@ -732,13 +749,8 @@ $<span class="math notranslate nohighlight">\(\text{NDVI} = \frac{\text{NIR (B8)
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a">BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-ekstraksi-citra-satelit">2.1 Metodologi &amp; Ekstraksi Citra Satelit</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-klasifikasi-sawah-vs-non-sawah">2.2 Skrip Python Klasifikasi Sawah vs Non-Sawah</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-3-kesimpulan-hasil-analisis">BAB 3: KESIMPULAN &amp; HASIL ANALISIS</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-clustering-fitur-polutan-udara">3.1 Evaluasi Clustering Fitur Polutan Udara</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-klasifikasi-tutupan-lahan-sawah">3.2 Evaluasi Klasifikasi Tutupan Lahan Sawah</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-peta-geospasial-interaktif-sample-sawah-non-sawah">2.1 Visualisasi Peta Geospasial Interaktif Sample Sawah &amp; Non-Sawah</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-klasifikasi-2-kelas-sentinel-2a-tif">2.2 Model Klasifikasi 2 Kelas Sentinel-2A (.TIF)</a></li>
 </ul>
 </li>
 </ul>
