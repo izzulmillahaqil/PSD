@@ -134,49 +134,59 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 
-def get_coordinates_from_qgz(file_path):
+def extract_qgis_points(file_path):
     coords = []
     if not file_path or not os.path.exists(file_path):
         return coords
         
     try:
-        xml_data = None
+        xml_str = None
         if str(file_path).endswith('.qgz'):
             with zipfile.ZipFile(file_path, 'r') as z:
                 for fn in z.namelist():
                     if fn.endswith('.qgs'):
-                        xml_data = z.read(fn).decode('utf-8', errors='ignore')
+                        xml_str = z.read(fn).decode('utf-8', errors='ignore')
                         break
         elif str(file_path).endswith('.qgs'):
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                xml_data = f.read()
+                xml_str = f.read()
 
-        if xml_data:
-            # 1. Ekstrak WKT POINT(lon lat)
-            pattern_wkt = r'POINT\s*\(\s*([0-9\.]+)\s+([\-[0-9\.]+)\s*\)'
-            for lon, lat in re.findall(pattern_wkt, xml_data, re.IGNORECASE):
-                coords.append((float(lat), float(lon)))
-                
-            # 2. Ekstrak tag vertex/point XML
+        if xml_str:
+            # 1. Parsing seluruh tag XML secara bertingkat
+            try:
+                root = ET.fromstring(xml_str)
+                for elem in root.iter():
+                    # Cari semua atribut yang menyimpan koordinat x & y
+                    attr_keys = [k.lower() for k in elem.attrib.keys()]
+                    if 'x' in attr_keys and 'y' in attr_keys:
+                        try:
+                            x_val = float(elem.attrib[list(elem.attrib.keys())[attr_keys.index('x')]])
+                            y_val = float(elem.attrib[list(elem.attrib.keys())[attr_keys.index('y')]])
+                            # Koordinat Indonesia: Longitude (100–140), Latitude (-11–6)
+                            if 100 <= x_val <= 140 and -11 <= y_val <= 6:
+                                coords.append((y_val, x_val))
+                            elif 100 <= y_val <= 140 and -11 <= x_val <= 6:
+                                coords.append((x_val, y_val))
+                        except ValueError:
+                            pass
+            except Exception:
+                pass
+
+            # 2. Regex fallback jika struktur XML tidak standar
             if not coords:
-                pattern_v = r'(?:x|lon|longitude)=["\']([0-9\.]+)["\']\s+(?:y|lat|latitude)=["\']([\-[0-9\.]+)["\']'
-                for lon, lat in re.findall(pattern_v, xml_data, re.IGNORECASE):
-                    coords.append((float(lat), float(lon)))
-                    
-            # 3. Ekstrak sepasang koordinat angka desimal (Longitude ~111-115, Latitude ~-8 s/d -6)
-            if not coords:
-                pattern_coords = r'(11[1-4]\.[0-9]+)[\s,]+(\-7\.[0-9]+|\-8\.[0-9]+|\-6\.[0-9]+)'
-                for lon, lat in re.findall(pattern_coords, xml_data):
+                # Cari pola angka koordinat bujur (~111-115) & lintang (~-8 s/d -6)
+                pattern = r'([1-9][0-9]{2}\.[0-9]+)[\s,]+(\-[0-9]\.[0-9]+)'
+                for lon, lat in re.findall(pattern, xml_str):
                     coords.append((float(lat), float(lon)))
 
-            # Hilangkan duplikat jika ada
+            # Hilangkan duplikat koordinat
             coords = list(dict.fromkeys(coords))
     except Exception as e:
         print(f"Error parsing {file_path}: {e}")
         
     return coords
 
-# DETEKSI ABSOLUTE PATH DIREKTORI MATERI
+# DETEKSI LOKASI FILE .QGZ DENGAN ABSOLUTE PATH
 current_dir = Path.cwd()
 search_dirs = [
     current_dir,
@@ -195,16 +205,13 @@ for d in search_dirs:
     if p_ns.exists() and path_nonsawah is None:
         path_nonsawah = p_ns
 
-print(f"Path Sawah ditemukan: {path_sawah}")
-print(f"Path Non-Sawah ditemukan: {path_nonsawah}")
-
-coords_sawah = get_coordinates_from_qgz(path_sawah)
-coords_nonsawah = get_coordinates_from_qgz(path_nonsawah)
+coords_sawah = extract_qgis_points(path_sawah)
+coords_nonsawah = extract_qgis_points(path_nonsawah)
 
 print(f"Berhasil membaca {len(coords_sawah)} titik Sawah dari QGIS.")
 print(f"Berhasil membaca {len(coords_nonsawah)} titik Non-Sawah dari QGIS.")
 
-# Fallback hanya jika file corrupt/kosong
+# Fallback hanya jika file corrupt/hilang total
 if not coords_sawah:
     np.random.seed(42)
     coords_sawah = [(-7.310 + np.random.uniform(-0.02, 0.02), 112.730 + np.random.uniform(-0.02, 0.02)) for _ in range(50)]
@@ -219,6 +226,7 @@ nonsawah_lats, nonsawah_lons = zip(*coords_nonsawah)
 center_lat = np.mean(sawah_lats + nonsawah_lats)
 center_lon = np.mean(sawah_lons + nonsawah_lons)
 
+# Simulasikan Fitur Spektral B4 (Red) & B8 (NIR)
 np.random.seed(42)
 sawah_b4 = np.random.uniform(0.02, 0.08, len(sawah_lats))
 sawah_b8 = np.random.uniform(0.35, 0.65, len(sawah_lats))
@@ -228,6 +236,7 @@ nonsawah_b4 = np.random.uniform(0.12, 0.30, len(nonsawah_lats))
 nonsawah_b8 = np.random.uniform(0.15, 0.28, len(nonsawah_lats))
 nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
 
+# RENDERING PETA INTERAKTIF FOLIUM
 m = folium.Map(location=[center_lat, center_lon], zoom_start=11, tiles="OpenStreetMap")
 
 folium.TileLayer(
