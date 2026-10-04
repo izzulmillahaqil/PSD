@@ -136,7 +136,7 @@ from pathlib import Path
 
 def get_coordinates_from_qgz(file_path):
     coords = []
-    if not os.path.exists(file_path):
+    if not file_path or not os.path.exists(file_path):
         return coords
         
     try:
@@ -152,19 +152,28 @@ def get_coordinates_from_qgz(file_path):
                 xml_data = f.read()
 
         if xml_data:
-            # Match WKT POINT(lon lat)
-            pattern = r'POINT\s*\(\s*([0-9\.]+)\s+([\-[0-9\.]+)\s*\)'
-            matches = re.findall(pattern, xml_data, re.IGNORECASE)
-            
-            for lon, lat in matches:
+            # 1. Regex untuk format WKT Point
+            pattern_wkt = r'POINT\s*\(\s*([0-9\.]+)\s+([\-[0-9\.]+)\s*\)'
+            matches_wkt = re.findall(pattern_wkt, xml_data, re.IGNORECASE)
+            for lon, lat in matches_wkt:
                 coords.append((float(lat), float(lon)))
                 
+            # 2. Jika tidak ada WKT, Regex untuk tag XML vertex x/y QGIS
+            if not coords:
+                pattern_xml = r'<vertex[^>]*x="([0-9\.]+)"[^>]*y="([\-[0-9\.]+)"'
+                matches_xml = re.findall(pattern_xml, xml_data, re.IGNORECASE)
+                for x, y in matches_xml:
+                    # x = Longitude, y = Latitude
+                    coords.append((float(y), float(x)))
+                    
+            # 3. Fallback pencarian tag point umum di QGIS
             if not coords:
                 root = ET.fromstring(xml_data)
                 for elem in root.iter():
-                    if 'x' in elem.attrib and 'y' in elem.attrib:
+                    attribs = {k.lower(): v for k, v in elem.attrib.items()}
+                    if 'x' in attribs and 'y' in attribs:
                         try:
-                            x, y = float(elem.attrib['x']), float(elem.attrib['y'])
+                            x, y = float(attribs['x']), float(attribs['y'])
                             if y < 0 and x > 0:
                                 coords.append((y, x))
                             elif x < 0 and y > 0:
@@ -177,13 +186,11 @@ def get_coordinates_from_qgz(file_path):
     return coords
 
 # DETEKSI ABSOLUTE PATH DIREKTORI MATERI
-# Mencari folder 'materi' di mana pun jupyter-cache mengeksekusi skrip
 current_dir = Path.cwd()
 search_dirs = [
     current_dir,
     current_dir / "materi",
-    Path("C:/Users/LENOVO/Documents/PSD/materi"),
-    Path(__file__).parent if '__file__' in globals() else current_dir
+    Path("C:/Users/LENOVO/Documents/PSD/materi")
 ]
 
 path_sawah = None
@@ -197,16 +204,13 @@ for d in search_dirs:
     if p_ns.exists() and path_nonsawah is None:
         path_nonsawah = p_ns
 
-print(f"Path Sawah ditemukan: {path_sawah}")
-print(f"Path Non-Sawah ditemukan: {path_nonsawah}")
-
-coords_sawah = get_coordinates_from_qgz(path_sawah) if path_sawah else []
-coords_nonsawah = get_coordinates_from_qgz(path_nonsawah) if path_nonsawah else []
+coords_sawah = get_coordinates_from_qgz(path_sawah)
+coords_nonsawah = get_coordinates_from_qgz(path_nonsawah)
 
 print(f"Berhasil membaca {len(coords_sawah)} titik Sawah dari QGIS.")
 print(f"Berhasil membaca {len(coords_nonsawah)} titik Non-Sawah dari QGIS.")
 
-# Fallback hanya jika file hilang total
+# Fallback hanya jika file corrupt/hilang
 if not coords_sawah:
     np.random.seed(42)
     coords_sawah = [(-7.310 + np.random.uniform(-0.02, 0.02), 112.730 + np.random.uniform(-0.02, 0.02)) for _ in range(50)]
