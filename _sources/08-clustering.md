@@ -125,97 +125,23 @@ Di bawah ini adalah peta geospasial interaktif berbasis **Folium (Leaflet.js)** 
 :tags: [hide-input]
 
 import os
-import zipfile
-import sqlite3
-import tempfile
 import folium
 from folium.plugins import MeasureControl
 import numpy as np
 import pandas as pd
 from pathlib import Path
 
-def extract_coords_from_qgz_db(qgz_path):
-    coords = []
-    if not qgz_path or not os.path.exists(qgz_path):
-        return coords
-        
-    try:
-        # Ekstrak file .db yang ada di dalam .qgz
-        with tempfile.TemporaryDirectory() as tmpdir:
-            with zipfile.ZipFile(qgz_path, 'r') as z:
-                z.extractall(tmpdir)
-                
-            # Cari file .db di hasil ekstraksi
-            db_files = [os.path.join(tmpdir, f) for f in os.listdir(tmpdir) if f.endswith('.db')]
-            
-            for db_file in db_files:
-                conn = sqlite3.connect(db_file)
-                cursor = conn.cursor()
-                
-                # Dapatkan daftar tabel
-                cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-                tables = cursor.fetchall()
-                
-                for tbl in tables:
-                    table_name = tbl[0]
-                    try:
-                        # Pindai tabel yang menyimpan geometri / koordinat
-                        cursor.execute(f"PRAGMA table_info('{table_name}');")
-                        cols = [c[1].lower() for c in cursor.fetchall()]
-                        
-                        if 'x' in cols and 'y' in cols:
-                            cursor.execute(f"SELECT x, y FROM '{table_name}'")
-                            rows = cursor.fetchall()
-                            for x, y in rows:
-                                if 100 <= x <= 140 and -11 <= y <= 6:
-                                    coords.append((y, x))
-                    except Exception:
-                        continue
-                conn.close()
-    except Exception as e:
-        print(f"Error reading DB in {qgz_path}: {e}")
-        
-    return coords
-
-# DETEKSI LOKASI FILE .QGZ
+# DETEKSI LOKASI FILE GEOJSON
 current_dir = Path.cwd()
 search_dirs = [current_dir, current_dir / "materi", Path("C:/Users/LENOVO/Documents/PSD/materi")]
 
-path_sawah = next((d / "50sawah.qgz" for d in search_dirs if (d / "50sawah.qgz").exists()), None)
-path_nonsawah = next((d / "Non Sawah asli.qgz" for d in search_dirs if (d / "Non Sawah asli.qgz").exists()), None)
+path_sawah = next((d / "sawah.geojson" for d in search_dirs if (d / "sawah.geojson").exists()), None)
+path_nonsawah = next((d / "nonsawah.geojson" for d in search_dirs if (d / "nonsawah.geojson").exists()), None)
 
-coords_sawah = extract_coords_from_qgz_db(path_sawah)
-coords_nonsawah = extract_coords_from_qgz_db(path_nonsawah)
+# INISIALISASI PETA FOLIUM (Pusat Koordinat Area Sawah Surabaya - Sidoarjo)
+m = folium.Map(location=[-7.2980, 112.6662], zoom_start=13, tiles="OpenStreetMap")
 
-print(f"Berhasil membaca {len(coords_sawah)} titik Sawah dari QGIS Database.")
-print(f"Berhasil membaca {len(coords_nonsawah)} titik Non-Sawah dari QGIS Database.")
-
-# Fallback jika SQLite internal berupa blob WKB
-if not coords_sawah or not coords_nonsawah:
-    # Koordinat Sampel Presisi Area Sawah & Non-Sawah Surabaya / Sidoarjo
-    np.random.seed(42)
-    coords_sawah = [(-7.400 + np.random.uniform(-0.015, 0.015), 112.720 + np.random.uniform(-0.015, 0.015)) for _ in range(50)]
-    coords_nonsawah = [(-7.280 + np.random.uniform(-0.015, 0.015), 112.740 + np.random.uniform(-0.015, 0.015)) for _ in range(50)]
-
-sawah_lats, sawah_lons = zip(*coords_sawah)
-nonsawah_lats, nonsawah_lons = zip(*coords_nonsawah)
-
-center_lat = np.mean(sawah_lats + nonsawah_lats)
-center_lon = np.mean(sawah_lons + nonsawah_lons)
-
-# Simulasikan Nilai NDVI Sentinel-2A
-np.random.seed(42)
-sawah_b4 = np.random.uniform(0.02, 0.08, len(sawah_lats))
-sawah_b8 = np.random.uniform(0.35, 0.65, len(sawah_lats))
-sawah_ndvi = (sawah_b8 - sawah_b4) / (sawah_b8 + sawah_b4)
-
-nonsawah_b4 = np.random.uniform(0.12, 0.30, len(nonsawah_lats))
-nonsawah_b8 = np.random.uniform(0.15, 0.28, len(nonsawah_lats))
-nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
-
-# MAP FOLIUM
-m = folium.Map(location=[center_lat, center_lon], zoom_start=12, tiles="OpenStreetMap")
-
+# Layer Google Satellite Hybrid
 folium.TileLayer(
     tiles='[https://mt1.google.com/vt/lyrs=y&x=](https://mt1.google.com/vt/lyrs=y&x=){x}&y={y}&z={z}',
     attr='Google Satellite',
@@ -224,30 +150,21 @@ folium.TileLayer(
     control=True
 ).add_to(m)
 
-layer_sawah = folium.FeatureGroup(name='50 Sampel Sawah (Hijau)').add_to(m)
-layer_nonsawah = folium.FeatureGroup(name='50 Sampel Non-Sawah (Merah)').add_to(m)
+# TAMPILKAN LAYER SAWAH (POLYGON/POINT DARI QGIS)
+if path_sawah:
+    folium.GeoJson(
+        str(path_sawah),
+        name='50 Sampel Sawah (Hijau)',
+        style_function=lambda x: {'fillColor': '#00ff00', 'color': '#006400', 'weight': 2, 'fillOpacity': 0.6}
+    ).add_to(m)
 
-for lat, lon, ndvi in zip(sawah_lats, sawah_lons, sawah_ndvi):
-    folium.CircleMarker(
-        location=[lat, lon],
-        radius=6,
-        popup=f"<b>Kelas:</b> Sawah<br><b>Lat:</b> {lat:.5f}<br><b>Lon:</b> {lon:.5f}<br><b>NDVI:</b> {ndvi:.3f}",
-        color="darkgreen",
-        fill=True,
-        fill_color="lime",
-        fill_opacity=0.85
-    ).add_to(layer_sawah)
-
-for lat, lon, ndvi in zip(nonsawah_lats, nonsawah_lons, nonsawah_ndvi):
-    folium.CircleMarker(
-        location=[lat, lon],
-        radius=6,
-        popup=f"<b>Kelas:</b> Non-Sawah<br><b>Lat:</b> {lat:.5f}<br><b>Lon:</b> {lon:.5f}<br><b>NDVI:</b> {ndvi:.3f}",
-        color="darkred",
-        fill=True,
-        fill_color="red",
-        fill_opacity=0.85
-    ).add_to(layer_nonsawah)
+# TAMPILKAN LAYER NON-SAWAH
+if path_nonsawah:
+    folium.GeoJson(
+        str(path_nonsawah),
+        name='50 Sampel Non-Sawah (Merah)',
+        style_function=lambda x: {'fillColor': '#ff0000', 'color': '#8b0000', 'weight': 2, 'fillOpacity': 0.6}
+    ).add_to(m)
 
 folium.LayerControl(collapsed=False).add_to(m)
 m.add_child(MeasureControl())
