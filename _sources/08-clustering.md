@@ -132,43 +132,40 @@ import folium
 from folium.plugins import MeasureControl
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 def get_coordinates_from_qgz(file_path):
     coords = []
     if not os.path.exists(file_path):
-        print(f"File {file_path} tidak ditemukan!")
         return coords
         
     try:
-        # Extract .qgs XML inside .qgz zip file
         xml_data = None
-        if file_path.endswith('.qgz'):
+        if str(file_path).endswith('.qgz'):
             with zipfile.ZipFile(file_path, 'r') as z:
                 for fn in z.namelist():
                     if fn.endswith('.qgs'):
                         xml_data = z.read(fn).decode('utf-8', errors='ignore')
                         break
-        elif file_path.endswith('.qgs'):
+        elif str(file_path).endswith('.qgs'):
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 xml_data = f.read()
 
         if xml_data:
-            # Gunakan Regex untuk mencocokkan koordinat WKT/Point atau koordinat X,Y di QGIS
-            # Pattern mencari angka koordinat bujur (111-115) dan lintang (-8 s/d -6)
+            # Match WKT POINT(lon lat)
             pattern = r'POINT\s*\(\s*([0-9\.]+)\s+([\-[0-9\.]+)\s*\)'
             matches = re.findall(pattern, xml_data, re.IGNORECASE)
             
             for lon, lat in matches:
                 coords.append((float(lat), float(lon)))
                 
-            # Jika tidak ditemukan format WKT, cari format <point> x="..." y="..." </point>
             if not coords:
                 root = ET.fromstring(xml_data)
                 for elem in root.iter():
                     if 'x' in elem.attrib and 'y' in elem.attrib:
                         try:
                             x, y = float(elem.attrib['x']), float(elem.attrib['y'])
-                            if y < 0 and x > 0: # lat < 0, lon > 0
+                            if y < 0 and x > 0:
                                 coords.append((y, x))
                             elif x < 0 and y > 0:
                                 coords.append((x, y))
@@ -179,29 +176,37 @@ def get_coordinates_from_qgz(file_path):
         
     return coords
 
-# Cek beberapa kemungkinan lokasi path agar file .qgz selalu ketemu
-possible_paths_sawah = [
-    "50sawah.qgz",
-    "materi/50sawah.qgz",
-    "PSD/materi/50sawah.qgz",
-    os.path.join(os.path.dirname(__file__), "50sawah.qgz") if '__file__' in globals() else "50sawah.qgz"
-]
-possible_paths_nonsawah = [
-    "Non Sawah asli.qgz",
-    "materi/Non Sawah asli.qgz",
-    "PSD/materi/Non Sawah asli.qgz",
-    os.path.join(os.path.dirname(__file__), "Non Sawah asli.qgz") if '__file__' in globals() else "Non Sawah asli.qgz"
+# DETEKSI ABSOLUTE PATH DIREKTORI MATERI
+# Mencari folder 'materi' di mana pun jupyter-cache mengeksekusi skrip
+current_dir = Path.cwd()
+search_dirs = [
+    current_dir,
+    current_dir / "materi",
+    Path("C:/Users/LENOVO/Documents/PSD/materi"),
+    Path(__file__).parent if '__file__' in globals() else current_dir
 ]
 
-path_sawah = next((p for p in possible_paths_sawah if os.path.exists(p)), "50sawah.qgz")
-path_nonsawah = next((p for p in possible_paths_nonsawah if os.path.exists(p)), "Non Sawah asli.qgz")
-coords_sawah = get_coordinates_from_qgz(path_sawah)
-coords_nonsawah = get_coordinates_from_qgz(path_nonsawah)
+path_sawah = None
+path_nonsawah = None
+
+for d in search_dirs:
+    p_s = d / "50sawah.qgz"
+    p_ns = d / "Non Sawah asli.qgz"
+    if p_s.exists() and path_sawah is None:
+        path_sawah = p_s
+    if p_ns.exists() and path_nonsawah is None:
+        path_nonsawah = p_ns
+
+print(f"Path Sawah ditemukan: {path_sawah}")
+print(f"Path Non-Sawah ditemukan: {path_nonsawah}")
+
+coords_sawah = get_coordinates_from_qgz(path_sawah) if path_sawah else []
+coords_nonsawah = get_coordinates_from_qgz(path_nonsawah) if path_nonsawah else []
 
 print(f"Berhasil membaca {len(coords_sawah)} titik Sawah dari QGIS.")
 print(f"Berhasil membaca {len(coords_nonsawah)} titik Non-Sawah dari QGIS.")
 
-# Fallback otomatis jika path belum terdeteksi saat jb build
+# Fallback hanya jika file hilang total
 if not coords_sawah:
     np.random.seed(42)
     coords_sawah = [(-7.310 + np.random.uniform(-0.02, 0.02), 112.730 + np.random.uniform(-0.02, 0.02)) for _ in range(50)]
@@ -213,11 +218,9 @@ if not coords_nonsawah:
 sawah_lats, sawah_lons = zip(*coords_sawah)
 nonsawah_lats, nonsawah_lons = zip(*coords_nonsawah)
 
-# Titik pusat peta
 center_lat = np.mean(sawah_lats + nonsawah_lats)
 center_lon = np.mean(sawah_lons + nonsawah_lons)
 
-# Generasi fitur spectral simulasi B4 & B8 Sentinel-2A
 np.random.seed(42)
 sawah_b4 = np.random.uniform(0.02, 0.08, len(sawah_lats))
 sawah_b8 = np.random.uniform(0.35, 0.65, len(sawah_lats))
@@ -227,7 +230,6 @@ nonsawah_b4 = np.random.uniform(0.12, 0.30, len(nonsawah_lats))
 nonsawah_b8 = np.random.uniform(0.15, 0.28, len(nonsawah_lats))
 nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
 
-# Render Folium Map
 m = folium.Map(location=[center_lat, center_lon], zoom_start=11, tiles="OpenStreetMap")
 
 folium.TileLayer(
