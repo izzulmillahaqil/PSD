@@ -125,6 +125,7 @@ Di bawah ini adalah peta geospasial interaktif berbasis **Folium (Leaflet.js)** 
 :tags: [hide-input]
 
 import os
+import re
 import zipfile
 import xml.etree.ElementTree as ET
 import folium
@@ -132,69 +133,79 @@ from folium.plugins import MeasureControl
 import numpy as np
 import pandas as pd
 
-def extract_coords_from_qgis(file_path):
-    """Mengekstrak koordinat (lat, lon) dari file .qgz atau .qgs"""
+def get_coordinates_from_qgz(file_path):
     coords = []
-    xml_content = None
-    
-    # 1. Jika file .qgz (Zip), ekstrak file .qgs di dalamnya
-    if file_path.endswith('.qgz'):
-        with zipfile.ZipFile(file_path, 'r') as z:
-            for filename in z.namelist():
-                if filename.endswith('.qgs'):
-                    xml_content = z.read(filename)
-                    break
-    elif file_path.endswith('.qgs'):
-        with open(file_path, 'rb') as f:
-            xml_content = f.read()
-            
-    if xml_content is None:
+    if not os.path.exists(file_path):
+        print(f"File {file_path} tidak ditemukan!")
         return coords
+        
+    try:
+        # Extract .qgs XML inside .qgz zip file
+        xml_data = None
+        if file_path.endswith('.qgz'):
+            with zipfile.ZipFile(file_path, 'r') as z:
+                for fn in z.namelist():
+                    if fn.endswith('.qgs'):
+                        xml_data = z.read(fn).decode('utf-8', errors='ignore')
+                        break
+        elif file_path.endswith('.qgs'):
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                xml_data = f.read()
 
-    # 2. Parse XML QGIS
-    root = ET.fromstring(xml_content)
-    
-    # Cari tag WKT/geometry point di dalam XML QGIS
-    for elem in root.iter():
-        if elem.text and 'POINT' in elem.text.upper():
-            try:
-                # Contoh format: POINT(112.730 -7.310) -> lon, lat
-                text = elem.text.strip()
-                pt_str = text.split('(')[1].split(')')[0]
-                parts = pt_str.replace(',', ' ').split()
-                lon, lat = float(parts[0]), float(parts[1])
-                coords.append((lat, lon))
-            except Exception:
-                continue
+        if xml_data:
+            # Gunakan Regex untuk mencocokkan koordinat WKT/Point atau koordinat X,Y di QGIS
+            # Pattern mencari angka koordinat bujur (111-115) dan lintang (-8 s/d -6)
+            pattern = r'POINT\s*\(\s*([0-9\.]+)\s+([\-[0-9\.]+)\s*\)'
+            matches = re.findall(pattern, xml_data, re.IGNORECASE)
+            
+            for lon, lat in matches:
+                coords.append((float(lat), float(lon)))
                 
+            # Jika tidak ditemukan format WKT, cari format <point> x="..." y="..." </point>
+            if not coords:
+                root = ET.fromstring(xml_data)
+                for elem in root.iter():
+                    if 'x' in elem.attrib and 'y' in elem.attrib:
+                        try:
+                            x, y = float(elem.attrib['x']), float(elem.attrib['y'])
+                            if y < 0 and x > 0: # lat < 0, lon > 0
+                                coords.append((y, x))
+                            elif x < 0 and y > 0:
+                                coords.append((x, y))
+                        except ValueError:
+                            continue
+    except Exception as e:
+        print(f"Error parsing {file_path}: {e}")
+        
     return coords
 
-# PATH KE FILE QGIS KAMU
-file_sawah = "50sawah.qgz"
-file_nonsawah = "Non Sawah asli.qgz"
+# Path lokasi file QGIS
+path_sawah = "50sawah.qgz"
+path_nonsawah = "Non Sawah asli.qgz"
 
-# Ambil koordinat asli dari file
-coords_sawah = extract_coords_from_qgis(file_sawah) if os.path.exists(file_sawah) else []
-coords_nonsawah = extract_coords_from_qgis(file_nonsawah) if os.path.exists(file_nonsawah) else []
+coords_sawah = get_coordinates_from_qgz(path_sawah)
+coords_nonsawah = get_coordinates_from_qgz(path_nonsawah)
 
-# Fallback jika file tidak ditemukan saat build
+print(f"Berhasil membaca {len(coords_sawah)} titik Sawah dari QGIS.")
+print(f"Berhasil membaca {len(coords_nonsawah)} titik Non-Sawah dari QGIS.")
+
+# Fallback otomatis jika path belum terdeteksi saat jb build
 if not coords_sawah:
     np.random.seed(42)
-    coords_sawah = [(-7.310 + np.random.uniform(-0.03, 0.03), 112.730 + np.random.uniform(-0.03, 0.03)) for _ in range(50)]
+    coords_sawah = [(-7.310 + np.random.uniform(-0.02, 0.02), 112.730 + np.random.uniform(-0.02, 0.02)) for _ in range(50)]
 
 if not coords_nonsawah:
     np.random.seed(42)
-    coords_nonsawah = [(-7.310 + np.random.uniform(-0.03, 0.03), 112.730 + np.random.uniform(-0.03, 0.03)) for _ in range(50)]
+    coords_nonsawah = [(-7.310 + np.random.uniform(-0.02, 0.02), 112.730 + np.random.uniform(-0.02, 0.02)) for _ in range(50)]
 
-# Ekstrak Lat & Lon
-sawah_lats, sawah_lons = zip(*coords_sawah) if coords_sawah else ([], [])
-nonsawah_lats, nonsawah_lons = zip(*coords_nonsawah) if coords_nonsawah else ([], [])
+sawah_lats, sawah_lons = zip(*coords_sawah)
+nonsawah_lats, nonsawah_lons = zip(*coords_nonsawah)
 
-# Hitung titik tengah peta berdasarkan rerata koordinat asli
-center_lat = float(np.mean(sawah_lats + nonsawah_lats))
-center_lon = float(np.mean(sawah_lons + nonsawah_lons))
+# Titik pusat peta
+center_lat = np.mean(sawah_lats + nonsawah_lats)
+center_lon = np.mean(sawah_lons + nonsawah_lons)
 
-# Simulasi Reflektansi Sentinel-2A untuk NDVI
+# Generasi fitur spectral simulasi B4 & B8 Sentinel-2A
 np.random.seed(42)
 sawah_b4 = np.random.uniform(0.02, 0.08, len(sawah_lats))
 sawah_b8 = np.random.uniform(0.35, 0.65, len(sawah_lats))
@@ -204,8 +215,8 @@ nonsawah_b4 = np.random.uniform(0.12, 0.30, len(nonsawah_lats))
 nonsawah_b8 = np.random.uniform(0.15, 0.28, len(nonsawah_lats))
 nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
 
-# BUILD PETA FOLIUM
-m = folium.Map(location=[center_lat, center_lon], zoom_start=12, tiles="OpenStreetMap")
+# Render Folium Map
+m = folium.Map(location=[center_lat, center_lon], zoom_start=11, tiles="OpenStreetMap")
 
 folium.TileLayer(
     tiles='[https://mt1.google.com/vt/lyrs=y&x=](https://mt1.google.com/vt/lyrs=y&x=){x}&y={y}&z={z}',
@@ -215,8 +226,8 @@ folium.TileLayer(
     control=True
 ).add_to(m)
 
-layer_sawah = folium.FeatureGroup(name='50 Sampel Sawah (Green)').add_to(m)
-layer_nonsawah = folium.FeatureGroup(name='50 Sampel Non-Sawah (Red)').add_to(m)
+layer_sawah = folium.FeatureGroup(name='50 Sampel Sawah (Hijau)').add_to(m)
+layer_nonsawah = folium.FeatureGroup(name='50 Sampel Non-Sawah (Merah)').add_to(m)
 
 for lat, lon, ndvi in zip(sawah_lats, sawah_lons, sawah_ndvi):
     folium.CircleMarker(
@@ -226,7 +237,7 @@ for lat, lon, ndvi in zip(sawah_lats, sawah_lons, sawah_ndvi):
         color="darkgreen",
         fill=True,
         fill_color="lime",
-        fill_opacity=0.8
+        fill_opacity=0.85
     ).add_to(layer_sawah)
 
 for lat, lon, ndvi in zip(nonsawah_lats, nonsawah_lons, nonsawah_ndvi):
@@ -237,14 +248,13 @@ for lat, lon, ndvi in zip(nonsawah_lats, nonsawah_lons, nonsawah_ndvi):
         color="darkred",
         fill=True,
         fill_color="red",
-        fill_opacity=0.8
+        fill_opacity=0.85
     ).add_to(layer_nonsawah)
 
 folium.LayerControl(collapsed=False).add_to(m)
 m.add_child(MeasureControl())
 
 m
-
 ```
 
 ## 2.2 Model Klasifikasi 2 Kelas Sentinel-2A (.TIF)
