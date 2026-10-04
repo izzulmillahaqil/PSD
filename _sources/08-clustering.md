@@ -179,10 +179,22 @@ def get_coordinates_from_qgz(file_path):
         
     return coords
 
-# Path lokasi file QGIS
-path_sawah = "50sawah.qgz"
-path_nonsawah = "Non Sawah asli.qgz"
+# Cek beberapa kemungkinan lokasi path agar file .qgz selalu ketemu
+possible_paths_sawah = [
+    "50sawah.qgz",
+    "materi/50sawah.qgz",
+    "PSD/materi/50sawah.qgz",
+    os.path.join(os.path.dirname(__file__), "50sawah.qgz") if '__file__' in globals() else "50sawah.qgz"
+]
+possible_paths_nonsawah = [
+    "Non Sawah asli.qgz",
+    "materi/Non Sawah asli.qgz",
+    "PSD/materi/Non Sawah asli.qgz",
+    os.path.join(os.path.dirname(__file__), "Non Sawah asli.qgz") if '__file__' in globals() else "Non Sawah asli.qgz"
+]
 
+path_sawah = next((p for p in possible_paths_sawah if os.path.exists(p)), "50sawah.qgz")
+path_nonsawah = next((p for p in possible_paths_nonsawah if os.path.exists(p)), "Non Sawah asli.qgz")
 coords_sawah = get_coordinates_from_qgz(path_sawah)
 coords_nonsawah = get_coordinates_from_qgz(path_nonsawah)
 
