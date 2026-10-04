@@ -152,34 +152,25 @@ def get_coordinates_from_qgz(file_path):
                 xml_data = f.read()
 
         if xml_data:
-            # 1. Regex untuk format WKT Point
+            # 1. Ekstrak WKT POINT(lon lat)
             pattern_wkt = r'POINT\s*\(\s*([0-9\.]+)\s+([\-[0-9\.]+)\s*\)'
-            matches_wkt = re.findall(pattern_wkt, xml_data, re.IGNORECASE)
-            for lon, lat in matches_wkt:
+            for lon, lat in re.findall(pattern_wkt, xml_data, re.IGNORECASE):
                 coords.append((float(lat), float(lon)))
                 
-            # 2. Jika tidak ada WKT, Regex untuk tag XML vertex x/y QGIS
+            # 2. Ekstrak tag vertex/point XML
             if not coords:
-                pattern_xml = r'<vertex[^>]*x="([0-9\.]+)"[^>]*y="([\-[0-9\.]+)"'
-                matches_xml = re.findall(pattern_xml, xml_data, re.IGNORECASE)
-                for x, y in matches_xml:
-                    # x = Longitude, y = Latitude
-                    coords.append((float(y), float(x)))
+                pattern_v = r'(?:x|lon|longitude)=["\']([0-9\.]+)["\']\s+(?:y|lat|latitude)=["\']([\-[0-9\.]+)["\']'
+                for lon, lat in re.findall(pattern_v, xml_data, re.IGNORECASE):
+                    coords.append((float(lat), float(lon)))
                     
-            # 3. Fallback pencarian tag point umum di QGIS
+            # 3. Ekstrak sepasang koordinat angka desimal (Longitude ~111-115, Latitude ~-8 s/d -6)
             if not coords:
-                root = ET.fromstring(xml_data)
-                for elem in root.iter():
-                    attribs = {k.lower(): v for k, v in elem.attrib.items()}
-                    if 'x' in attribs and 'y' in attribs:
-                        try:
-                            x, y = float(attribs['x']), float(attribs['y'])
-                            if y < 0 and x > 0:
-                                coords.append((y, x))
-                            elif x < 0 and y > 0:
-                                coords.append((x, y))
-                        except ValueError:
-                            continue
+                pattern_coords = r'(11[1-4]\.[0-9]+)[\s,]+(\-7\.[0-9]+|\-8\.[0-9]+|\-6\.[0-9]+)'
+                for lon, lat in re.findall(pattern_coords, xml_data):
+                    coords.append((float(lat), float(lon)))
+
+            # Hilangkan duplikat jika ada
+            coords = list(dict.fromkeys(coords))
     except Exception as e:
         print(f"Error parsing {file_path}: {e}")
         
@@ -204,13 +195,16 @@ for d in search_dirs:
     if p_ns.exists() and path_nonsawah is None:
         path_nonsawah = p_ns
 
+print(f"Path Sawah ditemukan: {path_sawah}")
+print(f"Path Non-Sawah ditemukan: {path_nonsawah}")
+
 coords_sawah = get_coordinates_from_qgz(path_sawah)
 coords_nonsawah = get_coordinates_from_qgz(path_nonsawah)
 
 print(f"Berhasil membaca {len(coords_sawah)} titik Sawah dari QGIS.")
 print(f"Berhasil membaca {len(coords_nonsawah)} titik Non-Sawah dari QGIS.")
 
-# Fallback hanya jika file corrupt/hilang
+# Fallback hanya jika file corrupt/kosong
 if not coords_sawah:
     np.random.seed(42)
     coords_sawah = [(-7.310 + np.random.uniform(-0.02, 0.02), 112.730 + np.random.uniform(-0.02, 0.02)) for _ in range(50)]
