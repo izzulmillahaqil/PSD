@@ -1,5 +1,14 @@
-# Laporan Tugas Sains Data (PSD)
-**Topik:** Analysis Clustering Fitur TSFEL Kualitas Udara & Klasifikasi Tutupan Lahan Sawah Sentinel-2A
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+---
+
+# 8. Clustering Fitur TSFEL & Klasifikasi Tutupan Lahan Sawah
+
+Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database MySQL**, reduksi dimensi multi-tahap (PCA), evaluasi kluster dengan *Silhouette Coefficient*, serta pemodelan klasifikasi tutupan lahan **Sawah vs Non-Sawah** berbasis citra satelit **Sentinel-2A**.
 
 ---
 
@@ -16,7 +25,9 @@
 
 ### 1.2 Skrip Python Clustering & Visualisasi PCA
 
-```python
+```{code-cell} ipython3
+:tags: [hide-input]
+
 import mysql.connector
 import numpy as np
 import pandas as pd
@@ -35,37 +46,35 @@ db_config = {
     'database': 'basisda1_PSD-A-Interpolasi'
 }
 
-print("Terhubung ke Database...")
-conn = mysql.connector.connect(**db_config)
+try:
+    print("Mencoba terhubung ke Database MySQL...")
+    conn = mysql.connector.connect(**db_config)
+    df_linier = pd.read_sql("SELECT * FROM ekstraksi_fitur_linier", conn)
+    df_poly = pd.read_sql("SELECT * FROM ekstraksi_fitur_polynomial", conn)
+    conn.close()
+    print("Berhasil mengambil data dari MySQL!")
+except Exception as e:
+    print(f"Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset untuk render jupyter-book...")
+    np.random.seed(42)
+    df_linier = pd.DataFrame(np.random.rand(37, 204))
+    df_poly = pd.DataFrame(np.random.rand(37, 204))
 
-# Membaca data dari tabel MySQL
-df_linier = pd.read_sql("SELECT * FROM ekstraksi_fitur_linier", conn)
-df_poly = pd.read_sql("SELECT * FROM ekstraksi_fitur_polynomial", conn)
-conn.close()
-
-# 2. PROSES REDUKSI DIMENSI & EXPERIMEN SILHOUETTE SCORE
 def process_clustering(df, title_prefix):
-    # Memisahkan metadata dan fitur numerik
     meta_cols = [c for c in ['id', 'nama', 'daerah', 'No', 'Nama', 'Daerah'] if c in df.columns]
     feature_cols = [c for c in df.columns if c not in meta_cols]
     
     X = df[feature_cols].values
-    
-    # Standardisasi data
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    # Reduksi Dimensi: 204 -> 74 Komponen Utama (PCA)
+    # Reduksi PCA 204 -> 74 -> 2D
     n_components_74 = min(74, X_scaled.shape[0], X_scaled.shape[1])
     pca_74 = PCA(n_components=n_components_74, random_state=42)
     X_74 = pca_74.fit_transform(X_scaled)
     
-    # Reduksi Dimensi ke 2D untuk Visualisasi
     pca_2d = PCA(n_components=2, random_state=42)
     X_2d = pca_2d.fit_transform(X_74)
     
-    # EKSPERIMEN SILHOUETTE COEFFICIENT
-    print(f"\n--- Eksperimen Silhouette Score ({title_prefix}) ---")
     best_k = 2
     best_score = -1
     
@@ -73,26 +82,17 @@ def process_clustering(df, title_prefix):
         km = KMeans(n_clusters=k, random_state=42, n_init=10)
         labels = km.fit_predict(X_2d)
         score = silhouette_score(X_2d, labels)
-        print(f"k = {k} | Silhouette Score: {score:.4f}")
-        
         if score > best_score:
             best_score = score
             best_k = k
             
-    print(f"-> Jumlah Cluster Optimal: k = {best_k} (Silhouette Score: {best_score:.4f})")
-    
-    # CLUSTERING DENGAN K OPTIMAL
     kmeans_opt = KMeans(n_clusters=best_k, random_state=42, n_init=10)
     final_labels = kmeans_opt.fit_predict(X_2d)
     
-    # VISUALISASI PETA SEGMENTASI CLUSTER 2D
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 5))
     plt.scatter(X_2d[:, 0], X_2d[:, 1], c=final_labels, cmap='viridis', s=80, edgecolors='k', alpha=0.8)
-    
-    # Centroid
     centroids = kmeans_opt.cluster_centers_
     plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='X', s=200, label='Centroid Cluster')
-    
     plt.title(f'Peta Segmentasi Clustering {title_prefix} (k={best_k})')
     plt.xlabel('Komponen Utama 1 (PCA)')
     plt.ylabel('Komponen Utama 2 (PCA)')
@@ -101,7 +101,6 @@ def process_clustering(df, title_prefix):
     plt.tight_layout()
     plt.show()
 
-# Jalankan untuk kedua tabel
 process_clustering(df_linier, "Tabel Fitur Linier")
 process_clustering(df_poly, "Tabel Fitur Polynomial")
 ```
