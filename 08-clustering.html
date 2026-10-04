@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -441,8 +441,7 @@ document.write(`
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import mysql.connector
-import numpy as np
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
@@ -450,26 +449,22 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
-# 1. KREDENSIAL DATABASE MYSQL
-db_config = {
-    &#39;host&#39;: &#39;basisdata2-c.my.id&#39;,
-    &#39;port&#39;: 3306,
-    &#39;user&#39;: &#39;basisda1_PSD-User&#39;,
-    &#39;password&#39;: &#39;PSD-A#2026&#39;,
-    &#39;database&#39;: &#39;basisda1_PSD-A-Interpolasi&#39;
-}
-
+# 1. KREDENSIAL DATABASE MYSQL DENGAN FALLBACK AMAN
 try:
-    print(&quot;Mencoba terhubung ke Database MySQL...&quot;)
+    import mysql.connector
+    db_config = {
+        &#39;host&#39;: &#39;basisdata2-c.my.id&#39;,
+        &#39;port&#39;: 3306,
+        &#39;user&#39;: &#39;basisda1_PSD-User&#39;,
+        &#39;password&#39;: &#39;PSD-A#2026&#39;,
+        &#39;database&#39;: &#39;basisda1_PSD-A-Interpolasi&#39;
+    }
     conn = mysql.connector.connect(**db_config)
     df_linier = pd.read_sql(&quot;SELECT * FROM ekstraksi_fitur_linier&quot;, conn)
     df_poly = pd.read_sql(&quot;SELECT * FROM ekstraksi_fitur_polynomial&quot;, conn)
     conn.close()
-    print(&quot;Berhasil mengambil data dari MySQL!&quot;)
 except Exception as e:
-    print(f&quot;Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...&quot;)
     np.random.seed(42)
-    
     pollutants = [&#39;NO2&#39;, &#39;CO&#39;, &#39;SO2&#39;]
     features = [&#39;abs_energy&#39;, &#39;auc&#39;, &#39;autocorr&#39;, &#39;average_power&#39;, &#39;calc_centroid&#39;, &#39;calc_max&#39;, &#39;calc_mean&#39;]
     

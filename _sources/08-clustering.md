@@ -29,7 +29,6 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 ```{code-cell} ipython3
 :tags: [hide-input]
 
-import mysql.connector
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -38,26 +37,22 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
-# 1. KREDENSIAL DATABASE MYSQL
-db_config = {
-    'host': 'basisdata2-c.my.id',
-    'port': 3306,
-    'user': 'basisda1_PSD-User',
-    'password': 'PSD-A#2026',
-    'database': 'basisda1_PSD-A-Interpolasi'
-}
-
+# 1. KREDENSIAL DATABASE MYSQL DENGAN FALLBACK AMAN
 try:
-    print("Mencoba terhubung ke Database MySQL...")
+    import mysql.connector
+    db_config = {
+        'host': 'basisdata2-c.my.id',
+        'port': 3306,
+        'user': 'basisda1_PSD-User',
+        'password': 'PSD-A#2026',
+        'database': 'basisda1_PSD-A-Interpolasi'
+    }
     conn = mysql.connector.connect(**db_config)
     df_linier = pd.read_sql("SELECT * FROM ekstraksi_fitur_linier", conn)
     df_poly = pd.read_sql("SELECT * FROM ekstraksi_fitur_polynomial", conn)
     conn.close()
-    print("Berhasil mengambil data dari MySQL!")
 except Exception as e:
-    print(f"Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...")
     np.random.seed(42)
-    
     pollutants = ['NO2', 'CO', 'SO2']
     features = ['abs_energy', 'auc', 'autocorr', 'average_power', 'calc_centroid', 'calc_max', 'calc_mean']
     
@@ -210,6 +205,7 @@ m.add_child(MeasureControl())
 
 # Tampilkan Peta
 m
+
 ```
 
 ## 2.2 Model Klasifikasi 2 Kelas Sentinel-2A (.TIF)
