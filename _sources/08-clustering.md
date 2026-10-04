@@ -27,7 +27,7 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 ### 1.2 Skrip Python Clustering & Perbandingan Per Polutan (Polynomial vs Linier)
 
 ```{code-cell} ipython3
-:tags: [hide-input]
+:tags: [remove-input]
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -58,7 +58,7 @@ except Exception as e:
     df_poly = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
     df_linier['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
     df_poly['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
-    
+
 def process_single_pollutant(df, pollutant_code, interpolation_type):
     meta_cols = [c for c in ['id', 'nama', 'daerah', 'No', 'Nama', 'Daerah'] if c in df.columns]
     pol_cols = [c for c in df.columns if c.lower().startswith(pollutant_code.lower()) and c not in meta_cols]
@@ -122,7 +122,7 @@ plt.show()
 Di bawah ini adalah peta geospasial interaktif berbasis **Folium (Leaflet.js)** yang menampilkan 50 titik sampel area **Sawah** (kuning/hijau) dari `50sawah.qgs` dan 50 titik sampel area **Non-Sawah** (merah) dari `Non Sawah asli.qgs`[cite: 18, 19]. Peta ini dapat di-zoom, digeser, dan dipilih layernya[cite: 18, 19].
 
 ```{code-cell} ipython3
-:tags: [hide-input]
+:tags: [remove-input]
 
 import folium
 from folium.plugins import MeasureControl
@@ -208,7 +208,7 @@ Proses ekstraksi reflektansi pita spektral **B4 (Red)** dan **B8 (Near-Infrared 
 $$\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text{Red (B4)}}$$
 
 ```{code-cell} ipython3
-:tags: [hide-input]
+:tags: [remove-input]
 
 import pandas as pd
 import numpy as np
