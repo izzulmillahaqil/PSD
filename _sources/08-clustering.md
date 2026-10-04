@@ -16,14 +16,15 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 
 ### 1.1 Metodologi & Alur Kerja
 1. **Penyimpanan Database MySQL**: Data 204 fitur TSFEL diunggah dan disimpan ke dalam dua tabel terpisah di database `basisda1_PSD-A-Interpolasi`, yaitu `ekstraksi_fitur_linier` dan `ekstraksi_fitur_polynomial`.
-2. **Reduksi Dimensi Multi-Tahap (PCA)**:
-   - **Tahap 1**: Reduksi fitur dari 204 fitur ke **74 komponen utama** untuk menghilangkan redundansi korelasi linier antar-fitur TSFEL.
+2. **Pemisahan Per Polutan & Jenis Interpolasi**: Fitur TSFEL dikelompokkan berdasarkan variabel polutan ($\text{NO}_2$, $\text{CO}$, $\text{SO}_2$) untuk masing-masing metode interpolasi (Polynomial dan Linier).
+3. **Reduksi Dimensi Multi-Tahap (PCA)**:
+   - **Tahap 1**: Reduksi fitur dari masing-masing polutan ke komponen utama menggunakan PCA.
    - **Tahap 2**: Proyeksi ke **2 komponen utama 2D** untuk pemetaan dan visualisasi ruang kluster.
-3. **Eksperimen Silhouette Coefficient**: Pengujian variasi jumlah kluster ($k = 2$ hingga $k = 5$) untuk menentukan struktur sebaran data paling optimal.
+4. **Eksperimen Silhouette Coefficient**: Pengujian variasi jumlah kluster ($k = 2$ hingga $k = 5$) untuk menentukan struktur sebaran data paling optimal.
 
 ---
 
-### 1.2 Skrip Python Clustering & Visualisasi PCA
+### 1.2 Skrip Python Clustering & Perbandingan Per Polutan (Polynomial vs Linier)
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -54,30 +55,43 @@ try:
     conn.close()
     print("Berhasil mengambil data dari MySQL!")
 except Exception as e:
-    print(f"Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset untuk render jupyter-book...")
+    print(f"Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...")
     np.random.seed(42)
-    df_linier = pd.DataFrame(np.random.rand(37, 204))
-    df_poly = pd.DataFrame(np.random.rand(37, 204))
-
-def process_clustering(df, title_prefix):
-    meta_cols = [c for c in ['id', 'nama', 'daerah', 'No', 'Nama', 'Daerah'] if c in df.columns]
-    feature_cols = [c for c in df.columns if c not in meta_cols]
     
-    X = df[feature_cols].values
+    # Generate dummy data dengan struktur kolom TSFEL
+    pollutants = ['NO2', 'CO', 'SO2']
+    features = ['abs_energy', 'auc', 'autocorr', 'average_power', 'calc_centroid', 'calc_max', 'calc_mean']
+    
+    cols = []
+    for pol in pollutants:
+        for feat in features:
+            cols.append(f"{pol}_{feat}")
+            
+    df_linier = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
+    df_poly = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
+    df_linier['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
+    df_poly['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
+
+def process_single_pollutant(df, pollutant_code, interpolation_type):
+    # Filter kolom berdasarkan prefix polutan (misal: NO2_, CO_, SO2_)
+    meta_cols = [c for c in ['id', 'nama', 'daerah', 'No', 'Nama', 'Daerah'] if c in df.columns]
+    pol_cols = [c for c in df.columns if c.lower().startswith(pollutant_code.lower()) and c not in meta_cols]
+    
+    if not pol_cols:
+        # Fallback jika nama kolom tidak menggunakan prefix polutan
+        pol_cols = [c for c in df.columns if c not in meta_cols]
+        
+    X = df[pol_cols].values
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    # Reduksi PCA 204 -> 74 -> 2D
-    n_components_74 = min(74, X_scaled.shape[0], X_scaled.shape[1])
-    pca_74 = PCA(n_components=n_components_74, random_state=42)
-    X_74 = pca_74.fit_transform(X_scaled)
-    
+    # Reduksi PCA ke 2D untuk Visualisasi
     pca_2d = PCA(n_components=2, random_state=42)
-    X_2d = pca_2d.fit_transform(X_74)
+    X_2d = pca_2d.fit_transform(X_scaled)
     
+    # Cari k terbaik berdasarkan Silhouette Score
     best_k = 2
     best_score = -1
-    
     for k in range(2, 6):
         km = KMeans(n_clusters=k, random_state=42, n_init=10)
         labels = km.fit_predict(X_2d)
@@ -89,20 +103,39 @@ def process_clustering(df, title_prefix):
     kmeans_opt = KMeans(n_clusters=best_k, random_state=42, n_init=10)
     final_labels = kmeans_opt.fit_predict(X_2d)
     
-    plt.figure(figsize=(10, 5))
-    plt.scatter(X_2d[:, 0], X_2d[:, 1], c=final_labels, cmap='viridis', s=80, edgecolors='k', alpha=0.8)
-    centroids = kmeans_opt.cluster_centers_
-    plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='X', s=200, label='Centroid Cluster')
-    plt.title(f'Peta Segmentasi Clustering {title_prefix} (k={best_k})')
-    plt.xlabel('Komponen Utama 1 (PCA)')
-    plt.ylabel('Komponen Utama 2 (PCA)')
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.tight_layout()
-    plt.show()
+    return X_2d, final_labels, kmeans_opt.cluster_centers_, best_k, best_score
 
-process_clustering(df_linier, "Tabel Fitur Linier")
-process_clustering(df_poly, "Tabel Fitur Polynomial")
+# POLUTAN DAN METODE INTERPOLASI
+pollutants = ['NO2', 'CO', 'SO2']
+
+# PERBANDINGAN PLOT (Polynomial vs Linier per Polutan)
+fig, axes = plt.subplots(3, 2, figsize=(15, 12))
+
+for idx, pol in enumerate(pollutants):
+    # 1. Processing Polynomial
+    X_poly_2d, labels_poly, centroids_poly, k_poly, score_poly = process_single_pollutant(df_poly, pol, "Polynomial")
+    ax_poly = axes[idx, 0]
+    ax_poly.scatter(X_poly_2d[:, 0], X_poly_2d[:, 1], c=labels_poly, cmap='viridis', s=60, edgecolors='k', alpha=0.8)
+    ax_poly.scatter(centroids_poly[:, 0], centroids_poly[:, 1], c='red', marker='X', s=150, label='Centroid')
+    ax_poly.set_title(f'Polynomial - {pol} (k={k_poly}, Sil Score: {score_poly:.3f})')
+    ax_poly.set_xlabel('PCA 1')
+    ax_poly.set_ylabel('PCA 2')
+    ax_poly.grid(True, linestyle='--', alpha=0.5)
+    
+    # 2. Processing Linier
+    X_lin_2d, labels_lin, centroids_lin, k_lin, score_lin = process_single_pollutant(df_linier, pol, "Linier")
+    ax_lin = axes[idx, 1]
+    ax_lin.scatter(X_lin_2d[:, 0], X_lin_2d[:, 1], c=labels_lin, cmap='plasma', s=60, edgecolors='k', alpha=0.8)
+    ax_lin.scatter(centroids_lin[:, 0], centroids_lin[:, 1], c='red', marker='X', s=150, label='Centroid')
+    ax_lin.set_title(f'Linier - {pol} (k={k_lin}, Sil Score: {score_lin:.3f})')
+    ax_lin.set_xlabel('PCA 1')
+    ax_lin.set_ylabel('PCA 2')
+    ax_lin.grid(True, linestyle='--', alpha=0.5)
+
+plt.suptitle('Perbandingan Scatter Plot Clustering PCA: Polynomial vs Linier per Polutan', fontsize=14, y=1.02)
+plt.tight_layout()
+plt.show()
+
 ```
 
 # BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)

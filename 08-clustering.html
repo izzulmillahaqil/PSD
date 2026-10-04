@@ -390,7 +390,7 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">8. Clustering Fitur TSFEL &amp; Klasifikasi Tutupan Lahan Sawah</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-1-clustering-fitur-tsfel-kualitas-udara-mysql-reduksi-dimensi">BAB 1: Clustering Fitur TSFEL Kualitas Udara (MySQL &amp; Reduksi Dimensi)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-alur-kerja">1.1 Metodologi &amp; Alur Kerja</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-clustering-visualisasi-pca">1.2 Skrip Python Clustering &amp; Visualisasi PCA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-clustering-perbandingan-per-polutan-polynomial-vs-linier">1.2 Skrip Python Clustering &amp; Perbandingan Per Polutan (Polynomial vs Linier)</a></li>
 </ul>
 </li>
 </ul>
@@ -427,9 +427,10 @@ document.write(`
 <h3>1.1 Metodologi &amp; Alur Kerja<a class="headerlink" href="#metodologi-alur-kerja" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p><strong>Penyimpanan Database MySQL</strong>: Data 204 fitur TSFEL diunggah dan disimpan ke dalam dua tabel terpisah di database <code class="docutils literal notranslate"><span class="pre">basisda1_PSD-A-Interpolasi</span></code>, yaitu <code class="docutils literal notranslate"><span class="pre">ekstraksi_fitur_linier</span></code> dan <code class="docutils literal notranslate"><span class="pre">ekstraksi_fitur_polynomial</span></code>.</p></li>
+<li><p><strong>Pemisahan Per Polutan &amp; Jenis Interpolasi</strong>: Fitur TSFEL dikelompokkan berdasarkan variabel polutan (<span class="math notranslate nohighlight">\(\text{NO}_2\)</span>, <span class="math notranslate nohighlight">\(\text{CO}\)</span>, <span class="math notranslate nohighlight">\(\text{SO}_2\)</span>) untuk masing-masing metode interpolasi (Polynomial dan Linier).</p></li>
 <li><p><strong>Reduksi Dimensi Multi-Tahap (PCA)</strong>:</p>
 <ul class="simple">
-<li><p><strong>Tahap 1</strong>: Reduksi fitur dari 204 fitur ke <strong>74 komponen utama</strong> untuk menghilangkan redundansi korelasi linier antar-fitur TSFEL.</p></li>
+<li><p><strong>Tahap 1</strong>: Reduksi fitur dari masing-masing polutan ke komponen utama menggunakan PCA.</p></li>
 <li><p><strong>Tahap 2</strong>: Proyeksi ke <strong>2 komponen utama 2D</strong> untuk pemetaan dan visualisasi ruang kluster.</p></li>
 </ul>
 </li>
@@ -437,8 +438,8 @@ document.write(`
 </ol>
 </section>
 <hr class="docutils" />
-<section id="skrip-python-clustering-visualisasi-pca">
-<h3>1.2 Skrip Python Clustering &amp; Visualisasi PCA<a class="headerlink" href="#skrip-python-clustering-visualisasi-pca" title="Link to this heading">#</a></h3>
+<section id="skrip-python-clustering-perbandingan-per-polutan-polynomial-vs-linier">
+<h3>1.2 Skrip Python Clustering &amp; Perbandingan Per Polutan (Polynomial vs Linier)<a class="headerlink" href="#skrip-python-clustering-perbandingan-per-polutan-polynomial-vs-linier" title="Link to this heading">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -472,30 +473,43 @@ try:
     conn.close()
     print(&quot;Berhasil mengambil data dari MySQL!&quot;)
 except Exception as e:
-    print(f&quot;Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset untuk render jupyter-book...&quot;)
+    print(f&quot;Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...&quot;)
     np.random.seed(42)
-    df_linier = pd.DataFrame(np.random.rand(37, 204))
-    df_poly = pd.DataFrame(np.random.rand(37, 204))
-
-def process_clustering(df, title_prefix):
-    meta_cols = [c for c in [&#39;id&#39;, &#39;nama&#39;, &#39;daerah&#39;, &#39;No&#39;, &#39;Nama&#39;, &#39;Daerah&#39;] if c in df.columns]
-    feature_cols = [c for c in df.columns if c not in meta_cols]
     
-    X = df[feature_cols].values
+    # Generate dummy data dengan struktur kolom TSFEL
+    pollutants = [&#39;NO2&#39;, &#39;CO&#39;, &#39;SO2&#39;]
+    features = [&#39;abs_energy&#39;, &#39;auc&#39;, &#39;autocorr&#39;, &#39;average_power&#39;, &#39;calc_centroid&#39;, &#39;calc_max&#39;, &#39;calc_mean&#39;]
+    
+    cols = []
+    for pol in pollutants:
+        for feat in features:
+            cols.append(f&quot;{pol}_{feat}&quot;)
+            
+    df_linier = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
+    df_poly = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
+    df_linier[&#39;daerah&#39;] = [f&quot;Daerah_{i+1}&quot; for i in range(37)]
+    df_poly[&#39;daerah&#39;] = [f&quot;Daerah_{i+1}&quot; for i in range(37)]
+
+def process_single_pollutant(df, pollutant_code, interpolation_type):
+    # Filter kolom berdasarkan prefix polutan (misal: NO2_, CO_, SO2_)
+    meta_cols = [c for c in [&#39;id&#39;, &#39;nama&#39;, &#39;daerah&#39;, &#39;No&#39;, &#39;Nama&#39;, &#39;Daerah&#39;] if c in df.columns]
+    pol_cols = [c for c in df.columns if c.lower().startswith(pollutant_code.lower()) and c not in meta_cols]
+    
+    if not pol_cols:
+        # Fallback jika nama kolom tidak menggunakan prefix polutan
+        pol_cols = [c for c in df.columns if c not in meta_cols]
+        
+    X = df[pol_cols].values
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    # Reduksi PCA 204 -&gt; 74 -&gt; 2D
-    n_components_74 = min(74, X_scaled.shape[0], X_scaled.shape[1])
-    pca_74 = PCA(n_components=n_components_74, random_state=42)
-    X_74 = pca_74.fit_transform(X_scaled)
-    
+    # Reduksi PCA ke 2D untuk Visualisasi
     pca_2d = PCA(n_components=2, random_state=42)
-    X_2d = pca_2d.fit_transform(X_74)
+    X_2d = pca_2d.fit_transform(X_scaled)
     
+    # Cari k terbaik berdasarkan Silhouette Score
     best_k = 2
     best_score = -1
-    
     for k in range(2, 6):
         km = KMeans(n_clusters=k, random_state=42, n_init=10)
         labels = km.fit_predict(X_2d)
@@ -507,20 +521,38 @@ def process_clustering(df, title_prefix):
     kmeans_opt = KMeans(n_clusters=best_k, random_state=42, n_init=10)
     final_labels = kmeans_opt.fit_predict(X_2d)
     
-    plt.figure(figsize=(10, 5))
-    plt.scatter(X_2d[:, 0], X_2d[:, 1], c=final_labels, cmap=&#39;viridis&#39;, s=80, edgecolors=&#39;k&#39;, alpha=0.8)
-    centroids = kmeans_opt.cluster_centers_
-    plt.scatter(centroids[:, 0], centroids[:, 1], c=&#39;red&#39;, marker=&#39;X&#39;, s=200, label=&#39;Centroid Cluster&#39;)
-    plt.title(f&#39;Peta Segmentasi Clustering {title_prefix} (k={best_k})&#39;)
-    plt.xlabel(&#39;Komponen Utama 1 (PCA)&#39;)
-    plt.ylabel(&#39;Komponen Utama 2 (PCA)&#39;)
-    plt.legend()
-    plt.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
-    plt.tight_layout()
-    plt.show()
+    return X_2d, final_labels, kmeans_opt.cluster_centers_, best_k, best_score
 
-process_clustering(df_linier, &quot;Tabel Fitur Linier&quot;)
-process_clustering(df_poly, &quot;Tabel Fitur Polynomial&quot;)
+# POLUTAN DAN METODE INTERPOLASI
+pollutants = [&#39;NO2&#39;, &#39;CO&#39;, &#39;SO2&#39;]
+
+# PERBANDINGAN PLOT (Polynomial vs Linier per Polutan)
+fig, axes = plt.subplots(3, 2, figsize=(15, 12))
+
+for idx, pol in enumerate(pollutants):
+    # 1. Processing Polynomial
+    X_poly_2d, labels_poly, centroids_poly, k_poly, score_poly = process_single_pollutant(df_poly, pol, &quot;Polynomial&quot;)
+    ax_poly = axes[idx, 0]
+    ax_poly.scatter(X_poly_2d[:, 0], X_poly_2d[:, 1], c=labels_poly, cmap=&#39;viridis&#39;, s=60, edgecolors=&#39;k&#39;, alpha=0.8)
+    ax_poly.scatter(centroids_poly[:, 0], centroids_poly[:, 1], c=&#39;red&#39;, marker=&#39;X&#39;, s=150, label=&#39;Centroid&#39;)
+    ax_poly.set_title(f&#39;Polynomial - {pol} (k={k_poly}, Sil Score: {score_poly:.3f})&#39;)
+    ax_poly.set_xlabel(&#39;PCA 1&#39;)
+    ax_poly.set_ylabel(&#39;PCA 2&#39;)
+    ax_poly.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
+    
+    # 2. Processing Linier
+    X_lin_2d, labels_lin, centroids_lin, k_lin, score_lin = process_single_pollutant(df_linier, pol, &quot;Linier&quot;)
+    ax_lin = axes[idx, 1]
+    ax_lin.scatter(X_lin_2d[:, 0], X_lin_2d[:, 1], c=labels_lin, cmap=&#39;plasma&#39;, s=60, edgecolors=&#39;k&#39;, alpha=0.8)
+    ax_lin.scatter(centroids_lin[:, 0], centroids_lin[:, 1], c=&#39;red&#39;, marker=&#39;X&#39;, s=150, label=&#39;Centroid&#39;)
+    ax_lin.set_title(f&#39;Linier - {pol} (k={k_lin}, Sil Score: {score_lin:.3f})&#39;)
+    ax_lin.set_xlabel(&#39;PCA 1&#39;)
+    ax_lin.set_ylabel(&#39;PCA 2&#39;)
+    ax_lin.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
+
+plt.suptitle(&#39;Perbandingan Scatter Plot Clustering PCA: Polynomial vs Linier per Polutan&#39;, fontsize=14, y=1.02)
+plt.tight_layout()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -694,7 +726,7 @@ $<span class="math notranslate nohighlight">\(\text{NDVI} = \frac{\text{NIR (B8)
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">8. Clustering Fitur TSFEL &amp; Klasifikasi Tutupan Lahan Sawah</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-1-clustering-fitur-tsfel-kualitas-udara-mysql-reduksi-dimensi">BAB 1: Clustering Fitur TSFEL Kualitas Udara (MySQL &amp; Reduksi Dimensi)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-alur-kerja">1.1 Metodologi &amp; Alur Kerja</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-clustering-visualisasi-pca">1.2 Skrip Python Clustering &amp; Visualisasi PCA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-clustering-perbandingan-per-polutan-polynomial-vs-linier">1.2 Skrip Python Clustering &amp; Perbandingan Per Polutan (Polynomial vs Linier)</a></li>
 </ul>
 </li>
 </ul>
