@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -441,77 +441,82 @@ document.write(`
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.ensemble import IsolationForest
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsolationForest</span>
 
-pollutants = [&#39;CO&#39;, &#39;NO2&#39;, &#39;SO2&#39;]
-CONTAMINATION = 0.05
+<span class="n">pollutants</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CO&#39;</span><span class="p">,</span> <span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="s1">&#39;SO2&#39;</span><span class="p">]</span>
+<span class="n">CONTAMINATION</span> <span class="o">=</span> <span class="mf">0.05</span>
 
-for pol in pollutants:
-    try:
-        # 1. Load data
-        df = pd.read_csv(f&quot;data/processed/data_polutan_{pol.lower()}_clean.csv&quot;)
-        df[&#39;date&#39;] = pd.to_datetime(df[&#39;date&#39;])
-        df = df.sort_values(&#39;date&#39;).reset_index(drop=True)
+<span class="k">for</span> <span class="n">pol</span> <span class="ow">in</span> <span class="n">pollutants</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 1. Load data</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/processed/data_polutan_</span><span class="si">{</span><span class="n">pol</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_clean.csv&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        # Parse data numerik
-        def parse_val(v):
-            if pd.isna(v) or v is None: return np.nan
-            s = str(v).replace(&#39;[&#39;, &#39;&#39;).replace(&#39;]&#39;, &#39;&#39;).strip()
-            return float(s) if s.lower() not in [&#39;none&#39;, &#39;nan&#39;, &#39;&#39;] else np.nan
+        <span class="c1"># Parse data numerik</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">parse_val</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;nan&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
-        df[pol] = df[pol].apply(parse_val)
-        df = df.dropna(subset=[pol]).copy()
+        <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">parse_val</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">pol</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        # 2. Deteksi Outlier dengan Isolation Forest
-        model = IsolationForest(contamination=CONTAMINATION, random_state=42)
-        df[&#39;anomaly&#39;] = model.fit_predict(df[[pol]])  # -1 = outlier, 1 = normal
+        <span class="c1"># 2. Deteksi Outlier dengan Isolation Forest</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="n">CONTAMINATION</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">pol</span><span class="p">]])</span>  <span class="c1"># -1 = outlier, 1 = normal</span>
 
-        # 3. Ganti Outlier jadi NaN
-        df_base = df.copy()
-        df_base.loc[df_base[&#39;anomaly&#39;] == -1, pol] = np.nan
+        <span class="c1"># 3. Ganti Outlier jadi NaN</span>
+        <span class="n">df_base</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df_base</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_base</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
-        # 4a. Interpolasi Linier
-        df_linear = df_base.copy()
-        df_linear[pol] = df_linear[pol].interpolate(method=&#39;linear&#39;).ffill().bfill()
+        <span class="c1"># 4a. Interpolasi Linier</span>
+        <span class="n">df_linear</span> <span class="o">=</span> <span class="n">df_base</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df_linear</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_linear</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
 
-        # 4b. Interpolasi Polinomial Non-Linear (Orde 2 / Quadratic)
-        df_poly = df_base.copy()
-        df_poly[pol] = df_poly[pol].interpolate(method=&#39;polynomial&#39;, order=2).ffill().bfill()
+        <span class="c1"># 4b. Interpolasi Polinomial Non-Linear (Orde 2 / Quadratic)</span>
+        <span class="n">df_poly</span> <span class="o">=</span> <span class="n">df_base</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df_poly</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_poly</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;polynomial&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
 
-        # 5. Visualisasi Plot Perbandingan
-        plt.figure(figsize=(15, 5))
+        <span class="c1"># 5. Visualisasi Plot Perbandingan</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
         
-        # Plot Linier
-        plt.plot(df_linear[&#39;date&#39;], df_linear[pol], color=&#39;blue&#39;, linewidth=1, 
-                 linestyle=&#39;--&#39;, alpha=0.7, label=f&#39;{pol} (Interpolasi Linier)&#39;)
+        <span class="c1"># Plot Linier</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_linear</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df_linear</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                 <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (Interpolasi Linier)&#39;</span><span class="p">)</span>
         
-        # Plot Polinomial Non-Linear
-        plt.plot(df_poly[&#39;date&#39;], df_poly[pol], color=&#39;darkgreen&#39;, linewidth=1.5, 
-                 label=f&#39;{pol} (Interpolasi Polinomial Non-Linear Orde 2)&#39;)
+        <span class="c1"># Plot Polinomial Non-Linear</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_poly</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">df_poly</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkgreen&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> 
+                 <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1"> (Interpolasi Polinomial Non-Linear Orde 2)&#39;</span><span class="p">)</span>
         
-        # Plot Titik Outlier yang Diganti
-        outliers = df[df[&#39;anomaly&#39;] == -1]
-        if not outliers.empty:
-            plt.scatter(outliers[&#39;date&#39;], outliers[pol], color=&#39;red&#39;, s=25, zorder=5,
-                        label=f&#39;Outlier Terdeteksi ({len(outliers)} titik)&#39;)
+        <span class="c1"># Plot Titik Outlier yang Diganti</span>
+        <span class="n">outliers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">outliers</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">outliers</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">outliers</span><span class="p">[</span><span class="n">pol</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Outlier Terdeteksi (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span><span class="si">}</span><span class="s1"> titik)&#39;</span><span class="p">)</span>
 
-        plt.title(f&#39;Perbandingan Interpolasi Linier vs Polinomial Non-Linear pada Polutan {pol}&#39;)
-        plt.xlabel(&#39;Tanggal&#39;)
-        plt.ylabel(&#39;Konsentrasi&#39;)
-        plt.legend(loc=&#39;upper right&#39;)
-        plt.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
-        plt.tight_layout()
-        plt.show()
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Perbandingan Interpolasi Linier vs Polinomial Non-Linear pada Polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Tanggal&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Konsentrasi&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    except Exception as e:
-        print(f&quot;Gagal memproses visualisasi polutan {pol}: {e}&quot;)
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gagal memproses visualisasi polutan </span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<img alt="_images/432f430d194a34b0f37be9bd879fdb18bb65b0a7404fea7b7728522fd976963c.png" src="_images/432f430d194a34b0f37be9bd879fdb18bb65b0a7404fea7b7728522fd976963c.png" />
+<img alt="_images/79f7a1968d5ba47224c2dda0f8ee87b4eb659d31ce9099288e4973ab72b66a61.png" src="_images/79f7a1968d5ba47224c2dda0f8ee87b4eb659d31ce9099288e4973ab72b66a61.png" />
+<img alt="_images/d0dec7863f15f983b02d3036d79c8b5784a5199f87a81e9019fb69ba1458fe3f.png" src="_images/d0dec7863f15f983b02d3036d79c8b5784a5199f87a81e9019fb69ba1458fe3f.png" />
+</div>
 </div>
 </section>
 <section id="konsep-dasar-deskripsi-fitur-perhitungan-manual-khusus-wavelet-std-wavelet-var">
@@ -630,114 +635,118 @@ $<span class="math notranslate nohighlight">\(cD = [-2.12132034 \times 10^{-5},\
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
 
-# 1. Simulasi Load Data TSFEL (Gunakan file TSFEL yang telah diekstrak)
-try:
-    df_tsfel = pd.read_csv(&quot;data/processed/CO_Surabaya_Selatan_TSFEL.csv&quot;)
-except Exception:
-    # Menggunakan dummy dataset jika file lokal belum terbaca di environment
-    np.random.seed(42)
-    df_tsfel = pd.DataFrame(np.random.rand(37, 204))
-    df_tsfel[&#39;nama&#39;] = [f&quot;Mahasiswa_{i}&quot; for i in range(37)]
+<span class="c1"># 1. Simulasi Load Data TSFEL (Gunakan file TSFEL yang telah diekstrak)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">df_tsfel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/processed/CO_Surabaya_Selatan_TSFEL.csv&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="c1"># Menggunakan dummy dataset jika file lokal belum terbaca di environment</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">df_tsfel</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">204</span><span class="p">))</span>
+    <span class="n">df_tsfel</span><span class="p">[</span><span class="s1">&#39;nama&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Mahasiswa_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">37</span><span class="p">)]</span>
 
-# Pisahkan Fitur Numerik dan Metadata
-metadata_cols = [&#39;id&#39;, &#39;nama&#39;, &#39;daerah&#39;]
-feature_cols = [c for c in df_tsfel.columns if c not in metadata_cols and np.issubdtype(df_tsfel[c].dtype, np.number)]
+<span class="c1"># Pisahkan Fitur Numerik dan Metadata</span>
+<span class="n">metadata_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;nama&#39;</span><span class="p">,</span> <span class="s1">&#39;daerah&#39;</span><span class="p">]</span>
+<span class="n">feature_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_tsfel</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_cols</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">df_tsfel</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)]</span>
 
-X = df_tsfel[feature_cols].copy()
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_tsfel</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-# Preprocessing: Fillna &amp; Normalisasi Min-Max
-X = X.fillna(X.mean())
-scaler = MinMaxScaler()
-X_scaled = scaler.fit_transform(X)
+<span class="c1"># Preprocessing: Fillna &amp; Normalisasi Min-Max</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-# Reduksi Dimensi dengan PCA (2 Komponen Utama)
-pca = PCA(n_components=2, random_state=42)
-X_pca = pca.fit_transform(X_scaled)
+<span class="c1"># Reduksi Dimensi dengan PCA (2 Komponen Utama)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
 
-# -------------------------------------------------------------
-# 2. EVALUASI K-MEANS (ELBOW METHOD &amp; SILHOUETTE SCORE)
-# -------------------------------------------------------------
-wcss = []
-silhouette_scores = []
-K_range = range(2, 7)
+<span class="c1"># -------------------------------------------------------------</span>
+<span class="c1"># 2. EVALUASI K-MEANS (ELBOW METHOD &amp; SILHOUETTE SCORE)</span>
+<span class="c1"># -------------------------------------------------------------</span>
+<span class="n">wcss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">silhouette_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">K_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
 
-for k in K_range:
-    kmeans_eval = KMeans(n_clusters=k, random_state=42, n_init=10)
-    labels_eval = kmeans_eval.fit_predict(X_pca)
-    wcss.append(kmeans_eval.inertia_)
-    silhouette_scores.append(silhouette_score(X_pca, labels_eval))
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">K_range</span><span class="p">:</span>
+    <span class="n">kmeans_eval</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">labels_eval</span> <span class="o">=</span> <span class="n">kmeans_eval</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_pca</span><span class="p">)</span>
+    <span class="n">wcss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kmeans_eval</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+    <span class="n">silhouette_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">X_pca</span><span class="p">,</span> <span class="n">labels_eval</span><span class="p">))</span>
 
-fig, ax = plt.subplots(1, 2, figsize=(14, 4))
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
-# Graph Elbow Method
-ax[0].plot(K_range, wcss, marker=&#39;o&#39;, color=&#39;blue&#39;, linestyle=&#39;--&#39;)
-ax[0].set_title(&#39;Elbow Method (WCSS)&#39;)
-ax[0].set_xlabel(&#39;Jumlah Cluster (k)&#39;)
-ax[0].set_ylabel(&#39;Inertia / WCSS&#39;)
-ax[0].grid(True, linestyle=&#39;--&#39;, alpha=0.5)
+<span class="c1"># Graph Elbow Method</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">K_range</span><span class="p">,</span> <span class="n">wcss</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Elbow Method (WCSS)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Cluster (k)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Inertia / WCSS&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-# Graph Silhouette Score
-ax[1].bar(K_range, silhouette_scores, color=&#39;teal&#39;, alpha=0.7)
-ax[1].set_title(&#39;Silhouette Coefficient Score per k&#39;)
-ax[1].set_xlabel(&#39;Jumlah Cluster (k)&#39;)
-ax[1].set_ylabel(&#39;Silhouette Score&#39;)
-ax[1].grid(True, linestyle=&#39;--&#39;, alpha=0.5)
+<span class="c1"># Graph Silhouette Score</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">K_range</span><span class="p">,</span> <span class="n">silhouette_scores</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;teal&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Silhouette Coefficient Score per k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Cluster (k)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-# -------------------------------------------------------------
-# 3. PEMODELAN OPTIMAL (k=2) &amp; VISUALISASI SCATTER PLOT PCA
-# -------------------------------------------------------------
-kmeans_opt = KMeans(n_clusters=2, random_state=42, n_init=10)
-cluster_labels = kmeans_opt.fit_predict(X_pca)
+<span class="c1"># -------------------------------------------------------------</span>
+<span class="c1"># 3. PEMODELAN OPTIMAL (k=2) &amp; VISUALISASI SCATTER PLOT PCA</span>
+<span class="c1"># -------------------------------------------------------------</span>
+<span class="n">kmeans_opt</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">kmeans_opt</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_pca</span><span class="p">)</span>
 
-df_result = df_tsfel.copy()
-df_result[&#39;PCA_1&#39;] = X_pca[:, 0]
-df_result[&#39;PCA_2&#39;] = X_pca[:, 1]
-df_result[&#39;Cluster&#39;] = [f&quot;Cluster_{c}&quot; for c in cluster_labels]
+<span class="n">df_result</span> <span class="o">=</span> <span class="n">df_tsfel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_result</span><span class="p">[</span><span class="s1">&#39;PCA_1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">df_result</span><span class="p">[</span><span class="s1">&#39;PCA_2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">df_result</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Cluster_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cluster_labels</span><span class="p">]</span>
 
-plt.figure(figsize=(10, 6))
-colors = {&#39;Cluster_0&#39;: &#39;mediumseagreen&#39;, &#39;Cluster_1&#39;: &#39;crimson&#39;}
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Cluster_0&#39;</span><span class="p">:</span> <span class="s1">&#39;mediumseagreen&#39;</span><span class="p">,</span> <span class="s1">&#39;Cluster_1&#39;</span><span class="p">:</span> <span class="s1">&#39;crimson&#39;</span><span class="p">}</span>
 
-for c_name, color in colors.items():
-    sub = df_result[df_result[&#39;Cluster&#39;] == c_name]
-    plt.scatter(sub[&#39;PCA_1&#39;], sub[&#39;PCA_2&#39;], c=color, label=f&#39;{c_name} (n={len(sub)})&#39;, s=70, alpha=0.8, edgecolors=&#39;k&#39;)
+<span class="k">for</span> <span class="n">c_name</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">colors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df_result</span><span class="p">[</span><span class="n">df_result</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c_name</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;PCA_1&#39;</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="s1">&#39;PCA_2&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">c_name</span><span class="si">}</span><span class="s1"> (n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
-# Plot Centroid
-centroids = kmeans_opt.cluster_centers_
-plt.scatter(centroids[:, 0], centroids[:, 1], c=&#39;black&#39;, marker=&#39;X&#39;, s=200, label=&#39;Centroid Cluster&#39;, zorder=10)
+<span class="c1"># Plot Centroid</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">kmeans_opt</span><span class="o">.</span><span class="n">cluster_centers_</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centroids</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid Cluster&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-plt.title(&#39;Visualisasi Scatter Plot 2D PCA &amp; Hasil K-Means Clustering (k=2)&#39;)
-plt.xlabel(f&#39;PCA Dimension 0 (Variance: {pca.explained_variance_ratio_[0]*100:.1f}%)&#39;)
-plt.ylabel(f&#39;PCA Dimension 1 (Variance: {pca.explained_variance_ratio_[1]*100:.1f}%)&#39;)
-plt.legend(loc=&#39;upper right&#39;)
-plt.grid(True, linestyle=&#39;--&#39;, alpha=0.5)
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Visualisasi Scatter Plot 2D PCA &amp; Hasil K-Means Clustering (k=2)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCA Dimension 0 (Variance: </span><span class="si">{</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCA Dimension 1 (Variance: </span><span class="si">{</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-# -------------------------------------------------------------
-# 4. PROFILING KARAKTERISTIK CLUSTER
-# -------------------------------------------------------------
-# Ambil beberapa fitur kunci TSFEL untuk analisa profil
-sample_profile_cols = [c for c in [&#39;abs_energy&#39;, &#39;auc&#39;, &#39;wavelet_std&#39;, &#39;wavelet_var&#39;, &#39;average_power&#39;, &#39;calc_max&#39;] if c in feature_cols]
+<span class="c1"># -------------------------------------------------------------</span>
+<span class="c1"># 4. PROFILING KARAKTERISTIK CLUSTER</span>
+<span class="c1"># -------------------------------------------------------------</span>
+<span class="c1"># Ambil beberapa fitur kunci TSFEL untuk analisa profil</span>
+<span class="n">sample_profile_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;abs_energy&#39;</span><span class="p">,</span> <span class="s1">&#39;auc&#39;</span><span class="p">,</span> <span class="s1">&#39;wavelet_std&#39;</span><span class="p">,</span> <span class="s1">&#39;wavelet_var&#39;</span><span class="p">,</span> <span class="s1">&#39;average_power&#39;</span><span class="p">,</span> <span class="s1">&#39;calc_max&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">feature_cols</span><span class="p">]</span>
 
-if sample_profile_cols:
-    profile_summary = df_result.groupby(&#39;Cluster&#39;)[sample_profile_cols].mean()
-    print(&quot;=== PROFILING RATA-RATA FITUR KUNCI TSFEL PER CLUSTER ===&quot;)
-    print(profile_summary.to_string())
+<span class="k">if</span> <span class="n">sample_profile_cols</span><span class="p">:</span>
+    <span class="n">profile_summary</span> <span class="o">=</span> <span class="n">df_result</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">)[</span><span class="n">sample_profile_cols</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PROFILING RATA-RATA FITUR KUNCI TSFEL PER CLUSTER ===&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">profile_summary</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<img alt="_images/93d0e5bf1cb4b1f2603d1fb80e73dad2e4524f2bc04e724e4cb96384270929b3.png" src="_images/93d0e5bf1cb4b1f2603d1fb80e73dad2e4524f2bc04e724e4cb96384270929b3.png" />
+<img alt="_images/88e2674b63effad331dde50faa8a11964bf43eb996de9ca23e8560bb4c1c1cad.png" src="_images/88e2674b63effad331dde50faa8a11964bf43eb996de9ca23e8560bb4c1c1cad.png" />
+</div>
 </div>
 </section>
 </section>

@@ -28,7 +28,6 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 
 ```{code-cell} ipython3
 :tags: [hide-input]
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,22 +35,16 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from sqlalchemy import create_engine
 
-# 1. KREDENSIAL DATABASE MYSQL DENGAN FALLBACK AMAN
+# 1. KREDENSIAL DATABASE MYSQL MENGGUNAKAN PYMYSQL (BEBAS CRASH ZMQ)
 try:
-    import mysql.connector
-    db_config = {
-        'host': 'basisdata2-c.my.id',
-        'port': 3306,
-        'user': 'basisda1_PSD-User',
-        'password': 'PSD-A#2026',
-        'database': 'basisda1_PSD-A-Interpolasi'
-    }
-    conn = mysql.connector.connect(**db_config)
-    df_linier = pd.read_sql("SELECT * FROM ekstraksi_fitur_linier", conn)
-    df_poly = pd.read_sql("SELECT * FROM ekstraksi_fitur_polynomial", conn)
-    conn.close()
+    engine = create_engine("mysql+pymysql://basisda1_PSD-User:PSD-A%232026@basisdata2-c.my.id:3306/basisda1_PSD-A-Interpolasi")
+    df_linier = pd.read_sql("SELECT * FROM ekstraksi_fitur_linier", engine)
+    df_poly = pd.read_sql("SELECT * FROM ekstraksi_fitur_polynomial", engine)
+    print("Berhasil mengambil data dari MySQL via PyMySQL!")
 except Exception as e:
+    print(f"Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...")
     np.random.seed(42)
     pollutants = ['NO2', 'CO', 'SO2']
     features = ['abs_energy', 'auc', 'autocorr', 'average_power', 'calc_centroid', 'calc_max', 'calc_mean']
@@ -65,7 +58,7 @@ except Exception as e:
     df_poly = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
     df_linier['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
     df_poly['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
-
+    
 def process_single_pollutant(df, pollutant_code, interpolation_type):
     meta_cols = [c for c in ['id', 'nama', 'daerah', 'No', 'Nama', 'Daerah'] if c in df.columns]
     pol_cols = [c for c in df.columns if c.lower().startswith(pollutant_code.lower()) and c not in meta_cols]
