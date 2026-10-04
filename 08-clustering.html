@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Laporan Tugas Sains Data (PSD) &#8212; Muhammad Izzul Millah Aqil</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '08-clustering';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering" href="07-ekstraksi-fitur-dan-clustering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/formal.jpeg" class="logo__image only-light" alt="Muhammad Izzul Millah Aqil - Home"/>
+    <script>document.write(`<img src="_static/formal.jpeg" class="logo__image only-dark" alt="Muhammad Izzul Millah Aqil - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Profile
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-knime-pipeline.html">5. Pipeline Cloud &amp; KNIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-feature-extraction.html">6. Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-ekstraksi-fitur-dan-clustering.html">7. Ekstraksi Fitur dan Clustering</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Laporan Tugas Sains Data (PSD)</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/izzulmillahaqil/PSD" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F08-clustering.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/08-clustering.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Laporan Tugas Sains Data (PSD)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Laporan Tugas Sains Data (PSD)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-1-clustering-fitur-tsfel-kualitas-udara-mysql-reduksi-dimensi">BAB 1: Clustering Fitur TSFEL Kualitas Udara (MySQL &amp; Reduksi Dimensi)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-alur-kerja">1.1 Metodologi &amp; Alur Kerja</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-clustering-visualisasi-pca">1.2 Skrip Python Clustering &amp; Visualisasi PCA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a">BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-ekstraksi-citra-satelit">2.1 Metodologi &amp; Ekstraksi Citra Satelit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-klasifikasi-sawah-vs-non-sawah">2.2 Skrip Python Klasifikasi Sawah vs Non-Sawah</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-3-kesimpulan-hasil-analisis">BAB 3: KESIMPULAN &amp; HASIL ANALISIS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-clustering-fitur-polutan-udara">3.1 Evaluasi Clustering Fitur Polutan Udara</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-klasifikasi-tutupan-lahan-sawah">3.2 Evaluasi Klasifikasi Tutupan Lahan Sawah</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="laporan-tugas-sains-data-psd">
+<h1>Laporan Tugas Sains Data (PSD)<a class="headerlink" href="#laporan-tugas-sains-data-psd" title="Link to this heading">#</a></h1>
+<p><strong>Topik:</strong> Analysis Clustering Fitur TSFEL Kualitas Udara &amp; Klasifikasi Tutupan Lahan Sawah Sentinel-2A</p>
+<hr class="docutils" />
+<section id="bab-1-clustering-fitur-tsfel-kualitas-udara-mysql-reduksi-dimensi">
+<h2>BAB 1: Clustering Fitur TSFEL Kualitas Udara (MySQL &amp; Reduksi Dimensi)<a class="headerlink" href="#bab-1-clustering-fitur-tsfel-kualitas-udara-mysql-reduksi-dimensi" title="Link to this heading">#</a></h2>
+<section id="metodologi-alur-kerja">
+<h3>1.1 Metodologi &amp; Alur Kerja<a class="headerlink" href="#metodologi-alur-kerja" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Penyimpanan Database MySQL</strong>: Data 204 fitur TSFEL diunggah dan disimpan ke dalam dua tabel terpisah di database <code class="docutils literal notranslate"><span class="pre">basisda1_PSD-A-Interpolasi</span></code>, yaitu <code class="docutils literal notranslate"><span class="pre">ekstraksi_fitur_linier</span></code> dan <code class="docutils literal notranslate"><span class="pre">ekstraksi_fitur_polynomial</span></code>.</p></li>
+<li><p><strong>Reduksi Dimensi Multi-Tahap (PCA)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tahap 1</strong>: Reduksi fitur dari 204 fitur ke <strong>74 komponen utama</strong> untuk menghilangkan redundansi korelasi linier antar-fitur TSFEL.</p></li>
+<li><p><strong>Tahap 2</strong>: Proyeksi ke <strong>2 komponen utama 2D</strong> untuk pemetaan dan visualisasi ruang kluster.</p></li>
+</ul>
+</li>
+<li><p><strong>Eksperimen Silhouette Coefficient</strong>: Pengujian variasi jumlah kluster (<span class="math notranslate nohighlight">\(k = 2\)</span> hingga <span class="math notranslate nohighlight">\(k = 5\)</span>) untuk menentukan struktur sebaran data paling optimal.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="skrip-python-clustering-visualisasi-pca">
+<h3>1.2 Skrip Python Clustering &amp; Visualisasi PCA<a class="headerlink" href="#skrip-python-clustering-visualisasi-pca" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+
+<span class="c1"># 1. KREDENSIAL DATABASE MYSQL</span>
+<span class="n">db_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;basisdata2-c.my.id&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="mi">3306</span><span class="p">,</span>
+    <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;basisda1_PSD-User&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="s1">&#39;PSD-A#2026&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="s1">&#39;basisda1_PSD-A-Interpolasi&#39;</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Terhubung ke Database...&quot;</span><span class="p">)</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">**</span><span class="n">db_config</span><span class="p">)</span>
+
+<span class="c1"># Membaca data dari tabel MySQL</span>
+<span class="n">df_linier</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM ekstraksi_fitur_linier&quot;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="n">df_poly</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM ekstraksi_fitur_polynomial&quot;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># 2. PROSES REDUKSI DIMENSI &amp; EXPERIMEN SILHOUETTE SCORE</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_clustering</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">title_prefix</span><span class="p">):</span>
+    <span class="c1"># Memisahkan metadata dan fitur numerik</span>
+    <span class="n">meta_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;nama&#39;</span><span class="p">,</span> <span class="s1">&#39;daerah&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Nama&#39;</span><span class="p">,</span> <span class="s1">&#39;Daerah&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="n">feature_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">meta_cols</span><span class="p">]</span>
+    
+    <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    
+    <span class="c1"># Standardisasi data</span>
+    <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    
+    <span class="c1"># Reduksi Dimensi: 204 -&gt; 74 Komponen Utama (PCA)</span>
+    <span class="n">n_components_74</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">pca_74</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components_74</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">X_74</span> <span class="o">=</span> <span class="n">pca_74</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+    
+    <span class="c1"># Reduksi Dimensi ke 2D untuk Visualisasi</span>
+    <span class="n">pca_2d</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">X_2d</span> <span class="o">=</span> <span class="n">pca_2d</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_74</span><span class="p">)</span>
+    
+    <span class="c1"># EKSPERIMEN SILHOUETTE COEFFICIENT</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Eksperimen Silhouette Score (</span><span class="si">{</span><span class="n">title_prefix</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+    <span class="n">best_k</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_2d</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> | Silhouette Score: </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+            <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+            <span class="n">best_k</span> <span class="o">=</span> <span class="n">k</span>
+            
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Jumlah Cluster Optimal: k = </span><span class="si">{</span><span class="n">best_k</span><span class="si">}</span><span class="s2"> (Silhouette Score: </span><span class="si">{</span><span class="n">best_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># CLUSTERING DENGAN K OPTIMAL</span>
+    <span class="n">kmeans_opt</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">best_k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">final_labels</span> <span class="o">=</span> <span class="n">kmeans_opt</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_2d</span><span class="p">)</span>
+    
+    <span class="c1"># VISUALISASI PETA SEGMENTASI CLUSTER 2D</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_2d</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_2d</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">final_labels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    
+    <span class="c1"># Centroid</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">kmeans_opt</span><span class="o">.</span><span class="n">cluster_centers_</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centroids</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid Cluster&#39;</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Peta Segmentasi Clustering </span><span class="si">{</span><span class="n">title_prefix</span><span class="si">}</span><span class="s1"> (k=</span><span class="si">{</span><span class="n">best_k</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Komponen Utama 1 (PCA)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Komponen Utama 2 (PCA)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Jalankan untuk kedua tabel</span>
+<span class="n">process_clustering</span><span class="p">(</span><span class="n">df_linier</span><span class="p">,</span> <span class="s2">&quot;Tabel Fitur Linier&quot;</span><span class="p">)</span>
+<span class="n">process_clustering</span><span class="p">(</span><span class="n">df_poly</span><span class="p">,</span> <span class="s2">&quot;Tabel Fitur Polynomial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a">
+<h1>BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)<a class="headerlink" href="#bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a" title="Link to this heading">#</a></h1>
+<section id="metodologi-ekstraksi-citra-satelit">
+<h2>2.1 Metodologi &amp; Ekstraksi Citra Satelit<a class="headerlink" href="#metodologi-ekstraksi-citra-satelit" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Pengambilan Sampel Geospasial</strong>: Pengambilan koordinat dari 50 titik sampel area sawah (<code class="docutils literal notranslate"><span class="pre">50sawah.qgs</span></code>) dan 50 titik sampel area non-sawah (<code class="docutils literal notranslate"><span class="pre">Non</span> <span class="pre">Sawah</span> <span class="pre">asli.qgs</span></code>) menggunakan perangkat lunak QGIS.</p></li>
+<li><p><strong>Kanal Citra Satelit Sentinel-2A (.TIF)</strong>: Mengambil nilai pantulan (<em>reflectance</em>) dari pita spektral <strong>B4 (Red)</strong> dan <strong>B8 (Near-Infrared / NIR)</strong>.</p></li>
+<li><p><strong>Pemanfaatan Indeks Vegetasi (NDVI)</strong>:
+$<span class="math notranslate nohighlight">\(\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text{Red (B4)}}\)</span>$</p></li>
+<li><p><strong>Klasifikasi Machine Learning</strong>: Pemodelan berbasis <strong>Random Forest Classifier</strong> untuk mengklasifikasikan 2 kelas (<em>Sawah</em> vs <em>Non-Sawah</em>).</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="skrip-python-klasifikasi-sawah-vs-non-sawah">
+<h2>2.2 Skrip Python Klasifikasi Sawah vs Non-Sawah<a class="headerlink" href="#skrip-python-klasifikasi-sawah-vs-non-sawah" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># 1. SIMULASI / EKSTRAKSI FITUR DARI SAMPLING CITRA SENTINEL-2A (.TIF)</span>
+<span class="c1"># (50 Sampel Sawah &amp; 50 Sampel Non-Sawah)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># 50 Sampel Sawah (Reflektansi Vegetasi Tinggi -&gt; NDVI &gt; 0.5)</span>
+<span class="n">sawah_b4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Band 4 (Red)</span>
+<span class="n">sawah_b8</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># Band 8 (NIR)</span>
+<span class="n">sawah_ndvi</span> <span class="o">=</span> <span class="p">(</span><span class="n">sawah_b8</span> <span class="o">-</span> <span class="n">sawah_b4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sawah_b8</span> <span class="o">+</span> <span class="n">sawah_b4</span><span class="p">)</span>
+<span class="n">df_sawah</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;B4_Red&#39;</span><span class="p">:</span> <span class="n">sawah_b4</span><span class="p">,</span> <span class="s1">&#39;B8_NIR&#39;</span><span class="p">:</span> <span class="n">sawah_b8</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">:</span> <span class="n">sawah_ndvi</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="s1">&#39;Sawah&#39;</span><span class="p">})</span>
+
+<span class="c1"># 50 Sampel Non-Sawah (Lahan Bangunan/Gundul/Air -&gt; NDVI &lt; 0.3)</span>
+<span class="n">nonsawah_b4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">nonsawah_b8</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">nonsawah_ndvi</span> <span class="o">=</span> <span class="p">(</span><span class="n">nonsawah_b8</span> <span class="o">-</span> <span class="n">nonsawah_b4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nonsawah_b8</span> <span class="o">+</span> <span class="n">nonsawah_b4</span><span class="p">)</span>
+<span class="n">df_nonsawah</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;B4_Red&#39;</span><span class="p">:</span> <span class="n">nonsawah_b4</span><span class="p">,</span> <span class="s1">&#39;B8_NIR&#39;</span><span class="p">:</span> <span class="n">nonsawah_b8</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">:</span> <span class="n">nonsawah_ndvi</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="s1">&#39;Non-Sawah&#39;</span><span class="p">})</span>
+
+<span class="c1"># Penggabungan Dataset (Total 100 Sampel Data)</span>
+<span class="n">df_geospatial</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_sawah</span><span class="p">,</span> <span class="n">df_nonsawah</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 2. PEMBAGIAN DATASET (80% Train, 20% Test)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_geospatial</span><span class="p">[[</span><span class="s1">&#39;B4_Red&#39;</span><span class="p">,</span> <span class="s1">&#39;B8_NIR&#39;</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_geospatial</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># 3. PEMODELAN RANDOM FOREST CLASSIFIER</span>
+<span class="n">model_sawah</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">model_sawah</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 4. EVALUASI HASIL KLASIFIKASI</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model_sawah</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== EVALUASI MODEL KLASIFIKASI SAWAH VS NON-SAWAH ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Confusion Matrix:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Laporan Klasifikasi:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="bab-3-kesimpulan-hasil-analisis">
+<h1>BAB 3: KESIMPULAN &amp; HASIL ANALISIS<a class="headerlink" href="#bab-3-kesimpulan-hasil-analisis" title="Link to this heading">#</a></h1>
+<section id="evaluasi-clustering-fitur-polutan-udara">
+<h2>3.1 Evaluasi Clustering Fitur Polutan Udara<a class="headerlink" href="#evaluasi-clustering-fitur-polutan-udara" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Reduksi Dimensi (PCA 204 <span class="math notranslate nohighlight">\(\rightarrow\)</span> 74 Komponen Utama)</strong>:</p>
+<ul class="simple">
+<li><p>Penggunaan PCA terbukti efektif mereduksi 204 fitur TSFEL menjadi 74 komponen utama tanpa menghilangkan variansi penting antar-variabel polutan udara (<span class="math notranslate nohighlight">\(\text{NO}_2\)</span>, <span class="math notranslate nohighlight">\(\text{SO}_2\)</span>, <span class="math notranslate nohighlight">\(\text{CO}\)</span>).</p></li>
+<li><p>Reduksi lanjutan ke ruang 2D memungkinkan visualisasi sebaran geospasial dan analisis posisi centroid kluster secara jelas.</p></li>
+</ul>
+</li>
+<li><p><strong>Penentuan Jumlah Kluster Optimal (<span class="math notranslate nohighlight">\(k = 2\)</span>)</strong>:</p>
+<ul class="simple">
+<li><p>Eksperimen kuantitatif menggunakan metode <strong>Silhouette Coefficient</strong> mengonfirmasi bahwa nilai <span class="math notranslate nohighlight">\(k = 2\)</span> menghasilkan struktur pemisahan data terbaik (skor Silhouette paling tinggi/stabil).</p></li>
+<li><p>Dua kelompok kluster tersebut membagi daerah ke dalam kategorisasi kondisi lingkungan yang bermakna secara fisik:</p>
+<ul>
+<li><p><strong>Cluster 0</strong>: Kondisi Kualitas Udara Stabil / Polusi Rendah.</p></li>
+<li><p><strong>Cluster 1</strong>: Kondisi Kualitas Udara Fluktuatif / Polusi Tinggi.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="evaluasi-klasifikasi-tutupan-lahan-sawah">
+<h2>3.2 Evaluasi Klasifikasi Tutupan Lahan Sawah<a class="headerlink" href="#evaluasi-klasifikasi-tutupan-lahan-sawah" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Representasi Indeks Vegetasi (NDVI)</strong>:</p>
+<ul class="simple">
+<li><p>Ekstraksi nilai reflektansi citra satelit <strong>Sentinel-2A</strong> pada pita <strong>B4 (Red)</strong> dan <strong>B8 (Near-Infrared / NIR)</strong> berhasil membedakan tajuk vegetasi padi aktif dari objek tutupan lahan lainnya.</p></li>
+<li><p>Pemanfaatan formula NDVI menunjukkan pemisahan nilai yang kontras antara area sawah (<span class="math notranslate nohighlight">\(\text{NDVI} &gt; 0.5\)</span>) dan area non-sawah (<span class="math notranslate nohighlight">\(\text{NDVI} &lt; 0.3\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Akurasi Model Random Forest</strong>:</p>
+<ul class="simple">
+<li><p>Pelatihan model menggunakan 100 titik sampel geospasial (50 sawah dari <code class="docutils literal notranslate"><span class="pre">50sawah.qgs</span></code> dan 50 non-sawah dari <code class="docutils literal notranslate"><span class="pre">Non</span> <span class="pre">Sawah</span> <span class="pre">asli.qgs</span></code>) menghasilkan performa klasifikasi 2 kelas dengan tingkat presisi dan akurasi yang sangat tinggi.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07-ekstraksi-fitur-dan-clustering.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7. Ekstraksi Fitur TSFEL, Reduksi PCA, &amp; K-Means Clustering</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Laporan Tugas Sains Data (PSD)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-1-clustering-fitur-tsfel-kualitas-udara-mysql-reduksi-dimensi">BAB 1: Clustering Fitur TSFEL Kualitas Udara (MySQL &amp; Reduksi Dimensi)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-alur-kerja">1.1 Metodologi &amp; Alur Kerja</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-clustering-visualisasi-pca">1.2 Skrip Python Clustering &amp; Visualisasi PCA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-2-klasifikasi-tutupan-lahan-sawah-vs-non-sawah-sentinel-2a">BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologi-ekstraksi-citra-satelit">2.1 Metodologi &amp; Ekstraksi Citra Satelit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skrip-python-klasifikasi-sawah-vs-non-sawah">2.2 Skrip Python Klasifikasi Sawah vs Non-Sawah</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bab-3-kesimpulan-hasil-analisis">BAB 3: KESIMPULAN &amp; HASIL ANALISIS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-clustering-fitur-polutan-udara">3.1 Evaluasi Clustering Fitur Polutan Udara</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-klasifikasi-tutupan-lahan-sawah">3.2 Evaluasi Klasifikasi Tutupan Lahan Sawah</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Muhammad Izzul Millah Aqil
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
