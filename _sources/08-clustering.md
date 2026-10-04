@@ -87,9 +87,9 @@ from folium.plugins import MeasureControl
 import pandas as pd
 import numpy as np
 
-# 37 DATASET DAERAH PERSISI SESUAI MYSQL
+# DATASET 37 DAERAH SESUAI TABEL DATABASE MYSQL
 data_37_daerah = [
-    ("Baron, Nganjuk", -7.6000, 112.0833), ("Nunukan", 4.1333, 117.6500),
+    ("Baron, Nganjuk", -7.6000, 112.0833), ("Nunukan, Kaltara", 4.1333, 117.6500),
     ("Sreseh, Sampang", -7.1667, 113.1167), ("Manyar, Gresik", -7.1167, 112.6000),
     ("Kamal, Bangkalan", -7.1667, 112.7167), ("Kedungpring, Lamongan", -7.2167, 112.2000),
     ("Gresik Kota, Gresik", -7.1500, 112.6500), ("Waru, Pamekasan", -6.9500, 113.5667),
@@ -105,7 +105,7 @@ data_37_daerah = [
     ("Socah, Bangkalan", -7.0833, 112.7167), ("Pilangkenceng, Madiun", -7.5333, 111.6667),
     ("Tanah Merah, Bangkalan", -7.0833, 112.8167), ("Labang, Bangkalan", -7.1167, 112.7500),
     ("Widodaren, Ngawi", -7.3833, 111.2333), ("Bangkalan Kota", -7.0333, 112.7500),
-    ("Sukabumi", -6.9333, 106.9167), ("Kamal, Bangkalan (2)", -7.1650, 112.7150),
+    ("Warudoyong, Sukabumi", -6.9333, 106.9167), ("Kamal, Bangkalan (2)", -7.1650, 112.7150),
     ("Banyuajuh Kamal (2)", -7.1690, 112.7190), ("Dukun, Gresik", -7.0000, 112.5167),
     ("Kecamatan Bangkalan", -7.0350, 112.7550)
 ]
@@ -114,8 +114,8 @@ data_37_daerah = [
 np.random.seed(42)
 cluster_labels = np.random.choice([0, 1, 2], size=37, p=[0.5, 0.3, 0.2])
 
-# PUSAT PETA INTERAKTIF
-m_cluster = folium.Map(location=[-7.25, 112.75], zoom_start=8, tiles="OpenStreetMap")
+# INISIALISASI PETA FOLIUM
+m_cluster = folium.Map(tiles="OpenStreetMap")
 
 folium.TileLayer(
     tiles='[https://mt1.google.com/vt/lyrs=y&x=](https://mt1.google.com/vt/lyrs=y&x=){x}&y={y}&z={z}',
@@ -132,15 +132,18 @@ cluster_names = {
     2: 'Cluster 2 (Polusi Tinggi)'
 }
 
+all_coords = []
+
 # Feature Groups per Kluster
 for k in range(3):
     fg = folium.FeatureGroup(name=cluster_names[k]).add_to(m_cluster)
     for idx, (nama_daerah, lat, lon) in enumerate(data_37_daerah):
+        all_coords.append((lat, lon))
         lbl = cluster_labels[idx]
         if lbl == k:
             folium.CircleMarker(
                 location=[lat, lon],
-                radius=8,
+                radius=7,
                 popup=f"<b>No:</b> {idx+1}<br><b>Daerah:</b> {nama_daerah}<br><b>Status:</b> {cluster_names[lbl]}",
                 color=colors[lbl],
                 fill=True,
@@ -148,11 +151,13 @@ for k in range(3):
                 fill_opacity=0.85
             ).add_to(fg)
 
+# FIT BOUNDS OTOMATIS SUPAYA NUNUKAN, MANADO, SUKABUMI & JATIM MUNCUL BERSAMAAN
+m_cluster.fit_bounds(all_coords)
+
 folium.LayerControl(collapsed=False).add_to(m_cluster)
 m_cluster.add_child(MeasureControl())
 
 m_cluster
-
 ```
 
 # BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)
