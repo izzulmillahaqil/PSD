@@ -26,22 +26,22 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 
 ### 1.2 Hasil Clustering KNIME Per Polutan (Polynomial vs Linier)
 
-Berikut adalah visualisasi hasil *clustering* scatter plot yang dieksekusi melalui *workflow* KNIME Analytics Platform[cite: 18]. Visualisasi ini membandingkan sebaran kluster untuk masing-masing polutan ($\text{NO}_2$, $\text{CO}$, $\text{SO}_2$) berdasarkan metode interpolasi **Polynomial** dan **Linier**:
+Berikut adalah visualisasi hasil *clustering* scatter plot yang dieksekusi melalui *workflow* KNIME Analytics Platform. Visualisasi ini membandingkan sebaran kluster untuk masing-masing polutan ($\text{NO}_2$, $\text{CO}$, $\text{SO}_2$) berdasarkan metode interpolasi **Polynomial** dan **Linier**:
 
 #### 1. Polutan $\text{NO}_2$ (Nitrogen Dioksida)
 | Interpolasi Polynomial | Interpolasi Linier |
 | :---: | :---: |
-| ![Clustering NO2 Polynomial](Clustering%20no2%20polynomial.png) | ![Clustering NO2 Linear](Clustering%20no2%20linear.png) |
+| ![Clustering NO2 Polynomial](Clustering no2 polynomial.png) | ![Clustering NO2 Linear](Clustering no2 linear.png) |
 
 #### 2. Polutan $\text{CO}$ (Karbon Monoksida)
 | Interpolasi Polynomial | Interpolasi Linier |
 | :---: | :---: |
-| ![Clustering CO Polynomial](Clustering%20co%20polynomial.png) | ![Clustering CO Linear](Clustering%20co%20linear.png) |
+| ![Clustering CO Polynomial](Clustering co polynomial.png) | ![Clustering CO Linear](Clustering co linear.png) |
 
 #### 3. Polutan $\text{SO}_2$ (Sulfur Dioksida)
 | Interpolasi Polynomial | Interpolasi Linier |
 | :---: | :---: |
-| ![Clustering SO2 Polynomial](Clustering%20So2%20polynomial.png) | ![Clustering SO2 Linear](Clustering%20so2%20linear.png) |
+| ![Clustering SO2 Polynomial](Clustering So2 polynomial.png) | ![Clustering SO2 Linear](Clustering so2 linear.png) |
 
 # BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)
 
