@@ -31,17 +31,17 @@ Berikut adalah visualisasi hasil *clustering* scatter plot yang dieksekusi melal
 #### 1. Polutan $\text{NO}_2$ (Nitrogen Dioksida)
 | Interpolasi Polynomial | Interpolasi Linier |
 | :---: | :---: |
-| ![Clustering NO2 Polynomial](Clustering no2 polynomial.png) | ![Clustering NO2 Linear](Clustering no2 linear.png) |
+| ![Clustering NO2 Polynomial](Clustering_no2_polynomial.png) | ![Clustering NO2 Linear](Clustering_no2_linear.png) |
 
 #### 2. Polutan $\text{CO}$ (Karbon Monoksida)
 | Interpolasi Polynomial | Interpolasi Linier |
 | :---: | :---: |
-| ![Clustering CO Polynomial](Clustering co polynomial.png) | ![Clustering CO Linear](Clustering co linear.png) |
+| ![Clustering CO Polynomial](Clustering_co_polynomial.png) | ![Clustering CO Linear](Clustering_co_linear.png) |
 
 #### 3. Polutan $\text{SO}_2$ (Sulfur Dioksida)
 | Interpolasi Polynomial | Interpolasi Linier |
 | :---: | :---: |
-| ![Clustering SO2 Polynomial](Clustering So2 polynomial.png) | ![Clustering SO2 Linear](Clustering so2 linear.png) |
+| ![Clustering SO2 Polynomial](Clustering_So2_polynomial.png) | ![Clustering_so2_linear.png](Clustering_so2_linear.png) |
 
 # BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)
 
