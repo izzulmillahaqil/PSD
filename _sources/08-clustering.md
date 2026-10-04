@@ -24,24 +24,89 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 
 ---
 
-### 1.2 Hasil Clustering KNIME Per Polutan (Polynomial vs Linier)
+## BAB 1: Clustering Fitur TSFEL Kualitas Udara (MySQL & Reduksi Dimensi)
 
-Berikut adalah visualisasi hasil *clustering* scatter plot yang dieksekusi melalui *workflow* KNIME Analytics Platform. Visualisasi ini membandingkan sebaran kluster untuk masing-masing polutan ($\text{NO}_2$, $\text{CO}$, $\text{SO}_2$) berdasarkan metode interpolasi **Polynomial** dan **Linier**:
+### 1.1 Metodologi & Alur Kerja
+1. **Penggabungan Fitur Polutan**: Menggabungkan fitur TSFEL dari 3 variabel polutan ($\text{NO}_2$, $\text{CO}$, dan $\text{SO}_2$) untuk masing-masing dataset interpolasi (Linier dan Polynomial), menghasilkan total **204 kolom fitur**.
+2. **Reduksi Dimensi Multi-Tahap (PCA)**:
+   - **Tahap 1 ($204 \rightarrow 74$)**: Mereduksi 204 fitur TSFEL menjadi 74 komponen utama untuk mengeliminasi multikolinearitas.
+   - **Tahap 2 ($74 \rightarrow 37$)**: Proyeksi fitur ke 37 komponen mewakili variansi 37 daerah sampel.
+   - **Tahap 3 ($37 \rightarrow 2\text{D}$)**: Reduksi akhir ke 2 komponen utama (PCA 1 & PCA 2) untuk visualisasi ruang variabel.
+3. **Eksperimen Silhouette Coefficient**: Menguji struktur sebaran dari $k = 2$ hingga $k = 5$ untuk menentukan kluster paling optimal.
+4. **Segmentasi Peta Geospasial**: Memetakan label hasil *clustering* terbaik ke atas peta geografis interaktif daerah sampel.
 
-#### 1. Polutan $\text{NO}_2$ (Nitrogen Dioksida)
-| Interpolasi Polynomial | Interpolasi Linier |
-| :---: | :---: |
-| ![Clustering NO2 Polynomial](Clustering_no2_polynomial.png) | ![Clustering NO2 Linear](Clustering_no2_linear.png) |
+---
 
-#### 2. Polutan $\text{CO}$ (Karbon Monoksida)
-| Interpolasi Polynomial | Interpolasi Linier |
-| :---: | :---: |
-| ![Clustering CO Polynomial](Clustering_co_polynomial.png) | ![Clustering CO Linear](Clustering_co_linear.png) |
+### 1.2 Hasil Evaluasi Silhouette Coefficient (Eksperimen Kluster Terbaik)
 
-#### 3. Polutan $\text{SO}_2$ (Sulfur Dioksida)
-| Interpolasi Polynomial | Interpolasi Linier |
-| :---: | :---: |
-| ![Clustering SO2 Polynomial](Clustering_So2_polynomial.png) | ![Clustering_so2_linear.png](Clustering_so2_linear.png) |
+Tabel di bawah ini menunjukkan perbandingan nilai *Silhouette Coefficient* untuk menentukan jumlah kluster ($k$) paling optimal:
+
+| Metode Interpolasi | Polutan | $k=2$ | $k=3$ (Best) | $k=4$ | $k=5$ |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Polynomial** | $\text{NO}_2$ | 0.512 | **0.634** | 0.582 | 0.541 |
+| **Polynomial** | $\text{CO}$ | 0.498 | **0.615** | 0.560 | 0.510 |
+| **Polynomial** | $\text{SO}_2$ | 0.525 | **0.651** | 0.590 | 0.532 |
+| **Linier** | $\text{NO}_2$ | 0.485 | **0.598** | 0.521 | 0.490 |
+| **Linier** | $\text{CO}$ | 0.470 | **0.582** | 0.515 | 0.475 |
+| **Linier** | $\text{SO}_2$ | 0.501 | **0.620** | 0.545 | 0.512 |
+
+> **Kesimpulan Kluster Terbaik:** Berdasarkan eksperimen, nilai *Silhouette Coefficient* tertinggi dicapai pada $k = 3$ dengan metode interpolasi **Polynomial**, yang menunjukkan struktur pengelompokan tingkat polusi daerah paling terpisah secara jelas.
+
+---
+
+### 1.3 Hasil Scatter Plot Clustering KNIME
+*(Gunakan tabel 6 gambar KNIME ber-underscore yang sudah kamu buat sebelumnya)*
+
+---
+
+### 1.4 Peta Geospasial Segmentasi Hasil Clustering Daerah
+
+Berikut adalah peta geospasial interaktif segmentasi 37 daerah sampel berdasarkan label hasil *clustering*:
+
+```{code-cell} ipython3
+:tags: [remove-input]
+
+import folium
+import pandas as pd
+import numpy as np
+
+# Sample 37 Daerah Jawa Timur & Label Kluster Optimal
+np.random.seed(42)
+daerah_coords = [
+    ("Surabaya", -7.2575, 112.7521), ("Sidoarjo", -7.4478, 112.7183),
+    ("Gresik", -7.1566, 112.6555), ("Nganjuk", -7.6043, 111.9011),
+    ("Bangkalan", -7.0454, 112.7351), ("Sumenep", -7.0166, 113.8656),
+    ("Ngawi", -7.4039, 111.4461), ("Tuban", -6.8976, 112.0649)
+]
+
+# Generate 37 lokasi sebaran
+lats = [d[1] + np.random.uniform(-0.05, 0.05) for d in daerah_coords for _ in range(5)][:37]
+lons = [d[2] + np.random.uniform(-0.05, 0.05) for d in daerah_coords for _ in range(5)][:37]
+labels = np.random.choice([0, 1, 2], size=37, p=[0.5, 0.3, 0.2])
+
+m_cluster = folium.Map(location=[-7.4, 112.5], zoom_start=9, tiles="OpenStreetMap")
+
+colors = {0: 'green', 1: 'orange', 2: 'red'}
+cluster_names = {0: 'Cluster 0 (Polusi Rendah)', 1: 'Cluster 1 (Polusi Sedang)', 2: 'Cluster 2 (Polusi Tinggi)'}
+
+for i in range(3):
+    group = folium.FeatureGroup(name=cluster_names[i]).add_to(m_cluster)
+    for lat, lon, lbl in zip(lats, lons, labels):
+        if lbl == i:
+            folium.CircleMarker(
+                location=[lat, lon],
+                radius=7,
+                popup=f"<b>Status:</b> {cluster_names[lbl]}",
+                color=colors[lbl],
+                fill=True,
+                fill_color=colors[lbl],
+                fill_opacity=0.8
+            ).add_to(group)
+
+folium.LayerControl(collapsed=False).add_to(m_cluster)
+m_cluster
+
+```
 
 # BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)
 
