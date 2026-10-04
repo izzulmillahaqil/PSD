@@ -24,97 +24,24 @@ Dokumen ini menjelaskan alur pengolahan data polutan udara berbasis **Database M
 
 ---
 
-### 1.2 Skrip Python Clustering & Perbandingan Per Polutan (Polynomial vs Linier)
+### 1.2 Hasil Clustering KNIME Per Polutan (Polynomial vs Linier)
 
-```{code-cell} ipython3
-:tags: [remove-input]
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-from sqlalchemy import create_engine
+Berikut adalah visualisasi hasil *clustering* scatter plot yang dieksekusi melalui *workflow* KNIME Analytics Platform[cite: 18]. Visualisasi ini membandingkan sebaran kluster untuk masing-masing polutan ($\text{NO}_2$, $\text{CO}$, $\text{SO}_2$) berdasarkan metode interpolasi **Polynomial** dan **Linier**:
 
-# 1. KREDENSIAL DATABASE MYSQL MENGGUNAKAN PYMYSQL (BEBAS CRASH ZMQ)
-try:
-    engine = create_engine("mysql+pymysql://basisda1_PSD-User:PSD-A%232026@basisdata2-c.my.id:3306/basisda1_PSD-A-Interpolasi")
-    df_linier = pd.read_sql("SELECT * FROM ekstraksi_fitur_linier", engine)
-    df_poly = pd.read_sql("SELECT * FROM ekstraksi_fitur_polynomial", engine)
-    print("Berhasil mengambil data dari MySQL via PyMySQL!")
-except Exception as e:
-    print(f"Koneksi MySQL gagal/offline: {e}. Menggunakan dummy dataset...")
-    np.random.seed(42)
-    pollutants = ['NO2', 'CO', 'SO2']
-    features = ['abs_energy', 'auc', 'autocorr', 'average_power', 'calc_centroid', 'calc_max', 'calc_mean']
-    
-    cols = []
-    for pol in pollutants:
-        for feat in features:
-            cols.append(f"{pol}_{feat}")
-            
-    df_linier = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
-    df_poly = pd.DataFrame(np.random.rand(37, len(cols)), columns=cols)
-    df_linier['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
-    df_poly['daerah'] = [f"Daerah_{i+1}" for i in range(37)]
+#### 1. Polutan $\text{NO}_2$ (Nitrogen Dioksida)
+| Interpolasi Polynomial | Interpolasi Linier |
+| :---: | :---: |
+| ![Clustering NO2 Polynomial](Clustering%20no2%20polynomial.png) | ![Clustering NO2 Linear](Clustering%20no2%20linear.png) |
 
-def process_single_pollutant(df, pollutant_code, interpolation_type):
-    meta_cols = [c for c in ['id', 'nama', 'daerah', 'No', 'Nama', 'Daerah'] if c in df.columns]
-    pol_cols = [c for c in df.columns if c.lower().startswith(pollutant_code.lower()) and c not in meta_cols]
-    
-    if not pol_cols:
-        pol_cols = [c for c in df.columns if c not in meta_cols]
-        
-    X = df[pol_cols].values
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-    
-    pca_2d = PCA(n_components=2, random_state=42)
-    X_2d = pca_2d.fit_transform(X_scaled)
-    
-    best_k = 2
-    best_score = -1
-    for k in range(2, 6):
-        km = KMeans(n_clusters=k, random_state=42, n_init=10)
-        labels = km.fit_predict(X_2d)
-        score = silhouette_score(X_2d, labels)
-        if score > best_score:
-            best_score = score
-            best_k = k
-            
-    kmeans_opt = KMeans(n_clusters=best_k, random_state=42, n_init=10)
-    final_labels = kmeans_opt.fit_predict(X_2d)
-    
-    return X_2d, final_labels, kmeans_opt.cluster_centers_, best_k, best_score
+#### 2. Polutan $\text{CO}$ (Karbon Monoksida)
+| Interpolasi Polynomial | Interpolasi Linier |
+| :---: | :---: |
+| ![Clustering CO Polynomial](Clustering%20co%20polynomial.png) | ![Clustering CO Linear](Clustering%20co%20linear.png) |
 
-pollutants = ['NO2', 'CO', 'SO2']
-fig, axes = plt.subplots(3, 2, figsize=(15, 12))
-
-for idx, pol in enumerate(pollutants):
-    X_poly_2d, labels_poly, centroids_poly, k_poly, score_poly = process_single_pollutant(df_poly, pol, "Polynomial")
-    ax_poly = axes[idx, 0]
-    ax_poly.scatter(X_poly_2d[:, 0], X_poly_2d[:, 1], c=labels_poly, cmap='viridis', s=60, edgecolors='k', alpha=0.8)
-    ax_poly.scatter(centroids_poly[:, 0], centroids_poly[:, 1], c='red', marker='X', s=150, label='Centroid')
-    ax_poly.set_title(f'Polynomial - {pol} (k={k_poly}, Sil Score: {score_poly:.3f})')
-    ax_poly.set_xlabel('PCA 1')
-    ax_poly.set_ylabel('PCA 2')
-    ax_poly.grid(True, linestyle='--', alpha=0.5)
-    
-    X_lin_2d, labels_lin, centroids_lin, k_lin, score_lin = process_single_pollutant(df_linier, pol, "Linier")
-    ax_lin = axes[idx, 1]
-    ax_lin.scatter(X_lin_2d[:, 0], X_lin_2d[:, 1], c=labels_lin, cmap='plasma', s=60, edgecolors='k', alpha=0.8)
-    ax_lin.scatter(centroids_lin[:, 0], centroids_lin[:, 1], c='red', marker='X', s=150, label='Centroid')
-    ax_lin.set_title(f'Linier - {pol} (k={k_lin}, Sil Score: {score_lin:.3f})')
-    ax_lin.set_xlabel('PCA 1')
-    ax_lin.set_ylabel('PCA 2')
-    ax_lin.grid(True, linestyle='--', alpha=0.5)
-
-plt.suptitle('Perbandingan Scatter Plot Clustering PCA: Polynomial vs Linier per Polutan', fontsize=14, y=1.02)
-plt.tight_layout()
-plt.show()
-
-```
+#### 3. Polutan $\text{SO}_2$ (Sulfur Dioksida)
+| Interpolasi Polynomial | Interpolasi Linier |
+| :---: | :---: |
+| ![Clustering SO2 Polynomial](Clustering%20So2%20polynomial.png) | ![Clustering SO2 Linear](Clustering%20so2%20linear.png) |
 
 # BAB 2: KLASIFIKASI TUTUPAN LAHAN SAWAH VS NON-SAWAH (SENTINEL-2A)
 
