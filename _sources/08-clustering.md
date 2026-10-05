@@ -87,7 +87,6 @@ from folium.plugins import MeasureControl
 import pandas as pd
 import numpy as np
 
-# DATASET 37 DAERAH SESUAI TABEL DATABASE MYSQL
 data_37_daerah = [
     ("Baron, Nganjuk", -7.6000, 112.0833), ("Nunukan, Kaltara", 4.1333, 117.6500),
     ("Sreseh, Sampang", -7.1667, 113.1167), ("Manyar, Gresik", -7.1167, 112.6000),
@@ -221,7 +220,7 @@ m
 Proses ekstraksi reflektansi pita spektral **B4 (Red)** dan **B8 (Near-Infrared / NIR)** citra **Sentinel-2A** dimanfaatkan untuk menghitung Formulasi Indeks Vegetasi ($\text{NDVI}$):
 
 $$\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text{Red (B4)}}$$
-```{code-cell} ipython3
+<!-- ```{code-cell} ipython3
 :tags: [hide-input]
 
 import pandas as pd
@@ -264,4 +263,4 @@ print("=== HASIL EVALUASI MODEL KLASIFIKASI SAWAH VS NON-SAWAH ===")
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 print("\nClassification Report:")
-print(classification_report(y_test, y_pred))
+print(classification_report(y_test, y_pred)) -->
