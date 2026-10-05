@@ -221,7 +221,7 @@ m
 
 Band sentinel 2A
 Mendeskripsikan macam macam band pada sentinel 2A
-- NDVI (Deskripsi NDVI + Rumusnya)
+- NDVI 
 
 NDVI (Normalized Difference Vegetation Index) adalah indeks standar yang digunakan dalam penginderaan jauh untuk mengukur tingkat kehijauan, kerapatan, dan kesehatan vegetasi berdasarkan pantulan cahaya
 Proses ekstraksi reflektansi pita spektral **B4 (Red)** dan **B8 (Near-Infrared / NIR)** citra **Sentinel-2A** dimanfaatkan untuk menghitung Formulasi Indeks Vegetasi ($\text{NDVI}$):
