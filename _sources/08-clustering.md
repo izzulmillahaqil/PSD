@@ -255,7 +255,7 @@ df_sawah = pd.DataFrame({'B4_Red': sawah_b4, 'B8_NIR': sawah_b8, 'NDVI': sawah_n
 df_nonsawah = pd.DataFrame({'B4_Red': nonsawah_b4, 'B8_NIR': nonsawah_b8, 'NDVI': nonsawah_ndvi, 'Label': 'Non-Sawah'})
 df_geo = pd.concat([df_sawah, df_nonsawah], ignore_index=True)
 
-# 3. PEMBAGIAN DATASET (80% TRAIN, 20% TEST)
+# 3. PEMBAGIAN DATASET 
 X = df_geo[['B4_Red', 'B8_NIR', 'NDVI']]
 y = df_geo['Label']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
