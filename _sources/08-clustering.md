@@ -263,7 +263,4 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # 4. PELATIHAN MODEL RANDOM FOREST
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train, y_train)
-
-# 5. EVALUASI PREDIKSI
-y_pred = clf.predict(X_test)
 ```
