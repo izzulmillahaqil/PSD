@@ -301,5 +301,10 @@ print("\nConfusion Matrix (Pengujian Piksel Uji):")
 print(confusion_matrix(y_test, y_pred))
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
+# TAMPILKAN 5 BARIS PERTAMA DATA LATIH (X_train & y_train)
+df_train_sample = X_train.copy()
+df_train_sample['Label_Target'] = y_train
 
+print("=== SAMPEL DATA PIKSEL LATIH (X_train & y_train) ===")
+print(df_train_sample.head())
 ```
