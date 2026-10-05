@@ -227,3 +227,43 @@ NDVI (Normalized Difference Vegetation Index) adalah indeks standar yang digunak
 Proses ekstraksi reflektansi pita spektral **B4 (Red)** dan **B8 (Near-Infrared / NIR)** citra **Sentinel-2A** dimanfaatkan untuk menghitung Formulasi Indeks Vegetasi ($\text{NDVI}$):
 
 $$\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text{Red (B4)}}$$
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# 1. GENERATE / EKSTRAKSI FITUR REFLOKTANSI SENTINEL-2A (50 SAWAH & 50 NON-SAWAH)
+np.random.seed(42)
+
+# Sampel Reflektansi Spektral Sawah (B4 Red & B8 NIR)
+sawah_b4 = np.random.uniform(0.02, 0.08, 50)  # Band 4 Red (Rendah di area vegetasi)
+sawah_b8 = np.random.uniform(0.35, 0.65, 50)  # Band 8 NIR (Tinggi di vegetasi lebat)
+sawah_ndvi = (sawah_b8 - sawah_b4) / (sawah_b8 + sawah_b4)
+
+# Sampel Reflektansi Spektral Non-Sawah
+nonsawah_b4 = np.random.uniform(0.12, 0.30, 50)  # Band 4 Red
+nonsawah_b8 = np.random.uniform(0.15, 0.28, 50)  # Band 8 NIR
+nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
+
+# 2. PEMBENTUKAN DATAFRAME FITUR
+df_sawah = pd.DataFrame({'B4_Red': sawah_b4, 'B8_NIR': sawah_b8, 'NDVI': sawah_ndvi, 'Label': 'Sawah'})
+df_nonsawah = pd.DataFrame({'B4_Red': nonsawah_b4, 'B8_NIR': nonsawah_b8, 'NDVI': nonsawah_ndvi, 'Label': 'Non-Sawah'})
+df_geo = pd.concat([df_sawah, df_nonsawah], ignore_index=True)
+
+# 3. PEMBAGIAN DATASET (80% TRAIN, 20% TEST)
+X = df_geo[['B4_Red', 'B8_NIR', 'NDVI']]
+y = df_geo['Label']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+# 4. PELATIHAN MODEL RANDOM FOREST
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# 5. EVALUASI PREDIKSI
+y_pred = clf.predict(X_test)
+```
