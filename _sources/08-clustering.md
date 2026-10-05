@@ -342,21 +342,6 @@ luas_nonsawah_ha = 4536.2
 
 fig, axes = plt.subplots(1, 3, figsize=(16, 5), gridspec_kw={'width_ratios': [1, 1, 0.8]})
 
-# Panel 1: Sentinel-2A RGB
-axes[0].imshow(rgb_image)
-axes[0].set_title("Sentinel-2A (RGB)", fontsize=11, fontweight='bold')
-axes[0].axis('off')
-
-# Panel 2: Peta Klasifikasi
-cmap_custom = plt.matplotlib.colors.ListedColormap(['red', 'green'])
-axes[1].imshow(classification_map, cmap=cmap_custom)
-axes[1].set_title("Klasifikasi (hijau = sawah, merah = non-sawah)", fontsize=11, fontweight='bold')
-axes[1].axis('off')
-
-# Panel 3: Pie Chart
-axes[2].pie([luas_nonsawah_ha, luas_sawah_ha], labels=['Non-sawah', 'Sawah'], colors=['red', 'green'], autopct='%1.1f%%', startangle=140)
-axes[2].set_title("Proporsi Luas", fontsize=11, fontweight='bold')
-
 plt.tight_layout()
 plt.show()
 
