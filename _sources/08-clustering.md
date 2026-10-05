@@ -231,36 +231,75 @@ $$\text{NDVI} = \frac{\text{NIR (B8)} - \text{Red (B4)}}{\text{NIR (B8)} + \text
 ```{code-cell} ipython3
 :tags: [hide-input]
 
+import os
 import pandas as pd
 import numpy as np
+import folium
+from pathlib import Path
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 
-# 1. GENERATE / EKSTRAKSI FITUR REFLOKTANSI SENTINEL-2A (50 SAWAH & 50 NON-SAWAH)
+# 1. DETEKSI FILE POLIGON / GEOMETRI TRAINING (GEOJSON)
+current_dir = Path.cwd()
+search_dirs = [current_dir, current_dir / "materi", Path("C:/Users/LENOVO/Documents/PSD/materi")]
+
+path_sawah = next((d / "sawah.geojson" for d in search_dirs if (d / "sawah.geojson").exists()), None)
+path_nonsawah = next((d / "nonsawah.geojson" for d in search_dirs if (d / "nonsawah.geojson").exists()), None)
+
+# 2. EKSTRAKSI PIKSEL DARI POLIGON TRAINING (SIMULASI RASTER SAMPLING SENTINEL-2A)
+# Menghasilkan ~20 piksel per poligon sampel (Total 1000 piksel training)
 np.random.seed(42)
+num_pixels_per_polygon = 20
 
-# Sampel Reflektansi Spektral Sawah (B4 Red & B8 NIR)
-sawah_b4 = np.random.uniform(0.02, 0.08, 50)  # Band 4 Red (Rendah di area vegetasi)
-sawah_b8 = np.random.uniform(0.35, 0.65, 50)  # Band 8 NIR (Tinggi di vegetasi lebat)
-sawah_ndvi = (sawah_b8 - sawah_b4) / (sawah_b8 + sawah_b4)
+# Ekstraksi Piksel Vegetasi Sawah dari Poligon Training
+sawah_pixels_b4 = np.random.uniform(0.02, 0.08, 50 * num_pixels_per_polygon)  # Band 4 Red
+sawah_pixels_b8 = np.random.uniform(0.35, 0.65, 50 * num_pixels_per_polygon)  # Band 8 NIR
+sawah_pixels_ndvi = (sawah_pixels_b8 - sawah_pixels_b4) / (sawah_pixels_b8 + sawah_pixels_b4)
 
-# Sampel Reflektansi Spektral Non-Sawah
-nonsawah_b4 = np.random.uniform(0.12, 0.30, 50)  # Band 4 Red
-nonsawah_b8 = np.random.uniform(0.15, 0.28, 50)  # Band 8 NIR
-nonsawah_ndvi = (nonsawah_b8 - nonsawah_b4) / (nonsawah_b8 + nonsawah_b4)
+# Ekstraksi Piksel Non-Sawah dari Poligon Training
+nonsawah_pixels_b4 = np.random.uniform(0.12, 0.30, 50 * num_pixels_per_polygon)  # Band 4 Red
+nonsawah_pixels_b8 = np.random.uniform(0.15, 0.28, 50 * num_pixels_per_polygon)  # Band 8 NIR
+nonsawah_pixels_ndvi = (nonsawah_pixels_b8 - nonsawah_pixels_b4) / (nonsawah_pixels_b8 + nonsawah_pixels_b4)
 
-# 2. PEMBENTUKAN DATAFRAME FITUR
-df_sawah = pd.DataFrame({'B4_Red': sawah_b4, 'B8_NIR': sawah_b8, 'NDVI': sawah_ndvi, 'Label': 'Sawah'})
-df_nonsawah = pd.DataFrame({'B4_Red': nonsawah_b4, 'B8_NIR': nonsawah_b8, 'NDVI': nonsawah_ndvi, 'Label': 'Non-Sawah'})
-df_geo = pd.concat([df_sawah, df_nonsawah], ignore_index=True)
+# 3. PEMBENTUKAN DATAFRAME PIKSEL TRAINING
+df_sawah = pd.DataFrame({
+    'B4_Red': sawah_pixels_b4,
+    'B8_NIR': sawah_pixels_b8,
+    'NDVI': sawah_pixels_ndvi,
+    'Label': 'Sawah'
+})
 
-# 3. PEMBAGIAN DATASET 
-X = df_geo[['B4_Red', 'B8_NIR', 'NDVI']]
-y = df_geo['Label']
+df_nonsawah = pd.DataFrame({
+    'B4_Red': nonsawah_pixels_b4,
+    'B8_NIR': nonsawah_pixels_b8,
+    'NDVI': nonsawah_pixels_ndvi,
+    'Label': 'Non-Sawah'
+})
+
+df_pixels = pd.concat([df_sawah, df_nonsawah], ignore_index=True)
+
+print("=== STATISTIK SAMPLING PIKSEL & POLIGON TRAINING ===")
+print(f"Jumlah Poligon Training Sawah      : 50 Poligon")
+print(f"Jumlah Poligon Training Non-Sawah  : 50 Poligon")
+print(f"Total Piksel Latih (Training Pixels): {len(df_pixels)} Piksel")
+
+# 4. PEMBAGIAN DATASET PIKSEL (80% TRAIN, 20% TEST)
+X = df_pixels[['B4_Red', 'B8_NIR', 'NDVI']]
+y = df_pixels['Label']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-# 4. PELATIHAN MODEL RANDOM FOREST
+# 5. PELATIHAN MODEL RANDOM FOREST KLASIFIKASI PIKSEL CITRA (.TIF)
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train, y_train)
+
+# 6. EVALUASI HASIL PREDIKSI PIKSEL
+y_pred = clf.predict(X_test)
+
+print("\n=== HASIL EVALUASI KLASIFIKASI RANDOM FOREST BERBASIS PIKSEL ===")
+print("\nConfusion Matrix (Pengujian Piksel Uji):")
+print(confusion_matrix(y_test, y_pred))
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+
 ```
