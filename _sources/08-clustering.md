@@ -332,9 +332,6 @@ df_train_sample = pd.DataFrame({
     'Label_Target': ['Sawah', 'Sawah', 'Non-Sawah', 'Non-Sawah', 'Sawah']
 }, index=[478, 488, 1499, 1605, 511])
 
-print("\n=== SAMPEL DATA PIKSEL LATIH (X_train & y_train) ===")
-print(df_train_sample)
-
 # 3. VISUALISASI 3 PANEL FIGURE (RGB, KLASIFIKASI, PIE CHART)
 height, width = 150, 200
 rgb_image = np.random.uniform(0.05, 0.35, (height, width, 3))
