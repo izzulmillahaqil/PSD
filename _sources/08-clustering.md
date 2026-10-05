@@ -296,10 +296,6 @@ clf.fit(X_train, y_train)
 # 6. EVALUASI HASIL PREDIKSI PIKSEL
 y_pred = clf.predict(X_test)
 
-
-print("=== SAMPEL DATA PIKSEL LATIH (X_train & y_train) ===")
-print(df_train_sample.head())   
-
 print("\n=== HASIL EVALUASI KLASIFIKASI RANDOM FOREST BERBASIS PIKSEL ===")
 print("\nConfusion Matrix (Pengujian Piksel Uji):")
 print(confusion_matrix(y_test, y_pred))
@@ -309,4 +305,6 @@ print(classification_report(y_test, y_pred))
 df_train_sample = X_train.copy()
 df_train_sample['Label_Target'] = y_train
 
+print("=== SAMPEL DATA PIKSEL LATIH (X_train & y_train) ===")
+print(df_train_sample.head())   
 ```
