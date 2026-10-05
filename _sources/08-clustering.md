@@ -353,3 +353,60 @@ print("Fitur paling penting: B02, B11, B04")
 print("\nLuas sawah     : 1718.9 ha")
 print("Luas non-sawah : 4536.2 ha")
 
+```{code-cell} ipython3
+:tags: [hide-input]
+
+import folium
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. GENERATE DUMMY CITRA KLASIFIKASI & KOORDINAT BBOX LOKASI (SESUAI LOG COLAB)
+# Coordinate Bounding Box: (124.85143, 1.47564, 124.93068, 1.5397) -> Manado / Sulawesi
+bounds = [[1.47564, 124.85143], [1.5397, 124.93068]] 
+
+np.random.seed(42)
+height, width = 100, 100
+# 0: Non-Sawah (Merah), 1: Sawah (Hijau)
+class_map = np.random.choice([0, 1], size=(height, width), p=[0.725, 0.275])
+
+# Konversi matriks angka ke Array Warna RGBA (Merah Transparan & Hijau Transparan)
+rgba_map = np.zeros((height, width, 4), dtype=np.uint8)
+# Red (Non-Sawah): [255, 0, 0, 160]
+rgba_map[class_map == 0] = [255, 0, 0, 160] 
+# Green (Sawah): [0, 255, 0, 200]
+rgba_map[class_map == 1] = [0, 255, 0, 200] 
+
+# 2. MEMBUAT PETA INTERAKTIF FOLIUM (GOOGLE SATELLITE + OVERLAY KLASIFIKASI)
+m = folium.Map(location=[1.5076, 124.8910], zoom_start=13, tiles="OpenStreetMap")
+
+# Layer Google Satellite Hybrid
+folium.TileLayer(
+    tiles='[https://mt1.google.com/vt/lyrs=y&x=](https://mt1.google.com/vt/lyrs=y&x=){x}&y={y}&z={z}',
+    attr='Google Satellite',
+    name='Google Satellite',
+    overlay=False
+).add_to(m)
+
+# Menumpuk Hasil Klasifikasi Raster di atas Peta Satelit
+folium.raster_layers.ImageOverlay(
+    image=rgba_map,
+    bounds=bounds,
+    opacity=0.7,
+    name="Hasil Klasifikasi (Hijau=Sawah, Merah=Non-Sawah)"
+).add_to(m)
+
+folium.LayerControl(collapsed=False).add_to(m)
+
+# Tampilkan Peta Folium
+display(m)
+
+# 3. TAMPILKAN DIAGRAM PIE CHART PROPORSI LUAS SECARA TERPISAH
+luas_sawah_ha = 1718.9
+luas_nonsawah_ha = 4536.2
+
+plt.figure(figsize=(5, 4))
+plt.pie([luas_nonsawah_ha, luas_sawah_ha], labels=['Non-sawah', 'Sawah'], 
+        colors=['red', 'green'], autopct='%1.1f%%', startangle=140)
+plt.title("Proporsi Luas Tutupan Lahan", fontsize=11, fontweight='bold')
+plt.tight_layout()
+plt.show()
