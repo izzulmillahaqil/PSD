@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Profile &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>09. Klasifikasi Tutupan Lahan (Land Use &amp; Land Cover - Sentinel-2A) &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -59,10 +59,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '09-landuse-classification';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Business Understanding" href="01-business-understanding.html" />
+    <link rel="prev" title="8. Clustering Fitur TSFEL &amp; Klasifikasi Tutupan Lahan Sawah" href="08-clustering.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -125,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -145,7 +143,7 @@
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -176,14 +174,14 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Profile
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
@@ -193,7 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="07-ekstraksi-fitur-dan-clustering.html">7. Ekstraksi Fitur dan Clustering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08-clustering.html">8. Clustering Fitur TSFEL &amp; Klasifikasi Tutupan Lahan Sawah</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="09-landuse-classification.html">9. Landuse classification</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Landuse classification</a></li>
 </ul>
 
     </div>
@@ -265,7 +263,7 @@
       
       
       
-      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/izzulmillahaqil/PSD/issues/new?title=Issue%20on%20page%20%2F09-landuse-classification.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -295,7 +293,7 @@
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="_sources/09-landuse-classification.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -366,7 +364,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -377,11 +377,30 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Profile</h1>
+    <h1>09. Klasifikasi Tutupan Lahan (Land Use & Land Cover - Sentinel-2A)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-data-collecting">1. Data Understanding &amp; Data Collecting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-analisis-lulc">Tujuan Analisis LULC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengumpulan-data-jumlah-sampel">Pengumpulan Data &amp; Jumlah Sampel</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karakteristik-band-sentinel-2a-deskripsi-fitur">2. Karakteristik Band Sentinel-2A &amp; Deskripsi Fitur</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spesifikasi-band-sentinel-2a">Spesifikasi Band Sentinel-2A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-indeks-spektral-turunan-rumus">Fitur Indeks Spektral Turunan &amp; Rumus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acuan-klasifikasi-lahan-sni-7645-1-2014-big">3. Acuan Klasifikasi Lahan (SNI 7645-1:2014 BIG)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksperimen-model-akurasi-tertinggi-visualisasi-peta-wms-google-maps">4. Eksperimen Model Akurasi Tertinggi &amp; Visualisasi Peta WMS Google Maps</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -391,33 +410,74 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="profile">
-<h1>Profile<a class="headerlink" href="#profile" title="Link to this heading">#</a></h1>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-left"><p>Keterangan</p></th>
-<th class="head text-left"><p>Informasi</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p><strong>NIM</strong></p></td>
-<td class="text-left"><p>240411100087</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><strong>Nama</strong></p></td>
-<td class="text-left"><p>Muhammad Izzul Millah Aqil</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><strong>Mata Kuliah</strong></p></td>
-<td class="text-left"><p>Proyek Sains Data</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p><strong>Kelas</strong></p></td>
-<td class="text-left"><p>IF5A</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><a class="reference internal" href="01-business-understanding.html"><span class="std std-doc">Polutan di Surabaya Selatan</span></a></p>
-<div class="toctree-wrapper compound">
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="klasifikasi-tutupan-lahan-land-use-land-cover-sentinel-2a">
+<h1>09. Klasifikasi Tutupan Lahan (Land Use &amp; Land Cover - Sentinel-2A)<a class="headerlink" href="#klasifikasi-tutupan-lahan-land-use-land-cover-sentinel-2a" title="Link to this heading">#</a></h1>
+<section id="data-understanding-data-collecting">
+<h2>1. Data Understanding &amp; Data Collecting<a class="headerlink" href="#data-understanding-data-collecting" title="Link to this heading">#</a></h2>
+<section id="tujuan-analisis-lulc">
+<h3>Tujuan Analisis LULC<a class="headerlink" href="#tujuan-analisis-lulc" title="Link to this heading">#</a></h3>
+<p>Pemetaan tutupan lahan berbasis citra satelit <strong>Sentinel-2A</strong> bertujuan untuk melakukan pemantauan otomatis wilayah Jawa Timur secara presisi. Analisis ini bermanfaat untuk monitoring ketahanan pangan (sawah), RTH/kehutanan (lahan hijau), vegetasi pesisir (mangrove), pemukiman (bangunan), serta sumber daya air (laut dan danau/ranu).</p>
+</section>
+<section id="pengumpulan-data-jumlah-sampel">
+<h3>Pengumpulan Data &amp; Jumlah Sampel<a class="headerlink" href="#pengumpulan-data-jumlah-sampel" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Wilayah Kajian:</strong> Provinsi Jawa Timur (termasuk kawasan pesisir, Ranu Klakah/Kumbolo, RTH, dan perkotaan).</p></li>
+<li><p><strong>Target Klasifikasi (6 Kelas):</strong> Sawah, Bangunan, Mangrove, Lahan Hijau, Perairan Laut, dan Danau/Ranu.</p></li>
+<li><p><strong>Jumlah Sampel Vektor (QGIS):</strong> 180 Poligon Sampling (30 Poligon per Kelas).</p></li>
+<li><p><strong>Total Piksel Bebas Awan Extracted:</strong> ~6.000 Piksel.</p></li>
+<li><p><strong>Pembagian Dataset (Eksperimen Split 80:20):</strong></p>
+<ul>
+<li><p><strong>Data Latih (Training Set):</strong> 4.800 Piksel</p></li>
+<li><p><strong>Data Uji (Testing Set):</strong> 1.200 Piksel</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="karakteristik-band-sentinel-2a-deskripsi-fitur">
+<h2>2. Karakteristik Band Sentinel-2A &amp; Deskripsi Fitur<a class="headerlink" href="#karakteristik-band-sentinel-2a-deskripsi-fitur" title="Link to this heading">#</a></h2>
+<section id="spesifikasi-band-sentinel-2a">
+<h3>Spesifikasi Band Sentinel-2A<a class="headerlink" href="#spesifikasi-band-sentinel-2a" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>B2 (Blue - 0.490 <span class="math notranslate nohighlight">\(\mu m\)</span>):</strong> Membedakan daratan dan perairan.</p></li>
+<li><p><strong>B3 (Green - 0.560 <span class="math notranslate nohighlight">\(\mu m\)</span>):</strong> Puncak pantulan vegetasi sehat dan kejernihan air.</p></li>
+<li><p><strong>B4 (Red - 0.665 <span class="math notranslate nohighlight">\(\mu m\)</span>):</strong> Penyerapan klorofil tanaman.</p></li>
+<li><p><strong>B8 (NIR - 0.842 <span class="math notranslate nohighlight">\(\mu m\)</span>):</strong> Pantulan tinggi vegetasi &amp; mangrove; diserap total oleh air.</p></li>
+<li><p><strong>B11 (SWIR-1 - 1.610 <span class="math notranslate nohighlight">\(\mu m\)</span>):</strong> Sensor kelembapan tanah dan struktur bangunan.</p></li>
+</ul>
+</section>
+<section id="fitur-indeks-spektral-turunan-rumus">
+<h3>Fitur Indeks Spektral Turunan &amp; Rumus<a class="headerlink" href="#fitur-indeks-spektral-turunan-rumus" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>NDVI (Normalized Difference Vegetation Index)</strong>
+$<span class="math notranslate nohighlight">\(\text{NDVI} = \frac{\text{B8} - \text{B4}}{\text{B8} + \text{B4}}\)</span>$</p></li>
+<li><p><strong>NDWI (Normalized Difference Water Index)</strong>
+$<span class="math notranslate nohighlight">\(\text{NDWI} = \frac{\text{B3} - \text{B8}}{\text{B3} + \text{B8}}\)</span>$</p></li>
+<li><p><strong>NDBI (Normalized Difference Built-up Index)</strong>
+$<span class="math notranslate nohighlight">\(\text{NDBI} = \frac{\text{B11} - \text{B8}}{\text{B11} + \text{B8}}\)</span>$</p></li>
+<li><p><strong>MNDWI (Modified Normalized Difference Water Index)</strong>
+$<span class="math notranslate nohighlight">\(\text{MNDWI} = \frac{\text{B3} - \text{B11}}{\text{B3} + \text{B11}}\)</span>$</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="acuan-klasifikasi-lahan-sni-7645-1-2014-big">
+<h2>3. Acuan Klasifikasi Lahan (SNI 7645-1:2014 BIG)<a class="headerlink" href="#acuan-klasifikasi-lahan-sni-7645-1-2014-big" title="Link to this heading">#</a></h2>
+<p>Klasifikasi mengacu pada standar <strong>Badan Informasi Geospasial (BIG)</strong>:</p>
+<ul class="simple">
+<li><p><strong>Sawah:</strong> Pertanian lahan basah berciri tergenang air/fase padi.</p></li>
+<li><p><strong>Bangunan:</strong> Area lahan terbangun, pemukiman, dan infrastruktur beton.</p></li>
+<li><p><strong>Mangrove:</strong> Vegetasi spesifik kawasan pasang-surut pesisir.</p></li>
+<li><p><strong>Lahan Hijau:</strong> Hutan, kebun, RTH urban, dan vegetasi non-sawah.</p></li>
+<li><p><strong>Perairan Laut:</strong> Tubuh air asin pesisir/lepas pantai.</p></li>
+<li><p><strong>Danau / Ranu:</strong> Genangan air tawar alami/buatan di daratan.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="eksperimen-model-akurasi-tertinggi-visualisasi-peta-wms-google-maps">
+<h2>4. Eksperimen Model Akurasi Tertinggi &amp; Visualisasi Peta WMS Google Maps<a class="headerlink" href="#eksperimen-model-akurasi-tertinggi-visualisasi-peta-wms-google-maps" title="Link to this heading">#</a></h2>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -450,14 +510,14 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="right-next"
-       href="01-business-understanding.html"
-       title="next page">
+    <a class="left-prev"
+       href="08-clustering.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Business Understanding</p>
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8. Clustering Fitur TSFEL &amp; Klasifikasi Tutupan Lahan Sawah</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -465,6 +525,32 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-data-collecting">1. Data Understanding &amp; Data Collecting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-analisis-lulc">Tujuan Analisis LULC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengumpulan-data-jumlah-sampel">Pengumpulan Data &amp; Jumlah Sampel</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karakteristik-band-sentinel-2a-deskripsi-fitur">2. Karakteristik Band Sentinel-2A &amp; Deskripsi Fitur</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spesifikasi-band-sentinel-2a">Spesifikasi Band Sentinel-2A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-indeks-spektral-turunan-rumus">Fitur Indeks Spektral Turunan &amp; Rumus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acuan-klasifikasi-lahan-sni-7645-1-2014-big">3. Acuan Klasifikasi Lahan (SNI 7645-1:2014 BIG)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksperimen-model-akurasi-tertinggi-visualisasi-peta-wms-google-maps">4. Eksperimen Model Akurasi Tertinggi &amp; Visualisasi Peta WMS Google Maps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
