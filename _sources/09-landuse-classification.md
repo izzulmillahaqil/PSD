@@ -136,3 +136,12 @@ for name, lat, lon, cls_id, color in samples_jatim:
 
 folium.LayerControl().add_to(m)
 m
+```
+
+---
+
+## 5. Sistem Informasi Interaktif (Streamlit App)
+
+Aplikasi klasifikasi LULC Jawa Timur 6 kelas dan ekstraksi indeks spektral dapat diakses secara langsung melalui aplikasi interaktif Streamlit berikut:
+
+🔗 **[Buka Aplikasi Sistem Informasi LULC Jawa Timur](https://azbnocqvgzewxcz9ajmxt5.streamlit.app/)**
