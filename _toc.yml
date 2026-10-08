@@ -15,5 +15,9 @@ parts:
         title: 5. Pipeline Cloud & KNIME
       - file: 06-feature-extraction
         title: 6. Ekstraksi Fitur TSFEL
-      - file: 07-kesimpulan
-        title: 7. Kesimpulan
+      - file: 07-ekstraksi-fitur-dan-clustering
+        title: 7. Ekstraksi Fitur dan Clustering
+      - file: 08-clustering.md
+        title: 8. clustering
+      - file: 09-landuse-classification.md
+        title: 9. Landuse classification

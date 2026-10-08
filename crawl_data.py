@@ -16,7 +16,7 @@ with open('../geojson/Wilayah.geojson') as f:
 
 # 4. Load Collection openEO
 datacube = connection.load_collection(
-    "SENTINEL_5P_L2",
+    "SENTINEL_5P_L2",   
     spatial_extent=geojson_data,
     temporal_extent=["2025-09-01", "2026-08-31"],
     bands=["NO2"]
