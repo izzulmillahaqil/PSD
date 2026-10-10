@@ -1,0 +1,4 @@
+{
+    "python.defaultInterpreterPath": "C:\\laragon\\bin\\python\\python-3.10\\python.exe",
+    "jupyter.defaultKernel": "py310"
+}
