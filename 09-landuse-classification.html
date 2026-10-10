@@ -536,7 +536,7 @@ document.write(`
 <tr class="row-even"><td class="text-center"><p>5</p></td>
 <td class="text-left"><p>Perairan Terbuka (Laut)</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lautfix/input.shp</span></code></p></td>
-<td class="text-center"><p><strong>35</strong></p></td>
+<td class="text-center"><p><strong>50</strong></p></td>
 </tr>
 <tr class="row-odd"><td class="text-center"><p>6</p></td>
 <td class="text-left"><p>Danau</p></td>
@@ -546,14 +546,14 @@ document.write(`
 <tr class="row-even"><td class="text-center"><p><strong>Total</strong></p></td>
 <td class="text-left"><p><strong>6 Kelas</strong></p></td>
 <td class="text-left"><p></p></td>
-<td class="text-center"><p><strong>285 sampel</strong></p></td>
+<td class="text-center"><p><strong>300 sampel</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <blockquote>
 <div><p><strong>Catatan Keseimbangan Sampel:</strong><br />
-Target sampel Danau ditetapkan sebanyak 50 sampel dan Perairan Terbuka (Laut) sebanyak 35 sampel (mencakup Laut Jawa utara, Samudera Hindia selatan, dan Selat Madura) untuk menyeimbangkan representasi kelas perairan dengan kelas daratan (<span class="math notranslate nohighlight">\(50:50:50:50:35:50\)</span>). Penambahan dan persebaran sampel laut ini krusial agar model klasifikasi tidak keliru mengelompokkan wilayah perairan laut lepas/pesisir sebagai danau (<em>speckle noise</em>). Pembagian data dilakukan dengan <em>stratified split</em> agar proporsi kelas pada data training dan testing tetap konsisten.</p>
+Target sampel setiap kelas ditetapkan sebanyak <strong>50 sampel</strong>, termasuk Perairan Terbuka (Laut) yang mencakup Laut Jawa utara, Samudera Hindia selatan, dan Selat Madura (<span class="math notranslate nohighlight">\(50:50:50:50:50:50\)</span>). Distribusi sampel laut yang merata dan seimbang krusial agar model klasifikasi tidak keliru mengelompokkan wilayah perairan laut lepas/pesisir sebagai danau (<em>speckle noise</em>). Pembagian data dilakukan dengan <em>stratified split</em> agar proporsi kelas pada data training dan testing tetap konsisten.</p>
 </div></blockquote>
 </section>
 <section id="band-pada-sentinel-2a">
@@ -668,7 +668,7 @@ Target sampel Danau ditetapkan sebanyak 50 sampel dan Perairan Terbuka (Laut) se
 </section>
 <section id="alur-kerja-workflow">
 <h2>1.6 Alur Kerja (Workflow)<a class="headerlink" href="#alur-kerja-workflow" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Shapefile</span> <span class="p">(</span><span class="mi">6</span> <span class="n">kelas</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Titik</span> <span class="n">Sampel</span> <span class="p">(</span><span class="mi">285</span> <span class="n">Titik</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Ekstraksi</span> <span class="n">Nilai</span> <span class="n">Band</span> <span class="n">Sentinel</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Shapefile</span> <span class="p">(</span><span class="mi">6</span> <span class="n">kelas</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Titik</span> <span class="n">Sampel</span> <span class="p">(</span><span class="mi">300</span> <span class="n">Titik</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Ekstraksi</span> <span class="n">Nilai</span> <span class="n">Band</span> <span class="n">Sentinel</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span>
     <span class="o">-&gt;</span> <span class="n">Perhitungan</span> <span class="mi">8</span> <span class="n">Indeks</span> <span class="n">Spektral</span> <span class="o">-&gt;</span> <span class="n">Dataset</span> <span class="n">Fitur</span> <span class="n">Lengkap</span> <span class="p">(</span><span class="mi">18</span> <span class="n">Fitur</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EDA</span>
     <span class="o">-&gt;</span> <span class="n">Stratified</span> <span class="n">Split</span> <span class="p">(</span><span class="n">Train</span><span class="p">:</span><span class="n">Test</span> <span class="mi">80</span><span class="p">:</span><span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Decision</span> <span class="n">Tree</span> <span class="n">Classifier</span> <span class="o">-&gt;</span> <span class="n">Evaluasi</span> <span class="n">Performa</span>
     <span class="o">-&gt;</span> <span class="n">Eksperimen</span> <span class="p">(</span><span class="n">Rasio</span> <span class="n">Split</span><span class="p">,</span> <span class="n">Kombinasi</span> <span class="n">Fitur</span><span class="p">,</span> <span class="n">Hyperparameter</span> <span class="n">Tuning</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Model</span> <span class="n">Final</span>
@@ -715,7 +715,7 @@ Target sampel Danau ditetapkan sebanyak 50 sampel dan Perairan Terbuka (Laut) se
     <span class="mi">2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nama</span><span class="o">=</span><span class="s2">&quot;Bangunan&quot;</span><span class="p">,</span>                <span class="n">file</span><span class="o">=</span><span class="s2">&quot;Bangunanfix&quot;</span><span class="p">,</span>    <span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">warna</span><span class="o">=</span><span class="s2">&quot;#E41A1C&quot;</span><span class="p">),</span>
     <span class="mi">3</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nama</span><span class="o">=</span><span class="s2">&quot;Mangrove&quot;</span><span class="p">,</span>                <span class="n">file</span><span class="o">=</span><span class="s2">&quot;mangrovefix&quot;</span><span class="p">,</span>    <span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">warna</span><span class="o">=</span><span class="s2">&quot;#8E44AD&quot;</span><span class="p">),</span>
     <span class="mi">4</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nama</span><span class="o">=</span><span class="s2">&quot;Lahan Hijau&quot;</span><span class="p">,</span>             <span class="n">file</span><span class="o">=</span><span class="s2">&quot;Lahanhijaufix&quot;</span><span class="p">,</span>  <span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">warna</span><span class="o">=</span><span class="s2">&quot;#2E7D32&quot;</span><span class="p">),</span>
-    <span class="mi">5</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nama</span><span class="o">=</span><span class="s2">&quot;Perairan Terbuka (Laut)&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s2">&quot;lautfix&quot;</span><span class="p">,</span>        <span class="n">n</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">warna</span><span class="o">=</span><span class="s2">&quot;#0D47A1&quot;</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nama</span><span class="o">=</span><span class="s2">&quot;Perairan Terbuka (Laut)&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s2">&quot;lautfix&quot;</span><span class="p">,</span>        <span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">warna</span><span class="o">=</span><span class="s2">&quot;#0D47A1&quot;</span><span class="p">),</span>
     <span class="mi">6</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nama</span><span class="o">=</span><span class="s2">&quot;Danau&quot;</span><span class="p">,</span>                   <span class="n">file</span><span class="o">=</span><span class="s2">&quot;danau_fix&quot;</span><span class="p">,</span>      <span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">warna</span><span class="o">=</span><span class="s2">&quot;#4FC3F7&quot;</span><span class="p">),</span>
 <span class="p">}</span>
 
@@ -865,7 +865,7 @@ Danau                      -&gt; .\danau_fix\input.shp
       <th>5</th>
       <td>Perairan Terbuka (Laut)</td>
       <td>50</td>
-      <td>35</td>
+      <td>50</td>
       <td>111.148</td>
       <td>-9.249</td>
       <td>114.554</td>
@@ -1111,7 +1111,7 @@ Danau                      -&gt; .\danau_fix\input.shp
 <h1>4. Eksplorasi Data (EDA)<a class="headerlink" href="#eksplorasi-data-eda" title="Link to this heading">#</a></h1>
 <section id="jumlah-data-per-kelas">
 <h2>4.1 Jumlah Data per Kelas<a class="headerlink" href="#jumlah-data-per-kelas" title="Link to this heading">#</a></h2>
-<p>Memeriksa komposisi dataset 285 sampel (50 untuk kelas daratan &amp; danau, 35 untuk laut):</p>
+<p>Memeriksa komposisi dataset 300 sampel (50 untuk setiap kelas):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jml</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;kelas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">NAMA_KELAS</span><span class="p">)</span>
@@ -1121,7 +1121,7 @@ Danau                      -&gt; .\danau_fix\input.shp
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">WARNA_KELAS</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">NAMA_KELAS</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">jml</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">jml</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribusi Jumlah Sampel per Kelas Tutupan Lahan (Total = 285)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribusi Jumlah Sampel per Kelas Tutupan Lahan (Total = 300)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kelas LULC&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah Sampel&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
@@ -1410,7 +1410,7 @@ $<span class="math notranslate nohighlight">\(I_G(p) = 1 - \sum_{i=1}^{C} p_i^2\
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="eksperimen">
 <h1>6. Eksperimen<a class="headerlink" href="#eksperimen" title="Link to this heading">#</a></h1>
-<p>Untuk menguji ketahanan model pada data berukuran 285 sampel, eksperimen dievaluasi menggunakan <strong>Repeated Stratified 5-Fold Cross-Validation (10 pengulangan = 50 iterasi)</strong>.</p>
+<p>Untuk menguji ketahanan model pada data berukuran 300 sampel, eksperimen dievaluasi menggunakan <strong>Repeated Stratified 5-Fold Cross-Validation (10 pengulangan = 50 iterasi)</strong>.</p>
 <section id="eksperimen-rasio-training-testing">
 <h2>6.1 Eksperimen Rasio Training:Testing<a class="headerlink" href="#eksperimen-rasio-training-testing" title="Link to this heading">#</a></h2>
 <p>Membandingkan dampak pembagian rasio data latih terhadap data uji (90:10, 80:20, 70:30, 60:40) dengan 10 variasi seed:</p>
