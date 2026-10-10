@@ -873,12 +873,12 @@ Danau                      -&gt; .\danau_fix\input.shp
     <tr>
       <th>5</th>
       <td>Perairan Terbuka (Laut)</td>
-      <td>25</td>
+      <td>50</td>
       <td>35</td>
-      <td>109.863</td>
-      <td>-9.574</td>
-      <td>117.305</td>
-      <td>-4.258</td>
+      <td>111.148</td>
+      <td>-9.249</td>
+      <td>114.554</td>
+      <td>-6.453</td>
     </tr>
     <tr>
       <th>6</th>
@@ -1044,7 +1044,7 @@ Danau                      -&gt; .\danau_fix\input.shp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset berhasil dimuat: 285 baris, 23 kolom
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset berhasil dimuat: 305 baris, 13 kolom
 Daftar 18 Fitur Analisis: [&#39;B2&#39;, &#39;B3&#39;, &#39;B4&#39;, &#39;B5&#39;, &#39;B6&#39;, &#39;B7&#39;, &#39;B8&#39;, &#39;B8A&#39;, &#39;B11&#39;, &#39;B12&#39;, &#39;NDVI&#39;, &#39;NDWI&#39;, &#39;MNDWI&#39;, &#39;NDBI&#39;, &#39;NDRE&#39;, &#39;EVI&#39;, &#39;SAVI&#39;, &#39;BSI&#39;]
 </pre></div>
 </div>
@@ -1066,153 +1066,104 @@ Daftar 18 Fitur Analisis: [&#39;B2&#39;, &#39;B3&#39;, &#39;B4&#39;, &#39;B5&#39
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>kelas_id</th>
+      <th>id</th>
       <th>kelas</th>
-      <th>poligon_id</th>
-      <th>lon</th>
-      <th>lat</th>
+      <th>wilayah</th>
       <th>B2</th>
       <th>B3</th>
       <th>B4</th>
       <th>B5</th>
       <th>B6</th>
-      <th>...</th>
+      <th>B7</th>
+      <th>B8</th>
+      <th>B8A</th>
       <th>B11</th>
       <th>B12</th>
-      <th>NDVI</th>
-      <th>NDWI</th>
-      <th>MNDWI</th>
-      <th>NDBI</th>
-      <th>NDRE</th>
-      <th>EVI</th>
-      <th>SAVI</th>
-      <th>BSI</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>1</td>
-      <td>Sawah</td>
       <td>0</td>
-      <td>111.955920</td>
-      <td>-7.700248</td>
-      <td>0.05444</td>
-      <td>0.06960</td>
-      <td>0.08201</td>
-      <td>0.14693</td>
-      <td>0.18522</td>
-      <td>...</td>
-      <td>0.20663</td>
-      <td>0.10165</td>
-      <td>0.536129</td>
-      <td>-0.592004</td>
-      <td>-0.496072</td>
-      <td>-0.135819</td>
-      <td>0.297842</td>
-      <td>0.349672</td>
-      <td>0.333128</td>
-      <td>-0.060814</td>
+      <td>Sawah</td>
+      <td>sawahfix</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1</td>
       <td>Sawah</td>
-      <td>1</td>
-      <td>111.956411</td>
-      <td>-7.701165</td>
-      <td>0.05904</td>
-      <td>0.08778</td>
-      <td>0.07379</td>
-      <td>0.15029</td>
-      <td>0.24569</td>
-      <td>...</td>
-      <td>0.22633</td>
-      <td>0.11610</td>
-      <td>0.580882</td>
-      <td>-0.520472</td>
-      <td>-0.441088</td>
-      <td>-0.103040</td>
-      <td>0.298726</td>
-      <td>0.400033</td>
-      <td>0.360055</td>
-      <td>-0.058432</td>
+      <td>sawahfix</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>1</td>
-      <td>Sawah</td>
       <td>2</td>
-      <td>112.708140</td>
-      <td>-7.385811</td>
-      <td>0.05052</td>
-      <td>0.07319</td>
-      <td>0.08767</td>
-      <td>0.12722</td>
-      <td>0.22329</td>
-      <td>...</td>
-      <td>0.21608</td>
-      <td>0.12475</td>
-      <td>0.526837</td>
-      <td>-0.588924</td>
-      <td>-0.493968</td>
-      <td>-0.133913</td>
-      <td>0.379596</td>
-      <td>0.341306</td>
-      <td>0.336383</td>
-      <td>-0.046565</td>
+      <td>Sawah</td>
+      <td>sawahfix</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1</td>
-      <td>Sawah</td>
       <td>3</td>
-      <td>112.713524</td>
-      <td>-7.385797</td>
-      <td>0.06913</td>
-      <td>0.07594</td>
-      <td>0.06685</td>
-      <td>0.11535</td>
-      <td>0.24940</td>
-      <td>...</td>
-      <td>0.18886</td>
-      <td>0.12871</td>
-      <td>0.596876</td>
-      <td>-0.554277</td>
-      <td>-0.426435</td>
-      <td>-0.167412</td>
-      <td>0.393150</td>
-      <td>0.431310</td>
-      <td>0.357045</td>
-      <td>-0.132672</td>
+      <td>Sawah</td>
+      <td>sawahfix</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1</td>
-      <td>Sawah</td>
       <td>4</td>
-      <td>114.104796</td>
-      <td>-8.457928</td>
-      <td>0.05795</td>
-      <td>0.08543</td>
-      <td>0.06501</td>
-      <td>0.13418</td>
-      <td>0.23692</td>
-      <td>...</td>
-      <td>0.22194</td>
-      <td>0.11822</td>
-      <td>0.636216</td>
-      <td>-0.547786</td>
-      <td>-0.444123</td>
-      <td>-0.136991</td>
-      <td>0.370903</td>
-      <td>0.455569</td>
-      <td>0.397809</td>
-      <td>-0.099482</td>
+      <td>Sawah</td>
+      <td>sawahfix</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 23 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -1249,10 +1200,10 @@ Daftar 18 Fitur Analisis: [&#39;B2&#39;, &#39;B3&#39;, &#39;B4&#39;, &#39;B5&#39
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah kelas : 6
-Jumlah data  : 285
+Jumlah data  : 305
 </pre></div>
 </div>
-<img alt="_images/3a02549d66106b297cc40e890e251864fe453146b6baa8de665f1d7731008a90.png" src="_images/3a02549d66106b297cc40e890e251864fe453146b6baa8de665f1d7731008a90.png" />
+<img alt="_images/0b8b9610e6e7a6a284d18e2b44da8f5c2086568b048132062ebb4c2af4b529d5.png" src="_images/0b8b9610e6e7a6a284d18e2b44da8f5c2086568b048132062ebb4c2af4b529d5.png" />
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1281,7 +1232,7 @@ Jumlah data  : 285
   <tbody>
     <tr>
       <th>Sawah</th>
-      <td>50</td>
+      <td>52</td>
     </tr>
     <tr>
       <th>Bangunan</th>
@@ -1289,7 +1240,7 @@ Jumlah data  : 285
     </tr>
     <tr>
       <th>Mangrove</th>
-      <td>50</td>
+      <td>53</td>
     </tr>
     <tr>
       <th>Lahan Hijau</th>
@@ -1297,7 +1248,7 @@ Jumlah data  : 285
     </tr>
     <tr>
       <th>Perairan Terbuka (Laut)</th>
-      <td>35</td>
+      <td>50</td>
     </tr>
     <tr>
       <th>Danau</th>
@@ -1323,195 +1274,34 @@ Jumlah data  : 285
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rata-rata Fitur per Kelas LULC:
 </pre></div>
 </div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata Fitur per Kelas LULC:&quot;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">df_mean_kelas</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;kelas&quot;</span><span class="p">)[</span><span class="n">FITUR_SEMUA</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">NAMA_KELAS</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df_mean_kelas</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="nn">File c:\laragon\bin\python\python-3.10\lib\site-packages\pandas\core\groupby\generic.py:1951,</span> in <span class="ni">DataFrameGroupBy.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1944</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1945</span>     <span class="c1"># if len == 1, then it becomes a SeriesGroupBy and this is actually</span>
+<span class="g g-Whitespace">   </span><span class="mi">1946</span>     <span class="c1"># valid syntax, so don&#39;t raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">1947</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1948</span>         <span class="s2">&quot;Cannot subset columns with a tuple with more than one element. &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1949</span>         <span class="s2">&quot;Use a list instead.&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1950</span>     <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1951</span> <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>B2</th>
-      <th>B3</th>
-      <th>B4</th>
-      <th>B5</th>
-      <th>B6</th>
-      <th>B7</th>
-      <th>B8</th>
-      <th>B8A</th>
-      <th>B11</th>
-      <th>B12</th>
-      <th>NDVI</th>
-      <th>NDWI</th>
-      <th>MNDWI</th>
-      <th>NDBI</th>
-      <th>NDRE</th>
-      <th>EVI</th>
-      <th>SAVI</th>
-      <th>BSI</th>
-    </tr>
-    <tr>
-      <th>kelas</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Sawah</th>
-      <td>0.052</td>
-      <td>0.079</td>
-      <td>0.073</td>
-      <td>0.130</td>
-      <td>0.232</td>
-      <td>0.267</td>
-      <td>0.269</td>
-      <td>0.294</td>
-      <td>0.208</td>
-      <td>0.117</td>
-      <td>0.573</td>
-      <td>-0.543</td>
-      <td>-0.445</td>
-      <td>-0.128</td>
-      <td>0.349</td>
-      <td>0.374</td>
-      <td>0.348</td>
-      <td>-0.066</td>
-    </tr>
-    <tr>
-      <th>Bangunan</th>
-      <td>0.101</td>
-      <td>0.121</td>
-      <td>0.144</td>
-      <td>0.154</td>
-      <td>0.170</td>
-      <td>0.183</td>
-      <td>0.186</td>
-      <td>0.200</td>
-      <td>0.253</td>
-      <td>0.231</td>
-      <td>0.129</td>
-      <td>-0.211</td>
-      <td>-0.353</td>
-      <td>0.153</td>
-      <td>0.095</td>
-      <td>0.088</td>
-      <td>0.076</td>
-      <td>0.161</td>
-    </tr>
-    <tr>
-      <th>Mangrove</th>
-      <td>0.040</td>
-      <td>0.068</td>
-      <td>0.038</td>
-      <td>0.107</td>
-      <td>0.242</td>
-      <td>0.292</td>
-      <td>0.297</td>
-      <td>0.305</td>
-      <td>0.120</td>
-      <td>0.051</td>
-      <td>0.772</td>
-      <td>-0.625</td>
-      <td>-0.269</td>
-      <td>-0.426</td>
-      <td>0.466</td>
-      <td>0.528</td>
-      <td>0.464</td>
-      <td>-0.362</td>
-    </tr>
-    <tr>
-      <th>Lahan Hijau</th>
-      <td>0.052</td>
-      <td>0.073</td>
-      <td>0.068</td>
-      <td>0.117</td>
-      <td>0.208</td>
-      <td>0.243</td>
-      <td>0.244</td>
-      <td>0.270</td>
-      <td>0.202</td>
-      <td>0.147</td>
-      <td>0.561</td>
-      <td>-0.537</td>
-      <td>-0.469</td>
-      <td>-0.092</td>
-      <td>0.352</td>
-      <td>0.351</td>
-      <td>0.323</td>
-      <td>-0.045</td>
-    </tr>
-    <tr>
-      <th>Perairan Terbuka (Laut)</th>
-      <td>0.043</td>
-      <td>0.032</td>
-      <td>0.023</td>
-      <td>0.025</td>
-      <td>0.023</td>
-      <td>0.023</td>
-      <td>0.020</td>
-      <td>0.023</td>
-      <td>0.021</td>
-      <td>0.019</td>
-      <td>-0.077</td>
-      <td>0.233</td>
-      <td>0.214</td>
-      <td>0.020</td>
-      <td>-0.107</td>
-      <td>-0.009</td>
-      <td>-0.009</td>
-      <td>-0.177</td>
-    </tr>
-    <tr>
-      <th>Danau</th>
-      <td>0.048</td>
-      <td>0.064</td>
-      <td>0.050</td>
-      <td>0.082</td>
-      <td>0.105</td>
-      <td>0.121</td>
-      <td>0.105</td>
-      <td>0.121</td>
-      <td>0.082</td>
-      <td>0.052</td>
-      <td>0.355</td>
-      <td>-0.240</td>
-      <td>-0.122</td>
-      <td>-0.120</td>
-      <td>0.119</td>
-      <td>0.134</td>
-      <td>0.127</td>
-      <td>-0.073</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="nn">File c:\laragon\bin\python\python-3.10\lib\site-packages\pandas\core\base.py:240,</span> in <span class="ni">SelectionMixin.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">    </span><span class="mi">238</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">key</span><span class="p">)):</span>
+<span class="g g-Whitespace">    </span><span class="mi">239</span>         <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">240</span>         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns not found: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">241</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gotitem</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">243</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="ne">KeyError</span>: &quot;Columns not found: &#39;NDVI&#39;, &#39;EVI&#39;, &#39;NDBI&#39;, &#39;NDRE&#39;, &#39;NDWI&#39;, &#39;SAVI&#39;, &#39;MNDWI&#39;, &#39;BSI&#39;&quot;
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="tanda-tangan-spektral-spectral-signature">
