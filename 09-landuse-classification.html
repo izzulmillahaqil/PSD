@@ -1626,7 +1626,24 @@ $<span class="math notranslate nohighlight">\(I_G(p) = 1 - \sum_{i=1}^{C} p_i^2\
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Area of Interest (BBox Jawa Timur)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Fallback: pastikan FITUR_FINAL &amp; model_final terdefinisi ----</span>
+<span class="c1"># (dibutuhkan jika cell eksperimen dilewati saat build otomatis)</span>
+<span class="k">if</span> <span class="s1">&#39;FITUR_FINAL&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">()</span> <span class="ow">or</span> <span class="n">FITUR_FINAL</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">FITUR_FINAL</span> <span class="o">=</span> <span class="n">FITUR_SEMUA</span>  <span class="c1"># pakai semua 18 fitur sebagai default</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[fallback] FITUR_FINAL diset ke FITUR_SEMUA: </span><span class="si">{</span><span class="n">FITUR_FINAL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s1">&#39;model_final&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">()</span> <span class="ow">or</span> <span class="n">model_final</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Latih ulang model final dengan hyperparameter optimal default</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+    <span class="n">model_final</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+        <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span>
+    <span class="p">)</span>
+    <span class="n">model_final</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">FITUR_FINAL</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;kelas&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[fallback] model_final dilatih ulang dengan FITUR_FINAL (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FITUR_FINAL</span><span class="p">)</span><span class="si">}</span><span class="s2"> fitur)&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Area of Interest (BBox Jawa Timur)</span>
 <span class="n">AOI_JATIM</span> <span class="o">=</span> <span class="p">[</span><span class="mf">111.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.85</span><span class="p">,</span> <span class="mf">114.65</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.75</span><span class="p">]</span>   <span class="c1"># [barat, selatan, timur, utara]</span>
 <span class="n">pusat_peta</span> <span class="o">=</span> <span class="p">[(</span><span class="n">AOI_JATIM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">AOI_JATIM</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">AOI_JATIM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">AOI_JATIM</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
 
@@ -1723,21 +1740,22 @@ $<span class="math notranslate nohighlight">\(I_G(p) = 1 - \sum_{i=1}^{C} p_i^2\
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[fallback] FITUR_FINAL diset ke FITUR_SEMUA: [&#39;B2&#39;, &#39;B3&#39;, &#39;B4&#39;, &#39;B5&#39;, &#39;B6&#39;, &#39;B7&#39;, &#39;B8&#39;, &#39;B8A&#39;, &#39;B11&#39;, &#39;B12&#39;, &#39;NDVI&#39;, &#39;NDWI&#39;, &#39;MNDWI&#39;, &#39;NDBI&#39;, &#39;NDRE&#39;, &#39;EVI&#39;, &#39;SAVI&#39;, &#39;BSI&#39;]
+</pre></div>
+</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">29</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">tiles</span><span class="o">=</span><span class="s2">&quot;https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/</span><span class="si">{z}</span><span class="s2">/</span><span class="si">{y}</span><span class="s2">/</span><span class="si">{x}</span><span class="s2">&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;Tiles &amp;copy; Esri &amp;mdash; Source: Esri, Maxar, Earthstar Geographics&quot;</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="n">show</span><span class="o">=</span><span class="kc">False</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="c1"># 3. Prediksi Seluruh Sampel dengan Model Final</span>
-<span class="ne">---&gt; </span><span class="mi">29</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;prediksi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_final</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">FITUR_FINAL</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;evaluasi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;kelas&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;prediksi&quot;</span><span class="p">],</span> <span class="s2">&quot;Tepat&quot;</span><span class="p">,</span> <span class="s2">&quot;Meleset&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="c1"># 4. Tambahkan Titik Sampel per Kelas ke Layer Terpisah</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">model_final</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>         <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>         <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">14</span>     <span class="n">model_final</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">FITUR_FINAL</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;kelas&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[fallback] model_final dilatih ulang dengan FITUR_FINAL (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">FITUR_FINAL</span><span class="p">)</span><span class="si">}</span><span class="s2"> fitur)&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="c1"># Area of Interest (BBox Jawa Timur)</span>
 
-<span class="ne">NameError</span>: name &#39;model_final&#39; is not defined
+<span class="ne">NameError</span>: name &#39;df&#39; is not defined
 </pre></div>
 </div>
 </div>
