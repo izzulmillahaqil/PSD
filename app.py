@@ -5,11 +5,14 @@ import pandas as pd
 import numpy as np
 from streamlit_folium import st_folium
 
-# Konfigurasi Halaman Streamlit
+# Konfigurasi Halaman Streamlit (Harus paling atas)
 st.set_page_config(page_title="Dashboard LULC Jawa Timur", layout="wide")
 
 st.title("Klasifikasi Penggunaan dan Tutupan Lahan Jawa Timur")
 st.write("Dashboard interaktif pemodelan tutupan lahan menggunakan data Sentinel-2 dan Python Folium.")
+
+# Membuat Menu Tab seperti di gambar Anda
+tab1, tab2, tab3, tab4 = st.tabs(["Eksplorasi Data", "Peta Spasial", "Model Decision Tree", "Prediksi Data Baru"])
 
 # 1. Load Data
 @st.cache_data
@@ -51,98 +54,120 @@ WARNA_KELAS = {
     "Danau": "#7CD2F1"
 }
 
-# Sidebar untuk filter interaktif
+# --- SIDEBAR GLOBAL ---
 st.sidebar.header("Filter Peta")
 pilih_kelas = st.sidebar.multiselect("Pilih Kelas Tutupan Lahan:", NAMA_KELAS, default=NAMA_KELAS)
+filter_status = st.sidebar.selectbox("Filter Status Evaluasi:", ["Semua Titik", "Hanya yang Tepat", "Hanya yang Meleset (Salah)"])
 
-peta = folium.Map(location=pusat_peta, zoom_start=8, tiles=None, control_scale=True)
 
-# Base Layers
-folium.TileLayer(
-    tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
-    attr="Google Hybrid Satellite",
-    name="Google Hybrid (Satelit + Label)",
-    max_zoom=20,
-    overlay=False,
-    control=True,
-).add_to(peta)
+# --- ISI TAB 2: PETA SPASIAL ---
+with tab2:
+    st.header("Peta Persebaran Titik Sampel Jawa Timur")
+    
+    peta = folium.Map(location=pusat_peta, zoom_start=8, tiles=None, control_scale=True)
 
-folium.TileLayer(
-    tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    attr="Tiles &copy; Esri",
-    name="Esri Satellite",
-    max_zoom=19,
-    overlay=False,
-    control=True,
-    show=False
-).add_to(peta)
+    # Base Layers
+    folium.TileLayer(
+        tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+        attr="Google Hybrid Satellite",
+        name="Google Hybrid (Satelit + Label)",
+        max_zoom=20,
+        overlay=False,
+        control=True,
+    ).add_to(peta)
 
-# Render Polygon GeoJSON
-grup_geojson = folium.FeatureGroup(name="Polygon GeoJSON", show=True)
-folium.GeoJson(
-    geojson_data,
-    style_function=lambda f: {
-        "fillColor": WARNA_KELAS.get(f.get("properties", {}).get("kelas"), "#888888"),
-        "color": "white",
-        "weight": 1.2,
-        "fillOpacity": 0.5,
-    },
-    tooltip=folium.GeoJsonTooltip(
-        fields=["kelas"] if len(geojson_data["features"]) > 0 and "kelas" in geojson_data["features"][0]["properties"] else [],
-        aliases=["Kelas:"],
-        localize=True
-    )
-).add_to(grup_geojson)
-grup_geojson.add_to(peta)
+    folium.TileLayer(
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attr="Tiles &copy; Esri",
+        name="Esri Satellite",
+        max_zoom=19,
+        overlay=False,
+        control=True,
+        show=False
+    ).add_to(peta)
 
-# Filter dataframe berdasarkan pilihan sidebar
-df_filtered = df[df["kelas"].isin(pilih_kelas)]
+    # Render Polygon GeoJSON
+    grup_geojson = folium.FeatureGroup(name="Polygon GeoJSON", show=True)
+    folium.GeoJson(
+        geojson_data,
+        style_function=lambda f: {
+            "fillColor": WARNA_KELAS.get(f.get("properties", {}).get("kelas"), "#888888"),
+            "color": "white",
+            "weight": 1.2,
+            "fillOpacity": 0.5,
+        },
+        tooltip=folium.GeoJsonTooltip(
+            fields=["kelas"] if len(geojson_data["features"]) > 0 and "kelas" in geojson_data["features"][0]["properties"] else [],
+            aliases=["Kelas:"],
+            localize=True
+        )
+    ).add_to(grup_geojson)
+    grup_geojson.add_to(peta)
 
-# Render Titik Sampel (Bersih tanpa highlight meleset)
-for nama in pilih_kelas:
-    sub = df_filtered[df_filtered["kelas"] == nama]
-    if len(sub) == 0:
-        continue
-        
-    grup = folium.FeatureGroup(name=f"Sampel: {nama} ({len(sub)} Titik)", show=True)
-    for _, r in sub.iterrows():
-        popup_html = f"""
-        <div style='font-family: Arial, sans-serif; font-size: 11px; width: 220px;'>
-            <b style='color:{WARNA_KELAS[nama]}; font-size: 13px;'>{nama}</b><br>
-            <b>Status Prediksi:</b> <span style='color:{"green" if r["evaluasi"]=="Tepat" else "red"}'><b>{r["evaluasi"]}</b></span><br>
-            <b>Hasil Model:</b> {r["prediksi"]}<br>
-            <b>Koordinat:</b> {r["lon"]:.4f} BT, {r["lat"]:.4f} LS<br>
-            <hr style='margin:4px 0;'>
-            <b>NDVI:</b> {r.get("NDVI", 0):.3f} | <b>NDWI:</b> {r.get("NDWI", 0):.3f}<br>
-            <b>MNDWI:</b> {r.get("MNDWI", 0):.3f} | <b>NDBI:</b> {r.get("NDBI", 0):.3f}
-        </div>
-        """
-        
-        folium.CircleMarker(
-            [r.lat, r.lon],
-            radius=5.5,
-            color="white",
-            weight=1.2,
-            fill=True,
-            fill_color=WARNA_KELAS[nama],
-            fill_opacity=0.9,
-            popup=folium.Popup(popup_html, max_width=250)
-        ).add_to(grup)
-    grup.add_to(peta)
+    # Filter dataframe berdasarkan pilihan sidebar
+    df_filtered = df[df["kelas"].isin(pilih_kelas)]
+    if filter_status == "Hanya yang Tepat":
+        df_filtered = df_filtered[df_filtered["evaluasi"] == "Tepat"]
+    elif filter_status == "Hanya yang Meleset (Salah)":
+        df_filtered = df_filtered[df_filtered["evaluasi"] == "Meleset"]
 
-# Batas AOI
-grup_aoi = folium.FeatureGroup(name="Batas Area Studi (BBox Jatim)", show=True)
-folium.Rectangle(
-    [[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]],
-    color="yellow", weight=1.8, fill=False, dash_array="6"
-).add_to(grup_aoi)
-grup_aoi.add_to(peta)
+    # Render Titik Sampel dengan penanda khusus jika Meleset
+    for nama in pilih_kelas:
+        sub = df_filtered[df_filtered["kelas"] == nama]
+        if len(sub) == 0:
+            continue
+            
+        grup = folium.FeatureGroup(name=f"Sampel: {nama} ({len(sub)} Titik)", show=True)
+        for _, r in sub.iterrows():
+            is_meleset = (r["evaluasi"] == "Meleset")
+            
+            # Pengaturan visual jika salah prediksi: garis tepi hitam tebal & ukuran sedikit lebih besar
+            marker_color = "#FF0000" if is_meleset else WARNA_KELAS[nama]
+            border_color = "#000000" if is_meleset else "white"
+            border_weight = 2.5 if is_meleset else 1.2
+            radius_size = 6.5 if is_meleset else 5.5
 
-folium.LayerControl(collapsed=False).add_to(peta)
+            popup_html = f"""
+            <div style='font-family: Arial, sans-serif; font-size: 11px; width: 220px;'>
+                <b style='color:{WARNA_KELAS[nama]}; font-size: 13px;'>{nama}</b><br>
+                <b>Status Prediksi:</b> <span style='color:{"green" if not is_meleset else "red"}'><b>{r["evaluasi"]}</b></span><br>
+                <b>Hasil Model:</b> {r["prediksi"]}<br>
+                <b>Koordinat:</b> {r["lon"]:.4f} BT, {r["lat"]:.4f} LS<br>
+                <hr style='margin:4px 0;'>
+                <b>NDVI:</b> {r.get("NDVI", 0):.3f} | <b>NDWI:</b> {r.get("NDWI", 0):.3f}<br>
+                <b>MNDWI:</b> {r.get("MNDWI", 0):.3f} | <b>NDBI:</b> {r.get("NDBI", 0):.3f}
+            </div>
+            """
+            
+            folium.CircleMarker(
+                [r.lat, r.lon],
+                radius=radius_size,
+                color=border_color,
+                weight=border_weight,
+                fill=True,
+                fill_color=marker_color,
+                fill_opacity=0.9,
+                popup=folium.Popup(popup_html, max_width=250)
+            ).add_to(grup)
+        grup.add_to(peta)
 
-# Tampilkan Peta ke dalam Streamlit
-st_folium(peta, width=1100, height=600)
+    # Batas AOI
+    grup_aoi = folium.FeatureGroup(name="Batas Area Studi (BBox Jatim)", show=True)
+    folium.Rectangle(
+        [[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]],
+        color="yellow", weight=1.8, fill=False, dash_array="6"
+    ).add_to(grup_aoi)
+    grup_aoi.add_to(peta)
 
-st.markdown("---")
-st.subheader("🌐 Akses Dashboard Online")
-st.markdown("[🔗 Buka Dashboard LULC Jawa Timur](https://azbnocqvgzewxcz9ajmxt5.streamlit.app/)")
+    folium.LayerControl(collapsed=False).add_to(peta)
+
+    # Tampilkan Peta ke dalam Streamlit tepat di dalam Tab 2
+    st_folium(peta, width=1100, height=600, key="peta_jatim")
+
+# (Opsional) Isi untuk tab lainnya agar tidak kosong
+with tab1:
+    st.write("Konten Eksplorasi Data Anda di sini.")
+with tab3:
+    st.write("Konten Model Decision Tree Anda di sini.")
+with tab4:
+    st.write("Konten Prediksi Data Baru Anda di sini.")
