@@ -48,7 +48,7 @@ except Exception as e:
   st.sidebar.error(f"❌ Gagal memuat model: {e}")
 
 # Path ke file GeoJSON Anda
-path_file = r"LLLC_Jawa_Timur_Fix.json"
+path_file = r"LLLC_Jawa_Timur_Fix.geojson"
 try:
   gdf = load_geojson(path_file)
 except Exception as e:

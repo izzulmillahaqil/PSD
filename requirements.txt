@@ -1,11 +1,11 @@
-jupyter-book
-matplotlib
-numpy
 streamlit
 streamlit-folium
 folium
 pandas
 numpy
+matplotlib
 scikit-learn
 xgboost
 joblib
+geopandas
+jupyter-book
