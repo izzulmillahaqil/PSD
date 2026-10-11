@@ -1,206 +1,149 @@
-import json
-import folium
-import numpy as np
-import pandas as pd
 import streamlit as st
+import pandas as pd
+import folium
 from streamlit_folium import st_folium
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+import joblib
+import io
 
-# ---------------------------------------------------------
-# 1. Konfigurasi Halaman Web
-# ---------------------------------------------------------
-st.set_page_config(
-    page_title="Sistem Informasi LULC Jawa Timur",
-    page_icon="🌱",
-    layout="wide",
-)
+st.set_page_config(page_title="Klasifikasi LULC Jatim", layout="wide")
 
-st.title("🌱 Sistem Informasi Land Use & Land Cover (LULC) Jawa Timur")
-st.write(
-    "Aplikasi klasifikasi tutupan lahan **6 Kelas** berbasis citra satelit"
-    " **Sentinel-2A** dan algoritma **Decision Tree Classifier**."
-)
+KELAS = {
+    1: dict(nama="Sawah", warna="#FFD92F"),
+    2: dict(nama="Bangunan", warna="#E41A1C"),
+    3: dict(nama="Mangrove", warna="#8E44AD"),
+    4: dict(nama="Lahan Hijau", warna="#2E7D32"),
+    5: dict(nama="Perairan Terbuka (Laut)", warna="#0D47A1"),
+    6: dict(nama="Danau", warna="#4FC3F7"),
+}
+NAMA_KELAS = [v["nama"] for v in KELAS.values()]
+WARNA_KELAS = {v["nama"]: v["warna"] for v in KELAS.values()}
 
+def _nd(a, b):
+    return (a - b) / (a + b + 1e-10)
 
-# ---------------------------------------------------------
-# 2. Load Dataset & GeoJSON
-# ---------------------------------------------------------
 @st.cache_data
-def load_data():
-  # Load CSV Sampel Titik
-  df = pd.read_csv("dataset_sentinel2_jatim.csv")
-  df["kelas"] = df["kelas"].astype(str).str.strip()
-  pemetaan_kelas = {"Air": "Laut", "Water": "Laut", "Laut/Air": "Laut"}
-  df["kelas"] = df["kelas"].replace(pemetaan_kelas)
+def load_and_preprocess_data():
+    df = pd.read_csv("dataset_sentinel2_jatim.csv")
+    df["NDVI"] = _nd(df["B8"], df["B4"])
+    df["NDWI"] = _nd(df["B3"], df["B8"])
+    df["MNDWI"] = _nd(df["B3"], df["B11"])
+    df["NDBI"] = _nd(df["B11"], df["B8"])
+    df["NDRE"] = _nd(df["B8"], df["B5"])
+    df["EVI"] = 2.5 * (df["B8"] - df["B4"]) / (df["B8"] + 6*df["B4"] - 7.5*df["B2"] + 1 + 1e-10)
+    df["SAVI"] = (df["B8"] - df["B4"]) * 1.5 / (df["B8"] + df["B4"] + 0.5 + 1e-10)
+    df["BSI"] = _nd(df["B11"] + df["B4"], df["B8"] + df["B2"])
+    return df
 
-  # Load GeoJSON Polygon
-  try:
-    with open("LLLC_Jawa_Timur_Fix.json", "r") as f:
-      geojson_data = json.load(f)
-  except Exception:
-    geojson_data = None
-
-  return df, geojson_data
-
+st.title("Klasifikasi Penggunaan Lahan (LULC) Jawa Timur")
+st.markdown("Menggunakan Citra Sentinel-2A dan Machine Learning Decision Tree.")
 
 try:
-  df_sampel, geojson_data = load_data()
-except Exception as e:
-  st.error(f"Gagal memuat dataset: {e}")
-  df_sampel, geojson_data = None, None
+    df = load_and_preprocess_data()
+except FileNotFoundError:
+    st.error("File dataset_sentinel2_jatim.csv tidak ditemukan.")
+    st.stop()
 
-# ---------------------------------------------------------
-# 3. Sidebar Input Nilai Spektral
-# ---------------------------------------------------------
-st.sidebar.header("🎛️ Input Nilai Spektral Sentinel-2A")
+tab1, tab2, tab3, tab4 = st.tabs(["Eksplorasi Data", "Peta Spasial", "Model Decision Tree", "Prediksi Data Baru"])
 
-b2 = st.sidebar.slider("B2 - Blue", 0.0, 1.0, 0.05)
-b3 = st.sidebar.slider("B3 - Green", 0.0, 1.0, 0.08)
-b4 = st.sidebar.slider("B4 - Red", 0.0, 1.0, 0.06)
-b8 = st.sidebar.slider("B8 - NIR", 0.0, 1.0, 0.45)
-b11 = st.sidebar.slider("B11 - SWIR1", 0.0, 1.0, 0.16)
-b12 = st.sidebar.slider("B12 - SWIR2", 0.0, 1.0, 0.10)
+with tab1:
+    st.subheader("Distribusi Jumlah Sampel per Kelas")
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        st.dataframe(df["kelas"].value_counts().reset_index().rename(columns={"kelas": "Kelas", "count": "Jumlah Sampel"}))
+        st.write(f"Total Data: {len(df)} sampel")
+    with col2:
+        jml = df["kelas"].value_counts().reindex(NAMA_KELAS)
+        st.bar_chart(jml, color="#2E7D32")
+    st.subheader("Cuplikan Dataset")
+    st.dataframe(df.head())
 
-ndvi = (b8 - b4) / (b8 + b4) if (b8 + b4) != 0 else 0
-ndwi = (b3 - b8) / (b3 + b8) if (b3 + b8) != 0 else 0
-ndbi = (b11 - b8) / (b11 + b8) if (b11 + b8) != 0 else 0
-mndwi = (b3 - b11) / (b3 + b11) if (b3 + b11) != 0 else 0
-savi = ((b8 - b4) / (b8 + b4 + 0.5)) * 1.5 if (b8 + b4 + 0.5) != 0 else 0
-bsi = ((b11 + b4) - (b8 + b2)) / ((b11 + b4) + (b8 + b2)) if ((b11 + b4) + (b8 + b2)) != 0 else 0
-
-col1, col2 = st.columns([1, 1])
-
-with col1:
-  st.subheader("📊 Hasil Kalkulasi Indeks Spektral")
-  st.write("Nilai indeks dari parameter input:")
-  col_a, col_b = st.columns(2)
-  with col_a:
-    st.metric("NDVI (Vegetasi)", f"{ndvi:.3f}")
-    st.metric("NDBI (Bangunan)", f"{ndbi:.3f}")
-    st.metric("SAVI (Koreksi Tanah)", f"{savi:.3f}")
-  with col_b:
-    st.metric("NDWI (Badan Air)", f"{ndwi:.3f}")
-    st.metric("MNDWI (Air Modifikasi)", f"{mndwi:.3f}")
-    st.metric("BSI (Tanah Terbuka)", f"{bsi:.3f}")
-
-# ---------------------------------------------------------
-# 4. Peta Spasial Folium (Persis seperti notebook .ipynb)
-# ---------------------------------------------------------
-with col2:
-  st.subheader("🗺️ Peta Klasifikasi LULC Jawa Timur")
-
-  AOI_JATIM = [111.0, -8.85, 114.65, -6.75]
-  pusat_peta = [
-      (AOI_JATIM[1] + AOI_JATIM[3]) / 2,
-      (AOI_JATIM[0] + AOI_JATIM[2]) / 2,
-  ]
-
-  NAMA_KELAS = ["Sawah", "Bangunan", "Mangrove", "Lahan Hijau", "Laut", "Danau"]
-  WARNA_KELAS = {
-      "Sawah": "#EAD86F",
-      "Bangunan": "#D85E5E",
-      "Mangrove": "#A578C0",
-      "Lahan Hijau": "#6EA06B",
-      "Laut": "#5380C0",
-      "Danau": "#7CD2F1",
-  }
-
-  m = folium.Map(location=pusat_peta, zoom_start=8, control_scale=True)
-
-  # Google Hybrid Layer
-  folium.TileLayer(
-      tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
-      attr="Google Hybrid Satellite",
-      name="Google Hybrid (Satelit + Label)",
-      max_zoom=20,
-      overlay=False,
-  ).add_to(m)
-
-  # Polygon GeoJSON Layer
-  if geojson_data:
-    grup_geojson = folium.FeatureGroup(name="Polygon GeoJSON", show=True)
-    folium.GeoJson(
-        geojson_data,
-        style_function=lambda f: {
-            "fillColor": WARNA_KELAS.get(
-                f.get("properties", {}).get("kelas", "Danau"), "#7CD2F1"
-            ),
-            "color": "white",
-            "weight": 1.2,
-            "fillOpacity": 0.4,
-        },
-    ).add_to(grup_geojson)
-    grup_geojson.add_to(m)
-
-  # Titik-Titik Sampel dari CSV
-  if df_sampel is not None:
-    if "prediksi" not in df_sampel.columns:
-      df_sampel["prediksi"] = df_sampel["kelas"]
-    if "evaluasi" not in df_sampel.columns:
-      df_sampel["evaluasi"] = np.where(
-          df_sampel["kelas"] == df_sampel["prediksi"], "Tepat", "Meleset"
-      )
-
-    for nama in NAMA_KELAS:
-      sub = df_sampel[df_sampel["kelas"] == nama]
-      grup = folium.FeatureGroup(
-          name=f"Sampel: {nama} ({len(sub)} Titik)", show=True
-      )
-
-      for _, r in sub.iterrows():
-        if pd.isna(r["lat"]) or pd.isna(r["lon"]):
-          continue
-        warna_titik = WARNA_KELAS.get(nama, "#3388ff")
-
-        popup_html = f"""
-                <div style='font-family: Arial, sans-serif; font-size: 11px; width: 200px;'>
-                    <b style='color:{warna_titik}; font-size: 13px;'>{nama}</b><br>
-                    <b>Koordinat:</b> {r["lon"]:.4f} BT, {r["lat"]:.4f} LS
-                </div>
-                """
+with tab2:
+    st.subheader("Peta Persebaran Titik Sampel Jawa Timur")
+    m = folium.Map(location=[-7.9, 112.9], zoom_start=7, tiles="cartodb positron")
+    for idx, row in df.iterrows():
+        warna = WARNA_KELAS.get(row["kelas"], "gray")
         folium.CircleMarker(
-            [r["lat"], r["lon"]],
-            radius=5.5,
-            color="white",
-            weight=1.2,
-            fill=True,
-            fill_color=warna_titik,
-            fill_opacity=0.9,
-            popup=folium.Popup(popup_html, max_width=220),
-        ).add_to(grup)
-      grup.add_to(m)
+            location=[row["lat"], row["lon"]],
+            radius=5, color=warna, fill=True, fill_color=warna, fill_opacity=0.8,
+            tooltip=f"{row['kelas']} (Lat: {row['lat']:.3f}, Lon: {row['lon']:.3f})"
+        ).add_to(m)
+    st_folium(m, width=900, height=500)
 
-  # Batas BBox Jatim
-  grup_aoi = folium.FeatureGroup(
-      name="Batas Area Studi (BBox Jatim)", show=True
-  )
-  folium.Rectangle(
-      [[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]],
-      color="yellow",
-      weight=1.8,
-      fill=False,
-      dash_array="6",
-  ).add_to(grup_aoi)
-  grup_aoi.add_to(m)
+with tab3:
+    st.subheader("Training & Evaluasi Model")
+    FITUR = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 
+             'NDVI', 'NDWI', 'MNDWI', 'NDBI', 'NDRE', 'EVI', 'SAVI', 'BSI']
+    X = df[FITUR]
+    y = df["kelas"]
+    
+    test_size = st.slider("Proporsi Data Uji (Test Size)", 0.1, 0.5, 0.3, 0.1)
+    
+    if st.button("Latih & Evaluasi Model"):
+        with st.spinner("Membangun pohon keputusan..."):
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
+            model = DecisionTreeClassifier(random_state=42)
+            model.fit(X_train, y_train)
+            
+            st.session_state['model_dt'] = model
+            st.session_state['akurasi'] = accuracy_score(y_test, model.predict(X_test))
+            st.session_state['report'] = pd.DataFrame(classification_report(y_test, model.predict(X_test), output_dict=True)).transpose()
 
-  # Legenda HTML
-  items_legenda = "".join(
-      f'<div style="margin:3px 0;"><span'
-      f' style="display:inline-block;width:12px;height:12px;background:{WARNA_KELAS[k]};border:1px'
-      " solid"
-      ' #333;margin-right:6px;border-radius:50%;"></span>{k}</div>'
-      for k in NAMA_KELAS
-  )
+    if 'model_dt' in st.session_state:
+        st.success("Model berhasil dilatih!")
+        st.metric("Akurasi Model", f"{st.session_state['akurasi'] * 100:.2f}%")
+        st.dataframe(st.session_state['report'].style.format("{:.3f}"))
+        
+        model_bytes = io.BytesIO()
+        joblib.dump(st.session_state['model_dt'], model_bytes)
+        model_bytes.seek(0)
+        st.download_button("Unduh Model (.pkl)", data=model_bytes, file_name="model_lulc.pkl", mime="application/octet-stream")
 
-  legenda_html = f"""
-    <div style="position:fixed; bottom:30px; left:20px; z-index:9999; background:white;
-         padding:8px 12px; border:2px solid #555; border-radius:6px; font:11px Arial;
-         box-shadow: 2px 2px 6px rgba(0,0,0,0.3);">
-    <b>Legenda Tutupan Lahan</b><br><hr style="margin:3px 0;">
-    {items_legenda}
-    </div>
-    """
-  m.get_root().html.add_child(folium.Element(legenda_html))
-
-  folium.LayerControl(position="topright", collapsed=False).add_to(m)
-
-  st_folium(m, width="100%", height=550)
+with tab4:
+    st.subheader("Prediksi Lahan dari Nilai Citra Baru")
+    
+    if 'model_dt' not in st.session_state:
+        st.warning("Silakan latih model terlebih dahulu di tab 'Model Decision Tree' sebelum melakukan prediksi.")
+    else:
+        st.markdown("Masukkan nilai reflektansi (pantulan) dari 10 Band Sentinel-2A:")
+        
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            b2 = st.number_input("B2 (Blue)", value=0.120)
+            b3 = st.number_input("B3 (Green)", value=0.150)
+            b4 = st.number_input("B4 (Red)", value=0.110)
+            b5 = st.number_input("B5 (Red Edge 1)", value=0.140)
+        with c2:
+            b6 = st.number_input("B6 (Red Edge 2)", value=0.250)
+            b7 = st.number_input("B7 (Red Edge 3)", value=0.300)
+            b8 = st.number_input("B8 (NIR)", value=0.350)
+            b8a = st.number_input("B8A (Narrow NIR)", value=0.360)
+        with c3:
+            b11 = st.number_input("B11 (SWIR 1)", value=0.200)
+            b12 = st.number_input("B12 (SWIR 2)", value=0.150)
+            
+        if st.button("Prediksi Kelas Lahan"):
+            # Hitung 8 indeks secara otomatis
+            ndvi = _nd(b8, b4)
+            ndwi = _nd(b3, b8)
+            mndwi = _nd(b3, b11)
+            ndbi = _nd(b11, b8)
+            ndre = _nd(b8, b5)
+            evi = 2.5 * (b8 - b4) / (b8 + 6*b4 - 7.5*b2 + 1 + 1e-10)
+            savi = (b8 - b4) * 1.5 / (b8 + b4 + 0.5 + 1e-10)
+            bsi = _nd(b11 + b4, b8 + b2)
+            
+            data_baru = pd.DataFrame([[
+                b2, b3, b4, b5, b6, b7, b8, b8a, b11, b12,
+                ndvi, ndwi, mndwi, ndbi, ndre, evi, savi, bsi
+            ]], columns=FITUR)
+            
+            prediksi = st.session_state['model_dt'].predict(data_baru)[0]
+            nama_hasil = KELAS[prediksi]["nama"]
+            warna_hasil = KELAS[prediksi]["warna"]
+            
+            st.markdown(f"### Hasil Prediksi: <span style='color:{warna_hasil}'>{nama_hasil}</span>", unsafe_allow_html=True)
+            with st.expander("Lihat Data Input Lengkap (Band + Indeks)"):
+                st.dataframe(data_baru)
