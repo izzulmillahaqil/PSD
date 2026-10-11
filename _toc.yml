@@ -17,7 +17,7 @@ parts:
         title: 6. Ekstraksi Fitur TSFEL
       - file: 07-ekstraksi-fitur-dan-clustering
         title: 7. Ekstraksi Fitur dan Clustering
-      - file: 08-clustering.md
-        title: 8. clustering
+      - file: 08-clustering
+        title: 8. Clustering
       - file: klasifikasi_lulc_decision_tree
         title: 10. Klasifikasi LULC Decision Tree

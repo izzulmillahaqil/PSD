@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_3c6e3561967f1e6aa33d752a197db35c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="
+    position: fixed; 
+    bottom: 30px; left: 30px; width: 210px; height: auto; 
+    z-index:9999; font-size:12px; font-family: Arial, sans-serif;
+    background-color: white; opacity: 0.92; border: 2px solid grey; 
+    border-radius: 6px; padding: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+">
+    <b style="font-size: 13px;">Legenda Tutupan Lahan</b><br>
+    <hr style="margin: 5px 0;">
+
+    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="background:#d7191c; width: 14px; height: 14px; display: inline-block; border-radius: 50%; border: 1px solid #000; margin-right: 8px;"></span>
+        <span>Bangunan / Pemukiman</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="background:#fdae61; width: 14px; height: 14px; display: inline-block; border-radius: 50%; border: 1px solid #000; margin-right: 8px;"></span>
+        <span>Lahan Terbuka</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="background:#2b83ba; width: 14px; height: 14px; display: inline-block; border-radius: 50%; border: 1px solid #000; margin-right: 8px;"></span>
+        <span>Vegetasi / Hutan</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="background:#abdda4; width: 14px; height: 14px; display: inline-block; border-radius: 50%; border: 1px solid #000; margin-right: 8px;"></span>
+        <span>Pertanian / Sawah</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="background:#1a9641; width: 14px; height: 14px; display: inline-block; border-radius: 50%; border: 1px solid #000; margin-right: 8px;"></span>
+        <span>Tubuh Air</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+        <span style="background:#cccccc; width: 14px; height: 14px; display: inline-block; border-radius: 50%; border: 1px solid #000; margin-right: 8px;"></span>
+        <span>Awan / Lainnya</span>
+    </div>
+    </div>
+    
+            <div class="folium-map" id="map_3c6e3561967f1e6aa33d752a197db35c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_3c6e3561967f1e6aa33d752a197db35c = L.map(
+                "map_3c6e3561967f1e6aa33d752a197db35c",
+                {
+                    center: [-7.5, 112.5],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 9,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_11430da03497c96b13fd695294213211 = L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=y\u0026x={x}\u0026y={y}\u0026z={z}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google Satellite Hybrid",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_11430da03497c96b13fd695294213211.addTo(map_3c6e3561967f1e6aa33d752a197db35c);
+        
+    
+            var rectangle_8f2493e91fed9d17b01959d4ec4f9ff5 = L.rectangle(
+                [[-8.8, 111.0], [-6.7, 114.8]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": "5, 5", "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_3c6e3561967f1e6aa33d752a197db35c);
+        
+    
+        var popup_94c9f279f0dc1448a82e7bd5ef5680a3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0d1bf687dfe5705d948c060c07afa28d = $(`<div id="html_0d1bf687dfe5705d948c060c07afa28d" style="width: 100.0%; height: 100.0%;">BBox Studi Jawa Timur</div>`)[0];
+                popup_94c9f279f0dc1448a82e7bd5ef5680a3.setContent(html_0d1bf687dfe5705d948c060c07afa28d);
+            
+        
+
+        rectangle_8f2493e91fed9d17b01959d4ec4f9ff5.bindPopup(popup_94c9f279f0dc1448a82e7bd5ef5680a3)
+        ;
+
+        
+    
+</script>
+</html>

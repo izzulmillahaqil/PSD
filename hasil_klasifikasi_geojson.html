@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5d08bca6c2a4a5609a05b931d4a6354a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position:fixed; bottom:30px; left:30px; z-index:9999; background:white;
+     padding:10px 14px; border:2px solid #555; border-radius:6px; font:12px Arial;
+     box-shadow: 2px 2px 8px rgba(0,0,0,0.3);">
+<b>Legenda Tutupan Lahan (LULC)</b><br>
+<small>Polygon GeoJSON</small><hr style="margin:4px 0;">
+<div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;background:#EAD86F;border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:3px;"></span>Sawah</div><div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;background:#D85E5E;border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:3px;"></span>Bangunan</div><div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;background:#A578C0;border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:3px;"></span>Mangrove</div><div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;background:#6EA06B;border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:3px;"></span>Lahan Hijau</div><div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;background:#5380C0;border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:3px;"></span>Laut</div><div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;background:#7CD2F1;border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:3px;"></span>Danau</div>
+</div>
+    
+            <div class="folium-map" id="map_5d08bca6c2a4a5609a05b931d4a6354a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_5d08bca6c2a4a5609a05b931d4a6354a = L.map(
+                "map_5d08bca6c2a4a5609a05b931d4a6354a",
+                {
+                    center: [-7.8, 112.825],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_5d08bca6c2a4a5609a05b931d4a6354a);
+
+            
+
+        
+    
+            var tile_layer_df57efbe698b99da96eaae080a74859c = L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=y\u0026x={x}\u0026y={y}\u0026z={z}",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "Google Hybrid Satellite",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_df57efbe698b99da96eaae080a74859c.addTo(map_5d08bca6c2a4a5609a05b931d4a6354a);
+        
+    
+            var tile_layer_18f86cf8582e90462d8c1eb361e76c76 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Source: Esri, Maxar, Earthstar Geographics",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            var feature_group_be4a1bff4e9e496cdde3706a2615a172 = L.featureGroup(
+                {
+}
+            );
+        
+    
+        function geo_json_0cd339b81926359e641e837a559de094_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return ;
+            }
+        }
+        function geo_json_0cd339b81926359e641e837a559de094_highlighter(feature) {
+            switch(feature.id) {
+                default:
+                    return ;
+            }
+        }
+
+        function geo_json_0cd339b81926359e641e837a559de094_onEachFeature(feature, layer) {
+
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_0cd339b81926359e641e837a559de094.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_0cd339b81926359e641e837a559de094_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_0cd339b81926359e641e837a559de094 = L.geoJson(null, {
+                onEachFeature: geo_json_0cd339b81926359e641e837a559de094_onEachFeature,
+            
+                style: geo_json_0cd339b81926359e641e837a559de094_styler,
+            ...{
+}
+        });
+
+        function geo_json_0cd339b81926359e641e837a559de094_add (data) {
+            geo_json_0cd339b81926359e641e837a559de094
+                .addData(data);
+        }
+            geo_json_0cd339b81926359e641e837a559de094_add({"features": [], "type": "FeatureCollection"});
+
+        
+    
+            geo_json_0cd339b81926359e641e837a559de094.bindTooltip(
+                `<div>
+                     Polygon Tutupan Lahan
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            geo_json_0cd339b81926359e641e837a559de094.addTo(feature_group_be4a1bff4e9e496cdde3706a2615a172);
+        
+    
+            feature_group_be4a1bff4e9e496cdde3706a2615a172.addTo(map_5d08bca6c2a4a5609a05b931d4a6354a);
+        
+    
+            var feature_group_e9bafafc49324e9266c1f3e152735b57 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var rectangle_d074692b531da60b23d19cbe74a97134 = L.rectangle(
+                [[-8.85, 111.0], [-6.75, 114.65]],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": "6", "dashOffset": null, "fill": false, "fillColor": "yellow", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1.8}
+            ).addTo(feature_group_e9bafafc49324e9266c1f3e152735b57);
+        
+    
+            feature_group_e9bafafc49324e9266c1f3e152735b57.addTo(map_5d08bca6c2a4a5609a05b931d4a6354a);
+        
+    
+            var layer_control_85a9e3b9095f77d92b04f8560106c025_layers = {
+                base_layers : {
+                    "Google Hybrid (Satelit + Label)" : tile_layer_df57efbe698b99da96eaae080a74859c,
+                    "Esri Satellite" : tile_layer_18f86cf8582e90462d8c1eb361e76c76,
+                },
+                overlays :  {
+                    "Polygon GeoJSON" : feature_group_be4a1bff4e9e496cdde3706a2615a172,
+                    "Batas Area Studi (BBox Jatim)" : feature_group_e9bafafc49324e9266c1f3e152735b57,
+                },
+            };
+            let layer_control_85a9e3b9095f77d92b04f8560106c025 = L.control.layers(
+                layer_control_85a9e3b9095f77d92b04f8560106c025_layers.base_layers,
+                layer_control_85a9e3b9095f77d92b04f8560106c025_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_5d08bca6c2a4a5609a05b931d4a6354a);
+
+        
+    
+            map_5d08bca6c2a4a5609a05b931d4a6354a.fitBounds(
+                [[-8.85, 111.0], [-6.75, 114.65]],
+                {}
+            );
+        
+</script>
+</html>
