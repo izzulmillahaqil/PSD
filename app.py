@@ -62,14 +62,25 @@ with tab1:
 
 with tab2:
     st.subheader("Peta Persebaran Titik Sampel Jawa Timur")
-    m = folium.Map(location=[-7.9, 112.9], zoom_start=7, tiles="cartodb positron")
+    # PERUBAHAN 1: Tiles diubah menjadi OpenStreetMap untuk menghilangkan watermark 'API KEY REQUIRED'
+    m = folium.Map(location=[-7.9, 112.9], zoom_start=7, tiles="OpenStreetMap")
+    
     for idx, row in df.iterrows():
-        warna = WARNA_KELAS.get(row["kelas"], "gray")
+        # PERUBAHAN 2: Deteksi lokasi di luar Jatim (Kasar: Lat di luar -8.9 s/d -6.5 atau Lon di luar 111.0 s/d 114.6)
+        # Angka ini adalah perkiraan kotak (bounding box) Provinsi Jawa Timur
+        if row["lat"] < -8.9 or row["lat"] > -6.5 or row["lon"] < 111.0 or row["lon"] > 114.6:
+            warna = "black"
+            tooltip_teks = f"⚠️ SALAH KLASIFIKASI (Di luar Jatim!) | {row['kelas']} (Lat: {row['lat']:.3f}, Lon: {row['lon']:.3f})"
+        else:
+            warna = WARNA_KELAS.get(row["kelas"], "gray")
+            tooltip_teks = f"{row['kelas']} (Lat: {row['lat']:.3f}, Lon: {row['lon']:.3f})"
+            
         folium.CircleMarker(
             location=[row["lat"], row["lon"]],
             radius=5, color=warna, fill=True, fill_color=warna, fill_opacity=0.8,
-            tooltip=f"{row['kelas']} (Lat: {row['lat']:.3f}, Lon: {row['lon']:.3f})"
+            tooltip=tooltip_teks
         ).add_to(m)
+        
     st_folium(m, width=900, height=500)
 
 with tab3:
@@ -125,7 +136,6 @@ with tab4:
             b12 = st.number_input("B12 (SWIR 2)", value=0.150)
             
         if st.button("Prediksi Kelas Lahan"):
-            # Hitung 8 indeks secara otomatis
             ndvi = _nd(b8, b4)
             ndwi = _nd(b3, b8)
             mndwi = _nd(b3, b11)
