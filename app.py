@@ -161,7 +161,6 @@ with tab2:
     grup_aoi.add_to(peta)
 
 
-    peta.get_root().html.add_child(folium.Element(legenda_html))
     folium.LayerControl(collapsed=False).add_to(peta)
     
     peta.fit_bounds([[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]])
