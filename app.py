@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score, classification_report
 # Konfigurasi Halaman
 st.set_page_config(page_title="Klasifikasi LULC Jatim", layout="wide")
 
-# Penyelarasan Variabel Kelas dan Warna
+# Penyelarasan Variabel Kelas dan Warna (Sesuai script Jupyter Anda)
 NAMA_KELAS = ["Sawah", "Bangunan", "Mangrove", "Lahan Hijau", "Laut", "Danau"]
 WARNA_KELAS = {
     "Sawah": "#EAD86F",
@@ -41,8 +41,10 @@ def load_and_preprocess_data():
     df["SAVI"] = (df["B8"] - df["B4"]) * 1.5 / (df["B8"] + df["B4"] + 0.5 + 1e-10)
     df["BSI"] = _nd(df["B11"] + df["B4"], df["B8"] + df["B2"])
     
-    # Bersihkan nama kelas agar seragam
+    # Bersihkan spasi tak sengaja pada nilai string di kolom kelas
     df["kelas"] = df["kelas"].astype(str).str.strip()
+
+    # Samakan variasi nama kelas air/laut secara menyeluruh agar tidak ada kelas ganda
     pemetaan_kelas = {
         "Air": "Laut",
         "Water": "Laut",
@@ -51,20 +53,19 @@ def load_and_preprocess_data():
     }
     df["kelas"] = df["kelas"].replace(pemetaan_kelas)
     
-    # Buka GeoJSON
-    with open("LLLC_Jawa_Timur_Fix.geojson", "r") as f:
+    # Pastikan nama file GeoJSON sesuai dengan yang ada di folder Anda
+    with open("LLLC_Jawa_Timur.geojson", "r") as f:
         geojson_data = json.load(f)
         
     return df, geojson_data
 
-# --- HEADER APP ---
 st.title("Klasifikasi Penggunaan Lahan (LULC) Jawa Timur")
 st.markdown("Menggunakan Citra Sentinel-2A dan Machine Learning Decision Tree.")
 
 try:
     df, geojson_data = load_and_preprocess_data()
 except FileNotFoundError:
-    st.error("File dataset_sentinel2_jatim.csv atau LLLC_Jawa_Timur_Fix.geojson tidak ditemukan.")
+    st.error("File dataset atau geojson tidak ditemukan di direktori.")
     st.stop()
 
 # --- SIDEBAR (Khusus filter Peta) ---
@@ -88,7 +89,7 @@ with tab1:
     st.dataframe(df.head())
 
 
-# --- TAB 2: PETA SPASIAL ADVANCED ---
+# --- TAB 2: PETA SPASIAL (Sesuai Jupyter) ---
 with tab2:
     st.subheader("Peta Persebaran Titik Sampel Jawa Timur")
     
@@ -127,20 +128,15 @@ with tab2:
     folium.GeoJson(
         geojson_data,
         style_function=lambda f: {
-            "fillColor": WARNA_KELAS.get(f.get("properties", {}).get("kelas"), "#888888"),
+            "fillColor": WARNA_KELAS.get(f.get("properties", {}).get("kelas", "Danau"), "#7CD2F1"),
             "color": "white",
             "weight": 1.2,
-            "fillOpacity": 0.5,
-        },
-        tooltip=folium.GeoJsonTooltip(
-            fields=["kelas"] if len(geojson_data["features"]) > 0 and "kelas" in geojson_data["features"][0]["properties"] else [],
-            aliases=["Kelas:"],
-            localize=True
-        )
+            "fillOpacity": 0.4,
+        }
     ).add_to(grup_geojson)
     grup_geojson.add_to(peta)
 
-    # Render Titik Sampel (Berdasarkan Sidebar Filter)
+    # Render Titik Sampel berdasarkan filter kelas
     df_filtered = df[df["kelas"].isin(pilih_kelas)]
     for nama in pilih_kelas:
         sub = df_filtered[df_filtered["kelas"] == nama]
@@ -149,6 +145,8 @@ with tab2:
             
         grup = folium.FeatureGroup(name=f"Sampel: {nama} ({len(sub)} Titik)", show=True)
         for _, r in sub.iterrows():
+            ndvi, ndwi, mndwi, ndbi, b8, b4 = r.get("NDVI", 0), r.get("NDWI", 0), r.get("MNDWI", 0), r.get("NDBI", 0), r.get("B8", 0), r.get("B4", 0)
+            
             popup_html = f"""
             <div style='font-family: Arial, sans-serif; font-size: 11px; width: 220px;'>
                 <b style='color:{WARNA_KELAS[nama]}; font-size: 13px;'>{nama}</b><br>
@@ -156,18 +154,14 @@ with tab2:
                 <b>Hasil Model:</b> {r["prediksi"]}<br>
                 <b>Koordinat:</b> {r["lon"]:.4f} BT, {r["lat"]:.4f} LS<br>
                 <hr style='margin:4px 0;'>
-                <b>NDVI:</b> {r.get("NDVI", 0):.3f} | <b>NDWI:</b> {r.get("NDWI", 0):.3f}<br>
-                <b>MNDWI:</b> {r.get("MNDWI", 0):.3f} | <b>NDBI:</b> {r.get("NDBI", 0):.3f}
+                <b>NDVI:</b> {ndvi:.3f} | <b>NDWI:</b> {ndwi:.3f}<br>
+                <b>MNDWI:</b> {mndwi:.3f} | <b>NDBI:</b> {ndbi:.3f}<br>
+                <b>B8 (NIR):</b> {b8:.3f} | <b>B4 (Red):</b> {b4:.3f}
             </div>
             """
             folium.CircleMarker(
-                [r.lat, r.lon],
-                radius=5.5,
-                color="white",
-                weight=1.2,
-                fill=True,
-                fill_color=WARNA_KELAS[nama],
-                fill_opacity=0.9,
+                [r.lat, r.lon], radius=5.5, color="white", weight=1.2,
+                fill=True, fill_color=WARNA_KELAS[nama], fill_opacity=0.9,
                 popup=folium.Popup(popup_html, max_width=250)
             ).add_to(grup)
         grup.add_to(peta)
@@ -180,9 +174,28 @@ with tab2:
     ).add_to(grup_aoi)
     grup_aoi.add_to(peta)
 
-    folium.LayerControl(collapsed=False).add_to(peta)
+    # Legenda Kartografi HTML 
+    item = "".join(
+        f'<div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;'
+        f'background:{WARNA_KELAS[k]};border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:50%;"></span>'
+        f'{k} ({len(df[df["kelas"]==k])})</div>'
+        for k in NAMA_KELAS)
 
-    # Menampilkan ke Streamlit Tab
+    legenda_html = f'''
+    <div style="position:fixed; bottom:30px; left:30px; z-index:9999; background:white;
+         padding:10px 14px; border:2px solid #555; border-radius:6px; font:12px Arial;
+         box-shadow: 2px 2px 8px rgba(0,0,0,0.3);">
+    <b>Legenda Tutupan Lahan (LULC)</b><br>
+    <small>Sentinel-2A & Titik Sampel</small><hr style="margin:4px 0;">
+    {item}
+    <hr style="margin:4px 0;">
+    <small><b>Total: {len(df)} Titik Sampel</b></small>
+    </div>
+    '''
+    peta.get_root().html.add_child(folium.Element(legenda_html))
+    folium.LayerControl(collapsed=False).add_to(peta)
+    peta.fit_bounds([[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]])
+
     st_folium(peta, width=1100, height=600, key="map_jatim_main")
 
 
