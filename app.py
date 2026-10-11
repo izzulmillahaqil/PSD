@@ -160,24 +160,7 @@ with tab2:
     ).add_to(grup_aoi)
     grup_aoi.add_to(peta)
 
-    # Legenda menggunakan df utuh persis seperti skrip HTML
-    item = "".join(
-        f'<div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;'
-        f'background:{WARNA_KELAS[k]};border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:50%;"></span>'
-        f'{k} ({len(df[df["kelas"]==k])})</div>'
-        for k in NAMA_KELAS)
 
-    legenda_html = f'''
-    <div style="position:fixed; bottom:30px; left:30px; z-index:9999; background:white;
-         padding:10px 14px; border:2px solid #555; border-radius:6px; font:12px Arial;
-         box-shadow: 2px 2px 8px rgba(0,0,0,0.3);">
-    <b>Legenda Tutupan Lahan (LULC)</b><br>
-    <small>Sentinel-2A & Titik Sampel</small><hr style="margin:4px 0;">
-    {item}
-    <hr style="margin:4px 0;">
-    <small><b>Total: {len(df)} Titik Sampel</b></small>
-    </div>
-    '''
     peta.get_root().html.add_child(folium.Element(legenda_html))
     folium.LayerControl(collapsed=False).add_to(peta)
     
