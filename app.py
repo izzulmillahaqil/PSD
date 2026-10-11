@@ -13,7 +13,6 @@ from sklearn.metrics import accuracy_score, classification_report
 # Konfigurasi Halaman
 st.set_page_config(page_title="Klasifikasi LULC Jatim", layout="wide")
 
-# Penyelarasan Variabel Kelas dan Warna (Sesuai script Jupyter Anda)
 NAMA_KELAS = ["Sawah", "Bangunan", "Mangrove", "Lahan Hijau", "Laut", "Danau"]
 WARNA_KELAS = {
     "Sawah": "#EAD86F",
@@ -31,7 +30,6 @@ def _nd(a, b):
 def load_and_preprocess_data():
     df = pd.read_csv("dataset_sentinel2_jatim.csv")
     
-    # Ekstraksi Fitur / Indeks
     df["NDVI"] = _nd(df["B8"], df["B4"])
     df["NDWI"] = _nd(df["B3"], df["B8"])
     df["MNDWI"] = _nd(df["B3"], df["B11"])
@@ -41,19 +39,16 @@ def load_and_preprocess_data():
     df["SAVI"] = (df["B8"] - df["B4"]) * 1.5 / (df["B8"] + df["B4"] + 0.5 + 1e-10)
     df["BSI"] = _nd(df["B11"] + df["B4"], df["B8"] + df["B2"])
     
-    # Bersihkan spasi tak sengaja pada nilai string di kolom kelas
     df["kelas"] = df["kelas"].astype(str).str.strip()
 
-    # Samakan variasi nama kelas air/laut secara menyeluruh agar tidak ada kelas ganda
+    # Dikembalikan persis seperti script HTML asli agar Laut = 0
     pemetaan_kelas = {
         "Air": "Laut",
         "Water": "Laut",
-        "Laut/Air": "Laut",
-        "Perairan Terbuka (Laut)": "Laut"
+        "Laut/Air": "Laut"
     }
     df["kelas"] = df["kelas"].replace(pemetaan_kelas)
     
-    # Pastikan nama file GeoJSON sesuai dengan yang ada di folder Anda
     with open("LLLC_Jawa_Timur.geojson", "r") as f:
         geojson_data = json.load(f)
         
@@ -68,14 +63,11 @@ except FileNotFoundError:
     st.error("File dataset atau geojson tidak ditemukan di direktori.")
     st.stop()
 
-# --- SIDEBAR (Khusus filter Peta) ---
 st.sidebar.header("Filter Peta (Tab 2)")
 pilih_kelas = st.sidebar.multiselect("Pilih Kelas Tutupan Lahan:", NAMA_KELAS, default=NAMA_KELAS)
 
-# --- MENU TABS ---
 tab1, tab2, tab3, tab4 = st.tabs(["Eksplorasi Data", "Peta Spasial", "Model Decision Tree", "Prediksi Data Baru"])
 
-# --- TAB 1: EKSPLORASI DATA ---
 with tab1:
     st.subheader("Distribusi Jumlah Sampel per Kelas")
     col1, col2 = st.columns([1, 2])
@@ -88,8 +80,6 @@ with tab1:
     st.subheader("Cuplikan Dataset")
     st.dataframe(df.head())
 
-
-# --- TAB 2: PETA SPASIAL (Sesuai Jupyter) ---
 with tab2:
     st.subheader("Peta Persebaran Titik Sampel Jawa Timur")
     
@@ -103,7 +93,6 @@ with tab2:
 
     peta = folium.Map(location=pusat_peta, zoom_start=8, tiles=None, control_scale=True)
 
-    # Base Layers
     folium.TileLayer(
         tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
         attr="Google Hybrid Satellite",
@@ -123,7 +112,6 @@ with tab2:
         show=False
     ).add_to(peta)
 
-    # Polygon GeoJSON
     grup_geojson = folium.FeatureGroup(name="Polygon GeoJSON", show=True)
     folium.GeoJson(
         geojson_data,
@@ -136,7 +124,6 @@ with tab2:
     ).add_to(grup_geojson)
     grup_geojson.add_to(peta)
 
-    # Render Titik Sampel berdasarkan filter kelas
     df_filtered = df[df["kelas"].isin(pilih_kelas)]
     for nama in pilih_kelas:
         sub = df_filtered[df_filtered["kelas"] == nama]
@@ -166,7 +153,6 @@ with tab2:
             ).add_to(grup)
         grup.add_to(peta)
 
-    # Batas AOI
     grup_aoi = folium.FeatureGroup(name="Batas Area Studi (BBox Jatim)", show=True)
     folium.Rectangle(
         [[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]],
@@ -174,7 +160,7 @@ with tab2:
     ).add_to(grup_aoi)
     grup_aoi.add_to(peta)
 
-    # Legenda Kartografi HTML 
+    # Legenda menggunakan df utuh persis seperti skrip HTML
     item = "".join(
         f'<div style="margin:3px 0;"><span style="display:inline-block;width:14px;height:14px;'
         f'background:{WARNA_KELAS[k]};border:1px solid #333;margin-right:8px;vertical-align:middle;border-radius:50%;"></span>'
@@ -194,12 +180,12 @@ with tab2:
     '''
     peta.get_root().html.add_child(folium.Element(legenda_html))
     folium.LayerControl(collapsed=False).add_to(peta)
+    
     peta.fit_bounds([[AOI_JATIM[1], AOI_JATIM[0]], [AOI_JATIM[3], AOI_JATIM[2]]])
 
-    st_folium(peta, width=1100, height=600, key="map_jatim_main")
+    # Perubahan di sini: use_container_width=True agar peta selebar layar Streamlit
+    st_folium(peta, use_container_width=True, height=600, key="map_jatim_main")
 
-
-# --- TAB 3: MODEL DECISION TREE ---
 with tab3:
     st.subheader("Training & Evaluasi Model")
     FITUR = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12', 
@@ -229,8 +215,6 @@ with tab3:
         model_bytes.seek(0)
         st.download_button("Unduh Model (.pkl)", data=model_bytes, file_name="model_lulc.pkl", mime="application/octet-stream")
 
-
-# --- TAB 4: PREDIKSI DATA BARU ---
 with tab4:
     st.subheader("Prediksi Lahan dari Nilai Citra Baru")
     
