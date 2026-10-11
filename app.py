@@ -17,10 +17,9 @@ st.set_page_config(
 
 st.title("🌱 Sistem Informasi Land Use & Land Cover (LULC) Jawa Timur")
 st.write(
-    "Aplikasi klasifikasi tutupan lahan **6 Kelas** (Sawah, Bangunan, Danau,"
-    " Lahan Hijau, Laut, Mangrove) berbasis citra satelit **Sentinel-2A** dan"
-    " algoritma **Decision Tree Classifier**, dilengkapi visualisasi peta"
-    " interaktif **Google Maps Satellite**."
+    "Aplikasi klasifikasi tutupan lahan **6 Kelas** berbasis citra satelit"
+    " **Sentinel-2A** dan algoritma **Decision Tree Classifier**, dilengkapi"
+    " visualisasi peta interaktif **Google Maps Satellite**."
 )
 
 
@@ -35,7 +34,6 @@ def load_model():
 @st.cache_data
 def load_geojson(path):
   gdf = gpd.read_file(path)
-  # Recast ke EPSG:4326 agar sesuai dengan standar koordinat Folium
   if gdf.crs and gdf.crs.to_string() != "EPSG:4326":
     gdf = gdf.to_crs(epsg=4326)
   return gdf
@@ -47,22 +45,16 @@ try:
 except Exception as e:
   st.sidebar.error(f"❌ Gagal memuat model: {e}")
 
-# Path ke file GeoJSON Anda
-path_file = r"LLLC_Jawa_Timur_Fix.geojson"
 try:
-  gdf = load_geojson(path_file)
+  gdf = load_geojson("LLLC_Jawa_Timur_Fix.json")
 except Exception as e:
-  st.error(f"Gagal memuat file GeoJSON: {e}")
+  st.error(f"Gagal memuat GeoJSON: {e}")
   gdf = None
 
 # ---------------------------------------------------------
-# 3. Sidebar Input Nilai Spektral (Bands & Fitur)
+# 3. Sidebar Input Nilai Spektral
 # ---------------------------------------------------------
 st.sidebar.header("🎛️ Input Nilai Spektral Sentinel-2A")
-st.sidebar.write(
-    "Simulasikan nilai reflektansi permukaan untuk menguji prediksi Decision"
-    " Tree:"
-)
 
 b2 = st.sidebar.slider("B2 - Blue (0.490 µm)", 0.0, 1.0, 0.05)
 b3 = st.sidebar.slider("B3 - Green (0.560 µm)", 0.0, 1.0, 0.08)
@@ -71,7 +63,7 @@ b8 = st.sidebar.slider("B8 - NIR (0.842 µm)", 0.0, 1.0, 0.45)
 b11 = st.sidebar.slider("B11 - SWIR1 (1.610 µm)", 0.0, 1.0, 0.16)
 b12 = st.sidebar.slider("B12 - SWIR2 (2.190 µm)", 0.0, 1.0, 0.10)
 
-# Kalkulasi Indeks Spektral Otomatis
+# Kalkulasi Indeks Spektral
 ndvi = (b8 - b4) / (b8 + b4) if (b8 + b4) != 0 else 0
 ndwi = (b3 - b8) / (b3 + b8) if (b3 + b8) != 0 else 0
 ndbi = (b11 - b8) / (b11 + b8) if (b11 + b8) != 0 else 0
@@ -79,26 +71,38 @@ mndwi = (b3 - b11) / (b3 + b11) if (b3 + b11) != 0 else 0
 savi = ((b8 - b4) / (b8 + b4 + 0.5)) * 1.5 if (b8 + b4 + 0.5) != 0 else 0
 bsi = ((b11 + b4) - (b8 + b2)) / ((b11 + b4) + (b8 + b2)) if ((b11 + b4) + (b8 + b2)) != 0 else 0
 
-# Layout Kolom Tampilan
 col1, col2 = st.columns([1, 1])
 
 with col1:
   st.subheader("📊 Hasil Prediksi Decision Tree")
 
-  input_features = np.array(
-      [[b2, b3, b4, b8, b11, b12, ndvi, ndwi, ndbi, mndwi]]
-  )
+  # Menyesuaikan 18 Fitur Input untuk Model Decision Tree
+  input_18 = np.array([[
+      b2,
+      b3,
+      b4,
+      b8,
+      b11,
+      b12,
+      ndvi,
+      ndwi,
+      ndbi,
+      mndwi,
+      savi,
+      bsi,
+      b8 - b4,
+      b3 - b8,
+      b11 - b8,
+      b3 - b11,
+      b2 / (b8 + 1e-5),
+      b4 / (b8 + 1e-5),
+  ]])
 
   try:
-    prediksi = model.predict(input_features)[0]
+    prediksi = model.predict(input_18)[0]
     st.markdown(f"### Kelas Terdeteksi: **{prediksi}**")
   except Exception as e:
-    try:
-      input_indices = np.array([[ndvi, ndwi, mndwi, ndbi]])
-      prediksi = model.predict(input_indices)[0]
-      st.markdown(f"### Kelas Terdeteksi: **{prediksi}**")
-    except Exception as err:
-      st.error(f"Sesuaikan jumlah fitur input dengan model: {err}")
+    st.error(f"Gagal memprediksi: {e}")
 
   st.markdown("---")
   st.write("#### Indeks Spektral Terkalkulasi:")
@@ -113,54 +117,91 @@ with col1:
     st.metric("BSI (Tanah Terbuka)", f"{bsi:.3f}")
 
 # ---------------------------------------------------------
-# 4. Peta Spasial Folium
+# 4. Peta Spasial Folium (Persis Web Referensi)
 # ---------------------------------------------------------
 with col2:
   st.subheader("🗺️ Peta Klasifikasi LULC Jawa Timur")
 
-  m = folium.Map(location=[-7.5360, 112.2384], zoom_start=8, tiles=None)
+  # Inisialisasi Peta
+  m = folium.Map(location=[-7.5360, 112.2384], zoom_start=8, control_scale=True)
 
+  # Google Hybrid Satellite Base Layer
   folium.TileLayer(
-      tiles="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-      attr="Google Satellite",
-      name="Google Satellite",
+      tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+      attr="Google Hybrid Satellite",
+      name="Google Hybrid (Satelit + Label)",
       overlay=False,
   ).add_to(m)
 
+  # Esri World Imagery
   folium.TileLayer(
-      tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
-      attr="Google Roadmap",
-      name="Google Maps Roadmap",
+      tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      attr="Tiles &copy; Esri",
+      name="Esri Satellite",
       overlay=False,
+      show=False,
   ).add_to(m)
 
-  # Render Layer Poligon GeoJSON
+  WARNA_KELAS = {
+      "Sawah": "#EAD86F",
+      "Bangunan": "#D85E5E",
+      "Mangrove": "#A578C0",
+      "Lahan Hijau": "#6EA06B",
+      "Laut": "#5380C0",
+      "Danau": "#7CD2F1",
+  }
+
   if gdf is not None:
-    WARNA_KELAS = {
-        "Sawah": "#EAD86F",
-        "Bangunan": "#D85E5E",
-        "Mangrove": "#A578C0",
-        "Lahan Hijau": "#6EA06B",
-        "Laut": "#5380C0",
-        "Danau": "#7CD2F1",
-    }
+    # Cari nama kolom kelas secara dinamis
+    kolom_kelas = next(
+        (
+            col
+            for col in gdf.columns
+            if col.lower() in ["kelas", "class", "lulc", "label"]
+        ),
+        gdf.columns[0],
+    )
 
+    # Render GeoJSON Polygon Layer
     folium.GeoJson(
         gdf,
-        name="Poligon LULC Jatim",
+        name="Polygon GeoJSON",
         style_function=lambda feature: {
             "fillColor": WARNA_KELAS.get(
-                feature["properties"].get("kelas", "Danau"), "#7CD2F1"
+                str(feature["properties"].get(kolom_kelas, "")).strip().title(),
+                "#7CD2F1",
             ),
             "color": "white",
             "weight": 1.2,
             "fillOpacity": 0.5,
         },
         popup=folium.GeoJsonPopup(
-            fields=["kelas"], aliases=["Kelas:"], localize=True
+            fields=[kolom_kelas], aliases=["Kelas LULC:"], localize=True
         ),
     ).add_to(m)
 
-  folium.LayerControl(position="topright").add_to(m)
+  # Menambahkan Legenda Kartografi HTML Melayang di Kiri Bawah Peta
+  legenda_items = "".join(
+      f'<div style="margin:2px 0;"><span'
+      f' style="display:inline-block;width:12px;height:12px;background:{warna};border:1px'
+      " solid"
+      ' #333;margin-right:6px;border-radius:50%;"></span>{kelas}</div>'
+      for kelas, warna in WARNA_KELAS.items()
+  )
 
-  st_folium(m, width=650, height=520)
+  legenda_html = f"""
+    <div style="position: fixed; bottom: 30px; left: 20px; width: 160px; z-index:9999; 
+                background-color: white; padding: 10px; border: 2px solid grey; 
+                border-radius: 5px; font-size: 11px; font-family: sans-serif;
+                box-shadow: 2px 2px 5px rgba(0,0,0,0.3);">
+        <b>Legenda Tutupan Lahan</b><br>
+        <small>Sentinel-2A LULC</small><hr style="margin:3px 0;">
+        {legenda_items}
+    </div>
+    """
+  m.get_root().html.add_child(folium.Element(legenda_html))
+
+  folium.LayerControl(position="topright", collapsed=False).add_to(m)
+
+  # Render Peta
+  st_folium(m, width="100%", height=530)
