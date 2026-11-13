@@ -1,0 +1,29 @@
+{
+    "model_name": "SVM (RBF Kernel)",
+    "test_accuracy": 82.5,
+    "cv_5fold_mean": 68.125,
+    "precision": 88.23529411764706,
+    "recall": 75.0,
+    "f1_score": 81.08108108108108,
+    "roc_auc": 0.905,
+    "feature_names": [
+        "mean_r",
+        "std_r",
+        "skew_r",
+        "mean_g",
+        "std_g",
+        "skew_g",
+        "mean_b",
+        "std_b",
+        "skew_b",
+        "glcm_energy",
+        "glcm_entropy",
+        "glcm_contrast",
+        "glcm_correlation",
+        "glcm_homogeneity"
+    ],
+    "classes": [
+        "Rapi (0)",
+        "Berantakan (1)"
+    ]
+}

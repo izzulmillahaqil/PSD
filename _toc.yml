@@ -21,3 +21,7 @@ parts:
         title: 8. Clustering
       - file: klasifikasi_lulc_decision_tree
         title: 10. Klasifikasi LULC Decision Tree
+      - file: ekstraksi_fitur_citra_digital
+        title: 11. Ekstraksi Fitur Citra Digital
+      - file: ekstraksi_fitur_citra_digital
+        title: 11. Ekstraksi Fitur Citra Digital
