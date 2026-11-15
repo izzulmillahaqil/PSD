@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -183,7 +183,7 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
@@ -201,7 +201,7 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="ekstraksi_fitur_citra_digital.html">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="klasifikasi_gambar_berantakan_rapi.html">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</a></li>
 
 
 
@@ -626,7 +626,7 @@ document.write(`
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_db1307d944382905d66bfaa8e705f6f0 {
+                #map_24588bb6d778c9a5100120ccf2ba5b3d {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -665,14 +665,14 @@ document.write(`
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_db1307d944382905d66bfaa8e705f6f0&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_24588bb6d778c9a5100120ccf2ba5b3d&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_db1307d944382905d66bfaa8e705f6f0 = L.map(
-                &quot;map_db1307d944382905d66bfaa8e705f6f0&quot;,
+            var map_24588bb6d778c9a5100120ccf2ba5b3d = L.map(
+                &quot;map_24588bb6d778c9a5100120ccf2ba5b3d&quot;,
                 {
                     center: [0.0, 0.0],
                     crs: L.CRS.EPSG3857,
@@ -689,7 +689,7 @@ document.write(`
 
         
     
-            var tile_layer_97e4adf06f4eabc190109bece2eb8623 = L.tileLayer(
+            var tile_layer_3c947a1a0e843b18393eeded9d5b27a9 = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -706,10 +706,10 @@ document.write(`
             );
         
     
-            tile_layer_97e4adf06f4eabc190109bece2eb8623.addTo(map_db1307d944382905d66bfaa8e705f6f0);
+            tile_layer_3c947a1a0e843b18393eeded9d5b27a9.addTo(map_24588bb6d778c9a5100120ccf2ba5b3d);
         
     
-            var tile_layer_8f513795b16563651be547fce1596612 = L.tileLayer(
+            var tile_layer_973b1528a976169d36eea373a262210b = L.tileLayer(
                 &quot;[https://mt1.google.com/vt/lyrs=y\u0026x=](https://mt1.google.com/vt/lyrs=y\u0026x=){x}\u0026y={y}\u0026z={z}&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -726,917 +726,917 @@ document.write(`
             );
         
     
-            tile_layer_8f513795b16563651be547fce1596612.addTo(map_db1307d944382905d66bfaa8e705f6f0);
+            tile_layer_973b1528a976169d36eea373a262210b.addTo(map_24588bb6d778c9a5100120ccf2ba5b3d);
         
     
-            var feature_group_0ca9b0872db9b0c9aabeab700d571dfb = L.featureGroup(
+            var feature_group_692fc7c7e71dcd3ac732528e36731946 = L.featureGroup(
                 {
 }
             );
         
     
-            var circle_marker_1c22043a8aefc688e1ec34b9651d9f02 = L.circleMarker(
+            var circle_marker_7dc0d3a30754fef6632a4779b8b5fe3b = L.circleMarker(
                 [-7.6, 112.0833],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_b7f2779b35e0d07ce375a5736174d1db = L.popup({
+        var popup_5cb0319c544ed2c1af2544dac3d6d2ca = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_110265b35433cbdd4394ebc4de9dcb41 = $(`&lt;div id=&quot;html_110265b35433cbdd4394ebc4de9dcb41&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 1&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Baron, Nganjuk&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_b7f2779b35e0d07ce375a5736174d1db.setContent(html_110265b35433cbdd4394ebc4de9dcb41);
+                var html_86f3d5557b3428329ec871245000673a = $(`&lt;div id=&quot;html_86f3d5557b3428329ec871245000673a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 1&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Baron, Nganjuk&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_5cb0319c544ed2c1af2544dac3d6d2ca.setContent(html_86f3d5557b3428329ec871245000673a);
             
         
 
-        circle_marker_1c22043a8aefc688e1ec34b9651d9f02.bindPopup(popup_b7f2779b35e0d07ce375a5736174d1db)
+        circle_marker_7dc0d3a30754fef6632a4779b8b5fe3b.bindPopup(popup_5cb0319c544ed2c1af2544dac3d6d2ca)
         ;
 
         
     
     
-            var circle_marker_7ee94056d8f662177dcdceba9642a892 = L.circleMarker(
+            var circle_marker_f27ee8f3f399592efaf2ff8648aa8d6d = L.circleMarker(
                 [-7.1667, 112.7167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_395f5b812e0138673d46ca3b33ed1b46 = L.popup({
+        var popup_d0a75e5498c3f8c69cb55c9bf1cb48e5 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_e3b7d62fb7e3d5c86b40b4e7b8a3e47d = $(`&lt;div id=&quot;html_e3b7d62fb7e3d5c86b40b4e7b8a3e47d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 5&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kamal, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_395f5b812e0138673d46ca3b33ed1b46.setContent(html_e3b7d62fb7e3d5c86b40b4e7b8a3e47d);
+                var html_86532f57cc1d6f0796bc611a0414d4dc = $(`&lt;div id=&quot;html_86532f57cc1d6f0796bc611a0414d4dc&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 5&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kamal, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_d0a75e5498c3f8c69cb55c9bf1cb48e5.setContent(html_86532f57cc1d6f0796bc611a0414d4dc);
             
         
 
-        circle_marker_7ee94056d8f662177dcdceba9642a892.bindPopup(popup_395f5b812e0138673d46ca3b33ed1b46)
+        circle_marker_f27ee8f3f399592efaf2ff8648aa8d6d.bindPopup(popup_d0a75e5498c3f8c69cb55c9bf1cb48e5)
         ;
 
         
     
     
-            var circle_marker_d8b6591c26a4c68ed6a195bc10d7e157 = L.circleMarker(
+            var circle_marker_7a3e6d8b9d2c95045da1ade9b6444422 = L.circleMarker(
                 [-7.2167, 112.2],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_b45fde51ce3ac1d730f83d5b9d25a454 = L.popup({
+        var popup_9f15882c27a50a27ca93370e7a7195fb = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_7cb68b7aae012ebb0c79f933d50bcc52 = $(`&lt;div id=&quot;html_7cb68b7aae012ebb0c79f933d50bcc52&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 6&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kedungpring, Lamongan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_b45fde51ce3ac1d730f83d5b9d25a454.setContent(html_7cb68b7aae012ebb0c79f933d50bcc52);
+                var html_6946ffdbd85b4c5d6b369477d3c57386 = $(`&lt;div id=&quot;html_6946ffdbd85b4c5d6b369477d3c57386&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 6&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kedungpring, Lamongan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_9f15882c27a50a27ca93370e7a7195fb.setContent(html_6946ffdbd85b4c5d6b369477d3c57386);
             
         
 
-        circle_marker_d8b6591c26a4c68ed6a195bc10d7e157.bindPopup(popup_b45fde51ce3ac1d730f83d5b9d25a454)
+        circle_marker_7a3e6d8b9d2c95045da1ade9b6444422.bindPopup(popup_9f15882c27a50a27ca93370e7a7195fb)
         ;
 
         
     
     
-            var circle_marker_7a0ea7c4d92973e602a8271366905dd8 = L.circleMarker(
+            var circle_marker_a9067de6f8a5ae4242f6ec201bf120ef = L.circleMarker(
                 [-7.15, 112.65],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_533c9e9f24cd7c8dbfa450ce20e42a63 = L.popup({
+        var popup_380aa47793de478983af3ad785b6a3d6 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_7bc961b669fbe8a9618b0d55bd87dcd6 = $(`&lt;div id=&quot;html_7bc961b669fbe8a9618b0d55bd87dcd6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 7&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Gresik Kota, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_533c9e9f24cd7c8dbfa450ce20e42a63.setContent(html_7bc961b669fbe8a9618b0d55bd87dcd6);
+                var html_b92187af8172a4921804f575dc803f85 = $(`&lt;div id=&quot;html_b92187af8172a4921804f575dc803f85&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 7&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Gresik Kota, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_380aa47793de478983af3ad785b6a3d6.setContent(html_b92187af8172a4921804f575dc803f85);
             
         
 
-        circle_marker_7a0ea7c4d92973e602a8271366905dd8.bindPopup(popup_533c9e9f24cd7c8dbfa450ce20e42a63)
+        circle_marker_a9067de6f8a5ae4242f6ec201bf120ef.bindPopup(popup_380aa47793de478983af3ad785b6a3d6)
         ;
 
         
     
     
-            var circle_marker_ae7fb84d034e13abe640b533802fc796 = L.circleMarker(
+            var circle_marker_a6c9924a8efdfd8aff866f68668068ed = L.circleMarker(
                 [-7.55, 112.75],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_1b56ca20c56791d25e3c7029c9d458e4 = L.popup({
+        var popup_b820a463c36d782594bb4da13fdc2a08 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_a66ec62985468a7f58fbaa9040d00d6d = $(`&lt;div id=&quot;html_a66ec62985468a7f58fbaa9040d00d6d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 11&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Jabon, Sidoarjo&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_1b56ca20c56791d25e3c7029c9d458e4.setContent(html_a66ec62985468a7f58fbaa9040d00d6d);
+                var html_3486cc2e392c41228e5bdf18332f80da = $(`&lt;div id=&quot;html_3486cc2e392c41228e5bdf18332f80da&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 11&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Jabon, Sidoarjo&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_b820a463c36d782594bb4da13fdc2a08.setContent(html_3486cc2e392c41228e5bdf18332f80da);
             
         
 
-        circle_marker_ae7fb84d034e13abe640b533802fc796.bindPopup(popup_1b56ca20c56791d25e3c7029c9d458e4)
+        circle_marker_a6c9924a8efdfd8aff866f68668068ed.bindPopup(popup_b820a463c36d782594bb4da13fdc2a08)
         ;
 
         
     
     
-            var circle_marker_b77b2b3850dc6e209a2ffc417e0e1b99 = L.circleMarker(
+            var circle_marker_22352bdd75056f8854680196e5fa693d = L.circleMarker(
                 [-7.5833, 112.2833],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_7e43c6f4de554d4f75aba175734e2618 = L.popup({
+        var popup_c3d028c45b46cee20c1a86520ef3692d = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_24e3b3f3fe63ae237d1fb8e668f89314 = $(`&lt;div id=&quot;html_24e3b3f3fe63ae237d1fb8e668f89314&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 14&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Bandung Jogoroto, Jombang&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_7e43c6f4de554d4f75aba175734e2618.setContent(html_24e3b3f3fe63ae237d1fb8e668f89314);
+                var html_6b537dda1dcbcfa8a4e4e40a1aacc857 = $(`&lt;div id=&quot;html_6b537dda1dcbcfa8a4e4e40a1aacc857&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 14&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Bandung Jogoroto, Jombang&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_c3d028c45b46cee20c1a86520ef3692d.setContent(html_6b537dda1dcbcfa8a4e4e40a1aacc857);
             
         
 
-        circle_marker_b77b2b3850dc6e209a2ffc417e0e1b99.bindPopup(popup_7e43c6f4de554d4f75aba175734e2618)
+        circle_marker_22352bdd75056f8854680196e5fa693d.bindPopup(popup_c3d028c45b46cee20c1a86520ef3692d)
         ;
 
         
     
     
-            var circle_marker_9738ece9def661a3d01180fb380ea39f = L.circleMarker(
+            var circle_marker_ea66bb22be80bb10f141ec7674fe9ea7 = L.circleMarker(
                 [-7.0167, 112.1333],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_2ac13f4068d8c38d94d50517c375be81 = L.popup({
+        var popup_a6db3aa030a11b5d6a5accec1580a6ce = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_38b401a628461cafb68f5e0aa8363de5 = $(`&lt;div id=&quot;html_38b401a628461cafb68f5e0aa8363de5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 15&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Widang, Tuban&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_2ac13f4068d8c38d94d50517c375be81.setContent(html_38b401a628461cafb68f5e0aa8363de5);
+                var html_798e3c0d5472173ff3e4ddd859aaf1a7 = $(`&lt;div id=&quot;html_798e3c0d5472173ff3e4ddd859aaf1a7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 15&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Widang, Tuban&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_a6db3aa030a11b5d6a5accec1580a6ce.setContent(html_798e3c0d5472173ff3e4ddd859aaf1a7);
             
         
 
-        circle_marker_9738ece9def661a3d01180fb380ea39f.bindPopup(popup_2ac13f4068d8c38d94d50517c375be81)
+        circle_marker_ea66bb22be80bb10f141ec7674fe9ea7.bindPopup(popup_a6db3aa030a11b5d6a5accec1580a6ce)
         ;
 
         
     
     
-            var circle_marker_37e82f001f649937436eccc31831a958 = L.circleMarker(
+            var circle_marker_88eac1bd3838b98992af1b298544f6d8 = L.circleMarker(
                 [-7.45, 112.6167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_f2754c5e2e486a42561589be12b65597 = L.popup({
+        var popup_c01fbc69cc58cbaa5671819f9617d365 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_8c395ac16d4891b181d3042ab6d22bb2 = $(`&lt;div id=&quot;html_8c395ac16d4891b181d3042ab6d22bb2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 16&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Sidoarjo, Wonoayu&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_f2754c5e2e486a42561589be12b65597.setContent(html_8c395ac16d4891b181d3042ab6d22bb2);
+                var html_3744a28ff9868cf1fd765b7ac3f7845b = $(`&lt;div id=&quot;html_3744a28ff9868cf1fd765b7ac3f7845b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 16&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Sidoarjo, Wonoayu&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_c01fbc69cc58cbaa5671819f9617d365.setContent(html_3744a28ff9868cf1fd765b7ac3f7845b);
             
         
 
-        circle_marker_37e82f001f649937436eccc31831a958.bindPopup(popup_f2754c5e2e486a42561589be12b65597)
+        circle_marker_88eac1bd3838b98992af1b298544f6d8.bindPopup(popup_c01fbc69cc58cbaa5671819f9617d365)
         ;
 
         
     
     
-            var circle_marker_c3026e65b0450b590d9133e8a677b973 = L.circleMarker(
+            var circle_marker_9e285f5f3dbfbee3c904b32ed04149b7 = L.circleMarker(
                 [-7.15, 112.8667],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_efdb894b71434f01bcada812fe705d5a = L.popup({
+        var popup_e4d8a9b30b027fb7a19ffd45d980520c = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_4f295df9a0496d92fbd61a974a689a5b = $(`&lt;div id=&quot;html_4f295df9a0496d92fbd61a974a689a5b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 17&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kwanyar, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_efdb894b71434f01bcada812fe705d5a.setContent(html_4f295df9a0496d92fbd61a974a689a5b);
+                var html_4b5aee46f5f24484d9f060830dee1d2c = $(`&lt;div id=&quot;html_4b5aee46f5f24484d9f060830dee1d2c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 17&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kwanyar, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_e4d8a9b30b027fb7a19ffd45d980520c.setContent(html_4b5aee46f5f24484d9f060830dee1d2c);
             
         
 
-        circle_marker_c3026e65b0450b590d9133e8a677b973.bindPopup(popup_efdb894b71434f01bcada812fe705d5a)
+        circle_marker_9e285f5f3dbfbee3c904b32ed04149b7.bindPopup(popup_e4d8a9b30b027fb7a19ffd45d980520c)
         ;
 
         
     
     
-            var circle_marker_44820ed69239386c559eb8dc363fee73 = L.circleMarker(
+            var circle_marker_8cf910eb24107a6e600b7d1e6db00aa9 = L.circleMarker(
                 [-7.05, 113.9167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_28ec957c7946ae503f13c1eaf3b1b339 = L.popup({
+        var popup_104d2a4ccca9c9914cdb3ebf0f681d9b = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_f7132c851728bd33e7254c0d146e53be = $(`&lt;div id=&quot;html_f7132c851728bd33e7254c0d146e53be&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 19&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kalianget, Sumenep&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_28ec957c7946ae503f13c1eaf3b1b339.setContent(html_f7132c851728bd33e7254c0d146e53be);
+                var html_186556e4c0c4a5425b2689ae4c29f9b2 = $(`&lt;div id=&quot;html_186556e4c0c4a5425b2689ae4c29f9b2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 19&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kalianget, Sumenep&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_104d2a4ccca9c9914cdb3ebf0f681d9b.setContent(html_186556e4c0c4a5425b2689ae4c29f9b2);
             
         
 
-        circle_marker_44820ed69239386c559eb8dc363fee73.bindPopup(popup_28ec957c7946ae503f13c1eaf3b1b339)
+        circle_marker_8cf910eb24107a6e600b7d1e6db00aa9.bindPopup(popup_104d2a4ccca9c9914cdb3ebf0f681d9b)
         ;
 
         
     
     
-            var circle_marker_474289f2b9a6d1c9f85d5b7a7b75ca4f = L.circleMarker(
+            var circle_marker_0ebf9894775a51b086303aaf512c0139 = L.circleMarker(
                 [-7.2167, 112.55],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_b58483bf07a787bd7cb5c2767a7ca9e7 = L.popup({
+        var popup_c9f0281efdb821827caaab31aea79814 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_74f7f3a1d83b5862fff2107cd6768507 = $(`&lt;div id=&quot;html_74f7f3a1d83b5862fff2107cd6768507&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 20&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Cerme, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_b58483bf07a787bd7cb5c2767a7ca9e7.setContent(html_74f7f3a1d83b5862fff2107cd6768507);
+                var html_2c74b3c0414a7b28778f9076a42d8dbd = $(`&lt;div id=&quot;html_2c74b3c0414a7b28778f9076a42d8dbd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 20&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Cerme, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_c9f0281efdb821827caaab31aea79814.setContent(html_2c74b3c0414a7b28778f9076a42d8dbd);
             
         
 
-        circle_marker_474289f2b9a6d1c9f85d5b7a7b75ca4f.bindPopup(popup_b58483bf07a787bd7cb5c2767a7ca9e7)
+        circle_marker_0ebf9894775a51b086303aaf512c0139.bindPopup(popup_c9f0281efdb821827caaab31aea79814)
         ;
 
         
     
     
-            var circle_marker_90e750fe2e18f03f70212dd13450bf35 = L.circleMarker(
+            var circle_marker_c9d86ba8debe948e5b731cf389ca07a8 = L.circleMarker(
                 [-6.8333, 111.8833],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_9b84a2d7feb20bf63aacc1ae6b5c6fb9 = L.popup({
+        var popup_9a1fdd5ee0ef765967be8bccdfc32650 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_086e36244902ab2f74005fe3f6e45695 = $(`&lt;div id=&quot;html_086e36244902ab2f74005fe3f6e45695&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 22&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kerek, Tuban&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_9b84a2d7feb20bf63aacc1ae6b5c6fb9.setContent(html_086e36244902ab2f74005fe3f6e45695);
+                var html_567efd6a4e3bbbb17c2f21e64675f644 = $(`&lt;div id=&quot;html_567efd6a4e3bbbb17c2f21e64675f644&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 22&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kerek, Tuban&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_9a1fdd5ee0ef765967be8bccdfc32650.setContent(html_567efd6a4e3bbbb17c2f21e64675f644);
             
         
 
-        circle_marker_90e750fe2e18f03f70212dd13450bf35.bindPopup(popup_9b84a2d7feb20bf63aacc1ae6b5c6fb9)
+        circle_marker_c9d86ba8debe948e5b731cf389ca07a8.bindPopup(popup_9a1fdd5ee0ef765967be8bccdfc32650)
         ;
 
         
     
     
-            var circle_marker_ff0765a740da25e5ab1e14fdf5db8ebb = L.circleMarker(
+            var circle_marker_40af83474e7b5a2a50c945e3e42eb39a = L.circleMarker(
                 [-7.152, 112.868],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_3e63ff7ecc5dd825b3eb4136e733d99b = L.popup({
+        var popup_99c3fa40a52a0e75f90fd0349f91d44a = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_7ebcac39dc49af5caa86e3610048da53 = $(`&lt;div id=&quot;html_7ebcac39dc49af5caa86e3610048da53&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 23&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kwanyar, Bangkalan (2)&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_3e63ff7ecc5dd825b3eb4136e733d99b.setContent(html_7ebcac39dc49af5caa86e3610048da53);
+                var html_e3c94231bd4bf0e086f6edbb073cb24f = $(`&lt;div id=&quot;html_e3c94231bd4bf0e086f6edbb073cb24f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 23&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kwanyar, Bangkalan (2)&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_99c3fa40a52a0e75f90fd0349f91d44a.setContent(html_e3c94231bd4bf0e086f6edbb073cb24f);
             
         
 
-        circle_marker_ff0765a740da25e5ab1e14fdf5db8ebb.bindPopup(popup_3e63ff7ecc5dd825b3eb4136e733d99b)
+        circle_marker_40af83474e7b5a2a50c945e3e42eb39a.bindPopup(popup_99c3fa40a52a0e75f90fd0349f91d44a)
         ;
 
         
     
     
-            var circle_marker_e62004cba64192e6f02b86ac175b9f21 = L.circleMarker(
+            var circle_marker_5da7c7a0637729032eed6c460473c415 = L.circleMarker(
                 [-7.3, 112.7333],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_dde76029a55bbfafdeaf26a81f3db027 = L.popup({
+        var popup_f2dd4896fa10c9fb21893b0403c07be6 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_17a7c4f679b3fa335f6e46ed682f02f7 = $(`&lt;div id=&quot;html_17a7c4f679b3fa335f6e46ed682f02f7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 24&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Wonokromo, Surabaya&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_dde76029a55bbfafdeaf26a81f3db027.setContent(html_17a7c4f679b3fa335f6e46ed682f02f7);
+                var html_287c7059c1e712cbe42647d3643a3e25 = $(`&lt;div id=&quot;html_287c7059c1e712cbe42647d3643a3e25&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 24&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Wonokromo, Surabaya&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_f2dd4896fa10c9fb21893b0403c07be6.setContent(html_287c7059c1e712cbe42647d3643a3e25);
             
         
 
-        circle_marker_e62004cba64192e6f02b86ac175b9f21.bindPopup(popup_dde76029a55bbfafdeaf26a81f3db027)
+        circle_marker_5da7c7a0637729032eed6c460473c415.bindPopup(popup_f2dd4896fa10c9fb21893b0403c07be6)
         ;
 
         
     
     
-            var circle_marker_8300a51890ec8e77da32f22faafd4653 = L.circleMarker(
+            var circle_marker_2ea64403217d90e531989b34d037dc0b = L.circleMarker(
                 [-7.25, 112.7167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_04938af54ffa37c2be671536f5689098 = L.popup({
+        var popup_561bb3907bf50e6f5258f77656082390 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_ac6b78c012674348b344c0d5adda750f = $(`&lt;div id=&quot;html_ac6b78c012674348b344c0d5adda750f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 25&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Asemrowo, Surabaya&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_04938af54ffa37c2be671536f5689098.setContent(html_ac6b78c012674348b344c0d5adda750f);
+                var html_3b84003ebd5f8ac07e7e167bfa78a089 = $(`&lt;div id=&quot;html_3b84003ebd5f8ac07e7e167bfa78a089&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 25&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Asemrowo, Surabaya&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_561bb3907bf50e6f5258f77656082390.setContent(html_3b84003ebd5f8ac07e7e167bfa78a089);
             
         
 
-        circle_marker_8300a51890ec8e77da32f22faafd4653.bindPopup(popup_04938af54ffa37c2be671536f5689098)
+        circle_marker_2ea64403217d90e531989b34d037dc0b.bindPopup(popup_561bb3907bf50e6f5258f77656082390)
         ;
 
         
     
     
-            var circle_marker_84e9f0b38157746bda1871d0a87e2896 = L.circleMarker(
+            var circle_marker_f6a8acea7c47cd5f9102e731f58860ae = L.circleMarker(
                 [-7.0833, 112.7167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_f61294c02182ceac9770f8deb17f0568 = L.popup({
+        var popup_ff893bd213a7861b429ff6eb3f717eef = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_bce82be9898a4e7afe2312de8883d086 = $(`&lt;div id=&quot;html_bce82be9898a4e7afe2312de8883d086&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 27&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Socah, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_f61294c02182ceac9770f8deb17f0568.setContent(html_bce82be9898a4e7afe2312de8883d086);
+                var html_e70a4f484fd11df4afd9ea16f46b1140 = $(`&lt;div id=&quot;html_e70a4f484fd11df4afd9ea16f46b1140&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 27&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Socah, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_ff893bd213a7861b429ff6eb3f717eef.setContent(html_e70a4f484fd11df4afd9ea16f46b1140);
             
         
 
-        circle_marker_84e9f0b38157746bda1871d0a87e2896.bindPopup(popup_f61294c02182ceac9770f8deb17f0568)
+        circle_marker_f6a8acea7c47cd5f9102e731f58860ae.bindPopup(popup_ff893bd213a7861b429ff6eb3f717eef)
         ;
 
         
     
     
-            var circle_marker_775e120c8ca2d35ed674e808557fcc95 = L.circleMarker(
+            var circle_marker_70979b74db3855545d2ee419f66106ed = L.circleMarker(
                 [-7.1167, 112.75],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_5d88e8263c08d76cce412682f0471d60 = L.popup({
+        var popup_d9a26015cf00452b82c0e2e0aa79800d = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_2550797eb71c9e10a0e1b3d38b23ca54 = $(`&lt;div id=&quot;html_2550797eb71c9e10a0e1b3d38b23ca54&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 30&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Labang, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_5d88e8263c08d76cce412682f0471d60.setContent(html_2550797eb71c9e10a0e1b3d38b23ca54);
+                var html_2064d1b669434a0cfb69fcd0bbd09e70 = $(`&lt;div id=&quot;html_2064d1b669434a0cfb69fcd0bbd09e70&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 30&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Labang, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_d9a26015cf00452b82c0e2e0aa79800d.setContent(html_2064d1b669434a0cfb69fcd0bbd09e70);
             
         
 
-        circle_marker_775e120c8ca2d35ed674e808557fcc95.bindPopup(popup_5d88e8263c08d76cce412682f0471d60)
+        circle_marker_70979b74db3855545d2ee419f66106ed.bindPopup(popup_d9a26015cf00452b82c0e2e0aa79800d)
         ;
 
         
     
     
-            var circle_marker_cbb2f1e481564d22e2850a93f7473b86 = L.circleMarker(
+            var circle_marker_f61731b1db3db0fbfb4baaa905bc993a = L.circleMarker(
                 [-7.0333, 112.75],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_0acae2c6d0b091889bf590a3244bfdd2 = L.popup({
+        var popup_16c6e4f14a9a37eea58d85471135f1bc = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_5f1d74ebb25e48d8600b3b46c8500b9f = $(`&lt;div id=&quot;html_5f1d74ebb25e48d8600b3b46c8500b9f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 32&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Bangkalan Kota&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_0acae2c6d0b091889bf590a3244bfdd2.setContent(html_5f1d74ebb25e48d8600b3b46c8500b9f);
+                var html_78dc300bb55a73c2df643cc6eae80ea5 = $(`&lt;div id=&quot;html_78dc300bb55a73c2df643cc6eae80ea5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 32&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Bangkalan Kota&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_16c6e4f14a9a37eea58d85471135f1bc.setContent(html_78dc300bb55a73c2df643cc6eae80ea5);
             
         
 
-        circle_marker_cbb2f1e481564d22e2850a93f7473b86.bindPopup(popup_0acae2c6d0b091889bf590a3244bfdd2)
+        circle_marker_f61731b1db3db0fbfb4baaa905bc993a.bindPopup(popup_16c6e4f14a9a37eea58d85471135f1bc)
         ;
 
         
     
     
-            var circle_marker_d05be912f21e727278404b0a55deb58e = L.circleMarker(
+            var circle_marker_15113d20d88a36403f248b476cb3d2f8 = L.circleMarker(
                 [-6.9333, 106.9167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_1253043e19160372153219655febca02 = L.popup({
+        var popup_b275af48fb41f0aae0bc73c5b09ca083 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_cb60151b1cbc7e6243685856c209837f = $(`&lt;div id=&quot;html_cb60151b1cbc7e6243685856c209837f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 33&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Warudoyong, Sukabumi&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_1253043e19160372153219655febca02.setContent(html_cb60151b1cbc7e6243685856c209837f);
+                var html_6ec03270cbb7aefcdfb971c36b1cda6a = $(`&lt;div id=&quot;html_6ec03270cbb7aefcdfb971c36b1cda6a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 33&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Warudoyong, Sukabumi&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_b275af48fb41f0aae0bc73c5b09ca083.setContent(html_6ec03270cbb7aefcdfb971c36b1cda6a);
             
         
 
-        circle_marker_d05be912f21e727278404b0a55deb58e.bindPopup(popup_1253043e19160372153219655febca02)
+        circle_marker_15113d20d88a36403f248b476cb3d2f8.bindPopup(popup_b275af48fb41f0aae0bc73c5b09ca083)
         ;
 
         
     
     
-            var circle_marker_9358ef2b6bd24be2380364fda52e11ef = L.circleMarker(
+            var circle_marker_a0d3af449b35dc374692454a91cfeb76 = L.circleMarker(
                 [-7.035, 112.755],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_0ca9b0872db9b0c9aabeab700d571dfb);
+            ).addTo(feature_group_692fc7c7e71dcd3ac732528e36731946);
         
     
-        var popup_e80a090c1abb57159712d2d35c71118d = L.popup({
+        var popup_721ccecf3d93468b892180cb9db1ec6c = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_4e6b84ca213ed6224d2c350e26f18276 = $(`&lt;div id=&quot;html_4e6b84ca213ed6224d2c350e26f18276&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 37&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kecamatan Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
-                popup_e80a090c1abb57159712d2d35c71118d.setContent(html_4e6b84ca213ed6224d2c350e26f18276);
+                var html_fe91cba4fc4f9567a17e0e6721017e87 = $(`&lt;div id=&quot;html_fe91cba4fc4f9567a17e0e6721017e87&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 37&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kecamatan Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 0 (Polusi Rendah)&lt;/div&gt;`)[0];
+                popup_721ccecf3d93468b892180cb9db1ec6c.setContent(html_fe91cba4fc4f9567a17e0e6721017e87);
             
         
 
-        circle_marker_9358ef2b6bd24be2380364fda52e11ef.bindPopup(popup_e80a090c1abb57159712d2d35c71118d)
+        circle_marker_a0d3af449b35dc374692454a91cfeb76.bindPopup(popup_721ccecf3d93468b892180cb9db1ec6c)
         ;
 
         
     
     
-            feature_group_0ca9b0872db9b0c9aabeab700d571dfb.addTo(map_db1307d944382905d66bfaa8e705f6f0);
+            feature_group_692fc7c7e71dcd3ac732528e36731946.addTo(map_24588bb6d778c9a5100120ccf2ba5b3d);
         
     
-            var feature_group_370a35ee01f5246c2c45edf0b7311642 = L.featureGroup(
+            var feature_group_c61d5c1f71a12eb906dcfb0213b43767 = L.featureGroup(
                 {
 }
             );
         
     
-            var circle_marker_4021b30ca662dfb9d682a9ceb2618b9d = L.circleMarker(
+            var circle_marker_b2705a7936ced8c73f9d03a0f3566217 = L.circleMarker(
                 [-7.1667, 113.1167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_03b48f0152589a232981569b3652ca5b = L.popup({
+        var popup_6c31cbc6050b0b8f196d56bfa0d8adf1 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_02455a21ff45359c91e565b8fe4c090a = $(`&lt;div id=&quot;html_02455a21ff45359c91e565b8fe4c090a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 3&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Sreseh, Sampang&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_03b48f0152589a232981569b3652ca5b.setContent(html_02455a21ff45359c91e565b8fe4c090a);
+                var html_5345ee9cb617d403eeec9f190d560307 = $(`&lt;div id=&quot;html_5345ee9cb617d403eeec9f190d560307&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 3&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Sreseh, Sampang&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_6c31cbc6050b0b8f196d56bfa0d8adf1.setContent(html_5345ee9cb617d403eeec9f190d560307);
             
         
 
-        circle_marker_4021b30ca662dfb9d682a9ceb2618b9d.bindPopup(popup_03b48f0152589a232981569b3652ca5b)
+        circle_marker_b2705a7936ced8c73f9d03a0f3566217.bindPopup(popup_6c31cbc6050b0b8f196d56bfa0d8adf1)
         ;
 
         
     
     
-            var circle_marker_0977628870e7bce75822d8a298e0c4fd = L.circleMarker(
+            var circle_marker_8e2f6435d23f3e12833eb633d0344ab1 = L.circleMarker(
                 [-7.1167, 112.6],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_55976a2a72fb10ee01a16b6df8c2bfe0 = L.popup({
+        var popup_1907b9de7d451db3731494ab12fd8647 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_dd1619ac30f6e1a73f6d940da03c21d2 = $(`&lt;div id=&quot;html_dd1619ac30f6e1a73f6d940da03c21d2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 4&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Manyar, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_55976a2a72fb10ee01a16b6df8c2bfe0.setContent(html_dd1619ac30f6e1a73f6d940da03c21d2);
+                var html_d88262940a8b1509cbf1945debfd4c74 = $(`&lt;div id=&quot;html_d88262940a8b1509cbf1945debfd4c74&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 4&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Manyar, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_1907b9de7d451db3731494ab12fd8647.setContent(html_d88262940a8b1509cbf1945debfd4c74);
             
         
 
-        circle_marker_0977628870e7bce75822d8a298e0c4fd.bindPopup(popup_55976a2a72fb10ee01a16b6df8c2bfe0)
+        circle_marker_8e2f6435d23f3e12833eb633d0344ab1.bindPopup(popup_1907b9de7d451db3731494ab12fd8647)
         ;
 
         
     
     
-            var circle_marker_a12852bc2e23b29bce28c432ee1d722e = L.circleMarker(
+            var circle_marker_def0ee7a90d7626b298899b35f092787 = L.circleMarker(
                 [-6.8833, 112.35],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_2393bfd7948b5c1707aa6190cd05188d = L.popup({
+        var popup_501e1421df8f83871ab784502b6549b4 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_a5fe6fade8700b7317029ff97ab61b43 = $(`&lt;div id=&quot;html_a5fe6fade8700b7317029ff97ab61b43&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 9&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Paciran, Lamongan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_2393bfd7948b5c1707aa6190cd05188d.setContent(html_a5fe6fade8700b7317029ff97ab61b43);
+                var html_7f579a41654ae676a997f9a69bb088f5 = $(`&lt;div id=&quot;html_7f579a41654ae676a997f9a69bb088f5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 9&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Paciran, Lamongan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_501e1421df8f83871ab784502b6549b4.setContent(html_7f579a41654ae676a997f9a69bb088f5);
             
         
 
-        circle_marker_a12852bc2e23b29bce28c432ee1d722e.bindPopup(popup_2393bfd7948b5c1707aa6190cd05188d)
+        circle_marker_def0ee7a90d7626b298899b35f092787.bindPopup(popup_501e1421df8f83871ab784502b6549b4)
         ;
 
         
     
     
-            var circle_marker_413a9be3ea576961efc4423c54c7d25a = L.circleMarker(
+            var circle_marker_550686f2ec3c79a31d684e347d76bad5 = L.circleMarker(
                 [-7.5833, 112.1],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_de9ef0e3686ca315db9d6b1dddb3e3fd = L.popup({
+        var popup_4f55d633c3999b9de4987b650c262b0e = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_c39d110a1d21886d854e13f530c4892e = $(`&lt;div id=&quot;html_c39d110a1d21886d854e13f530c4892e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 10&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kertosono, Nganjuk&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_de9ef0e3686ca315db9d6b1dddb3e3fd.setContent(html_c39d110a1d21886d854e13f530c4892e);
+                var html_4feaad9e6d613b632775d8f12c50a507 = $(`&lt;div id=&quot;html_4feaad9e6d613b632775d8f12c50a507&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 10&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kertosono, Nganjuk&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_4f55d633c3999b9de4987b650c262b0e.setContent(html_4feaad9e6d613b632775d8f12c50a507);
             
         
 
-        circle_marker_413a9be3ea576961efc4423c54c7d25a.bindPopup(popup_de9ef0e3686ca315db9d6b1dddb3e3fd)
+        circle_marker_550686f2ec3c79a31d684e347d76bad5.bindPopup(popup_4f55d633c3999b9de4987b650c262b0e)
         ;
 
         
     
     
-            var circle_marker_5cb7bc904fe9dda6e8b794ab9a5b4f46 = L.circleMarker(
+            var circle_marker_79dfe1be54960fa755a1dac6ca7b06e4 = L.circleMarker(
                 [-7.2833, 112.2333],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_62a41ff4635862af26954c5a652b40b5 = L.popup({
+        var popup_2eb6aa4633d55fbb0de40a449c68958b = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_a4340ab9601654833e7084e20a8a7fc5 = $(`&lt;div id=&quot;html_a4340ab9601654833e7084e20a8a7fc5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 18&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Sambeng, Lamongan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_62a41ff4635862af26954c5a652b40b5.setContent(html_a4340ab9601654833e7084e20a8a7fc5);
+                var html_34e1ab1913874a24cbc03a1d9e67094a = $(`&lt;div id=&quot;html_34e1ab1913874a24cbc03a1d9e67094a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 18&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Sambeng, Lamongan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_2eb6aa4633d55fbb0de40a449c68958b.setContent(html_34e1ab1913874a24cbc03a1d9e67094a);
             
         
 
-        circle_marker_5cb7bc904fe9dda6e8b794ab9a5b4f46.bindPopup(popup_62a41ff4635862af26954c5a652b40b5)
+        circle_marker_79dfe1be54960fa755a1dac6ca7b06e4.bindPopup(popup_2eb6aa4633d55fbb0de40a449c68958b)
         ;
 
         
     
     
-            var circle_marker_43027c41097cc805a8b76a4ccff3f75d = L.circleMarker(
+            var circle_marker_0d44023ea06b10a8cd7778422436e0e1 = L.circleMarker(
                 [1.4833, 124.85],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_e0c6e1a384f31e0b749dbcf8808e0dcc = L.popup({
+        var popup_41746fb3d24117b2d2bada3eddae95ee = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_b9abac6d48f84508b2967cc8d4dde8ad = $(`&lt;div id=&quot;html_b9abac6d48f84508b2967cc8d4dde8ad&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 21&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Tikala, Manado&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_e0c6e1a384f31e0b749dbcf8808e0dcc.setContent(html_b9abac6d48f84508b2967cc8d4dde8ad);
+                var html_0f6626141300dafc272c06e6c4f207ce = $(`&lt;div id=&quot;html_0f6626141300dafc272c06e6c4f207ce&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 21&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Tikala, Manado&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_41746fb3d24117b2d2bada3eddae95ee.setContent(html_0f6626141300dafc272c06e6c4f207ce);
             
         
 
-        circle_marker_43027c41097cc805a8b76a4ccff3f75d.bindPopup(popup_e0c6e1a384f31e0b749dbcf8808e0dcc)
+        circle_marker_0d44023ea06b10a8cd7778422436e0e1.bindPopup(popup_41746fb3d24117b2d2bada3eddae95ee)
         ;
 
         
     
     
-            var circle_marker_50488aa02a5115d91703505da3ed2e38 = L.circleMarker(
+            var circle_marker_5a98f06f0915c1ee46f2dbaa95956cf6 = L.circleMarker(
                 [-7.0167, 113.8667],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_3cd751627a97489a7363a55fad7bceb9 = L.popup({
+        var popup_acdf14de2a1fe1cef1a7b1078ef0ce75 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_2f1234cd0db4a24730e2aa8ca575fbce = $(`&lt;div id=&quot;html_2f1234cd0db4a24730e2aa8ca575fbce&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 26&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kota Sumenep&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_3cd751627a97489a7363a55fad7bceb9.setContent(html_2f1234cd0db4a24730e2aa8ca575fbce);
+                var html_534e99250b0a00e49d980f0b8c9c3a4e = $(`&lt;div id=&quot;html_534e99250b0a00e49d980f0b8c9c3a4e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 26&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kota Sumenep&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_acdf14de2a1fe1cef1a7b1078ef0ce75.setContent(html_534e99250b0a00e49d980f0b8c9c3a4e);
             
         
 
-        circle_marker_50488aa02a5115d91703505da3ed2e38.bindPopup(popup_3cd751627a97489a7363a55fad7bceb9)
+        circle_marker_5a98f06f0915c1ee46f2dbaa95956cf6.bindPopup(popup_acdf14de2a1fe1cef1a7b1078ef0ce75)
         ;
 
         
     
     
-            var circle_marker_e052a68905ee87e2f823b427a7b7c39a = L.circleMarker(
+            var circle_marker_e29284c852ecf5f51d0965abec8941dc = L.circleMarker(
                 [-7.5333, 111.6667],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_c8a31ed0d61be4a7c606a49398549d15 = L.popup({
+        var popup_4d79779e9d78f7c8dbdbf9a7eec5d231 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_056946ebe4c8771d2fff41fc234b9089 = $(`&lt;div id=&quot;html_056946ebe4c8771d2fff41fc234b9089&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 28&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Pilangkenceng, Madiun&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_c8a31ed0d61be4a7c606a49398549d15.setContent(html_056946ebe4c8771d2fff41fc234b9089);
+                var html_4bb0705fdddce53a69abad24aed40990 = $(`&lt;div id=&quot;html_4bb0705fdddce53a69abad24aed40990&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 28&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Pilangkenceng, Madiun&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_4d79779e9d78f7c8dbdbf9a7eec5d231.setContent(html_4bb0705fdddce53a69abad24aed40990);
             
         
 
-        circle_marker_e052a68905ee87e2f823b427a7b7c39a.bindPopup(popup_c8a31ed0d61be4a7c606a49398549d15)
+        circle_marker_e29284c852ecf5f51d0965abec8941dc.bindPopup(popup_4d79779e9d78f7c8dbdbf9a7eec5d231)
         ;
 
         
     
     
-            var circle_marker_2889e933c4e0b14175c586f40ed70db1 = L.circleMarker(
+            var circle_marker_2484da30ed56c2764dcc1567cf20b573 = L.circleMarker(
                 [-7.0833, 112.8167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_acf1623e33f013d3a68693248a840d9f = L.popup({
+        var popup_568389be37a86faa290b948f50c0515a = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_0471415c906fc73837b5c8332e3ed5ab = $(`&lt;div id=&quot;html_0471415c906fc73837b5c8332e3ed5ab&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 29&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Tanah Merah, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_acf1623e33f013d3a68693248a840d9f.setContent(html_0471415c906fc73837b5c8332e3ed5ab);
+                var html_60c7dc836d7bb8e73118db1a335cd524 = $(`&lt;div id=&quot;html_60c7dc836d7bb8e73118db1a335cd524&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 29&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Tanah Merah, Bangkalan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_568389be37a86faa290b948f50c0515a.setContent(html_60c7dc836d7bb8e73118db1a335cd524);
             
         
 
-        circle_marker_2889e933c4e0b14175c586f40ed70db1.bindPopup(popup_acf1623e33f013d3a68693248a840d9f)
+        circle_marker_2484da30ed56c2764dcc1567cf20b573.bindPopup(popup_568389be37a86faa290b948f50c0515a)
         ;
 
         
     
     
-            var circle_marker_b54a6de86b314ef24f701cea1f004164 = L.circleMarker(
+            var circle_marker_ea3dd9d4baa56034911e622e8243d377 = L.circleMarker(
                 [-7.3833, 111.2333],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_370a35ee01f5246c2c45edf0b7311642);
+            ).addTo(feature_group_c61d5c1f71a12eb906dcfb0213b43767);
         
     
-        var popup_251eed0156ae8cd2f1258a0a9ccafc38 = L.popup({
+        var popup_38174204c27bfd6637e741e22a3bde87 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_ce68cc4b3e87bd771ace1d1d11e6549d = $(`&lt;div id=&quot;html_ce68cc4b3e87bd771ace1d1d11e6549d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 31&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Widodaren, Ngawi&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
-                popup_251eed0156ae8cd2f1258a0a9ccafc38.setContent(html_ce68cc4b3e87bd771ace1d1d11e6549d);
+                var html_fa73c3a4b4a067310bbdf9e02632c2a8 = $(`&lt;div id=&quot;html_fa73c3a4b4a067310bbdf9e02632c2a8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 31&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Widodaren, Ngawi&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 1 (Polusi Sedang)&lt;/div&gt;`)[0];
+                popup_38174204c27bfd6637e741e22a3bde87.setContent(html_fa73c3a4b4a067310bbdf9e02632c2a8);
             
         
 
-        circle_marker_b54a6de86b314ef24f701cea1f004164.bindPopup(popup_251eed0156ae8cd2f1258a0a9ccafc38)
+        circle_marker_ea3dd9d4baa56034911e622e8243d377.bindPopup(popup_38174204c27bfd6637e741e22a3bde87)
         ;
 
         
     
     
-            feature_group_370a35ee01f5246c2c45edf0b7311642.addTo(map_db1307d944382905d66bfaa8e705f6f0);
+            feature_group_c61d5c1f71a12eb906dcfb0213b43767.addTo(map_24588bb6d778c9a5100120ccf2ba5b3d);
         
     
-            var feature_group_324a9e04726d8492c3a4b99e97b5c852 = L.featureGroup(
+            var feature_group_1c755240f3244192611d66d54a65dd0e = L.featureGroup(
                 {
 }
             );
         
     
-            var circle_marker_5b89185f6f0ba8af3f5ec3d53e9afe68 = L.circleMarker(
+            var circle_marker_83f81c6ffc1180d5c2d74d624add3464 = L.circleMarker(
                 [4.1333, 117.65],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_63284099deb570b101637ef888e38120 = L.popup({
+        var popup_0bf1af9f01751c19be172e38276321b4 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_4adf64f04b576f8fdecfea70a437acac = $(`&lt;div id=&quot;html_4adf64f04b576f8fdecfea70a437acac&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 2&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Nunukan, Kaltara&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_63284099deb570b101637ef888e38120.setContent(html_4adf64f04b576f8fdecfea70a437acac);
+                var html_cc73c6d48d1569f5661d4d280561d5f6 = $(`&lt;div id=&quot;html_cc73c6d48d1569f5661d4d280561d5f6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 2&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Nunukan, Kaltara&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_0bf1af9f01751c19be172e38276321b4.setContent(html_cc73c6d48d1569f5661d4d280561d5f6);
             
         
 
-        circle_marker_5b89185f6f0ba8af3f5ec3d53e9afe68.bindPopup(popup_63284099deb570b101637ef888e38120)
+        circle_marker_83f81c6ffc1180d5c2d74d624add3464.bindPopup(popup_0bf1af9f01751c19be172e38276321b4)
         ;
 
         
     
     
-            var circle_marker_8f342c5ef42155c0d9d601f1a0797cb5 = L.circleMarker(
+            var circle_marker_1dd3cfc1f49da1da0d5af0f97493daa3 = L.circleMarker(
                 [-6.95, 113.5667],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_5ea10affe311c17120f260c8335fd865 = L.popup({
+        var popup_8b834ee01644a70d671011d3533873f1 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_caf2d54f4f91c61a69d9d3e893267c79 = $(`&lt;div id=&quot;html_caf2d54f4f91c61a69d9d3e893267c79&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 8&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Waru, Pamekasan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_5ea10affe311c17120f260c8335fd865.setContent(html_caf2d54f4f91c61a69d9d3e893267c79);
+                var html_4cebe89813b0d6cebcc1504f7c125d48 = $(`&lt;div id=&quot;html_4cebe89813b0d6cebcc1504f7c125d48&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 8&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Waru, Pamekasan&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_8b834ee01644a70d671011d3533873f1.setContent(html_4cebe89813b0d6cebcc1504f7c125d48);
             
         
 
-        circle_marker_8f342c5ef42155c0d9d601f1a0797cb5.bindPopup(popup_5ea10affe311c17120f260c8335fd865)
+        circle_marker_1dd3cfc1f49da1da0d5af0f97493daa3.bindPopup(popup_8b834ee01644a70d671011d3533873f1)
         ;
 
         
     
     
-            var circle_marker_15a130d5474df3fb10c1221a30ec5246 = L.circleMarker(
+            var circle_marker_37355ab2a1e3796924e747f828fd9e3d = L.circleMarker(
                 [-7.25, 112.5833],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_5c7bfc11314c2655715f90ab92299ea0 = L.popup({
+        var popup_e446971ceb7e8e7095bd77277f83682e = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_b986ef62a36ece839c9c36e8da5ef4d3 = $(`&lt;div id=&quot;html_b986ef62a36ece839c9c36e8da5ef4d3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 12&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Menganti, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_5c7bfc11314c2655715f90ab92299ea0.setContent(html_b986ef62a36ece839c9c36e8da5ef4d3);
+                var html_913d9d06522b27f6b4d5798af00a76b2 = $(`&lt;div id=&quot;html_913d9d06522b27f6b4d5798af00a76b2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 12&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Menganti, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_e446971ceb7e8e7095bd77277f83682e.setContent(html_913d9d06522b27f6b4d5798af00a76b2);
             
         
 
-        circle_marker_15a130d5474df3fb10c1221a30ec5246.bindPopup(popup_5c7bfc11314c2655715f90ab92299ea0)
+        circle_marker_37355ab2a1e3796924e747f828fd9e3d.bindPopup(popup_e446971ceb7e8e7095bd77277f83682e)
         ;
 
         
     
     
-            var circle_marker_b494c45cccca3bd59754a05f2d920d7d = L.circleMarker(
+            var circle_marker_0e08de129ab9add4ae4b5cb7701da368 = L.circleMarker(
                 [-7.168, 112.718],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_799156ec4ffe7734a9995cc990814a68 = L.popup({
+        var popup_7e86149538a521dd5a709ba4ca198913 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_dc95b127c3a55b43c56373bed7fd6f05 = $(`&lt;div id=&quot;html_dc95b127c3a55b43c56373bed7fd6f05&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 13&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Banyu Ajuh, Kamal&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_799156ec4ffe7734a9995cc990814a68.setContent(html_dc95b127c3a55b43c56373bed7fd6f05);
+                var html_7ef14103c503c3b21051a6dea0f99e68 = $(`&lt;div id=&quot;html_7ef14103c503c3b21051a6dea0f99e68&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 13&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Banyu Ajuh, Kamal&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_7e86149538a521dd5a709ba4ca198913.setContent(html_7ef14103c503c3b21051a6dea0f99e68);
             
         
 
-        circle_marker_b494c45cccca3bd59754a05f2d920d7d.bindPopup(popup_799156ec4ffe7734a9995cc990814a68)
+        circle_marker_0e08de129ab9add4ae4b5cb7701da368.bindPopup(popup_7e86149538a521dd5a709ba4ca198913)
         ;
 
         
     
     
-            var circle_marker_60e23cf459a4b6b9822da66f9c8d9256 = L.circleMarker(
+            var circle_marker_e9bf93b21ab625d3723214a5c8692adc = L.circleMarker(
                 [-7.165, 112.715],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_3e89c7968b1975e59f62b3d07bf4a060 = L.popup({
+        var popup_8b3b44da69cabe1e117f8f456ff711e2 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_c7787d598d5cf6f94ddd71d9bd779dbe = $(`&lt;div id=&quot;html_c7787d598d5cf6f94ddd71d9bd779dbe&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 34&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kamal, Bangkalan (2)&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_3e89c7968b1975e59f62b3d07bf4a060.setContent(html_c7787d598d5cf6f94ddd71d9bd779dbe);
+                var html_8a1e1d1204f804175332ffd07653c633 = $(`&lt;div id=&quot;html_8a1e1d1204f804175332ffd07653c633&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 34&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Kamal, Bangkalan (2)&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_8b3b44da69cabe1e117f8f456ff711e2.setContent(html_8a1e1d1204f804175332ffd07653c633);
             
         
 
-        circle_marker_60e23cf459a4b6b9822da66f9c8d9256.bindPopup(popup_3e89c7968b1975e59f62b3d07bf4a060)
+        circle_marker_e9bf93b21ab625d3723214a5c8692adc.bindPopup(popup_8b3b44da69cabe1e117f8f456ff711e2)
         ;
 
         
     
     
-            var circle_marker_ace7d047829477de39e7a7c2718a7a23 = L.circleMarker(
+            var circle_marker_aa1e6396e0ce7c83299940b6eae2b347 = L.circleMarker(
                 [-7.169, 112.719],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_8f27df6a5dd9dafd4b4bce0135cec8dc = L.popup({
+        var popup_75128b9b8e20341a6f8e87d0b4748be3 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_3785a6ca90661242f924f46d7dd9dbfe = $(`&lt;div id=&quot;html_3785a6ca90661242f924f46d7dd9dbfe&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 35&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Banyuajuh Kamal (2)&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_8f27df6a5dd9dafd4b4bce0135cec8dc.setContent(html_3785a6ca90661242f924f46d7dd9dbfe);
+                var html_f293fb96779fe890fd5baafe988854de = $(`&lt;div id=&quot;html_f293fb96779fe890fd5baafe988854de&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 35&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Banyuajuh Kamal (2)&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_75128b9b8e20341a6f8e87d0b4748be3.setContent(html_f293fb96779fe890fd5baafe988854de);
             
         
 
-        circle_marker_ace7d047829477de39e7a7c2718a7a23.bindPopup(popup_8f27df6a5dd9dafd4b4bce0135cec8dc)
+        circle_marker_aa1e6396e0ce7c83299940b6eae2b347.bindPopup(popup_75128b9b8e20341a6f8e87d0b4748be3)
         ;
 
         
     
     
-            var circle_marker_c24ea492a5032d8ccfd402944e1fb62f = L.circleMarker(
+            var circle_marker_5629df26bde8a9388e0462af3e05a8ac = L.circleMarker(
                 [-7.0, 112.5167],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;red&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(feature_group_324a9e04726d8492c3a4b99e97b5c852);
+            ).addTo(feature_group_1c755240f3244192611d66d54a65dd0e);
         
     
-        var popup_b679cf120fa781230c04679f2702a2ec = L.popup({
+        var popup_aac07072564e52120170d06c7ed2bb4c = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_61ff98bdcf0775bb46ddde4f93f27d55 = $(`&lt;div id=&quot;html_61ff98bdcf0775bb46ddde4f93f27d55&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 36&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Dukun, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
-                popup_b679cf120fa781230c04679f2702a2ec.setContent(html_61ff98bdcf0775bb46ddde4f93f27d55);
+                var html_6349dedfd288f5d89e0471d49f9e44b1 = $(`&lt;div id=&quot;html_6349dedfd288f5d89e0471d49f9e44b1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;No:&lt;/b&gt; 36&lt;br&gt;&lt;b&gt;Daerah:&lt;/b&gt; Dukun, Gresik&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt; Cluster 2 (Polusi Tinggi)&lt;/div&gt;`)[0];
+                popup_aac07072564e52120170d06c7ed2bb4c.setContent(html_6349dedfd288f5d89e0471d49f9e44b1);
             
         
 
-        circle_marker_c24ea492a5032d8ccfd402944e1fb62f.bindPopup(popup_b679cf120fa781230c04679f2702a2ec)
+        circle_marker_5629df26bde8a9388e0462af3e05a8ac.bindPopup(popup_aac07072564e52120170d06c7ed2bb4c)
         ;
 
         
     
     
-            feature_group_324a9e04726d8492c3a4b99e97b5c852.addTo(map_db1307d944382905d66bfaa8e705f6f0);
+            feature_group_1c755240f3244192611d66d54a65dd0e.addTo(map_24588bb6d778c9a5100120ccf2ba5b3d);
         
     
-            map_db1307d944382905d66bfaa8e705f6f0.fitBounds(
+            map_24588bb6d778c9a5100120ccf2ba5b3d.fitBounds(
                 [[-7.6, 112.0833], [4.1333, 117.65], [-7.1667, 113.1167], [-7.1167, 112.6], [-7.1667, 112.7167], [-7.2167, 112.2], [-7.15, 112.65], [-6.95, 113.5667], [-6.8833, 112.35], [-7.5833, 112.1], [-7.55, 112.75], [-7.25, 112.5833], [-7.168, 112.718], [-7.5833, 112.2833], [-7.0167, 112.1333], [-7.45, 112.6167], [-7.15, 112.8667], [-7.2833, 112.2333], [-7.05, 113.9167], [-7.2167, 112.55], [1.4833, 124.85], [-6.8333, 111.8833], [-7.152, 112.868], [-7.3, 112.7333], [-7.25, 112.7167], [-7.0167, 113.8667], [-7.0833, 112.7167], [-7.5333, 111.6667], [-7.0833, 112.8167], [-7.1167, 112.75], [-7.3833, 111.2333], [-7.0333, 112.75], [-6.9333, 106.9167], [-7.165, 112.715], [-7.169, 112.719], [-7.0, 112.5167], [-7.035, 112.755], [-7.6, 112.0833], [4.1333, 117.65], [-7.1667, 113.1167], [-7.1167, 112.6], [-7.1667, 112.7167], [-7.2167, 112.2], [-7.15, 112.65], [-6.95, 113.5667], [-6.8833, 112.35], [-7.5833, 112.1], [-7.55, 112.75], [-7.25, 112.5833], [-7.168, 112.718], [-7.5833, 112.2833], [-7.0167, 112.1333], [-7.45, 112.6167], [-7.15, 112.8667], [-7.2833, 112.2333], [-7.05, 113.9167], [-7.2167, 112.55], [1.4833, 124.85], [-6.8333, 111.8833], [-7.152, 112.868], [-7.3, 112.7333], [-7.25, 112.7167], [-7.0167, 113.8667], [-7.0833, 112.7167], [-7.5333, 111.6667], [-7.0833, 112.8167], [-7.1167, 112.75], [-7.3833, 111.2333], [-7.0333, 112.75], [-6.9333, 106.9167], [-7.165, 112.715], [-7.169, 112.719], [-7.0, 112.5167], [-7.035, 112.755], [-7.6, 112.0833], [4.1333, 117.65], [-7.1667, 113.1167], [-7.1167, 112.6], [-7.1667, 112.7167], [-7.2167, 112.2], [-7.15, 112.65], [-6.95, 113.5667], [-6.8833, 112.35], [-7.5833, 112.1], [-7.55, 112.75], [-7.25, 112.5833], [-7.168, 112.718], [-7.5833, 112.2833], [-7.0167, 112.1333], [-7.45, 112.6167], [-7.15, 112.8667], [-7.2833, 112.2333], [-7.05, 113.9167], [-7.2167, 112.55], [1.4833, 124.85], [-6.8333, 111.8833], [-7.152, 112.868], [-7.3, 112.7333], [-7.25, 112.7167], [-7.0167, 113.8667], [-7.0833, 112.7167], [-7.5333, 111.6667], [-7.0833, 112.8167], [-7.1167, 112.75], [-7.3833, 111.2333], [-7.0333, 112.75], [-6.9333, 106.9167], [-7.165, 112.715], [-7.169, 112.719], [-7.0, 112.5167], [-7.035, 112.755]],
                 {}
             );
         
     
-            var layer_control_07550c9975b3565b953ee82463f4199c_layers = {
+            var layer_control_b73a3395f7560ac245bb9b7b99fd9fd1_layers = {
                 base_layers : {
-                    &quot;openstreetmap&quot; : tile_layer_97e4adf06f4eabc190109bece2eb8623,
-                    &quot;Google Satellite Hybrid&quot; : tile_layer_8f513795b16563651be547fce1596612,
+                    &quot;openstreetmap&quot; : tile_layer_3c947a1a0e843b18393eeded9d5b27a9,
+                    &quot;Google Satellite Hybrid&quot; : tile_layer_973b1528a976169d36eea373a262210b,
                 },
                 overlays :  {
-                    &quot;Cluster 0 (Polusi Rendah)&quot; : feature_group_0ca9b0872db9b0c9aabeab700d571dfb,
-                    &quot;Cluster 1 (Polusi Sedang)&quot; : feature_group_370a35ee01f5246c2c45edf0b7311642,
-                    &quot;Cluster 2 (Polusi Tinggi)&quot; : feature_group_324a9e04726d8492c3a4b99e97b5c852,
+                    &quot;Cluster 0 (Polusi Rendah)&quot; : feature_group_692fc7c7e71dcd3ac732528e36731946,
+                    &quot;Cluster 1 (Polusi Sedang)&quot; : feature_group_c61d5c1f71a12eb906dcfb0213b43767,
+                    &quot;Cluster 2 (Polusi Tinggi)&quot; : feature_group_1c755240f3244192611d66d54a65dd0e,
                 },
             };
-            let layer_control_07550c9975b3565b953ee82463f4199c = L.control.layers(
-                layer_control_07550c9975b3565b953ee82463f4199c_layers.base_layers,
-                layer_control_07550c9975b3565b953ee82463f4199c_layers.overlays,
+            let layer_control_b73a3395f7560ac245bb9b7b99fd9fd1 = L.control.layers(
+                layer_control_b73a3395f7560ac245bb9b7b99fd9fd1_layers.base_layers,
+                layer_control_b73a3395f7560ac245bb9b7b99fd9fd1_layers.overlays,
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;collapsed&quot;: false,
   &quot;autoZIndex&quot;: true,
 }
-            ).addTo(map_db1307d944382905d66bfaa8e705f6f0);
+            ).addTo(map_24588bb6d778c9a5100120ccf2ba5b3d);
 
         
     
-            var measure_control_eb65c3610d34ebf8850eb4694a1ca7c2 = new L.Control.Measure(
+            var measure_control_b3df5438a5ffe0d243ef56c1eba00c88 = new L.Control.Measure(
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;primaryLengthUnit&quot;: &quot;meters&quot;,
@@ -1644,7 +1644,7 @@ document.write(`
   &quot;primaryAreaUnit&quot;: &quot;sqmeters&quot;,
   &quot;secondaryAreaUnit&quot;: &quot;acres&quot;,
 });
-            map_db1307d944382905d66bfaa8e705f6f0.addControl(measure_control_eb65c3610d34ebf8850eb4694a1ca7c2);
+            map_24588bb6d778c9a5100120ccf2ba5b3d.addControl(measure_control_b3df5438a5ffe0d243ef56c1eba00c88);
 
             // Workaround for using this plugin with Leaflet&gt;=1.8.0
             // https://github.com/ljagis/leaflet-measure/issues/171
@@ -1750,7 +1750,7 @@ document.write(`
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_6b9752fc4014dcd4d6fb601942c03a16 {
+                #map_1c2c4a0e2c89dd662636a3fa15482af7 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1789,14 +1789,14 @@ document.write(`
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_6b9752fc4014dcd4d6fb601942c03a16&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_1c2c4a0e2c89dd662636a3fa15482af7&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_6b9752fc4014dcd4d6fb601942c03a16 = L.map(
-                &quot;map_6b9752fc4014dcd4d6fb601942c03a16&quot;,
+            var map_1c2c4a0e2c89dd662636a3fa15482af7 = L.map(
+                &quot;map_1c2c4a0e2c89dd662636a3fa15482af7&quot;,
                 {
                     center: [-7.298, 112.6662],
                     crs: L.CRS.EPSG3857,
@@ -1813,7 +1813,7 @@ document.write(`
 
         
     
-            var tile_layer_65e4e49262c7237779be7af23f72ea4b = L.tileLayer(
+            var tile_layer_6ccd8d53f6790d70d60d9b2459fef1c8 = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -1830,10 +1830,10 @@ document.write(`
             );
         
     
-            tile_layer_65e4e49262c7237779be7af23f72ea4b.addTo(map_6b9752fc4014dcd4d6fb601942c03a16);
+            tile_layer_6ccd8d53f6790d70d60d9b2459fef1c8.addTo(map_1c2c4a0e2c89dd662636a3fa15482af7);
         
     
-            var tile_layer_ffd2df4a493b7e27cfe7bc2ac7fd585f = L.tileLayer(
+            var tile_layer_3c98dc9528238900491ca3a34a96f241 = L.tileLayer(
                 &quot;[https://mt1.google.com/vt/lyrs=y\u0026x=](https://mt1.google.com/vt/lyrs=y\u0026x=){x}\u0026y={y}\u0026z={z}&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -1850,94 +1850,94 @@ document.write(`
             );
         
     
-            tile_layer_ffd2df4a493b7e27cfe7bc2ac7fd585f.addTo(map_6b9752fc4014dcd4d6fb601942c03a16);
+            tile_layer_3c98dc9528238900491ca3a34a96f241.addTo(map_1c2c4a0e2c89dd662636a3fa15482af7);
         
     
-        function geo_json_7e4cd14a85ef97f40bfd7bb91e675292_styler(feature) {
+        function geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e_styler(feature) {
             switch(feature.properties.FID) {
                 default:
                     return {&quot;color&quot;: &quot;#006400&quot;, &quot;fillColor&quot;: &quot;#00ff00&quot;, &quot;fillOpacity&quot;: 0.6, &quot;weight&quot;: 2};
             }
         }
 
-        function geo_json_7e4cd14a85ef97f40bfd7bb91e675292_onEachFeature(feature, layer) {
+        function geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_7e4cd14a85ef97f40bfd7bb91e675292 = L.geoJson(null, {
-                onEachFeature: geo_json_7e4cd14a85ef97f40bfd7bb91e675292_onEachFeature,
+        var geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e = L.geoJson(null, {
+                onEachFeature: geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e_onEachFeature,
             
-                style: geo_json_7e4cd14a85ef97f40bfd7bb91e675292_styler,
+                style: geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e_styler,
             ...{
 }
         });
 
-        function geo_json_7e4cd14a85ef97f40bfd7bb91e675292_add (data) {
-            geo_json_7e4cd14a85ef97f40bfd7bb91e675292
+        function geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e_add (data) {
+            geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e
                 .addData(data);
         }
-            geo_json_7e4cd14a85ef97f40bfd7bb91e675292_add({&quot;crs&quot;: {&quot;properties&quot;: {&quot;name&quot;: &quot;urn:ogc:def:crs:OGC:1.3:CRS84&quot;}, &quot;type&quot;: &quot;name&quot;}, &quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6487734, -7.3054842], [112.6489686, -7.3055088], [112.6489005, -7.3060466], [112.6487052, -7.3059821], [112.6487734, -7.3054842]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 0, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6492785, -7.3054903], [112.6493714, -7.3055579], [112.6493188, -7.3059698], [112.6491886, -7.3059636], [112.6492785, -7.3054903]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 1, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6487586, -7.3060356], [112.6489118, -7.3060675], [112.6489037, -7.3063993], [112.6487304, -7.3064033], [112.6487586, -7.3060356]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 2, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6491818, -7.3064153], [112.6493551, -7.3064273], [112.6492866, -7.3069949], [112.6491455, -7.3069669], [112.6491818, -7.3064153]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 3, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6485143, -7.3060371], [112.6487239, -7.3060491], [112.6486836, -7.3065168], [112.6485022, -7.3065048], [112.6485143, -7.3060371]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 4, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484821, -7.3065328], [112.6486916, -7.3065488], [112.6486916, -7.3069925], [112.648474, -7.3069645], [112.6484821, -7.3065328]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 5, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484619, -7.3069845], [112.6486957, -7.3070125], [112.6486594, -7.3074202], [112.6484297, -7.3074122], [112.6484619, -7.3069845]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 6, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484377, -7.3074362], [112.6488085, -7.3074482], [112.6487682, -7.307776], [112.6484377, -7.3078], [112.6484377, -7.3074362]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 7, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6486997, -7.3070045], [112.6488972, -7.3070325], [112.6488166, -7.3074242], [112.6486836, -7.3074082], [112.6486997, -7.3070045]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 8, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6489617, -7.3070285], [112.6491833, -7.3070405], [112.6491511, -7.3074882], [112.6489536, -7.3074962], [112.6489617, -7.3070285]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 9, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6491954, -7.3070565], [112.6494171, -7.3070725], [112.6493848, -7.3074482], [112.6491672, -7.3074722], [112.6491954, -7.3070565]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 10, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.648959, -7.3075088], [112.6493903, -7.3074689], [112.6493741, -7.3077647], [112.6489308, -7.3077886], [112.648959, -7.3075088]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 11, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6503736, -7.307205], [112.6506638, -7.307273], [112.6505751, -7.3076128], [112.6503011, -7.3075488], [112.6503736, -7.307205]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 12, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6503011, -7.3075728], [112.650555, -7.3076407], [112.6504784, -7.3079925], [112.6502003, -7.3079206], [112.6503011, -7.3075728]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 13, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6500189, -7.3071371], [112.6503172, -7.307205], [112.6502567, -7.3075248], [112.6499424, -7.3074489], [112.6500189, -7.3071371]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 14, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6494377, -7.3070709], [112.6496953, -7.3070813], [112.6496674, -7.307392], [112.6494168, -7.3073816], [112.6494377, -7.3070709]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 15, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6497231, -7.3071089], [112.6499528, -7.3071331], [112.6498937, -7.3074231], [112.6496953, -7.307392], [112.6497231, -7.3071089]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 16, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6494099, -7.3073954], [112.6497022, -7.30743], [112.6497231, -7.307789], [112.649476, -7.3076889], [112.6494099, -7.3073954]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 17, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.649737, -7.3074403], [112.6500538, -7.3075059], [112.6499633, -7.3078132], [112.649744, -7.307789], [112.649737, -7.3074403]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 18, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.649918, -7.3067671], [112.6501408, -7.3067879], [112.650092, -7.307064], [112.6498937, -7.3070053], [112.649918, -7.3067671]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 19, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6493716, -7.3064392], [112.6495282, -7.3064599], [112.6495143, -7.306667], [112.6493507, -7.3066567], [112.6493716, -7.3064392]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 20, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6493437, -7.3066912], [112.6495073, -7.306705], [112.649476, -7.3069536], [112.6493194, -7.3069432], [112.6493437, -7.3066912]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 21, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6501721, -7.3068086], [112.6503322, -7.3068224], [112.6502835, -7.3070882], [112.6501268, -7.3070502], [112.6501721, -7.3068086]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 22, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6495491, -7.3064703], [112.6497196, -7.3064703], [112.6496953, -7.3066843], [112.6495421, -7.3066705], [112.6495491, -7.3064703]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 23, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6495595, -7.3067602], [112.6497092, -7.3067119], [112.6496744, -7.3069605], [112.6495143, -7.3069328], [112.6495595, -7.3067602]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 24, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6503844, -7.3068707], [112.650548, -7.3068603], [112.6505027, -7.3071193], [112.6503287, -7.3070778], [112.6503844, -7.3068707]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 25, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6505654, -7.3068742], [112.6507359, -7.3069225], [112.6506663, -7.307178], [112.6505271, -7.3071331], [112.6505654, -7.3068742]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 26, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.648411, -7.3078235], [112.6485293, -7.3078166], [112.6485398, -7.3079133], [112.648404, -7.3079202], [112.648411, -7.3078235]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 27, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483971, -7.3079202], [112.6485293, -7.3079271], [112.6485293, -7.308003], [112.6484005, -7.3079961], [112.6483971, -7.3079202]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 28, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483936, -7.308003], [112.6485084, -7.3080272], [112.6484876, -7.3081411], [112.6484005, -7.3081308], [112.6483936, -7.308003]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 29, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483901, -7.3081446], [112.6484771, -7.3081618], [112.6484423, -7.3084], [112.6483797, -7.3084035], [112.6483901, -7.3081446]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 30, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484736, -7.3082309], [112.6485467, -7.3082654], [112.6485467, -7.3085554], [112.6484597, -7.3085243], [112.6484736, -7.3082309]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 31, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6485676, -7.308255], [112.6486616, -7.3082688], [112.6486546, -7.3085657], [112.6485711, -7.3085519], [112.6485676, -7.308255]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 32, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484493, -7.3085761], [112.6485502, -7.3085968], [112.6485224, -7.3089834], [112.6484493, -7.3089627], [112.6484493, -7.3085761]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 33, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6486233, -7.3086037], [112.6487521, -7.3086037], [112.6487033, -7.3089765], [112.6486163, -7.3089938], [112.6486233, -7.3086037]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 34, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6488078, -7.3082896], [112.6489052, -7.3083137], [112.6488704, -7.3085761], [112.6487486, -7.3085795], [112.6488078, -7.3082896]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 35, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483264, -7.3089792], [112.6484559, -7.3089921], [112.648443, -7.309371], [112.6483199, -7.3093582], [112.6483264, -7.3089792]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 36, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6485274, -7.3089827], [112.6487188, -7.3090345], [112.6486631, -7.3094212], [112.6484891, -7.3093866], [112.6485274, -7.3089827]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 37, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6438626, -7.3076665], [112.6439531, -7.3076838], [112.6439114, -7.307884], [112.6438418, -7.3078702], [112.6438626, -7.3076665]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 38, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440227, -7.3076838], [112.6441272, -7.3076907], [112.6440715, -7.307922], [112.6440088, -7.3078978], [112.6440227, -7.3076838]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 39, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440193, -7.3079599], [112.6441098, -7.3079807], [112.644068, -7.308281], [112.6439705, -7.3082396], [112.6440193, -7.3079599]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 40, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6439601, -7.3082775], [112.6440645, -7.3082948], [112.6440193, -7.3085296], [112.6439357, -7.3085226], [112.6439601, -7.3082775]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 41, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6438209, -7.3079358], [112.6439392, -7.3079461], [112.6438975, -7.3082672], [112.6437861, -7.3082396], [112.6438209, -7.3079358]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 42, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6438139, -7.3085088], [112.6439357, -7.308533], [112.6439044, -7.3087919], [112.6437896, -7.3087988], [112.6438139, -7.3085088]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 43, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440332, -7.3085468], [112.6441828, -7.3085744], [112.6441376, -7.3088748], [112.6439845, -7.3088472], [112.6440332, -7.3085468]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 44, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6439114, -7.3088713], [112.6441341, -7.3089058], [112.6440889, -7.309327], [112.6438557, -7.3092752], [112.6439114, -7.3088713]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 45, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440854, -7.309327], [112.6442525, -7.3093443], [112.6442142, -7.3096619], [112.6440367, -7.3096273], [112.6440854, -7.309327]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 46, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6439253, -7.3093408], [112.6440262, -7.309365], [112.6439845, -7.3095997], [112.643793, -7.3095687], [112.6439253, -7.3093408]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 47, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6436573, -7.3092683], [112.6438626, -7.3092959], [112.6437374, -7.3095583], [112.6436434, -7.3095514], [112.6436573, -7.3092683]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 48, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6437165, -7.3088057], [112.643887, -7.3088575], [112.6438209, -7.3092683], [112.6436643, -7.3092442], [112.6437165, -7.3088057]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 49, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;name&quot;: &quot;sawah&quot;, &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e_add({&quot;crs&quot;: {&quot;properties&quot;: {&quot;name&quot;: &quot;urn:ogc:def:crs:OGC:1.3:CRS84&quot;}, &quot;type&quot;: &quot;name&quot;}, &quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6487734, -7.3054842], [112.6489686, -7.3055088], [112.6489005, -7.3060466], [112.6487052, -7.3059821], [112.6487734, -7.3054842]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 0, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6492785, -7.3054903], [112.6493714, -7.3055579], [112.6493188, -7.3059698], [112.6491886, -7.3059636], [112.6492785, -7.3054903]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 1, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6487586, -7.3060356], [112.6489118, -7.3060675], [112.6489037, -7.3063993], [112.6487304, -7.3064033], [112.6487586, -7.3060356]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 2, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6491818, -7.3064153], [112.6493551, -7.3064273], [112.6492866, -7.3069949], [112.6491455, -7.3069669], [112.6491818, -7.3064153]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 3, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6485143, -7.3060371], [112.6487239, -7.3060491], [112.6486836, -7.3065168], [112.6485022, -7.3065048], [112.6485143, -7.3060371]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 4, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484821, -7.3065328], [112.6486916, -7.3065488], [112.6486916, -7.3069925], [112.648474, -7.3069645], [112.6484821, -7.3065328]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 5, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484619, -7.3069845], [112.6486957, -7.3070125], [112.6486594, -7.3074202], [112.6484297, -7.3074122], [112.6484619, -7.3069845]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 6, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484377, -7.3074362], [112.6488085, -7.3074482], [112.6487682, -7.307776], [112.6484377, -7.3078], [112.6484377, -7.3074362]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 7, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6486997, -7.3070045], [112.6488972, -7.3070325], [112.6488166, -7.3074242], [112.6486836, -7.3074082], [112.6486997, -7.3070045]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 8, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6489617, -7.3070285], [112.6491833, -7.3070405], [112.6491511, -7.3074882], [112.6489536, -7.3074962], [112.6489617, -7.3070285]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 9, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6491954, -7.3070565], [112.6494171, -7.3070725], [112.6493848, -7.3074482], [112.6491672, -7.3074722], [112.6491954, -7.3070565]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 10, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.648959, -7.3075088], [112.6493903, -7.3074689], [112.6493741, -7.3077647], [112.6489308, -7.3077886], [112.648959, -7.3075088]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 11, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6503736, -7.307205], [112.6506638, -7.307273], [112.6505751, -7.3076128], [112.6503011, -7.3075488], [112.6503736, -7.307205]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 12, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6503011, -7.3075728], [112.650555, -7.3076407], [112.6504784, -7.3079925], [112.6502003, -7.3079206], [112.6503011, -7.3075728]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 13, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6500189, -7.3071371], [112.6503172, -7.307205], [112.6502567, -7.3075248], [112.6499424, -7.3074489], [112.6500189, -7.3071371]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 14, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6494377, -7.3070709], [112.6496953, -7.3070813], [112.6496674, -7.307392], [112.6494168, -7.3073816], [112.6494377, -7.3070709]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 15, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6497231, -7.3071089], [112.6499528, -7.3071331], [112.6498937, -7.3074231], [112.6496953, -7.307392], [112.6497231, -7.3071089]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 16, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6494099, -7.3073954], [112.6497022, -7.30743], [112.6497231, -7.307789], [112.649476, -7.3076889], [112.6494099, -7.3073954]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 17, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.649737, -7.3074403], [112.6500538, -7.3075059], [112.6499633, -7.3078132], [112.649744, -7.307789], [112.649737, -7.3074403]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 18, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.649918, -7.3067671], [112.6501408, -7.3067879], [112.650092, -7.307064], [112.6498937, -7.3070053], [112.649918, -7.3067671]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 19, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6493716, -7.3064392], [112.6495282, -7.3064599], [112.6495143, -7.306667], [112.6493507, -7.3066567], [112.6493716, -7.3064392]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 20, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6493437, -7.3066912], [112.6495073, -7.306705], [112.649476, -7.3069536], [112.6493194, -7.3069432], [112.6493437, -7.3066912]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 21, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6501721, -7.3068086], [112.6503322, -7.3068224], [112.6502835, -7.3070882], [112.6501268, -7.3070502], [112.6501721, -7.3068086]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 22, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6495491, -7.3064703], [112.6497196, -7.3064703], [112.6496953, -7.3066843], [112.6495421, -7.3066705], [112.6495491, -7.3064703]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 23, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6495595, -7.3067602], [112.6497092, -7.3067119], [112.6496744, -7.3069605], [112.6495143, -7.3069328], [112.6495595, -7.3067602]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 24, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6503844, -7.3068707], [112.650548, -7.3068603], [112.6505027, -7.3071193], [112.6503287, -7.3070778], [112.6503844, -7.3068707]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 25, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6505654, -7.3068742], [112.6507359, -7.3069225], [112.6506663, -7.307178], [112.6505271, -7.3071331], [112.6505654, -7.3068742]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 26, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.648411, -7.3078235], [112.6485293, -7.3078166], [112.6485398, -7.3079133], [112.648404, -7.3079202], [112.648411, -7.3078235]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 27, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483971, -7.3079202], [112.6485293, -7.3079271], [112.6485293, -7.308003], [112.6484005, -7.3079961], [112.6483971, -7.3079202]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 28, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483936, -7.308003], [112.6485084, -7.3080272], [112.6484876, -7.3081411], [112.6484005, -7.3081308], [112.6483936, -7.308003]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 29, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483901, -7.3081446], [112.6484771, -7.3081618], [112.6484423, -7.3084], [112.6483797, -7.3084035], [112.6483901, -7.3081446]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 30, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484736, -7.3082309], [112.6485467, -7.3082654], [112.6485467, -7.3085554], [112.6484597, -7.3085243], [112.6484736, -7.3082309]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 31, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6485676, -7.308255], [112.6486616, -7.3082688], [112.6486546, -7.3085657], [112.6485711, -7.3085519], [112.6485676, -7.308255]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 32, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6484493, -7.3085761], [112.6485502, -7.3085968], [112.6485224, -7.3089834], [112.6484493, -7.3089627], [112.6484493, -7.3085761]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 33, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6486233, -7.3086037], [112.6487521, -7.3086037], [112.6487033, -7.3089765], [112.6486163, -7.3089938], [112.6486233, -7.3086037]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 34, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6488078, -7.3082896], [112.6489052, -7.3083137], [112.6488704, -7.3085761], [112.6487486, -7.3085795], [112.6488078, -7.3082896]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 35, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6483264, -7.3089792], [112.6484559, -7.3089921], [112.648443, -7.309371], [112.6483199, -7.3093582], [112.6483264, -7.3089792]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 36, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6485274, -7.3089827], [112.6487188, -7.3090345], [112.6486631, -7.3094212], [112.6484891, -7.3093866], [112.6485274, -7.3089827]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 37, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6438626, -7.3076665], [112.6439531, -7.3076838], [112.6439114, -7.307884], [112.6438418, -7.3078702], [112.6438626, -7.3076665]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 38, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440227, -7.3076838], [112.6441272, -7.3076907], [112.6440715, -7.307922], [112.6440088, -7.3078978], [112.6440227, -7.3076838]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 39, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440193, -7.3079599], [112.6441098, -7.3079807], [112.644068, -7.308281], [112.6439705, -7.3082396], [112.6440193, -7.3079599]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 40, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6439601, -7.3082775], [112.6440645, -7.3082948], [112.6440193, -7.3085296], [112.6439357, -7.3085226], [112.6439601, -7.3082775]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 41, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6438209, -7.3079358], [112.6439392, -7.3079461], [112.6438975, -7.3082672], [112.6437861, -7.3082396], [112.6438209, -7.3079358]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 42, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6438139, -7.3085088], [112.6439357, -7.308533], [112.6439044, -7.3087919], [112.6437896, -7.3087988], [112.6438139, -7.3085088]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 43, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440332, -7.3085468], [112.6441828, -7.3085744], [112.6441376, -7.3088748], [112.6439845, -7.3088472], [112.6440332, -7.3085468]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 44, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6439114, -7.3088713], [112.6441341, -7.3089058], [112.6440889, -7.309327], [112.6438557, -7.3092752], [112.6439114, -7.3088713]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 45, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6440854, -7.309327], [112.6442525, -7.3093443], [112.6442142, -7.3096619], [112.6440367, -7.3096273], [112.6440854, -7.309327]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 46, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6439253, -7.3093408], [112.6440262, -7.309365], [112.6439845, -7.3095997], [112.643793, -7.3095687], [112.6439253, -7.3093408]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 47, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6436573, -7.3092683], [112.6438626, -7.3092959], [112.6437374, -7.3095583], [112.6436434, -7.3095514], [112.6436573, -7.3092683]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 48, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.6437165, -7.3088057], [112.643887, -7.3088575], [112.6438209, -7.3092683], [112.6436643, -7.3092442], [112.6437165, -7.3088057]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 49, &quot;Label&quot;: &quot;Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;name&quot;: &quot;sawah&quot;, &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-            geo_json_7e4cd14a85ef97f40bfd7bb91e675292.addTo(map_6b9752fc4014dcd4d6fb601942c03a16);
+            geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e.addTo(map_1c2c4a0e2c89dd662636a3fa15482af7);
         
     
-        function geo_json_70c2830719ff0500a498ebcf288ce0d0_styler(feature) {
+        function geo_json_a8636f5ead25741419304e72ab7e189a_styler(feature) {
             switch(feature.properties.FID) {
                 default:
                     return {&quot;color&quot;: &quot;#8b0000&quot;, &quot;fillColor&quot;: &quot;#ff0000&quot;, &quot;fillOpacity&quot;: 0.6, &quot;weight&quot;: 2};
             }
         }
 
-        function geo_json_70c2830719ff0500a498ebcf288ce0d0_onEachFeature(feature, layer) {
+        function geo_json_a8636f5ead25741419304e72ab7e189a_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_70c2830719ff0500a498ebcf288ce0d0 = L.geoJson(null, {
-                onEachFeature: geo_json_70c2830719ff0500a498ebcf288ce0d0_onEachFeature,
+        var geo_json_a8636f5ead25741419304e72ab7e189a = L.geoJson(null, {
+                onEachFeature: geo_json_a8636f5ead25741419304e72ab7e189a_onEachFeature,
             
-                style: geo_json_70c2830719ff0500a498ebcf288ce0d0_styler,
+                style: geo_json_a8636f5ead25741419304e72ab7e189a_styler,
             ...{
 }
         });
 
-        function geo_json_70c2830719ff0500a498ebcf288ce0d0_add (data) {
-            geo_json_70c2830719ff0500a498ebcf288ce0d0
+        function geo_json_a8636f5ead25741419304e72ab7e189a_add (data) {
+            geo_json_a8636f5ead25741419304e72ab7e189a
                 .addData(data);
         }
-            geo_json_70c2830719ff0500a498ebcf288ce0d0_add({&quot;crs&quot;: {&quot;properties&quot;: {&quot;name&quot;: &quot;urn:ogc:def:crs:OGC:1.3:CRS84&quot;}, &quot;type&quot;: &quot;name&quot;}, &quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7490602, -7.2939447], [112.7490633, -7.294753], [112.7486512, -7.2947991], [112.7485241, -7.2937357], [112.7490602, -7.2939447]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 0, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.749085, -7.2939539], [112.7494382, -7.2940522], [112.7494847, -7.2947438], [112.7490912, -7.2947438], [112.749085, -7.2939539]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 1, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7494453, -7.2940649], [112.7497961, -7.2941885], [112.7498714, -7.2946515], [112.7495148, -7.2947464], [112.7494453, -7.2940649]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 2, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7498076, -7.2942029], [112.7500918, -7.2942719], [112.7500744, -7.2944933], [112.7498859, -7.2946314], [112.7498076, -7.2942029]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 3, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7481639, -7.2939038], [112.7482567, -7.2939815], [112.7482422, -7.2944301], [112.7478798, -7.2942547], [112.7481639, -7.2939038]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 4, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7483233, -7.2936565], [112.7484219, -7.2936968], [112.7484306, -7.2939297], [112.7481929, -7.2938952], [112.7483233, -7.2936565]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 5, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7478798, -7.2942834], [112.7482219, -7.2944416], [112.7482016, -7.2947895], [112.7476276, -7.2946457], [112.7478798, -7.2942834]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 6, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7482914, -7.2939182], [112.7485292, -7.2939585], [112.7485698, -7.2941943], [112.7482567, -7.2941971], [112.7482914, -7.2939182]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 7, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7482567, -7.2942144], [112.748535, -7.2942086], [112.7486045, -7.2945911], [112.7482393, -7.2945623], [112.7482567, -7.2942144]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 8, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748219, -7.2945738], [112.7486016, -7.2946026], [112.7486306, -7.2948384], [112.7482422, -7.2947838], [112.748219, -7.2945738]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 9, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7475348, -7.294686], [112.7478682, -7.2947694], [112.7477986, -7.295103], [112.7474594, -7.2950282], [112.7475348, -7.294686]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 10, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7478769, -7.294778], [112.7482538, -7.2948614], [112.7482074, -7.2952209], [112.7477957, -7.2951403], [112.7478769, -7.294778]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 11, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7474333, -7.2950311], [112.7477899, -7.2951116], [112.7477667, -7.2953646], [112.747387, -7.2952697], [112.7474333, -7.2950311]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 12, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7477899, -7.2951432], [112.7481987, -7.2952352], [112.7481407, -7.2955889], [112.7477696, -7.2955113], [112.7477899, -7.2951432]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 13, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7482712, -7.2948643], [112.7486538, -7.2949045], [112.7486538, -7.295126], [112.7484451, -7.2950886], [112.7484016, -7.2951605], [112.7482538, -7.2951403], [112.7482712, -7.2948643]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 14, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748248, -7.295149], [112.7484335, -7.2951806], [112.7484683, -7.295103], [112.7486306, -7.2951288], [112.7485843, -7.2953646], [112.7482364, -7.2952496], [112.748248, -7.295149]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 15, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748219, -7.2952697], [112.7485843, -7.2953876], [112.7485205, -7.2956062], [112.7481697, -7.2955372], [112.748219, -7.2952697]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 16, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7486624, -7.294882], [112.7490862, -7.2948607], [112.7490754, -7.2951267], [112.7486624, -7.2951374], [112.7486624, -7.294882]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 17, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7486463, -7.2951746], [112.7490111, -7.295164], [112.748995, -7.2954087], [112.7486302, -7.2953555], [112.7486463, -7.2951746]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 18, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7491096, -7.2948612], [112.7494267, -7.2948097], [112.7494267, -7.2951929], [112.7491269, -7.2951929], [112.7491096, -7.2948612]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 19, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748608, -7.2953759], [112.7489885, -7.2954102], [112.7489165, -7.2958563], [112.7485215, -7.2958077], [112.748608, -7.2953759]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 20, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.747968, -7.293317], [112.7480199, -7.293257], [112.7483716, -7.2934514], [112.7482217, -7.2936888], [112.7478556, -7.2934714], [112.747968, -7.293317]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 21, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7478469, -7.2934915], [112.748216, -7.2937031], [112.7479911, -7.2940176], [112.7476394, -7.2938203], [112.7478469, -7.2934915]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 22, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7476105, -7.2938489], [112.747968, -7.2940348], [112.7478959, -7.2941492], [112.7474866, -7.2939633], [112.7476105, -7.2938489]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 23, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7477605, -7.2927594], [112.7479738, -7.2928852], [112.748017, -7.2928595], [112.7483832, -7.2930768], [112.7482073, -7.2933428], [112.7476336, -7.2929539], [112.7477605, -7.2927594]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 24, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7476394, -7.2929996], [112.7479969, -7.2932427], [112.7478527, -7.2934543], [112.7475039, -7.2932112], [112.7476394, -7.2929996]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 25, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7474981, -7.2932398], [112.7478325, -7.2934543], [112.747746, -7.2936259], [112.7473597, -7.2934857], [112.7474981, -7.2932398]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 26, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.747328, -7.2934743], [112.7477057, -7.2936344], [112.7476134, -7.293826], [112.7472214, -7.2937202], [112.747328, -7.2934743]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 27, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7472069, -7.2937488], [112.7475241, -7.293806], [112.7474722, -7.2940062], [112.7471377, -7.2939519], [112.7472069, -7.2937488]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 28, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7474462, -7.2925592], [112.7475904, -7.2926393], [112.7475269, -7.2927823], [112.747648, -7.2928595], [112.7476077, -7.2929396], [112.747279, -7.2927994], [112.7474462, -7.2925592]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 29, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.74723, -7.292911], [112.7475644, -7.2930682], [112.7474923, -7.2931855], [112.7474059, -7.2931798], [112.7471493, -7.2930425], [112.74723, -7.292911]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 30, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7471377, -7.2930539], [112.7473741, -7.2931798], [112.7473511, -7.293257], [112.7474433, -7.2932999], [112.747403, -7.2933571], [112.7472646, -7.2932913], [112.7471695, -7.2934457], [112.7469676, -7.2933285], [112.7469907, -7.2932884], [112.7471377, -7.2930539]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 31, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7469561, -7.293337], [112.7472934, -7.2934972], [112.7472444, -7.2935944], [112.7471377, -7.2935372], [112.7470916, -7.2936058], [112.7468639, -7.2934915], [112.7469561, -7.293337]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 32, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.746884, -7.2935], [112.7472213, -7.2936945], [112.7470801, -7.2939204], [112.7468033, -7.2938232], [112.7467255, -7.2937116], [112.746884, -7.2935]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 33, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7466563, -7.2938032], [112.7469244, -7.2939519], [112.7468091, -7.294275], [112.7464545, -7.2941148], [112.7466563, -7.2938032]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 34, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7469936, -7.2939519], [112.7474779, -7.294092], [112.7474059, -7.2943465], [112.7473338, -7.2943865], [112.7469013, -7.2942492], [112.7469936, -7.2939519]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 35, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7475096, -7.2941091], [112.7478412, -7.2942064], [112.7476768, -7.294458], [112.7474174, -7.2943665], [112.7475096, -7.2941091]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 36, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7464545, -7.294132], [112.7466967, -7.2942435], [112.7466275, -7.2944952], [112.74627, -7.2944094], [112.7463046, -7.2943665], [112.7464545, -7.294132]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 37, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7467082, -7.2942521], [112.7468783, -7.2942893], [112.7468235, -7.2945009], [112.7466505, -7.2944609], [112.7467082, -7.2942521]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 38, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.746884, -7.2942635], [112.7471579, -7.2943379], [112.7470657, -7.2945638], [112.7468379, -7.2945037], [112.746884, -7.2942635]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 39, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7471723, -7.2943493], [112.7476768, -7.2944551], [112.7475269, -7.2946467], [112.747083, -7.2945552], [112.7471723, -7.2943493]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 40, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7462758, -7.2944609], [112.7465035, -7.2945266], [112.7463767, -7.2948698], [112.7461431, -7.2947726], [112.7462758, -7.2944609]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 41, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7465583, -7.2945152], [112.7469677, -7.2946038], [112.7468956, -7.2949327], [112.7465237, -7.2948641], [112.7465583, -7.2945152]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 42, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7470282, -7.2945924], [112.7475068, -7.2946925], [112.7474203, -7.2949956], [112.7469994, -7.2949355], [112.7470282, -7.2945924]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 43, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7461114, -7.2948297], [112.7464112, -7.2948784], [112.7463075, -7.29513], [112.7460336, -7.2950528], [112.7461114, -7.2948297]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 44, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7464516, -7.2948898], [112.7467543, -7.2949355], [112.7466246, -7.2952272], [112.7463565, -7.2951186], [112.7464516, -7.2948898]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 45, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7467803, -7.2949384], [112.7470686, -7.294987], [112.7469994, -7.2952816], [112.7466534, -7.2952244], [112.7467803, -7.2949384]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 46, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7470858, -7.2949756], [112.7474059, -7.2950156], [112.7473741, -7.2952901], [112.7470311, -7.2952701], [112.7470858, -7.2949756]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 47, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748709, -7.2928341], [112.749199, -7.2929227], [112.7490665, -7.2934729], [112.7486135, -7.2933598], [112.748709, -7.2928341]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 48, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7488508, -7.2934729], [112.7490511, -7.2935218], [112.7489401, -7.2938213], [112.7487306, -7.2937786], [112.7488508, -7.2934729]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 49, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;name&quot;: &quot;nonsawah&quot;, &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_a8636f5ead25741419304e72ab7e189a_add({&quot;crs&quot;: {&quot;properties&quot;: {&quot;name&quot;: &quot;urn:ogc:def:crs:OGC:1.3:CRS84&quot;}, &quot;type&quot;: &quot;name&quot;}, &quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7490602, -7.2939447], [112.7490633, -7.294753], [112.7486512, -7.2947991], [112.7485241, -7.2937357], [112.7490602, -7.2939447]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 0, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.749085, -7.2939539], [112.7494382, -7.2940522], [112.7494847, -7.2947438], [112.7490912, -7.2947438], [112.749085, -7.2939539]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 1, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7494453, -7.2940649], [112.7497961, -7.2941885], [112.7498714, -7.2946515], [112.7495148, -7.2947464], [112.7494453, -7.2940649]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 2, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7498076, -7.2942029], [112.7500918, -7.2942719], [112.7500744, -7.2944933], [112.7498859, -7.2946314], [112.7498076, -7.2942029]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 3, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7481639, -7.2939038], [112.7482567, -7.2939815], [112.7482422, -7.2944301], [112.7478798, -7.2942547], [112.7481639, -7.2939038]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 4, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7483233, -7.2936565], [112.7484219, -7.2936968], [112.7484306, -7.2939297], [112.7481929, -7.2938952], [112.7483233, -7.2936565]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 5, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7478798, -7.2942834], [112.7482219, -7.2944416], [112.7482016, -7.2947895], [112.7476276, -7.2946457], [112.7478798, -7.2942834]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 6, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7482914, -7.2939182], [112.7485292, -7.2939585], [112.7485698, -7.2941943], [112.7482567, -7.2941971], [112.7482914, -7.2939182]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 7, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7482567, -7.2942144], [112.748535, -7.2942086], [112.7486045, -7.2945911], [112.7482393, -7.2945623], [112.7482567, -7.2942144]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 8, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748219, -7.2945738], [112.7486016, -7.2946026], [112.7486306, -7.2948384], [112.7482422, -7.2947838], [112.748219, -7.2945738]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 9, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7475348, -7.294686], [112.7478682, -7.2947694], [112.7477986, -7.295103], [112.7474594, -7.2950282], [112.7475348, -7.294686]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 10, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7478769, -7.294778], [112.7482538, -7.2948614], [112.7482074, -7.2952209], [112.7477957, -7.2951403], [112.7478769, -7.294778]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 11, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7474333, -7.2950311], [112.7477899, -7.2951116], [112.7477667, -7.2953646], [112.747387, -7.2952697], [112.7474333, -7.2950311]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 12, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7477899, -7.2951432], [112.7481987, -7.2952352], [112.7481407, -7.2955889], [112.7477696, -7.2955113], [112.7477899, -7.2951432]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 13, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7482712, -7.2948643], [112.7486538, -7.2949045], [112.7486538, -7.295126], [112.7484451, -7.2950886], [112.7484016, -7.2951605], [112.7482538, -7.2951403], [112.7482712, -7.2948643]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 14, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748248, -7.295149], [112.7484335, -7.2951806], [112.7484683, -7.295103], [112.7486306, -7.2951288], [112.7485843, -7.2953646], [112.7482364, -7.2952496], [112.748248, -7.295149]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 15, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748219, -7.2952697], [112.7485843, -7.2953876], [112.7485205, -7.2956062], [112.7481697, -7.2955372], [112.748219, -7.2952697]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 16, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7486624, -7.294882], [112.7490862, -7.2948607], [112.7490754, -7.2951267], [112.7486624, -7.2951374], [112.7486624, -7.294882]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 17, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7486463, -7.2951746], [112.7490111, -7.295164], [112.748995, -7.2954087], [112.7486302, -7.2953555], [112.7486463, -7.2951746]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 18, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7491096, -7.2948612], [112.7494267, -7.2948097], [112.7494267, -7.2951929], [112.7491269, -7.2951929], [112.7491096, -7.2948612]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 19, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748608, -7.2953759], [112.7489885, -7.2954102], [112.7489165, -7.2958563], [112.7485215, -7.2958077], [112.748608, -7.2953759]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 20, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.747968, -7.293317], [112.7480199, -7.293257], [112.7483716, -7.2934514], [112.7482217, -7.2936888], [112.7478556, -7.2934714], [112.747968, -7.293317]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 21, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7478469, -7.2934915], [112.748216, -7.2937031], [112.7479911, -7.2940176], [112.7476394, -7.2938203], [112.7478469, -7.2934915]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 22, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7476105, -7.2938489], [112.747968, -7.2940348], [112.7478959, -7.2941492], [112.7474866, -7.2939633], [112.7476105, -7.2938489]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 23, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7477605, -7.2927594], [112.7479738, -7.2928852], [112.748017, -7.2928595], [112.7483832, -7.2930768], [112.7482073, -7.2933428], [112.7476336, -7.2929539], [112.7477605, -7.2927594]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 24, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7476394, -7.2929996], [112.7479969, -7.2932427], [112.7478527, -7.2934543], [112.7475039, -7.2932112], [112.7476394, -7.2929996]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 25, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7474981, -7.2932398], [112.7478325, -7.2934543], [112.747746, -7.2936259], [112.7473597, -7.2934857], [112.7474981, -7.2932398]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 26, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.747328, -7.2934743], [112.7477057, -7.2936344], [112.7476134, -7.293826], [112.7472214, -7.2937202], [112.747328, -7.2934743]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 27, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7472069, -7.2937488], [112.7475241, -7.293806], [112.7474722, -7.2940062], [112.7471377, -7.2939519], [112.7472069, -7.2937488]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 28, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7474462, -7.2925592], [112.7475904, -7.2926393], [112.7475269, -7.2927823], [112.747648, -7.2928595], [112.7476077, -7.2929396], [112.747279, -7.2927994], [112.7474462, -7.2925592]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 29, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.74723, -7.292911], [112.7475644, -7.2930682], [112.7474923, -7.2931855], [112.7474059, -7.2931798], [112.7471493, -7.2930425], [112.74723, -7.292911]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 30, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7471377, -7.2930539], [112.7473741, -7.2931798], [112.7473511, -7.293257], [112.7474433, -7.2932999], [112.747403, -7.2933571], [112.7472646, -7.2932913], [112.7471695, -7.2934457], [112.7469676, -7.2933285], [112.7469907, -7.2932884], [112.7471377, -7.2930539]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 31, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7469561, -7.293337], [112.7472934, -7.2934972], [112.7472444, -7.2935944], [112.7471377, -7.2935372], [112.7470916, -7.2936058], [112.7468639, -7.2934915], [112.7469561, -7.293337]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 32, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.746884, -7.2935], [112.7472213, -7.2936945], [112.7470801, -7.2939204], [112.7468033, -7.2938232], [112.7467255, -7.2937116], [112.746884, -7.2935]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 33, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7466563, -7.2938032], [112.7469244, -7.2939519], [112.7468091, -7.294275], [112.7464545, -7.2941148], [112.7466563, -7.2938032]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 34, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7469936, -7.2939519], [112.7474779, -7.294092], [112.7474059, -7.2943465], [112.7473338, -7.2943865], [112.7469013, -7.2942492], [112.7469936, -7.2939519]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 35, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7475096, -7.2941091], [112.7478412, -7.2942064], [112.7476768, -7.294458], [112.7474174, -7.2943665], [112.7475096, -7.2941091]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 36, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7464545, -7.294132], [112.7466967, -7.2942435], [112.7466275, -7.2944952], [112.74627, -7.2944094], [112.7463046, -7.2943665], [112.7464545, -7.294132]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 37, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7467082, -7.2942521], [112.7468783, -7.2942893], [112.7468235, -7.2945009], [112.7466505, -7.2944609], [112.7467082, -7.2942521]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 38, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.746884, -7.2942635], [112.7471579, -7.2943379], [112.7470657, -7.2945638], [112.7468379, -7.2945037], [112.746884, -7.2942635]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 39, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7471723, -7.2943493], [112.7476768, -7.2944551], [112.7475269, -7.2946467], [112.747083, -7.2945552], [112.7471723, -7.2943493]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 40, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7462758, -7.2944609], [112.7465035, -7.2945266], [112.7463767, -7.2948698], [112.7461431, -7.2947726], [112.7462758, -7.2944609]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 41, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7465583, -7.2945152], [112.7469677, -7.2946038], [112.7468956, -7.2949327], [112.7465237, -7.2948641], [112.7465583, -7.2945152]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 42, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7470282, -7.2945924], [112.7475068, -7.2946925], [112.7474203, -7.2949956], [112.7469994, -7.2949355], [112.7470282, -7.2945924]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 43, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7461114, -7.2948297], [112.7464112, -7.2948784], [112.7463075, -7.29513], [112.7460336, -7.2950528], [112.7461114, -7.2948297]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 44, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7464516, -7.2948898], [112.7467543, -7.2949355], [112.7466246, -7.2952272], [112.7463565, -7.2951186], [112.7464516, -7.2948898]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 45, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7467803, -7.2949384], [112.7470686, -7.294987], [112.7469994, -7.2952816], [112.7466534, -7.2952244], [112.7467803, -7.2949384]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 46, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7470858, -7.2949756], [112.7474059, -7.2950156], [112.7473741, -7.2952901], [112.7470311, -7.2952701], [112.7470858, -7.2949756]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 47, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.748709, -7.2928341], [112.749199, -7.2929227], [112.7490665, -7.2934729], [112.7486135, -7.2933598], [112.748709, -7.2928341]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 48, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.7488508, -7.2934729], [112.7490511, -7.2935218], [112.7489401, -7.2938213], [112.7487306, -7.2937786], [112.7488508, -7.2934729]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;properties&quot;: {&quot;FID&quot;: 49, &quot;Label&quot;: &quot;Non Sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;name&quot;: &quot;nonsawah&quot;, &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-            geo_json_70c2830719ff0500a498ebcf288ce0d0.addTo(map_6b9752fc4014dcd4d6fb601942c03a16);
+            geo_json_a8636f5ead25741419304e72ab7e189a.addTo(map_1c2c4a0e2c89dd662636a3fa15482af7);
         
     
-            var layer_control_cdebecdd6614f63a753d165df41c6a8f_layers = {
+            var layer_control_663dd3fe495e04c7cbc59c83f78991b6_layers = {
                 base_layers : {
-                    &quot;openstreetmap&quot; : tile_layer_65e4e49262c7237779be7af23f72ea4b,
-                    &quot;Google Satellite Hybrid&quot; : tile_layer_ffd2df4a493b7e27cfe7bc2ac7fd585f,
+                    &quot;openstreetmap&quot; : tile_layer_6ccd8d53f6790d70d60d9b2459fef1c8,
+                    &quot;Google Satellite Hybrid&quot; : tile_layer_3c98dc9528238900491ca3a34a96f241,
                 },
                 overlays :  {
-                    &quot;50 Sampel Sawah (Hijau)&quot; : geo_json_7e4cd14a85ef97f40bfd7bb91e675292,
-                    &quot;50 Sampel Non-Sawah (Merah)&quot; : geo_json_70c2830719ff0500a498ebcf288ce0d0,
+                    &quot;50 Sampel Sawah (Hijau)&quot; : geo_json_fbe4fcb35ec1fcae70fb94fd8362f10e,
+                    &quot;50 Sampel Non-Sawah (Merah)&quot; : geo_json_a8636f5ead25741419304e72ab7e189a,
                 },
             };
-            let layer_control_cdebecdd6614f63a753d165df41c6a8f = L.control.layers(
-                layer_control_cdebecdd6614f63a753d165df41c6a8f_layers.base_layers,
-                layer_control_cdebecdd6614f63a753d165df41c6a8f_layers.overlays,
+            let layer_control_663dd3fe495e04c7cbc59c83f78991b6 = L.control.layers(
+                layer_control_663dd3fe495e04c7cbc59c83f78991b6_layers.base_layers,
+                layer_control_663dd3fe495e04c7cbc59c83f78991b6_layers.overlays,
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;collapsed&quot;: false,
   &quot;autoZIndex&quot;: true,
 }
-            ).addTo(map_6b9752fc4014dcd4d6fb601942c03a16);
+            ).addTo(map_1c2c4a0e2c89dd662636a3fa15482af7);
 
         
     
-            var measure_control_bd11631768709cd64977c1a7dc4fbf4c = new L.Control.Measure(
+            var measure_control_7d8e611dbfd3b66bc4fe2ac7ec594592 = new L.Control.Measure(
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;primaryLengthUnit&quot;: &quot;meters&quot;,
@@ -1945,7 +1945,7 @@ document.write(`
   &quot;primaryAreaUnit&quot;: &quot;sqmeters&quot;,
   &quot;secondaryAreaUnit&quot;: &quot;acres&quot;,
 });
-            map_6b9752fc4014dcd4d6fb601942c03a16.addControl(measure_control_bd11631768709cd64977c1a7dc4fbf4c);
+            map_1c2c4a0e2c89dd662636a3fa15482af7.addControl(measure_control_7d8e611dbfd3b66bc4fe2ac7ec594592);
 
             // Workaround for using this plugin with Leaflet&gt;=1.8.0
             // https://github.com/ljagis/leaflet-measure/issues/171

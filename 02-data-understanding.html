@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -183,7 +183,7 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">1. Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-time-series.html">4. Analisis Time Series</a></li>
@@ -201,7 +201,7 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="ekstraksi_fitur_citra_digital.html">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="klasifikasi_gambar_berantakan_rapi.html">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</a></li>
 
 
 
@@ -508,7 +508,7 @@ Authenticated successfully.</p>
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_41aee670b1f86a3e7437080066b83a4f {
+                #map_41fa5d250ba03958a0f27bde4a9d6a7a {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -545,14 +545,14 @@ Authenticated successfully.</p>
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_41aee670b1f86a3e7437080066b83a4f&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_41fa5d250ba03958a0f27bde4a9d6a7a&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_41aee670b1f86a3e7437080066b83a4f = L.map(
-                &quot;map_41aee670b1f86a3e7437080066b83a4f&quot;,
+            var map_41fa5d250ba03958a0f27bde4a9d6a7a = L.map(
+                &quot;map_41fa5d250ba03958a0f27bde4a9d6a7a&quot;,
                 {
                     center: [-7.31, 112.735],
                     crs: L.CRS.EPSG3857,
@@ -569,7 +569,7 @@ Authenticated successfully.</p>
 
         
     
-            var tile_layer_7438a4a7652215803c7d5705dca13461 = L.tileLayer(
+            var tile_layer_60a2aac7a96bdf78f372689c04502a9e = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -586,16 +586,16 @@ Authenticated successfully.</p>
             );
         
     
-            tile_layer_7438a4a7652215803c7d5705dca13461.addTo(map_41aee670b1f86a3e7437080066b83a4f);
+            tile_layer_60a2aac7a96bdf78f372689c04502a9e.addTo(map_41fa5d250ba03958a0f27bde4a9d6a7a);
         
     
-            var polygon_581cf1def5238f78a0760ee132069855 = L.polygon(
+            var polygon_469d783bf9f6f7482096c854b48fb5f1 = L.polygon(
                 [[-7.2918074, 112.7500405], [-7.3181015, 112.7175524], [-7.3340839, 112.7462846]],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4b0082&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#6a5acd&quot;, &quot;fillOpacity&quot;: 0.4, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
-            ).addTo(map_41aee670b1f86a3e7437080066b83a4f);
+            ).addTo(map_41fa5d250ba03958a0f27bde4a9d6a7a);
         
     
-            polygon_581cf1def5238f78a0760ee132069855.bindTooltip(
+            polygon_469d783bf9f6f7482096c854b48fb5f1.bindTooltip(
                 `&lt;div&gt;
                      Wilayah Observasi Surabaya Selatan
                  &lt;/div&gt;`,
