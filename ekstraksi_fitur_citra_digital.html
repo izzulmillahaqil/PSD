@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin &#8212; Muhammad Izzul Millah Aqil</title>
+    <title>Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi &#8212; Muhammad Izzul Millah Aqil</title>
   
   
   
@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ekstraksi_fitur_citra_digital';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi" href="klasifikasi_gambar_berantakan_rapi.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -182,7 +181,7 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Polutan di Surabaya Selatan</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01-business-understanding.html">Business Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-data-understanding.html">2. Data Understanding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-data-preparation.html">3. Data Preparation</a></li>
@@ -202,6 +201,16 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="klasifikasi_gambar_berantakan_rapi.html">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</a></li>
 
 
 
@@ -396,7 +405,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin</h1>
+    <h1>Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -406,7 +415,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-komparasi-multi-model-svm-rbf-random-forest-logistic-regression-knn-naive-bayes-decision-tree">Analisis Komparasi Multi-Model (SVM RBF, Random Forest, Logistic Regression, KNN, Naive Bayes, Decision Tree)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#daftar-isi">Daftar Isi</a></li>
 </ul>
@@ -433,8 +442,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur-dan-rumus-matematis">4. Deskripsi Fitur dan Rumus Matematis</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momen-warna-kanal-rgb-9-fitur-slide-dosen">4.1 Momen Warna Kanal RGB (9 Fitur - Slide Dosen)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-tekstur-spasial-glcm-haralick-5-fitur-slide-dosen">4.2 Fitur Tekstur Spasial GLCM Haralick (5 Fitur - Slide Dosen)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momen-warna-kanal-rgb-9-fitur">4.1 Momen Warna Kanal RGB (9 Fitur)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-tekstur-spasial-glcm-haralick-5-fitur">4.2 Fitur Tekstur Spasial GLCM Haralick (5 Fitur)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotesis-fitur-visual">4.3 Hipotesis Fitur Visual</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-vektor-fitur">4.4 Ringkasan Vektor Fitur</a></li>
 </ul>
@@ -477,14 +486,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-citra-digital-momen-warna-rgb-konversi-grayscale-8-bit-tekstur-glcm-haralick-dan-pemodelan-klasifikasi-seperti-audio-kemarin">
-<h1>Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin<a class="headerlink" href="#ekstraksi-fitur-citra-digital-momen-warna-rgb-konversi-grayscale-8-bit-tekstur-glcm-haralick-dan-pemodelan-klasifikasi-seperti-audio-kemarin" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="ekstraksi-fitur-citra-digital-momen-warna-rgb-konversi-grayscale-8-bit-tekstur-glcm-haralick-dan-pemodelan-klasifikasi">
+<h1>Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi<a class="headerlink" href="#ekstraksi-fitur-citra-digital-momen-warna-rgb-konversi-grayscale-8-bit-tekstur-glcm-haralick-dan-pemodelan-klasifikasi" title="Link to this heading">#</a></h1>
 <section id="analisis-komparasi-multi-model-svm-rbf-random-forest-logistic-regression-knn-naive-bayes-decision-tree">
 <h2>Analisis Komparasi Multi-Model (SVM RBF, Random Forest, Logistic Regression, KNN, Naive Bayes, Decision Tree)<a class="headerlink" href="#analisis-komparasi-multi-model-svm-rbf-random-forest-logistic-regression-knn-naive-bayes-decision-tree" title="Link to this heading">#</a></h2>
-<p><strong>Mata Kuliah:</strong> Penambangan Sains Data (PSD) — Teknik Informatika UTM<br />
+<p><strong>Mata Kuliah:</strong> Proyek Sains Data (PSD)
 <strong>Topik Praktikum:</strong> Ekstraksi 14 Fitur Citra Digital &amp; Pemodelan Klasifikasi Kerapian Ruangan<br />
-<strong>Dataset:</strong> 200 Citra Digital Ruangan (100 Berantakan &amp; 100 Rapi)<br />
-<strong>Referensi:</strong> Protokol Eksperimen &amp; Metodologi <a class="reference external" href="https://jaidan2212.github.io/PSD/ekstraksi_fitur_citra_digital.html#daftar-isi">ekstraksi_fitur_citra_digital.html</a></p>
+<strong>Dataset:</strong> 200 Citra Digital Ruangan (100 Berantakan &amp; 100 Rapi)</p>
 <hr class="docutils" />
 <section id="daftar-isi">
 <h3>Daftar Isi<a class="headerlink" href="#daftar-isi" title="Link to this heading">#</a></h3>
@@ -917,8 +925,8 @@ Dimensi Array Grayscale : (256, 256) (Rentang nilai: 7 s.d. 255)
 <section class="tex2jax_ignore mathjax_ignore" id="deskripsi-fitur-dan-rumus-matematis">
 <h1>4. Deskripsi Fitur dan Rumus Matematis<a class="headerlink" href="#deskripsi-fitur-dan-rumus-matematis" title="Link to this heading">#</a></h1>
 <p>Sesuai dengan instruksi perkuliahan Penambangan Sains Data (PSD) dan materi dosen, vektor input berdimensi <strong>14 fitur inti numerik + 1 kolom label target</strong>:</p>
-<section id="momen-warna-kanal-rgb-9-fitur-slide-dosen">
-<h2>4.1 Momen Warna Kanal RGB (9 Fitur - Slide Dosen)<a class="headerlink" href="#momen-warna-kanal-rgb-9-fitur-slide-dosen" title="Link to this heading">#</a></h2>
+<section id="momen-warna-kanal-rgb-9-fitur">
+<h2>4.1 Momen Warna Kanal RGB (9 Fitur)<a class="headerlink" href="#momen-warna-kanal-rgb-9-fitur" title="Link to this heading">#</a></h2>
 <p>Dihitung secara terpisah pada setiap kanal <span class="math notranslate nohighlight">\(C \in \{R, G, B\}\)</span>:</p>
 <ol class="arabic simple">
 <li><p><strong>Momen Pertama - Mean (Rata-rata Intensitas):</strong>
@@ -930,8 +938,8 @@ $<span class="math notranslate nohighlight">\(\gamma_C = \frac{1}{N} \sum_{i=1}^
 </ol>
 <p>Tersusun atas 9 fitur warna: <code class="docutils literal notranslate"><span class="pre">mean_r</span></code>, <code class="docutils literal notranslate"><span class="pre">std_r</span></code>, <code class="docutils literal notranslate"><span class="pre">skew_r</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_g</span></code>, <code class="docutils literal notranslate"><span class="pre">std_g</span></code>, <code class="docutils literal notranslate"><span class="pre">skew_g</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_b</span></code>, <code class="docutils literal notranslate"><span class="pre">std_b</span></code>, <code class="docutils literal notranslate"><span class="pre">skew_b</span></code>.</p>
 </section>
-<section id="fitur-tekstur-spasial-glcm-haralick-5-fitur-slide-dosen">
-<h2>4.2 Fitur Tekstur Spasial GLCM Haralick (5 Fitur - Slide Dosen)<a class="headerlink" href="#fitur-tekstur-spasial-glcm-haralick-5-fitur-slide-dosen" title="Link to this heading">#</a></h2>
+<section id="fitur-tekstur-spasial-glcm-haralick-5-fitur">
+<h2>4.2 Fitur Tekstur Spasial GLCM Haralick (5 Fitur)<a class="headerlink" href="#fitur-tekstur-spasial-glcm-haralick-5-fitur" title="Link to this heading">#</a></h2>
 <p>Citra RGB dikonversi ke grayscale 8-bit, lalu dibentuk matriks ko-okurensi spasial ternormalisasi <span class="math notranslate nohighlight">\(P(i, j)\)</span> dengan jarak piksel <span class="math notranslate nohighlight">\(d=1\)</span> pada 4 arah orientasi (<span class="math notranslate nohighlight">\(0^\circ, 45^\circ, 90^\circ, 135^\circ\)</span>) yang dirata-ratakan:</p>
 <ol class="arabic simple">
 <li><p><strong>Energy / Angular Second Moment (ASM):</strong>
@@ -2464,6 +2472,15 @@ Menerapkan <em>Stratified Split 80:20</em>, <em>StandardScaler Z-Score</em>, dan
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="klasifikasi_gambar_berantakan_rapi.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -2480,7 +2497,7 @@ Menerapkan <em>Stratified Split 80:20</em>, <em>StandardScaler Z-Score</em>, dan
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi Seperti Audio Kemarin</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Ekstraksi Fitur Citra Digital: Momen Warna RGB, Konversi Grayscale 8-Bit, Tekstur (GLCM Haralick), dan Pemodelan Klasifikasi</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-komparasi-multi-model-svm-rbf-random-forest-logistic-regression-knn-naive-bayes-decision-tree">Analisis Komparasi Multi-Model (SVM RBF, Random Forest, Logistic Regression, KNN, Naive Bayes, Decision Tree)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#daftar-isi">Daftar Isi</a></li>
 </ul>
@@ -2507,8 +2524,8 @@ Menerapkan <em>Stratified Split 80:20</em>, <em>StandardScaler Z-Score</em>, dan
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-fitur-dan-rumus-matematis">4. Deskripsi Fitur dan Rumus Matematis</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momen-warna-kanal-rgb-9-fitur-slide-dosen">4.1 Momen Warna Kanal RGB (9 Fitur - Slide Dosen)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-tekstur-spasial-glcm-haralick-5-fitur-slide-dosen">4.2 Fitur Tekstur Spasial GLCM Haralick (5 Fitur - Slide Dosen)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momen-warna-kanal-rgb-9-fitur">4.1 Momen Warna Kanal RGB (9 Fitur)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-tekstur-spasial-glcm-haralick-5-fitur">4.2 Fitur Tekstur Spasial GLCM Haralick (5 Fitur)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotesis-fitur-visual">4.3 Hipotesis Fitur Visual</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-vektor-fitur">4.4 Ringkasan Vektor Fitur</a></li>
 </ul>
